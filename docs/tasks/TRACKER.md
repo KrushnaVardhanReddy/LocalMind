@@ -1,5 +1,7 @@
 # LocalMind Task Tracker
 
+> **Last updated:** 2026-07-19 · Phase 1 complete · Phase 2 in progress
+
 ## Cross-Cutting (Do Before Phase 2)
 - [ ] WorkerPool Abstraction Layer (`docs/tasks/cross_cutting/task_worker_pool.md`)
 - [ ] wa-sqlite Workspace Persistence (`docs/tasks/cross_cutting/task_wa_sqlite.md`)
@@ -15,7 +17,7 @@
 - [ ] Task 6: AI-Assisted Chart Customization (`docs/tasks/phase-1/task6_ai_chart.md`)
 
 
-## Phase 2: Document Workspace
+## Phase 2: Document Workspace 🔨
 - [x] Task 1: Local OCR Integration (`docs/tasks/phase-2/task1_ocr.md`)
 - [ ] Task 2: Local PDF Manipulation (`docs/tasks/phase-2/task2_pdf.md`)
 - [ ] Task 3: Local Semantic Search (`docs/tasks/phase-2/task3_semantic_search.md`)

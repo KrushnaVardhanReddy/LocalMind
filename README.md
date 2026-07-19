@@ -22,12 +22,12 @@ This is not another online file converter. This is a **privacy-first computing p
 
 ## Status
 
-> 🚧 **Currently building MVP — Phase 1: Data Workspace**
+> 🔨 **Currently building — Phase 2: Document Workspace**
 
 | Phase | Scope | Status |
 |---|---|---|
 | Phase 1 — Data | CSV, Excel, JSON, SQL, Charts | ✅ Complete |
-| Phase 2 — Documents | PDF, DOCX, OCR, Search | 📋 Planned |
+| Phase 2 — Documents | PDF, DOCX, OCR, Search | 🔨 In Progress |
 | Phase 3 — Media | Image, Audio, Video conversion | 📋 Planned |
 | Phase 4 — Developer | Logs, OpenAPI, YAML, Diff | 📋 Planned |
 | Phase 5 — Intelligence | Local LLM, Transcription, Semantic Search | 🔬 Research |
