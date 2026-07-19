@@ -31,6 +31,8 @@ This is not another online file converter. This is a **privacy-first computing p
 | Phase 3 — Media | Image, Audio, Video conversion | 📋 Planned |
 | Phase 4 — Developer | Logs, OpenAPI, YAML, Diff | 📋 Planned |
 | Phase 5 — Intelligence | Local LLM, Transcription, Semantic Search | 🔬 Research |
+| Phase 6 — Specialized | 3D CAD, Geo-Spatial, Cryptography | 💡 Idea |
+| Phase 7 — Plugins | Custom User WASM Execution Runtime | 💡 Idea |
 
 ---
 
@@ -102,6 +104,7 @@ Process structured data at scale, directly in the browser.
 | | **Data Diff** — compare two datasets, see what changed |
 | | **PII Detection & Masking** — auto-detect names, emails, SSNs, credit cards |
 | | **Schema Inference** — generate TypeScript types, SQL DDL, or Pydantic models from any file |
+| | **Archive Extraction** — locally extract `.zip`, `.rar`, and `.7z` datasets via libarchive WASM |
 | | **Python Notebook** — run pandas/numpy/polars locally via Pyodide WASM |
 | | Export results in multiple formats |
 | | Optional AI insights (consent-gated) |
@@ -117,7 +120,7 @@ Extract meaning from documents without cloud parsing APIs.
 | | Full-text search |
 | | Side-by-side document comparison |
 | | Structured data extraction |
-| | **Advanced PDF ops** — merge, split, redact, annotate via MuPDF WASM |
+| | **Everyday PDF Tools** — compress, unlock/decrypt, merge, split, and redact via MuPDF WASM |
 | | **Universal conversion** — Markdown → DOCX → PDF → HTML via Pandoc WASM |
 | | **Semantic search** — find paragraphs by meaning using local embeddings |
 | | Optional AI summaries (consent-gated) |
@@ -133,6 +136,9 @@ Convert, compress, and transform media without uploads.
 | | Compression and resizing |
 | | Crop, watermark, thumbnail generation |
 | | Batch processing |
+| | **Background Removal** — instant, local AI cutout via rembg (WebGPU) |
+| | **SVG Vectorizer** — convert PNG/JPG logos to crisp SVG paths via potrace-wasm |
+| | **Auto-Subtitles** — generate `.srt` or `.vtt` captions from video files locally via Whisper WASM |
 | | **Advanced image processing** — filters, compositing, RAW conversion via magick-wasm |
 | | **Audio transcription** — convert any audio/video to text locally via Whisper WASM |
 | | **EXIF/Metadata inspector** — view or strip metadata from images and videos |
@@ -176,6 +182,28 @@ This module flips the default AI model entirely. Instead of the consent-gated cl
 
 ---
 
+### 6. Specialized Workspaces *(Phase 6)*
+Tools for highly proprietary, industry-specific file formats that cannot be uploaded to cloud platforms.
+
+| Workspace | Engine | What It Does |
+|---|---|---|
+| **Geo-Spatial** | gdal3.js | Convert proprietary shapefiles (.shp) to GeoJSON, reproject maps locally. |
+| **3D CAD** | OpenCascade.js | View unreleased product designs (.step, .iges), convert to .stl for printing. |
+| **Security/Crypto** | libsodium.js | File encryption, key generation, hash validation — zero risk of key leakage. |
+
+---
+
+### 7. Custom WASM Plugin Runtime *(Phase 7)*
+Turning LocalMind into an extensible platform.
+
+| Capability | What It Does |
+|---|---|
+| **BYOW (Bring Your Own WASM)** | Users compile their own C++/Rust scripts to `.wasm` and load them into LocalMind. |
+| **Data Pipelines** | Drop a proprietary file, select your custom WASM module, and process it locally. |
+| **Marketplace** | A community-driven library of open-source WASM modules for niche data formats. |
+
+---
+
 ## Architecture
 
 ```
@@ -191,6 +219,9 @@ This module flips the default AI model entirely. Instead of the consent-gated cl
 │  └─────────────┘   │  MuPDF WASM     │  tree-sitter WASM   │  │
 │                    │  magick-wasm    │  wa-sqlite WASM     │  │
 │                    │  ZXing WASM     │  WebLLM (WebGPU)    │  │
+│                    │  gdal3.js       │  OpenCascade.js     │  │
+│                    │  libsodium.js   │  Custom User WASM   │  │
+│                    │  libarchive.js  │  potrace-wasm       │  │
 │                    └──────────────────────────────────────┘  │
 │                                                              │
 │  ┌────────────────────────────────────────────────────────┐  │
@@ -264,6 +295,13 @@ This module flips the default AI model entirely. Instead of the consent-gated cl
 | **tree-sitter WASM** *(new)* | Incremental code parsing for 40+ languages — structure extraction, complexity analysis |
 | **magick-wasm** *(new)* | ImageMagick in the browser — advanced image filters, format conversion, compositing |
 | **ZXing WASM** *(new)* | Barcode and QR code detection and decoding from images |
+| **libarchive.js** *(new)* | Archive extraction in the browser (ZIP, RAR, 7z, TAR) |
+| **rembg (WebGPU)** *(new)* | AI-powered image background removal (U2Net/RMBG models) |
+| **potrace-wasm** *(new)* | Tracing bitmap images (PNG/JPG) to scalable vector graphics (SVG) |
+| **gdal3.js** *(new)* | Geospatial conversion (Shapefile to GeoJSON) and coordinate reprojection |
+| **OpenCascade.js** *(new)* | High-performance 3D CAD viewing and manipulation (.step, .iges, .stl) |
+| **libsodium.js** *(new)* | Cryptographic primitives — secure encryption, hashing, and key generation |
+| **Custom WASM** *(new)* | User-provided WASM modules for proprietary data processing |
 
 ### Visualization
 | Library | Use Case |
@@ -356,10 +394,20 @@ Every segment has the same core problem: they have sensitive files, they need to
 * **The Solution:** Run SQL or Python (Pyodide) on datasets locally, or OCR scanned medical forms without any data leaving the device.
 * **Why they pay:** Enterprise compliance docs and fully offline/air-gapped deployment.
 
-**Manufacturing**
-* **The Pain:** QA reports and sensor data logs are huge and proprietary, often needed on factory floors with limited internet access.
-* **The Solution:** Drop the sensor CSV, query for anomalies, and chart trends offline.
-* **Why they pay:** On-premise tier for factory floor execution.
+**Manufacturing & Hardware Startups**
+* **The Pain:** QA reports, sensor data logs, and unreleased 3D CAD models (.step, .stl) are highly proprietary. Uploading CAD files to online viewers risks IP theft.
+* **The Solution:** Drop the sensor CSV to chart trends offline, or view/convert 3D models using OpenCascade.js in the browser.
+* **Why they pay:** On-premise tier and advanced CAD processing capabilities.
+
+**Urban Planning & Logistics**
+* **The Pain:** Proprietary land use shapefiles and routing data cannot be sent to public Google Maps APIs.
+* **The Solution:** Convert and map geospatial data locally via gdal3.js.
+* **Why they pay:** Enterprise data privacy guarantees.
+
+**Security Engineering**
+* **The Pain:** Need to encrypt files or generate hashes, but pasting keys into online tools is a security violation.
+* **The Solution:** File encryption and hashing using libsodium.js, entirely client-side.
+* **Why they pay:** Trusted, auditable local toolset.
 
 ---
 
