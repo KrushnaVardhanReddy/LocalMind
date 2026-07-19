@@ -16,7 +16,7 @@
 
 
 ## Phase 2: Document Workspace
-- [ ] Task 1: Local OCR Integration (`docs/tasks/phase-2/task1_ocr.md`)
+- [x] Task 1: Local OCR Integration (`docs/tasks/phase-2/task1_ocr.md`)
 - [ ] Task 2: Local PDF Manipulation (`docs/tasks/phase-2/task2_pdf.md`)
 - [ ] Task 3: Local Semantic Search (`docs/tasks/phase-2/task3_semantic_search.md`)
 - [ ] Task 4: End-to-End Testing (`docs/tasks/phase-2/task_e2e.md`)

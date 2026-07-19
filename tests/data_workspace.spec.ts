@@ -21,16 +21,16 @@ test.describe('Phase 1: Data Workspace E2E Tests', () => {
     await page.waitForTimeout(2000);
   });
 
-  async function loadTestFile(page) {
+  async function loadTestFile(page: any) {
     const buffer = fs.readFileSync(path.join(__dirname, 'fixtures', 'products.csv'));
-    await page.evaluate((bufferArray) => {
+    await page.evaluate((bufferArray: any) => {
          const file = new File([new Uint8Array(bufferArray)], 'products.csv', { type: 'text/csv' });
          const dataTransfer = new DataTransfer();
          dataTransfer.items.add(file);
 
          const fileInput = document.querySelector('input[type="file"]');
          if (fileInput) {
-             fileInput.files = dataTransfer.files;
+             (fileInput as HTMLInputElement).files = dataTransfer.files;
              fileInput.dispatchEvent(new Event('change', { bubbles: true }));
          }
     }, [...buffer]);
