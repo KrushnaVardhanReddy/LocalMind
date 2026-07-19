@@ -24,9 +24,16 @@ The Query Engine is the computational heart of Phase 1. It utilizes WebAssembly 
 
 ## 3. Architecture & Threading
 - **Isolation**: DuckDB WASM and Pyodide MUST run in dedicated Web Workers.
-- **Communication**: The main UI thread communicates with the engine via asynchronous message passing (detailed in Contracts).
+- **WorkerPool**: Workers are managed exclusively through `src/lib/services/WorkerPool.ts` — no Svelte component may instantiate a Worker directly. See `docs/specs/cross_cutting/01_worker_pool_spec.md`.
+- **Communication**: The main UI thread communicates with the engine via asynchronous message passing (detailed in `docs/contracts/phase-1/ui_worker_contract.md`).
 - **Concurrency**: Support cancelling long-running queries without hanging the application.
+- **Crash Recovery**: The WorkerPool MUST intercept `messageerror` and `unhandledrejection` events from the DuckDB worker. On crash:
+  1. Set the worker state to `ERROR`.
+  2. Surface a user-visible error toast with a "Restart Engine" action.
+  3. Attempt to automatically re-initialize the worker after a 2-second delay.
+  4. The UI must never hang silently — if a query response does not arrive within 30 seconds, treat it as a timeout crash.
 
 ## 4. Non-Functional Requirements
 - **Performance**: Simple aggregations on a 1M row dataset should return in < 500ms.
 - **Resilience**: Out-of-memory errors in the Web Worker must be caught and presented gracefully to the user in the UI.
+- **Benchmarking**: Performance targets must be validated using `vitest bench` in a dedicated `bench/` directory. Targets: `<2s` parse for 100MB CSV, `<500ms` for 1M-row aggregation. These are regression gates — CI should fail if targets are exceeded by >20%.

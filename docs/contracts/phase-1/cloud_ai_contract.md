@@ -66,6 +66,51 @@ Used when asking the AI to summarize pre-computed statistical data.
 }
 ```
 
-## 4. Privacy Invariants
+## 4. Chart Customization Payload
+Used when asking the AI to generate or modify an ECharts configuration from a natural language instruction.
+
+### 4.1 Request Payload
+```json
+{
+  "task": "CHART_CUSTOMIZATION",
+  "context": {
+    "schema": [
+      {"column": "category", "type": "VARCHAR"},
+      {"column": "revenue", "type": "DECIMAL"}
+    ],
+    "current_chart": {
+      "type": "bar",
+      "xAxis": "category",
+      "yAxis": "revenue"
+    },
+    "row_count": 10500
+  },
+  "instruction": "Make it a horizontal bar chart sorted by revenue descending, with a blue color palette"
+}
+```
+
+> **Privacy**: This payload contains ONLY schema (column names + types), the current chart's visual config, and the user's instruction. Raw data rows are NEVER included.
+
+### 4.2 Expected Response
+```json
+{
+  "echartsOption": {
+    "title": { "text": "Revenue by Category" },
+    "xAxis": { "type": "value", "name": "revenue" },
+    "yAxis": { "type": "category", "name": "category" },
+    "series": [{ "type": "bar", "color": "#1e40af" }]
+  },
+  "explanation": "Switched to a horizontal bar chart with the value on the X axis, category on Y, and applied a blue (#1e40af) color."
+}
+```
+
+> **Security**: Before applying, the `echartsOption` object MUST be validated client-side. Any key containing function strings (`formatter: function...`), `eval(`, `Function(`, or `<script>` must be stripped or rejected entirely.
+
+## 5. Chart Explanation Payload
+Used when asking the AI to generate a natural language summary of the currently displayed chart. Reuses the `SUMMARIZE_AGGREGATION` task from §3, but the prompt is automatically set to "Explain what this chart shows in 2-3 sentences for a non-technical reader."
+
+## 6. Privacy Invariants
 1. **No Raw Rows**: The `aggregated_data` array must NEVER contain raw row-level data from the source file. It must only contain the results of a `GROUP BY` or statistical function.
 2. **Review Requirement**: Every payload generated against this contract must be rendered in the UI for user approval before the HTTP request is dispatched.
+3. **Chart Config Only**: The `CHART_CUSTOMIZATION` payload sends schema and chart visual config — never the data rows themselves.
+4. **Response Sanitization**: All AI-returned ECharts option objects must be validated and sanitized client-side before being applied to prevent function injection.

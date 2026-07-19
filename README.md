@@ -26,7 +26,7 @@ This is not another online file converter. This is a **privacy-first computing p
 
 | Phase | Scope | Status |
 |---|---|---|
-| Phase 1 — Data | CSV, Excel, JSON, SQL, Charts | 🔨 In Progress |
+| Phase 1 — Data | CSV, Excel, JSON, SQL, Charts | ✅ Complete |
 | Phase 2 — Documents | PDF, DOCX, OCR, Search | 📋 Planned |
 | Phase 3 — Media | Image, Audio, Video conversion | 📋 Planned |
 | Phase 4 — Developer | Logs, OpenAPI, YAML, Diff | 📋 Planned |
@@ -63,6 +63,8 @@ Build a workspace that inverts the default: **local first, cloud optional.**
 | **Fast by default** | WASM engines (DuckDB, FFmpeg) process data in near-native speed |
 | **Transparent AI** | Users review exactly what is shared before any cloud request fires |
 | **Cloud is optional** | AI features are an enhancement, not a dependency |
+| **Offline-capable** | A PWA Service Worker caches the app shell so the tool works after first load — no internet required |
+| **Accessible** | Core workflows meet WCAG 2.1 AA — keyboard navigable, screen-reader friendly, sufficient contrast |
 
 ---
 
@@ -106,6 +108,7 @@ Process structured data at scale, directly in the browser.
 | | **Schema Inference** — generate TypeScript types, SQL DDL, or Pydantic models from any file |
 | | **Archive Extraction** — locally extract `.zip`, `.rar`, and `.7z` datasets via libarchive WASM |
 | | **Python Notebook** — run pandas/numpy/polars locally via Pyodide WASM |
+| | **AI Chart Customization** — describe a chart in plain English; AI returns an ECharts config applied instantly. Works via consent-gated cloud AI (BYOK) or fully locally via WebLLM (Phase 5). No raw data leaves the device. |
 | | Export results in multiple formats |
 | | Optional AI insights (consent-gated) |
 
@@ -211,12 +214,15 @@ Turning LocalMind into an extensible platform.
 │                        Browser Tab                           │
 │                                                              │
 │  ┌─────────────┐   ┌──────────────────────────────────────┐  │
-│  │    UI       │   │          Web Workers Pool            │  │
-│  │  (Svelte)   │◄──►                                      │  │
-│  │             │   │  DuckDB WASM    │  FFmpeg WASM        │  │
-│  │  Svelte     │   │  Tesseract WASM │  Whisper WASM       │  │
-│  │  Stores     │   │  ONNX Runtime   │  Pyodide WASM       │  │
-│  └─────────────┘   │  MuPDF WASM     │  tree-sitter WASM   │  │
+│  │    UI       │   │     WorkerPool Manager               │  │
+│  │  (Svelte)   │◄──►  (src/lib/services/WorkerPool.ts)    │  │
+│  │             │   │  Routes typed messages, manages       │  │
+│  │  Svelte     │   │  lifecycle (init/ready/busy/error)    │  │
+│  │  Stores     │   │                                      │  │
+│  └─────────────┘   │  DuckDB WASM    │  FFmpeg WASM        │  │
+│                    │  Tesseract WASM │  Whisper WASM       │  │
+│                    │  ONNX Runtime   │  Pyodide WASM       │  │
+│                    │  MuPDF WASM     │  tree-sitter WASM   │  │
 │                    │  magick-wasm    │  wa-sqlite WASM     │  │
 │                    │  ZXing WASM     │  WebLLM (WebGPU)    │  │
 │                    │  gdal3.js       │  OpenCascade.js     │  │
@@ -239,6 +245,11 @@ Turning LocalMind into an extensible platform.
 │  │  CLOUD MODE:  Consent-gated summary → AI provider      │  │
 │  │  ─────────── User reviews payload before every request │  │
 │  └────────────────────────────────────────────────────────┘  │
+│                                                              │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │   PWA Service Worker                                   │  │
+│  │   Caches app shell + WASM bundles for offline use      │  │
+│  └────────────────────────────────────────────────────────┘  │
 └──────────────────────────────────────────────────────────────┘
                               │
                (cloud mode only, with user consent)
@@ -254,6 +265,8 @@ Turning LocalMind into an extensible platform.
 - Raw file bytes never leave the browser unless the user explicitly uses the File System Access API to save output
 - AI requests carry only aggregated, user-reviewed payloads
 - All WASM engines run in isolated Web Workers — UI thread stays responsive
+- AI API keys are held **in-memory only** during the session — never written to `localStorage` or any persistent store
+- The `WorkerPool` manager is the single point of contact between the UI and all WASM workers — no direct Worker instantiation in components
 
 ---
 
@@ -265,6 +278,9 @@ LocalMind operates on a dual-deployment model to balance zero-friction acquisiti
 * **Access:** `localmind.dev`
 * **Why it exists:** Zero friction. Users do not need to install software or get IT approval. The browser's security sandbox guarantees to the user that we cannot scan their hard drive.
 * **Limitations:** Browser memory limits (typically 2GB–4GB max per tab) restrict the size of files that can be processed.
+* **Offline:** A PWA Service Worker caches the app shell and WASM bundles so the tool continues to work offline after first load.
+
+> ⚠️ **Production Hosting Requirement:** LocalMind requires `Cross-Origin-Opener-Policy: same-origin` and `Cross-Origin-Embedder-Policy: require-corp` headers to enable `SharedArrayBuffer` (required by DuckDB WASM). These headers **must be configured at the hosting layer** (e.g., Cloudflare Pages `_headers` file, Vercel `vercel.json`, or Nginx config) — not just in the dev server. Failure to set these headers will cause the DuckDB worker to silently fail in production.
 
 ### 2. Desktop Version (Pro / Enterprise)
 * **Access:** Portable Executable (packaged via **Tauri**).
@@ -449,6 +465,8 @@ LocalMind operates on a Freemium / Open Core model to ensure privacy claims rema
 ### AI Credits
 Cloud AI features (summaries, report generation, natural language queries) are billed per-use, because they incur real inference costs. Local processing remains fully available regardless of AI credit balance.
 
+> **BYOK vs. LocalMind Proxy:** Phase 1 uses a strict Bring Your Own Key (BYOK) model — API keys are held in-memory and sent directly from the browser to the AI provider; LocalMind never sees them. A future **LocalMind Proxy** (hosted on Cloudflare Workers) will offer a subscription-funded alternative that removes BYOK friction for non-technical users. The proxy is stateless and logs nothing — see `docs/specs/proxy/01_cloudflare_proxy_spec.md` for the architecture.
+
 ### Enterprise
 - SSO and team workspaces
 - Audit logs and data governance
@@ -498,6 +516,22 @@ Every feature must answer yes to at least four of these five questions:
 5. Is AI strictly optional here?
 
 If fewer than four answers are "yes," reconsider the feature scope before building.
+
+### Accessibility Standard
+All UI components must meet **WCAG 2.1 AA** as a baseline:
+- Full keyboard navigation (no mouse-only interactions)
+- Semantic HTML with correct ARIA roles
+- Minimum 4.5:1 color contrast ratio for body text
+- Focus indicators on all interactive elements
+- Screen reader announcements for async state changes (loading, error, success)
+
+### Global Keyboard Shortcuts
+| Shortcut | Action |
+|---|---|
+| `Ctrl+Enter` | Execute current query / primary action |
+| `Ctrl+K` | Open file picker |
+| `Ctrl+Shift+P` | Open command palette |
+| `Escape` | Close active modal or panel |
 
 ---
 

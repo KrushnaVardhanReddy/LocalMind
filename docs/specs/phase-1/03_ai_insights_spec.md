@@ -38,7 +38,8 @@ This specification outlines the optional, consent-gated cloud AI features for Ph
 
 ## 4. Security & Compliance
 - **Direct Browser-to-Cloud**: API keys and payloads are sent directly from the client to the LLM provider, ensuring LocalMind backend never sees or stores this data.
-- API Keys and settings are stored locally in the browser's `localStorage`.
+- **API Key Storage**: API keys are held **in-memory only** (a reactive Svelte store that is never written to `localStorage`, `sessionStorage`, IndexedDB, or any other persistent mechanism). Keys are lost when the tab is closed. This is intentional — it prevents browser extensions, XSS, and physical access from extracting stored credentials. The user must re-enter their key each session.
+- **Non-sensitive settings** (e.g., `aiEnabled`, `aiModel`, `aiEndpoint`) may be persisted to `localStorage` as they contain no credentials.
 - Payloads are encrypted in transit via standard HTTPS/TLS provided by the AI endpoint.
 
 ### 5. Future LLM/Provider Strategies
