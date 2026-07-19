@@ -5,6 +5,8 @@
   import DataTable from '$lib/components/DataTable.svelte';
   import ColumnStats from '$lib/components/ColumnStats.svelte';
   import ChartViewer from '$lib/components/ChartViewer.svelte';
+  import AiSettings from '$lib/components/AiSettings.svelte';
+  import TextToSql from '$lib/components/TextToSql.svelte';
   import { activeTableSchema } from '$lib/stores/schemaStore';
 
   let status = 'Not Initialized';
@@ -83,10 +85,18 @@
   }
 
   $: initialQuery = $activeTableSchema ? `SELECT * FROM ${$activeTableSchema.tableName} LIMIT 100` : '-- Load a file to get started\nSELECT 42 as answer;';
+
+  function handleSqlGenerated(event: CustomEvent<{ sql: string }>) {
+    initialQuery = event.detail.sql;
+    handleExecuteQuery(new CustomEvent('execute', { detail: { query: initialQuery } }));
+  }
 </script>
 
 <main class="p-8">
-  <h1 class="text-2xl font-bold mb-4">DuckDB WASM Test</h1>
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="text-2xl font-bold">DuckDB WASM Test</h1>
+    <AiSettings />
+  </div>
 
   <div class="mb-4">
     <span class="font-semibold">Engine Status:</span> {status}
@@ -160,7 +170,8 @@
 
     <div class="mb-8">
       <h2 class="text-xl font-semibold mb-2">SQL Editor</h2>
-      {#key $activeTableSchema.tableName}
+      <TextToSql on:generated={handleSqlGenerated} />
+      {#key initialQuery}
         <SqlEditor
           initialQuery={initialQuery}
           on:execute={handleExecuteQuery}

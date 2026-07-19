@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount, createEventDispatcher } from 'svelte';
   import { queryEngine } from '$lib/services/QueryEngine';
+  import AiInsights from './AiInsights.svelte';
 
   export let tableName: string = '';
   export let columns: { name: string; type: string }[] = [];
@@ -58,6 +59,7 @@
 
 <div class="column-stats-container">
   <h3>Column Statistics Profiling</h3>
+  <AiInsights />
   {#if loading}
     <div class="loading">Calculating statistics...</div>
   {:else if error}
