@@ -257,12 +257,29 @@ Turning LocalMind into an extensible platform.
 
 ---
 
+## Deployment Strategy (Web vs. Desktop)
+
+LocalMind operates on a dual-deployment model to balance zero-friction acquisition with power-user performance.
+
+### 1. Web Version (The Default)
+* **Access:** `localmind.dev`
+* **Why it exists:** Zero friction. Users do not need to install software or get IT approval. The browser's security sandbox guarantees to the user that we cannot scan their hard drive.
+* **Limitations:** Browser memory limits (typically 2GB–4GB max per tab) restrict the size of files that can be processed.
+
+### 2. Desktop Version (Pro / Enterprise)
+* **Access:** Native desktop app packaged via **Tauri**.
+* **Why it exists:** Power users. When a user needs to query a 50GB log file or run Llama 3.2 locally, the browser sandbox becomes a bottleneck.
+* **Capabilities:** The Tauri app uses the exact same SvelteKit UI and WASM architecture, but removes browser memory limits, enables direct filesystem read/write (no "Save As" prompts), and allows full hardware utilization (unrestricted WebGPU/CPU access).
+
+---
+
 ## Technology Stack
 
-### Frontend
+### Frontend & Shell
 | Layer | Technology |
 |---|---|
-| Framework | SvelteKit + Svelte + TypeScript |
+| Web Framework | SvelteKit + Svelte + TypeScript |
+| Desktop Shell | Tauri (Rust) for native OS access |
 | Styling | Tailwind CSS |
 | State | Svelte Stores + SvelteKit load functions |
 
