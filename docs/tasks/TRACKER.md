@@ -14,7 +14,7 @@
 - [x] Task 3: Query Execution and Data Visualization
 - [x] Task 4: Consent-Gated AI Insights
 - [x] Task 5: End-to-End Testing (Phase 1)
-- [ ] Task 6: AI-Assisted Chart Customization (`docs/tasks/phase-1/task6_ai_chart.md`)
+- [x] Task 6: AI-Assisted Chart Customization (`docs/tasks/phase-1/task6_ai_chart.md`)
 
 
 ## Phase 2: Document Workspace 🔨

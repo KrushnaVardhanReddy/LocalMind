@@ -88,11 +88,11 @@ When the user clicks "Explain Chart":
 The `CHART_CUSTOMIZATION` payload type is defined in `docs/contracts/phase-1/cloud_ai_contract.md`.
 
 ## Acceptance Criteria
-- [ ] All 8 chart types render correctly with the correct ECharts configuration.
-- [ ] Local heuristic suggests the correct chart for time-series (line), categorical (bar), and distribution (pie) data from the `products.csv` fixture.
-- [ ] Chart AI input sends a consent-gated payload containing schema and instruction but NO raw data rows.
-- [ ] A malformed AI response (invalid JSON, banned keys) is rejected with a user-visible error.
-- [ ] "Explain Chart" produces a text summary below the chart.
-- [ ] The `🔒 Local AI` badge appears when WebLLM is active.
-- [ ] Existing Phase 1 E2E tests continue to pass.
-- [ ] axe-core passes at `serious` level on the chart panel.
+- [x] All 8 chart types render correctly with the correct ECharts configuration.
+- [x] Local heuristic suggests the correct chart for time-series (line), categorical (bar), and distribution (pie) data from the `products.csv` fixture.
+- [x] Chart AI input sends a consent-gated payload containing schema and instruction but NO raw data rows.
+- [x] A malformed AI response (invalid JSON, banned keys) is rejected with a user-visible error.
+- [x] "Explain Chart" produces a text summary below the chart.
+- [x] The `🔒 Local AI` badge appears when WebLLM is active.
+- [x] Existing Phase 1 E2E tests continue to pass.
+- [x] axe-core passes at `serious` level on the chart panel.
