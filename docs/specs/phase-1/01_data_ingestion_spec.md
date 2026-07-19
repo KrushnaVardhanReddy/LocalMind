@@ -24,9 +24,11 @@ The Data Ingestion module is responsible for safely, securely, and efficiently l
 - **Behavior**: Analyze the first N rows to determine column data types (String, Integer, Float, Date, Boolean).
 - **Output**: Generate local SQL DDL statements, TypeScript types, or Pydantic models from the inferred schema.
 
-## 3. Non-Functional Requirements
+## 3. Non-Functional Requirements & Limits
 - **Performance**: Must initiate parsing of a 100MB file in under 2 seconds.
-- **Memory**: Must not crash the browser tab on large files (use chunking and streams).
+- **Memory & Limits**: 
+  - **Web Version (Free):** Hard limit of 500MB per file to prevent browser OOM (Out of Memory) crashes.
+  - **Desktop Version (Pro):** Bypasses browser limits via Tauri; supports up to 10GB files using chunked streaming directly from the OS filesystem.
 - **UI Responsiveness**: Main thread must never be blocked during ingestion (use Web Workers).
 
 ## 4. Open Questions

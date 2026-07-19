@@ -429,19 +429,22 @@ Every segment has the same core problem: they have sensitive files, they need to
 
 ---
 
-## Business Model
+## Business Model (Open Core)
 
-### Free
-- Local processing — all modules
-- Basic SQL, charts, and exports
-- Standard file size limits (up to 500MB)
+LocalMind operates on a Freemium / Open Core model to ensure privacy claims remain auditable while building a sustainable business.
+
+### Free (Open Source)
+- **Deployment:** Web app (`localmind.dev`)
+- **Features:** Local processing (all modules), basic SQL, charts, and exports.
+- **Limits:** Standard browser file size limits (up to 500MB).
+- **Why:** Anyone can verify the code to ensure data never leaves the browser. 
 
 ### Pro — *$12/month*
-- Advanced analytics and visualizations
-- Saved workspaces and automation
-- Large file support (up to 10GB)
-- Workspace templates and sharing
-- Priority processing
+- **Deployment:** Tauri Desktop App + Cloud Sync
+- **Features:** 
+  - **Desktop App:** Unlocks the OS sandbox for massive files (up to 10GB) and unthrottled CPU/GPU access.
+  - **Cloud Sync:** Saved workspaces, templates, and team sharing across devices.
+  - Advanced analytics and priority processing.
 
 ### AI Credits
 Cloud AI features (summaries, report generation, natural language queries) are billed per-use, because they incur real inference costs. Local processing remains fully available regardless of AI credit balance.
