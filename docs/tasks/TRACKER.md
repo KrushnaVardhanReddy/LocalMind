@@ -46,3 +46,10 @@
 
 ## Phase 7: Custom WASM Plugin Runtime
 - [ ] Task 1: WASM Plugin Runtime (`docs/tasks/phase-7/task1_plugin_runtime.md`)
+
+## Future Architecture & Monetization Pointers
+*These are strategic placeholders so we don't forget the repository and business architecture as the project scales.*
+
+- [ ] **Create `localmind-proxy` (Private Repo)**: Create this *after* Phase 2 when we are ready to implement "AI Credits". This will hold the Cloudflare Worker, Stripe billing logic, and our org-level OpenAI keys for non-technical users.
+- [ ] **Create Tauri Desktop App (Public Repo/Directory)**: Create this when we are hitting the 500MB browser storage limits. This remains open-source/public, offering unrestricted local processing and syncing features as the "Pro" tier.
+- [ ] **Create `localmind-enterprise` (Private Repo)**: Create this *only when* we have our first enterprise pilot ready to sign. This will hold SSO (SAML/Okta), audit logs, SOC 2 compliance docs, and Docker configs for on-prem deployment.
