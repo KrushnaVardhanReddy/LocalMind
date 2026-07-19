@@ -2,7 +2,7 @@
 
 ## Phase 1: Data Ingestion & Analytics
 - [x] Task 1: Scaffolding and Web Worker Integration
-- [ ] Task 2: Data Ingestion and Local File Access
+- [x] Task 2: Data Ingestion and Local File Access
 - [ ] Task 3: Query Execution and Data Visualization
 - [ ] Task 4: Consent-Gated AI Insights
 - [ ] Task 5: End-to-End Testing (Phase 1)

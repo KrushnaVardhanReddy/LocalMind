@@ -84,7 +84,49 @@ self.onmessage = async (e: MessageEvent<WorkerMessage>) => {
         break;
 
       case 'LOAD_FILE':
-        throw new Error("LOAD_FILE not implemented yet");
+        if (!db || !conn) throw new Error("DuckDB is not initialized");
+        const { tableName, fileFormat, file } = payload;
+
+        if (!file) throw new Error("No file provided");
+
+        console.log(`Worker: Loading file ${file.name} as ${tableName}`);
+
+        // Register the file in DuckDB's virtual file system
+        await db.registerFileHandle(file.name, file, duckdb.DuckDBDataProtocol.BROWSER_FILEREADER, true);
+
+        // Load data into DuckDB table based on format
+        let loadQuery = '';
+        if (fileFormat === 'CSV') {
+            loadQuery = `CREATE TABLE ${tableName} AS SELECT * FROM read_csv_auto('${file.name}')`;
+        } else if (fileFormat === 'JSON') {
+            loadQuery = `CREATE TABLE ${tableName} AS SELECT * FROM read_json_auto('${file.name}')`;
+        } else if (fileFormat === 'PARQUET') {
+            loadQuery = `CREATE TABLE ${tableName} AS SELECT * FROM read_parquet('${file.name}')`;
+        } else {
+            // Try inference or fallback to CSV
+            loadQuery = `CREATE TABLE ${tableName} AS SELECT * FROM '${file.name}'`;
+        }
+
+        // Drop table if it exists
+        await conn.query(`DROP TABLE IF EXISTS ${tableName}`);
+
+        // Execute the load query
+        await conn.query(loadQuery);
+
+        // Get row count
+        const countResult = await conn.query(`SELECT COUNT(*) as count FROM ${tableName}`);
+        const rowCount = Number(countResult.toArray()[0].toJSON().count);
+
+        // Infer schema
+        const schemaResult = await conn.query(`PRAGMA table_info('${tableName}')`);
+        const schema = schemaResult.toArray().map((r: any) => r.toJSON());
+
+        postMessage({
+            id,
+            status: 'SUCCESS',
+            data: { rowCount, schema }
+        } as WorkerResponse);
+        break;
 
       case 'CANCEL_QUERY':
         throw new Error("CANCEL_QUERY not implemented yet");
