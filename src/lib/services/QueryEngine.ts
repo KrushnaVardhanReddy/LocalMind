@@ -68,6 +68,10 @@ export class QueryEngine {
   async executeQuery(query: string): Promise<{ rows: any[]; durationMs: number }> {
     return this.postMessage('EXECUTE_QUERY', { query });
   }
+
+  async loadFile(tableName: string, fileFormat: 'CSV' | 'JSON' | 'PARQUET' | 'UNKNOWN', file: File): Promise<{ rowCount: number, schema: any[] }> {
+    return this.postMessage('LOAD_FILE', { tableName, fileFormat, file });
+  }
 }
 
 // Export a singleton instance
