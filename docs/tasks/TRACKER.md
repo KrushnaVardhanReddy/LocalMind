@@ -8,7 +8,7 @@
 - [x] Task 5: End-to-End Testing (Phase 1)
 
 ## Phase 2: Document Workspace
-- [ ] Task 1: Local OCR Integration
+- [x] Task 1: Local OCR Integration
 - [ ] Task 2: Local PDF Manipulation
 - [ ] Task 3: Local Semantic Search
 - [ ] Task 4: End-to-End Testing (Phase 2)

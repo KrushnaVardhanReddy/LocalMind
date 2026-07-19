@@ -18,6 +18,7 @@ interface DocumentWorkerResponse<T = any> {
   data?: T;
   error?: string;
   progress?: number; // Optional progress indicator for long tasks
+  status?: string; // Optional status message
 }
 ```
 
