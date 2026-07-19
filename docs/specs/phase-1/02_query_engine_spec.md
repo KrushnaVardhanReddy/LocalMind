@@ -12,7 +12,7 @@ The Query Engine is the computational heart of Phase 1. It utilizes WebAssembly 
 
 ### 2.2 Visualizations & Profiling
 - **Column Statistics**: Automatically calculate min, max, mean, null count, and unique values for each column.
-- **Charting**: Generate Pivot tables, line charts, and bar charts using Apache ECharts based on query results.
+- **Charting**: Generate Pivot tables, line charts, bar charts, and pie charts using Apache ECharts based on query results.
 
 ### 2.3 Data Diffing
 - **Behavior**: Compare two datasets (e.g., last month's CSV vs. this month's CSV).
