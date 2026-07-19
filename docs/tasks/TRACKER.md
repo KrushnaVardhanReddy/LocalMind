@@ -5,7 +5,7 @@
 - [x] Task 2: Data Ingestion and Local File Access
 - [x] Task 3: Query Execution and Data Visualization
 - [x] Task 4: Consent-Gated AI Insights
-- [ ] Task 5: End-to-End Testing (Phase 1)
+- [x] Task 5: End-to-End Testing (Phase 1)
 
 ## Phase 2: Document Workspace
 - [ ] Task 1: Local OCR Integration
