@@ -4,7 +4,7 @@
 - [x] Task 1: Scaffolding and Web Worker Integration
 - [x] Task 2: Data Ingestion and Local File Access
 - [x] Task 3: Query Execution and Data Visualization
-- [ ] Task 4: Consent-Gated AI Insights
+- [x] Task 4: Consent-Gated AI Insights
 - [ ] Task 5: End-to-End Testing (Phase 1)
 
 ## Phase 2: Document Workspace
