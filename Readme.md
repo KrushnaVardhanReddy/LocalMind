@@ -274,6 +274,22 @@ This module flips the default AI model entirely. Instead of the consent-gated cl
 
 ---
 
+## Development Methodology: Spec-First & Contract-First
+
+LocalMind is built with strict adherence to a **Spec-First and Contract-First approach**. Before any code is written for a new feature, its behavior, UI constraints, and threading models must be fully specified. Furthermore, because the architecture relies heavily on Web Workers and privacy-preserving API boundaries, all data structures passing between threads or leaving the device must be defined in strict contracts.
+
+All specifications, contracts, and actionable tasks live in the `docs/` directory:
+
+- **`docs/specs/`**: Contains detailed feature specifications (e.g., Data Ingestion, AI Insights).
+- **`docs/contracts/`**: Contains the JSON/TypeScript data structures for message passing.
+  - *UI-Worker Contracts*: Defines how the Svelte main thread communicates with WASM Web Workers.
+  - *Cloud AI Contracts*: Defines the exact, aggregated payloads permitted to be sent to external AI providers.
+- **`docs/tasks/`**: Contains granular, actionable development tasks mapped directly back to the specs and contracts.
+
+When contributing to LocalMind, always consult the `docs/` folder first, and ensure any architectural changes are reflected in the contracts before implementation.
+
+---
+
 ## Getting Started
 
 > Prerequisites: Node.js 20+, npm 9+
