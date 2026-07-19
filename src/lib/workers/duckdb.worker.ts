@@ -6,7 +6,7 @@ import eh_worker from '@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js?url'
 
 type WorkerMessage<T = any> = {
   id: string;
-  action: 'INIT' | 'LOAD_FILE' | 'EXECUTE_QUERY' | 'CANCEL_QUERY';
+  action: 'INIT' | 'LOAD_FILE' | 'EXECUTE_QUERY' | 'CANCEL_QUERY' | 'GET_COLUMN_STATS';
   payload: T;
 };
 
@@ -130,6 +130,39 @@ self.onmessage = async (e: MessageEvent<WorkerMessage>) => {
 
       case 'CANCEL_QUERY':
         throw new Error("CANCEL_QUERY not implemented yet");
+
+      case 'GET_COLUMN_STATS':
+        if (!conn) throw new Error("DuckDB is not initialized");
+        const { tableName: statsTable, columnName: statsColumn } = payload;
+
+        // Use double quotes for identifiers in case they have spaces or special characters
+        const queryStr = `
+          SELECT
+            MIN("${statsColumn}") as min,
+            MAX("${statsColumn}") as max,
+            AVG(TRY_CAST("${statsColumn}" AS DOUBLE)) as mean,
+            COUNT(CASE WHEN "${statsColumn}" IS NULL THEN 1 END) as nullCount,
+            COUNT(DISTINCT "${statsColumn}") as uniqueValues
+          FROM "${statsTable}"
+        `;
+        const statsResult = await conn.query(queryStr);
+        const stats = statsResult.toArray()[0].toJSON();
+
+        // Convert bigints to numbers or strings to avoid serialization issues
+        const sanitizeStats = (val: any) => typeof val === 'bigint' ? Number(val) : val;
+
+        postMessage({
+            id,
+            status: 'SUCCESS',
+            data: {
+              min: sanitizeStats(stats.min),
+              max: sanitizeStats(stats.max),
+              mean: sanitizeStats(stats.mean),
+              nullCount: sanitizeStats(stats.nullCount),
+              uniqueValues: sanitizeStats(stats.uniqueValues)
+            }
+        } as WorkerResponse);
+        break;
 
       default:
         throw new Error(`Unknown action: ${action}`);

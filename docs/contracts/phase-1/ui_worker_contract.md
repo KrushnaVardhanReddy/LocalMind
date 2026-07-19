@@ -51,3 +51,17 @@ type WorkerResponse<T = any> = {
 - **Action**: `CANCEL_QUERY`
 - **Request Payload**: `{ targetQueryId: string }`
 - **Response Data**: `{ cancelled: boolean }`
+
+### 3.5 Get Column Statistics
+- **Action**: `GET_COLUMN_STATS`
+- **Request Payload**: `{ tableName: string, columnName: string }`
+- **Response Data**:
+  ```typescript
+  {
+    min: number | string | null;
+    max: number | string | null;
+    mean: number | null;
+    nullCount: number;
+    uniqueValues: number;
+  }
+  ```

@@ -1,6 +1,6 @@
 type WorkerMessage<T = any> = {
   id: string;
-  action: 'INIT' | 'LOAD_FILE' | 'EXECUTE_QUERY' | 'CANCEL_QUERY';
+  action: 'INIT' | 'LOAD_FILE' | 'EXECUTE_QUERY' | 'CANCEL_QUERY' | 'GET_COLUMN_STATS';
   payload: T;
 };
 
@@ -71,6 +71,10 @@ export class QueryEngine {
 
   async loadFile(tableName: string, fileFormat: 'CSV' | 'JSON' | 'PARQUET' | 'UNKNOWN', file: File): Promise<{ rowCount: number, schema: any[] }> {
     return this.postMessage('LOAD_FILE', { tableName, fileFormat, file });
+  }
+
+  async getColumnStats(tableName: string, columnName: string): Promise<{ min: number | string | null; max: number | string | null; mean: number | null; nullCount: number; uniqueValues: number }> {
+    return this.postMessage('GET_COLUMN_STATS', { tableName, columnName });
   }
 }
 

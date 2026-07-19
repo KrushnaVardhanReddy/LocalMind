@@ -1,10 +1,15 @@
 <script lang="ts">
   import { queryEngine } from '$lib/services/QueryEngine';
   import FilePicker from '$lib/components/FilePicker.svelte';
+  import SqlEditor from '$lib/components/SqlEditor.svelte';
+  import DataTable from '$lib/components/DataTable.svelte';
+  import ColumnStats from '$lib/components/ColumnStats.svelte';
+  import ChartViewer from '$lib/components/ChartViewer.svelte';
   import { activeTableSchema } from '$lib/stores/schemaStore';
 
   let status = 'Not Initialized';
-  let queryResult: any = null;
+  let queryResult: any[] = [];
+  let resultColumns: string[] = [];
   let errorMsg: string | null = null;
   let isUploading = false;
 
@@ -21,12 +26,18 @@
     }
   }
 
-  async function runTestQuery() {
+  async function handleExecuteQuery(event: CustomEvent<{ query: string }>) {
     try {
       errorMsg = null;
-      queryResult = null;
-      const result = await queryEngine.executeQuery('SELECT 42 as answer');
+      queryResult = [];
+      resultColumns = [];
+      const query = event.detail.query;
+
+      const result = await queryEngine.executeQuery(query);
       queryResult = result.rows;
+      if (queryResult.length > 0) {
+        resultColumns = Object.keys(queryResult[0]);
+      }
     } catch (e: any) {
       errorMsg = e.message;
     }
@@ -61,12 +72,17 @@
         columns: result.schema
       });
 
+      // Auto-run query on file load
+      handleExecuteQuery(new CustomEvent('execute', { detail: { query: `SELECT * FROM ${tableName} LIMIT 100` } }));
+
     } catch (e: any) {
       errorMsg = `Failed to load file: ${e.message}`;
     } finally {
       isUploading = false;
     }
   }
+
+  $: initialQuery = $activeTableSchema ? `SELECT * FROM ${$activeTableSchema.tableName} LIMIT 100` : '-- Load a file to get started\nSELECT 42 as answer;';
 </script>
 
 <main class="p-8">
@@ -82,16 +98,6 @@
       on:click={initEngine}
     >
       Initialize Engine
-    </button>
-
-    <button
-      class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed"
-      on:click={runTestQuery}
-      disabled={status !== 'Ready'}
-      class:opacity-100={status === 'Ready'}
-      class:opacity-50={status !== 'Ready'}
-    >
-      Run Test Query
     </button>
   </div>
 
@@ -144,10 +150,34 @@
     </div>
   {/if}
 
-  {#if queryResult}
-    <div>
-      <h2 class="text-xl font-semibold mb-2">Query Result:</h2>
-      <pre class="bg-gray-100 p-4 rounded">{JSON.stringify(queryResult, null, 2)}</pre>
+  {#if $activeTableSchema}
+    <div class="mb-8">
+      <ColumnStats
+        tableName={$activeTableSchema.tableName}
+        columns={$activeTableSchema.columns}
+      />
     </div>
+
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold mb-2">SQL Editor</h2>
+      {#key $activeTableSchema.tableName}
+        <SqlEditor
+          initialQuery={initialQuery}
+          on:execute={handleExecuteQuery}
+        />
+      {/key}
+    </div>
+
+    {#if queryResult.length > 0}
+      <div class="mb-8">
+        <h2 class="text-xl font-semibold mb-2">Query Results</h2>
+        <DataTable data={queryResult} columns={resultColumns} />
+      </div>
+
+      <div class="mb-8">
+        <h2 class="text-xl font-semibold mb-2">Visualizations</h2>
+        <ChartViewer data={queryResult} columns={resultColumns} />
+      </div>
+    {/if}
   {/if}
 </main>
