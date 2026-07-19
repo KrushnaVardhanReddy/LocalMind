@@ -324,22 +324,42 @@ Our commitment:
 
 ---
 
-## Target Users
+## Target Users & Use Cases
+
+Every segment has the same core problem: they have sensitive files, they need to extract value, and every existing tool either requires a risky cloud upload or complex local installation. LocalMind solves this by letting them "just drop it in the browser."
 
 ### Phase 1 — Early Adopters *(Launch criteria: Data Workspace complete)*
-Developers, Data Analysts, Startup Founders, Finance Teams
+**Developers & Data Analysts**
+* **The Pain:** Need to query huge CSVs, inspect JSON logs, or profile datasets without uploading to an online formatter or spinning up a local Python environment.
+* **The Solution:** Drop a 10M row CSV or 500MB JSON file into LocalMind, run SQL queries via DuckDB, and chart results instantly. 
+* **Why they pay:** Saved queries, schema persistence, and local code structure analysis.
 
-Users who handle sensitive structured data and are familiar with the limitations of browser-based tools.
+**Startup Founders & Finance Teams**
+* **The Pain:** Handling sensitive cap tables, burn rate Excel files, or raw Stripe exports that cannot be uploaded to random third-party tools.
+* **The Solution:** Drag in the file, get instant charts and pivot tables, entirely offline.
+* **Why they pay:** AI Credits to generate the board report narrative (via the consent-gated cloud bridge).
 
 ### Phase 2 — Professional Expansion *(Launch criteria: Document Workspace + 1,000 MAU)*
-HR, Legal, Marketing, Operations
+**HR & Legal Teams**
+* **The Pain:** Processing highly confidential salary data, employee reviews, NDAs, and discovery documents. Uploading these to cloud PDF/CSV tools is a privacy violation.
+* **The Solution:** Compare NDA versions via local OCR, or process payroll CSVs to find anomalies — zero upload risk.
+* **Why they pay:** Enterprise tier for team workspaces and audit logs.
 
-Teams with compliance requirements (GDPR, HIPAA-adjacent) who can't use cloud-based document parsing tools.
+**Marketing Teams**
+* **The Pain:** Struggling with massive campaign exports and customer segment CSVs in Excel (which crashes) or Tableau (which requires expensive licenses).
+* **The Solution:** Instant pivot tables and charts right in the browser. 
+* **Why they pay:** AI Credits for "write me a summary of this campaign performance."
 
 ### Phase 3 — Regulated Industries *(Launch criteria: Enterprise tier live + SOC 2 initiated)*
-Healthcare, Manufacturing, Education
+**Healthcare & Education**
+* **The Pain:** HIPAA and FERPA compliance means zero cloud tools allowed for patient records, clinical trials, or student data.
+* **The Solution:** Run SQL or Python (Pyodide) on datasets locally, or OCR scanned medical forms without any data leaving the device.
+* **Why they pay:** Enterprise compliance docs and fully offline/air-gapped deployment.
 
-Organizations that need on-premise or fully air-gapped processing with audit trails.
+**Manufacturing**
+* **The Pain:** QA reports and sensor data logs are huge and proprietary, often needed on factory floors with limited internet access.
+* **The Solution:** Drop the sensor CSV, query for anomalies, and chart trends offline.
+* **Why they pay:** On-premise tier for factory floor execution.
 
 ---
 
