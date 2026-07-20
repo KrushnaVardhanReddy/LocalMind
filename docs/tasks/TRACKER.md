@@ -74,9 +74,19 @@
 - [ ] Task 1: Infinite Whiteboard Integration (`docs/tasks/phase-8/task1_whiteboard.md`)
 - [ ] Task 2: End-to-End Testing (`docs/tasks/phase-8/task_e2e.md`)
 
-## Future Architecture & Monetization Pointers
-*These are strategic placeholders so we don't forget the repository and business architecture as the project scales.*
+## Phase 9: Pro Tier (Tauri Desktop App)
+- [ ] Task 1: Tauri Desktop App Scaffolding (`docs/tasks/phase-9/task1_tauri_scaffold.md`)
+- [ ] Task 2: Storage Quota Bypass (`docs/tasks/phase-9/task2_unlimited_storage.md`)
+- [ ] Task 3: Native File System Integration (`docs/tasks/phase-9/task3_native_fs.md`)
+- [ ] Task 4: End-to-End Testing (`docs/tasks/phase-9/task_e2e.md`)
 
-- [ ] **Create `localmind-proxy` (Private Repo)**: Create this *after* Phase 2 when we are ready to implement "AI Credits". This will hold the Cloudflare Worker, Stripe billing logic, and our org-level OpenAI keys for non-technical users.
-- [ ] **Create Tauri Desktop App (Public Repo/Directory)**: Create this when we are hitting the 500MB browser storage limits. This remains open-source/public, offering unrestricted local processing and syncing features as the "Pro" tier.
-- [ ] **Create `localmind-enterprise` (Private Repo)**: Create this *only when* we have our first enterprise pilot ready to sign. This will hold SSO (SAML/Okta), audit logs, SOC 2 compliance docs, and Docker configs for on-prem deployment.
+## Phase 10: Enterprise Tier (On-Premise & Governance)
+- [ ] Task 1: Headless API & SSO Authentication (SAML/Okta) (`docs/tasks/phase-10/task1_sso.md`)
+- [ ] Task 2: Team Workspaces & RBAC (`docs/tasks/phase-10/task2_rbac.md`)
+- [ ] Task 3: Audit Logging & Data Governance Middleware (`docs/tasks/phase-10/task3_audit.md`)
+- [ ] Task 4: Docker & Kubernetes On-Prem Configs (`docs/tasks/phase-10/task4_docker.md`)
+- [ ] Task 5: SOC 2 Compliance Documentation (`docs/tasks/phase-10/task5_soc2.md`)
+
+## Phase 11: Monetization Proxy (Cloudflare)
+- [ ] Task 1: Cloudflare Proxy API for AI Credits (`docs/tasks/phase-11/task1_cf_proxy.md`)
+- [ ] Task 2: Stripe Billing Integration (`docs/tasks/phase-11/task2_stripe.md`)
