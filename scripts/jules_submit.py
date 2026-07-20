@@ -114,6 +114,26 @@ TASKS = {
         "phase": "phase-1",
         "prompt": _load_prompt("docs/tasks/phase-1/task3.md"),
     },
+    4: {
+        "name": "Task 4 — Consent-Gated AI Insights",
+        "phase": "phase-1",
+        "prompt": _load_prompt("docs/tasks/phase-1/task4.md"),
+    },
+    5: {
+        "name": "Task 5 — AI-Assisted Chart Customization",
+        "phase": "phase-1",
+        "prompt": _load_prompt("docs/tasks/phase-1/task5_ai_chart.md"),
+    },
+    6: {
+        "name": "Task 6 — Multi-File Auto-Joins & Diffing",
+        "phase": "phase-1",
+        "prompt": _load_prompt("docs/tasks/phase-1/task6_joins_diff.md"),
+    },
+    9: {
+        "name": "Task 9 — End-to-End Testing (Phase 1)",
+        "phase": "phase-1",
+        "prompt": _load_prompt("docs/tasks/phase-1/task9_e2e.md"),
+    },
 }
 
 # ──────────────────────────────────────────────────────────────────────────────
