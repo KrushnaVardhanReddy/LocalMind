@@ -27,6 +27,7 @@
 - [ ] Task 1.8: Bulk Document Parsing (`docs/tasks/phase-2/task1_8_bulk_parse.md`)
 - [ ] Task 2: Local PDF Manipulation (`docs/tasks/phase-2/task2_pdf.md`)
 - [ ] Task 3: Local Semantic Search (`docs/tasks/phase-2/task3_semantic_search.md`)
+- [ ] Task 3.5: Local AI Resume Screener & Ranker (`docs/tasks/phase-2/task3_5_resume_screener.md`)
 - [ ] Task 4: End-to-End Testing (`docs/tasks/phase-2/task_e2e.md`)
 
 ## Phase 3: Media Workspace

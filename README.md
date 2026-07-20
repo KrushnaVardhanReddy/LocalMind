@@ -132,6 +132,7 @@ Extract meaning from documents without cloud parsing APIs.
 | | **Universal conversion** — Markdown → DOCX → PDF → HTML via Pandoc WASM |
 | | **Browser-Based PII Redaction** — auto-detect names, SSNs, and addresses via local AI (OCR + NER) and visually redact them before saving |
 | | **Semantic search** — find paragraphs by meaning using local embeddings |
+| | **Local AI Resume Screener** — drop a job description and a folder of PDF/DOCX resumes to rank candidates offline via semantic search without leaking PII |
 | | Optional AI summaries (consent-gated) |
 
 ---
@@ -298,6 +299,12 @@ The ultimate offline investigation board.
 - AI API keys are held **in-memory only** during the session — never written to `localStorage` or any persistent store
 - The `WorkerPool` manager is the single point of contact between the UI and all WASM workers — no direct Worker instantiation in components
 
+### Lazy-Loaded WASM & Caching (Bundle Size Management)
+To prevent a massive initial payload (since compiling DuckDB, FFmpeg, and Tesseract into one app could easily exceed 100MB), LocalMind uses strict Just-in-Time (JIT) lazy loading:
+- **Core UI Load:** The initial Svelte app load is tiny (~200KB).
+- **JIT Loading:** WASM engines are downloaded *only* when the user triggers a workflow that requires them (e.g., dropping a CSV lazy-loads DuckDB; dropping a video lazy-loads FFmpeg).
+- **Service Worker Caching:** Once a WASM bundle is downloaded, the PWA Service Worker caches it permanently. Subsequent loads—even after refreshing or going offline—are instant because the heavy WASM files are served directly from the browser's Cache Storage.
+
 ---
 
 ## Deployment Strategy (Web vs. Desktop)
@@ -445,9 +452,9 @@ Every segment has the same core problem: they have sensitive files, they need to
 
 ### Phase 2 — Professional Expansion *(Launch criteria: Document Workspace + 1,000 MAU)*
 **HR & Legal Teams**
-* **The Pain:** Processing highly confidential salary data, employee reviews, NDAs, and discovery documents. Uploading these to cloud PDF/CSV tools is a privacy violation.
-* **The Solution:** Compare NDA versions via local OCR, or process payroll CSVs to find anomalies — zero upload risk.
-* **Why they pay:** Enterprise tier for team workspaces and audit logs.
+* **The Pain:** Processing highly confidential candidate resumes, salary data, NDAs, and discovery documents. Uploading a batch of resumes to a cloud AI screener is a direct violation of candidate data privacy (GDPR/CCPA).
+* **The Solution:** Use the Local Resume Screener to rank hundreds of PDFs against a job description instantly in the browser. Compare NDA versions via local OCR — zero upload risk.
+* **Why they pay:** Enterprise tier for team workspaces, auditable local compliance, and custom local embedding models.
 
 **Marketing Teams**
 * **The Pain:** Struggling with massive campaign exports and customer segment CSVs in Excel (which crashes) or Tableau (which requires expensive licenses).
