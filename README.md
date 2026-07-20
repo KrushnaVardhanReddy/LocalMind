@@ -462,10 +462,20 @@ Every segment has the same core problem: they have sensitive files, they need to
 * **Why they pay:** AI Credits for "write me a summary of this campaign performance."
 
 ### Phase 3 — Regulated Industries *(Launch criteria: Enterprise tier live + SOC 2 initiated)*
-**Healthcare & Education**
-* **The Pain:** HIPAA and FERPA compliance means zero cloud tools allowed for patient records, clinical trials, or student data.
-* **The Solution:** Run SQL or Python (Pyodide) on datasets locally, or OCR scanned medical forms without any data leaving the device.
-* **Why they pay:** Enterprise compliance docs and fully offline/air-gapped deployment.
+**Clinical Research & Healthcare (HIPAA)**
+* **The Pain:** Clinical data managers analyzing drug trials or hospital records cannot upload patient datasets to cloud BI tools due to massive HIPAA compliance penalties.
+* **The Solution:** Drop patient CSVs into the browser to run SQL or Python (Pyodide) locally. Extract text from scanned medical forms via local OCR, ensuring zero data ever leaves the device.
+* **Why they pay:** Guaranteed HIPAA compliance, audit logs, and the ability to process sensitive health data locally.
+
+**Defense & Intelligence (Air-Gapped Environments)**
+* **The Pain:** Defense contractors and intelligence analysts work in SCIFs (secure rooms with absolutely zero internet access). They are entirely cut off from modern SaaS data tools.
+* **The Solution:** Deploy the LocalMind Tauri Desktop App. Analysts can query massive datasets, format intercepted JSON, and summarize offline intel using local LLMs.
+* **Why they pay:** High-ticket enterprise licensing for offline-capable, air-gapped deployments.
+
+**Film & VFX Production**
+* **The Pain:** Editors work with massive 4K/8K raw video files. Uploading these to a cloud service just to generate a lightweight MP4 proxy or extract an audio stem takes hours.
+* **The Solution:** Drop the massive video file into LocalMind. It uses FFmpeg WASM to instantly transcode a 1080p proxy or extract the audio offline, utilizing the local CPU.
+* **Why they pay:** Pure speed. Bypassing upload/download bandwidth bottlenecks entirely.
 
 **Manufacturing & Hardware Startups**
 * **The Pain:** QA reports, sensor data logs, and unreleased 3D CAD models (.step, .stl) are highly proprietary. Uploading CAD files to online viewers risks IP theft.
@@ -476,6 +486,21 @@ Every segment has the same core problem: they have sensitive files, they need to
 * **The Pain:** Proprietary land use shapefiles and routing data cannot be sent to public Google Maps APIs.
 * **The Solution:** Convert and map geospatial data locally via gdal3.js.
 * **Why they pay:** Enterprise data privacy guarantees.
+
+**Automotive & Telemetry Engineering**
+* **The Pain:** Engineers generate massive CAN bus and OBD-II telemetry logs (CSV/JSON) during pre-release vehicle testing. Uploading these leaks unreleased IP. While they *could* use Tableau Desktop, it requires expensive licenses, heavy local installation, and slow IT approval just for quick, ad-hoc log checks.
+* **The Solution:** Drop the massive telemetry log straight into the browser. Use DuckDB to instantly chart engine RPM vs. battery temperature offline, with zero installation required.
+* **Why they pay:** High-performance, offline data visualization that bypasses IT friction and complies with strict IP security.
+
+**Investigative Journalism & Legal Defense**
+* **The Pain:** Receiving massive data dumps (like the Panama Papers) or secret audio recordings. Using cloud AI transcription or summarizers risks exposing anonymous sources to subpoenas or tech companies.
+* **The Solution:** Drop 50 hours of audio and 10,000 leaked PDFs into LocalMind. Use local Whisper WASM to transcribe and Transformers.js to make the archive semantically searchable—completely offline (even air-gapped).
+* **Why they pay:** Absolute guarantee of source protection.
+
+**Financial Auditors (M&A Due Diligence)**
+* **The Pain:** Reviewing raw General Ledger exports (millions of rows) during Mergers & Acquisitions. Uploading a target company's financials to third-party cloud tools before the deal is public carries severe insider trading risks.
+* **The Solution:** Drop the ledger CSV to run SQL locally, hunting for fraudulent anomalies in a completely isolated "Clean Room" browser environment.
+* **Why they pay:** Guaranteed data isolation during high-stakes corporate audits.
 
 **Security Engineering**
 * **The Pain:** Need to encrypt files or generate hashes, but pasting keys into online tools is a security violation.
