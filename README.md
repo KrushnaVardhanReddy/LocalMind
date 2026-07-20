@@ -29,7 +29,7 @@ This is not another online file converter. This is a **privacy-first computing p
 | Phase 1 — Data | CSV, Excel, JSON, SQL, Charts | ✅ Complete |
 | Phase 2 — Documents | PDF, DOCX, OCR, Search | 🔨 In Progress |
 | Phase 3 — Media | Image, Audio, Video conversion | 📋 Planned |
-| Phase 4 — Developer | Logs, OpenAPI, YAML, Diff | 📋 Planned |
+| Phase 4 — Developer & QA | Logs, APIs, Test Data, Network | 📋 Planned |
 | Phase 5 — Intelligence | Local LLM, Transcription, Semantic Search | 🔬 Research |
 | Phase 6 — Specialized | 3D CAD, Geo-Spatial, Cryptography | 💡 Idea |
 | Phase 7 — Plugins | Custom User WASM Execution Runtime | 💡 Idea |
@@ -157,12 +157,12 @@ Convert, compress, and transform media without uploads.
 
 ---
 
-### 4. Developer Workspace
-Utilities for engineers working with structured formats and logs.
+### 4. Developer & QA Workspace
+Utilities for engineers and QA testers working with structured formats, network logs, and testing.
 
 | Format | Features |
 |---|---|
-| JSON, YAML, Logs, OpenAPI, CSV | Schema validation and formatting |
+| JSON, YAML, Logs, OpenAPI, CSV, HAR | Schema validation and formatting |
 | | **Transformation Pipelines** — chain operations together (e.g., Base64 Decode → Gunzip → Format JSON) visually |
 | | Side-by-side diff |
 | | Log statistics and pattern analysis |
@@ -172,11 +172,15 @@ Utilities for engineers working with structured formats and logs.
 | | **Git History Analyzer** — drop a `.git` folder to instantly visualize code churn and commit stats locally |
 | | **Visual Flowcharts & ER Diagrams** — drop a SQL schema or write markdown to generate offline Mermaid.js architecture diagrams |
 | | **PCAP Network Analyzer** — parse and visualize Wireshark packet captures securely without cloud uploads |
-| | **Visual Log Parser** — highlight text in unstructured logs to auto-generate regex for DuckDB parsing |
+| | **Visual Log Parser & Anomaly Detector** — highlight text in unstructured test/app logs to auto-generate regex for DuckDB parsing, group similar errors via embeddings |
 | | **Regex playground** — test regex patterns against local file content live |
 | | **Secret scanner** — detect accidentally exposed API keys, tokens, passwords |
 | | **Binary/Hex inspector** — view binary files in structured hex format |
 | | **JWT & certificate inspector** — decode and validate tokens and SSL certs locally |
+| | **HAR File Analyzer** — drop a `.har` network export to parse and visualize API waterfalls without leaking tokens |
+| | **Visual Regression Diffing** — drop expected/actual screenshots to generate pixel-by-pixel diffs locally |
+| | **Test Data Generator** — drop a JSON/SQL schema to instantly generate 100k rows of mock data via WASM faker |
+| | **Local Mock Server** — load an OpenAPI spec to mock API responses in-browser via Service Worker |
 
 ---
 
@@ -362,6 +366,8 @@ LocalMind operates on a dual-deployment model to balance zero-friction acquisiti
 | **OpenCascade.js** *(new)* | High-performance 3D CAD viewing and manipulation (.step, .iges, .stl) |
 | **libsodium.js** *(new)* | Cryptographic primitives — secure encryption, hashing, and key generation |
 | **Custom WASM** *(new)* | User-provided WASM modules for proprietary data processing |
+| **Mock Service Worker** *(new)* | Intercepts network requests to run a mock API server directly in the browser |
+| **pixelmatch** *(new)* | High-performance, pixel-level image diffing for visual regression testing |
 
 ### Visualization
 | Library | Use Case |

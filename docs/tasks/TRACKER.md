@@ -37,14 +37,17 @@
 - [ ] Task 4.5: Audio Stem Separation (`docs/tasks/phase-3/task4_5_audio_stems.md`)
 - [ ] Task 5: End-to-End Testing (`docs/tasks/phase-3/task_e2e.md`)
 
-## Phase 4: Developer Workspace
+## Phase 4: Developer & QA Workspace
 - [ ] Task 1: Formatting and Validation Tools (`docs/tasks/phase-4/task1_formatters.md`)
 - [ ] Task 2: Code Analysis with tree-sitter (`docs/tasks/phase-4/task2_treesitter.md`)
 - [ ] Task 3: Visual Transformation Pipelines (`docs/tasks/phase-4/task3_pipelines.md`)
 - [ ] Task 4: Git History Analyzer (`docs/tasks/phase-4/task4_git.md`)
-- [ ] Task 5: Visual Log Parser (`docs/tasks/phase-4/task5_log_parser.md`)
+- [ ] Task 5: Visual Log Parser & Anomaly Detector (`docs/tasks/phase-4/task5_log_parser.md`)
 - [ ] Task 5.5: PCAP Network Analyzer (`docs/tasks/phase-4/task5_5_pcap.md`)
-- [ ] Task 6: Visual Flowcharts & ER Diagrams (`docs/tasks/phase-4/task6_flowcharts.md`)
+- [ ] Task 5.6: HAR File Analyzer (`docs/tasks/phase-4/task5_6_har_analyzer.md`)
+- [ ] Task 5.7: Visual Regression Diffing (`docs/tasks/phase-4/task5_7_visual_diff.md`)
+- [ ] Task 5.8: Test Data Generator (`docs/tasks/phase-4/task5_8_test_data.md`)
+- [ ] Task 5.9: Local Mock API Server (`docs/tasks/phase-4/task5_9_mock_server.md`)
 - [ ] Task 7: End-to-End Testing (`docs/tasks/phase-4/task_e2e.md`)
 
 ## Phase 5: Intelligence Workspace
