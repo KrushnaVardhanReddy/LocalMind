@@ -40,7 +40,8 @@
 - [ ] Task 5: End-to-End Testing (`docs/tasks/phase-3/task_e2e.md`)
 
 ## Phase 4: Developer & QA Workspace
-- [ ] Task 1: Formatting and Validation Tools (`docs/tasks/phase-4/task1_formatters.md`)
+- [ ] Task 1: Offline Data Formatters & Validators (JSON, JWT, Base64) (`docs/tasks/phase-4/task1_formatters.md`)
+- [ ] Task 1.5: Data Format Converters (JSON <-> YAML <-> XML) (`docs/tasks/phase-4/task1_5_converters.md`)
 - [ ] Task 2: Code Analysis with tree-sitter (`docs/tasks/phase-4/task2_treesitter.md`)
 - [ ] Task 3: Visual Transformation Pipelines (`docs/tasks/phase-4/task3_pipelines.md`)
 - [ ] Task 4: Git History Analyzer (`docs/tasks/phase-4/task4_git.md`)
