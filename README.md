@@ -103,7 +103,8 @@ Process structured data at scale, directly in the browser.
 | | Pivot tables, charts, visualizations |
 | | Data cleaning and validation |
 | | Column statistics and profiling |
-| | **Data Diff** — compare two datasets, see what changed |
+| | **Multi-File Auto-Joins** — drag and drop different files (e.g. CSV and Parquet) and join them visually without writing SQL |
+| | **Visual Data Diffing** — compare two datasets and highlight added, removed, or modified rows locally |
 | | **PII Detection & Masking** — auto-detect names, emails, SSNs, credit cards |
 | | **Schema Inference** — generate TypeScript types, SQL DDL, or Pydantic models from any file |
 | | **Archive Extraction** — locally extract `.zip`, `.rar`, and `.7z` datasets via libarchive WASM |
@@ -125,6 +126,7 @@ Extract meaning from documents without cloud parsing APIs.
 | | Structured data extraction |
 | | **Everyday PDF Tools** — compress, unlock/decrypt, merge, split, and redact via MuPDF WASM |
 | | **Universal conversion** — Markdown → DOCX → PDF → HTML via Pandoc WASM |
+| | **Browser-Based PII Redaction** — auto-detect names, SSNs, and addresses via local AI (OCR + NER) and visually redact them before saving |
 | | **Semantic search** — find paragraphs by meaning using local embeddings |
 | | Optional AI summaries (consent-gated) |
 
@@ -176,7 +178,8 @@ This module flips the default AI model entirely. Instead of the consent-gated cl
 |---|---|---|
 | **Local LLM Chat** | WebLLM (WebGPU) | Run Phi-3, Gemma 2B, Llama 3.2 locally — OpenAI-compatible API, zero cloud calls |
 | **Audio Transcription** | Whisper WASM | Transcribe meeting recordings, interviews, dictation — entirely offline |
-| **Semantic Search** | Transformers.js + ONNX | Embed documents locally, search by meaning across your entire workspace |
+| **Semantic Search** | Transformers.js + ONNX | "Ask your documents" - Embed documents locally, search by meaning across your entire workspace offline |
+| **Local AI Data Janitor** | WebLLM (WebGPU) | Clean datasets row-by-row locally (e.g. format phone numbers, normalize addresses) without cloud APIs |
 | **Text Classification** | Transformers.js | Sentiment analysis, topic classification, intent detection — no API |
 | **Local Translation** | Transformers.js | Translate documents between languages without cloud APIs |
 | **Named Entity Recognition** | Transformers.js | Extract people, orgs, dates, locations from documents locally |

@@ -15,10 +15,12 @@
 - [x] Task 4: Consent-Gated AI Insights
 - [x] Task 5: End-to-End Testing (Phase 1)
 - [ ] Task 6: AI-Assisted Chart Customization (`docs/tasks/phase-1/task6_ai_chart.md`)
+- [ ] Task 7: Multi-File Auto-Joins & Visual Data Diffing (`docs/tasks/phase-1/task7_joins_diff.md`)
 
 
 ## Phase 2: Document Workspace 🔨
 - [x] Task 1: Local OCR Integration (`docs/tasks/phase-2/task1_ocr.md`)
+- [ ] Task 1.5: Browser-Based PII Redaction (`docs/tasks/phase-2/task1_5_redaction.md`)
 - [ ] Task 2: Local PDF Manipulation (`docs/tasks/phase-2/task2_pdf.md`)
 - [ ] Task 3: Local Semantic Search (`docs/tasks/phase-2/task3_semantic_search.md`)
 - [ ] Task 4: End-to-End Testing (`docs/tasks/phase-2/task_e2e.md`)
@@ -37,7 +39,8 @@
 ## Phase 5: Intelligence Workspace
 - [ ] Task 1: WebLLM Engine Setup (`docs/tasks/phase-5/task1_webllm.md`)
 - [ ] Task 2: Local Chat Interface (`docs/tasks/phase-5/task2_chat_ui.md`)
-- [ ] Task 3: End-to-End Testing (`docs/tasks/phase-5/task_e2e.md`)
+- [ ] Task 3: Local AI Data Janitor (`docs/tasks/phase-5/task3_data_janitor.md`)
+- [ ] Task 4: End-to-End Testing (`docs/tasks/phase-5/task_e2e.md`)
 
 ## Phase 6: Specialized Workspaces
 - [ ] Task 1: Geo-Spatial Workspace (`docs/tasks/phase-6/task1_geospatial.md`)
