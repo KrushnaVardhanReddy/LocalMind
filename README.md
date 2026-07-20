@@ -108,7 +108,9 @@ Process structured data at scale, directly in the browser.
 | | **PII Detection & Masking** — auto-detect names, emails, SSNs, credit cards |
 | | **Schema Inference** — generate TypeScript types, SQL DDL, or Pydantic models from any file |
 | | **Archive Extraction** — locally extract `.zip`, `.rar`, and `.7z` datasets via libarchive WASM |
+| | **Drag-and-Drop BI Pivot (Tableau-style)** — visually explore data by dragging dimensions and measures to generate charts without writing SQL |
 | | **Python Notebook** — run pandas/numpy/polars locally via Pyodide WASM |
+| | **Interactive Dashboards** — pin multiple charts to a grid, linked by global filters, saved locally via OPFS |
 | | **AI Chart Customization** — describe a chart in plain English; AI returns an ECharts config applied instantly. Works via consent-gated cloud AI (BYOK) or fully locally via WebLLM (Phase 5). No raw data leaves the device. |
 | | Export results in multiple formats |
 | | Optional AI insights (consent-gated) |
@@ -121,6 +123,7 @@ Extract meaning from documents without cloud parsing APIs.
 | Format | Features |
 |---|---|
 | PDF, DOCX, Images | OCR via Tesseract WASM |
+| | **Auto-Deskew & Enhance** — clean up scanned documents via OpenCV WASM before OCR for higher accuracy |
 | | Full-text search |
 | | Side-by-side document comparison |
 | | Structured data extraction |
@@ -157,6 +160,7 @@ Utilities for engineers working with structured formats and logs.
 | Format | Features |
 |---|---|
 | JSON, YAML, Logs, OpenAPI, CSV | Schema validation and formatting |
+| | **Transformation Pipelines** — chain operations together (e.g., Base64 Decode → Gunzip → Format JSON) visually |
 | | Side-by-side diff |
 | | Log statistics and pattern analysis |
 | | Local SQL on any structured file |
@@ -179,6 +183,7 @@ This module flips the default AI model entirely. Instead of the consent-gated cl
 | **Local LLM Chat** | WebLLM (WebGPU) | Run Phi-3, Gemma 2B, Llama 3.2 locally — OpenAI-compatible API, zero cloud calls |
 | **Audio Transcription** | Whisper WASM | Transcribe meeting recordings, interviews, dictation — entirely offline |
 | **Semantic Search** | Transformers.js + ONNX | "Ask your documents" - Embed documents locally, search by meaning across your entire workspace offline |
+| **Embedding Clustering** | UMAP (WASM) | Visualize high-dimensional semantic data (like customer segments) in 2D/3D locally |
 | **Local AI Data Janitor** | WebLLM (WebGPU) | Clean datasets row-by-row locally (e.g. format phone numbers, normalize addresses) without cloud APIs |
 | **Text Classification** | Transformers.js | Sentiment analysis, topic classification, intent detection — no API |
 | **Local Translation** | Transformers.js | Translate documents between languages without cloud APIs |
