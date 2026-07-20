@@ -66,8 +66,9 @@ MANDATORY RULES — VIOLATION = REJECTED PR:
 3. If a test fails, FIX the code or test — do NOT delete or skip tests.
 4. Do NOT alter any file in docs/specs/ — those are the source of truth. Implement from them, never rewrite them.
 5. No memory leaks: All heavy execution MUST happen in Web Workers via Comlink. Never block the main thread.
-6. Commit message must start with "jules: " prefix.
-7. 100% SPEC-FIRST RULE: If your implementation deviates from the spec in docs/specs/, STOP and flag it.
+6. UNIT TESTS ARE MANDATORY: Every feature PR must include `*.test.ts` files using Vitest. Do not submit code without tests.
+7. Commit message must start with "jules: " prefix.
+8. 100% SPEC-FIRST RULE: If your implementation deviates from the spec in docs/specs/, STOP and flag it.
 
 Project: LocalMind — A browser-native, privacy-first workspace for processing data, documents, and media.
 Tech stack:
