@@ -127,6 +127,7 @@ Extract meaning from documents without cloud parsing APIs.
 | | Full-text search |
 | | Side-by-side document comparison |
 | | Structured data extraction |
+| | **Bulk Document Parsing** — drop hundreds of invoices/resumes to extract structured JSON/CSV offline via OCR + AI |
 | | **Everyday PDF Tools** — compress, unlock/decrypt, merge, split, and redact via MuPDF WASM |
 | | **Universal conversion** — Markdown → DOCX → PDF → HTML via Pandoc WASM |
 | | **Browser-Based PII Redaction** — auto-detect names, SSNs, and addresses via local AI (OCR + NER) and visually redact them before saving |
@@ -144,6 +145,7 @@ Convert, compress, and transform media without uploads.
 | | Compression and resizing |
 | | Crop, watermark, thumbnail generation |
 | | **Instant Video Clipper** — visually trim and crop massive videos instantly without uploads |
+| | **Vocal & Stem Separation** — isolate vocals, drums, and bass from audio tracks locally via ONNX AI models |
 | | Batch processing |
 | | **Background Removal** — instant, local AI cutout via rembg (WebGPU) |
 | | **SVG Vectorizer** — convert PNG/JPG logos to crisp SVG paths via potrace-wasm |
@@ -168,6 +170,8 @@ Utilities for engineers working with structured formats and logs.
 | | OpenAPI linting and visualization |
 | | **Code structure analysis** — parse source files, extract functions/classes via tree-sitter WASM |
 | | **Git History Analyzer** — drop a `.git` folder to instantly visualize code churn and commit stats locally |
+| | **Visual Flowcharts & ER Diagrams** — drop a SQL schema or write markdown to generate offline Mermaid.js architecture diagrams |
+| | **PCAP Network Analyzer** — parse and visualize Wireshark packet captures securely without cloud uploads |
 | | **Visual Log Parser** — highlight text in unstructured logs to auto-generate regex for DuckDB parsing |
 | | **Regex playground** — test regex patterns against local file content live |
 | | **Secret scanner** — detect accidentally exposed API keys, tokens, passwords |
@@ -216,6 +220,16 @@ Turning LocalMind into an extensible platform.
 | **BYOW (Bring Your Own WASM)** | Users compile their own C++/Rust scripts to `.wasm` and load them into LocalMind. |
 | **Data Pipelines** | Drop a proprietary file, select your custom WASM module, and process it locally. |
 | **Marketplace** | A community-driven library of open-source WASM modules for niche data formats. |
+
+---
+
+### 8. Canvas Workspace *(Phase 8)*
+The ultimate offline investigation board.
+
+| Capability | What It Does |
+|---|---|
+| **Infinite Whiteboard** | Drag ECharts, extracted PDF text, and SQL tables onto an infinite, zoomable Excalidraw-style canvas. Saves locally. |
+| **Visual Linking** | Draw arrows between data points, text blocks, and insights to map complex investigations. |
 
 ---
 

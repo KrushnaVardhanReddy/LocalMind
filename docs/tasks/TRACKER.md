@@ -24,6 +24,7 @@
 - [x] Task 1: Local OCR Integration (`docs/tasks/phase-2/task1_ocr.md`)
 - [ ] Task 1.2: OpenCV Image Enhancement (`docs/tasks/phase-2/task1_2_opencv.md`)
 - [ ] Task 1.5: Browser-Based PII Redaction (`docs/tasks/phase-2/task1_5_redaction.md`)
+- [ ] Task 1.8: Bulk Document Parsing (`docs/tasks/phase-2/task1_8_bulk_parse.md`)
 - [ ] Task 2: Local PDF Manipulation (`docs/tasks/phase-2/task2_pdf.md`)
 - [ ] Task 3: Local Semantic Search (`docs/tasks/phase-2/task3_semantic_search.md`)
 - [ ] Task 4: End-to-End Testing (`docs/tasks/phase-2/task_e2e.md`)
@@ -33,6 +34,7 @@
 - [ ] Task 2: Whisper WASM Integration (`docs/tasks/phase-3/task2_whisper.md`)
 - [ ] Task 3: Image Processing Integration (`docs/tasks/phase-3/task3_images.md`)
 - [ ] Task 4: Instant Video Clipper (`docs/tasks/phase-3/task4_video_clipper.md`)
+- [ ] Task 4.5: Audio Stem Separation (`docs/tasks/phase-3/task4_5_audio_stems.md`)
 - [ ] Task 5: End-to-End Testing (`docs/tasks/phase-3/task_e2e.md`)
 
 ## Phase 4: Developer Workspace
@@ -41,7 +43,9 @@
 - [ ] Task 3: Visual Transformation Pipelines (`docs/tasks/phase-4/task3_pipelines.md`)
 - [ ] Task 4: Git History Analyzer (`docs/tasks/phase-4/task4_git.md`)
 - [ ] Task 5: Visual Log Parser (`docs/tasks/phase-4/task5_log_parser.md`)
-- [ ] Task 6: End-to-End Testing (`docs/tasks/phase-4/task_e2e.md`)
+- [ ] Task 5.5: PCAP Network Analyzer (`docs/tasks/phase-4/task5_5_pcap.md`)
+- [ ] Task 6: Visual Flowcharts & ER Diagrams (`docs/tasks/phase-4/task6_flowcharts.md`)
+- [ ] Task 7: End-to-End Testing (`docs/tasks/phase-4/task_e2e.md`)
 
 ## Phase 5: Intelligence Workspace
 - [ ] Task 1: WebLLM Engine Setup (`docs/tasks/phase-5/task1_webllm.md`)
@@ -59,6 +63,9 @@
 
 ## Phase 7: Custom WASM Plugin Runtime
 - [ ] Task 1: WASM Plugin Runtime (`docs/tasks/phase-7/task1_plugin_runtime.md`)
+
+## Phase 8: Canvas Workspace
+- [ ] Task 1: Infinite Whiteboard Integration (`docs/tasks/phase-8/task1_whiteboard.md`)
 
 ## Future Architecture & Monetization Pointers
 *These are strategic placeholders so we don't forget the repository and business architecture as the project scales.*
