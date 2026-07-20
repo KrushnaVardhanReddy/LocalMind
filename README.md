@@ -143,6 +143,7 @@ Convert, compress, and transform media without uploads.
 | Images, Audio, Video | Format conversion via FFmpeg WASM |
 | | Compression and resizing |
 | | Crop, watermark, thumbnail generation |
+| | **Instant Video Clipper** — visually trim and crop massive videos instantly without uploads |
 | | Batch processing |
 | | **Background Removal** — instant, local AI cutout via rembg (WebGPU) |
 | | **SVG Vectorizer** — convert PNG/JPG logos to crisp SVG paths via potrace-wasm |
@@ -166,6 +167,8 @@ Utilities for engineers working with structured formats and logs.
 | | Local SQL on any structured file |
 | | OpenAPI linting and visualization |
 | | **Code structure analysis** — parse source files, extract functions/classes via tree-sitter WASM |
+| | **Git History Analyzer** — drop a `.git` folder to instantly visualize code churn and commit stats locally |
+| | **Visual Log Parser** — highlight text in unstructured logs to auto-generate regex for DuckDB parsing |
 | | **Regex playground** — test regex patterns against local file content live |
 | | **Secret scanner** — detect accidentally exposed API keys, tokens, passwords |
 | | **Binary/Hex inspector** — view binary files in structured hex format |
@@ -184,6 +187,7 @@ This module flips the default AI model entirely. Instead of the consent-gated cl
 | **Audio Transcription** | Whisper WASM | Transcribe meeting recordings, interviews, dictation — entirely offline |
 | **Semantic Search** | Transformers.js + ONNX | "Ask your documents" - Embed documents locally, search by meaning across your entire workspace offline |
 | **Embedding Clustering** | UMAP (WASM) | Visualize high-dimensional semantic data (like customer segments) in 2D/3D locally |
+| **YouTube Local Summary** | WebLLM (WebGPU) | Paste a YouTube URL to generate a summary entirely on your local GPU (no cloud AI required) |
 | **Local AI Data Janitor** | WebLLM (WebGPU) | Clean datasets row-by-row locally (e.g. format phone numbers, normalize addresses) without cloud APIs |
 | **Text Classification** | Transformers.js | Sentiment analysis, topic classification, intent detection — no API |
 | **Local Translation** | Transformers.js | Translate documents between languages without cloud APIs |
@@ -199,7 +203,7 @@ Tools for highly proprietary, industry-specific file formats that cannot be uplo
 | Workspace | Engine | What It Does |
 |---|---|---|
 | **Geo-Spatial** | gdal3.js | Convert proprietary shapefiles (.shp) to GeoJSON, reproject maps locally. |
-| **3D CAD** | OpenCascade.js | View unreleased product designs (.step, .iges), convert to .stl for printing. |
+| **3D CAD & Printing** | OpenCascade.js | View product designs (.step), convert to .stl, and preview G-Code layers for 3D printing. |
 | **Security/Crypto** | libsodium.js | File encryption, key generation, hash validation — zero risk of key leakage. |
 
 ---

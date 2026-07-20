@@ -32,25 +32,30 @@
 - [ ] Task 1: FFmpeg WASM Integration (`docs/tasks/phase-3/task1_ffmpeg.md`)
 - [ ] Task 2: Whisper WASM Integration (`docs/tasks/phase-3/task2_whisper.md`)
 - [ ] Task 3: Image Processing Integration (`docs/tasks/phase-3/task3_images.md`)
-- [ ] Task 4: End-to-End Testing (`docs/tasks/phase-3/task_e2e.md`)
+- [ ] Task 4: Instant Video Clipper (`docs/tasks/phase-3/task4_video_clipper.md`)
+- [ ] Task 5: End-to-End Testing (`docs/tasks/phase-3/task_e2e.md`)
 
 ## Phase 4: Developer Workspace
 - [ ] Task 1: Formatting and Validation Tools (`docs/tasks/phase-4/task1_formatters.md`)
 - [ ] Task 2: Code Analysis with tree-sitter (`docs/tasks/phase-4/task2_treesitter.md`)
 - [ ] Task 3: Visual Transformation Pipelines (`docs/tasks/phase-4/task3_pipelines.md`)
-- [ ] Task 4: End-to-End Testing (`docs/tasks/phase-4/task_e2e.md`)
+- [ ] Task 4: Git History Analyzer (`docs/tasks/phase-4/task4_git.md`)
+- [ ] Task 5: Visual Log Parser (`docs/tasks/phase-4/task5_log_parser.md`)
+- [ ] Task 6: End-to-End Testing (`docs/tasks/phase-4/task_e2e.md`)
 
 ## Phase 5: Intelligence Workspace
 - [ ] Task 1: WebLLM Engine Setup (`docs/tasks/phase-5/task1_webllm.md`)
 - [ ] Task 2: Local Chat Interface (`docs/tasks/phase-5/task2_chat_ui.md`)
 - [ ] Task 3: Local AI Data Janitor (`docs/tasks/phase-5/task3_data_janitor.md`)
 - [ ] Task 4: UMAP Embedding Visualization (`docs/tasks/phase-5/task4_umap.md`)
-- [ ] Task 5: End-to-End Testing (`docs/tasks/phase-5/task_e2e.md`)
+- [ ] Task 5: YouTube Local Summary (`docs/tasks/phase-5/task5_youtube.md`)
+- [ ] Task 6: End-to-End Testing (`docs/tasks/phase-5/task_e2e.md`)
 
 ## Phase 6: Specialized Workspaces
 - [ ] Task 1: Geo-Spatial Workspace (`docs/tasks/phase-6/task1_geospatial.md`)
 - [ ] Task 2: 3D CAD Workspace (`docs/tasks/phase-6/task2_cad.md`)
 - [ ] Task 3: Security / Cryptography Workspace (`docs/tasks/phase-6/task3_crypto.md`)
+- [ ] Task 4: 3D Printer G-Code Viewer (`docs/tasks/phase-6/task4_3d_printing.md`)
 
 ## Phase 7: Custom WASM Plugin Runtime
 - [ ] Task 1: WASM Plugin Runtime (`docs/tasks/phase-7/task1_plugin_runtime.md`)
