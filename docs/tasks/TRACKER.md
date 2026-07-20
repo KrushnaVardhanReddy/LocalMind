@@ -9,7 +9,7 @@
 - [ ] PWA & Offline Support (`docs/tasks/cross_cutting/task_pwa.md`)
 
 ## Phase 1: Data Ingestion & Analytics (v2 Architecture Rewrite) 🔨
-- [ ] Task 1: Scaffolding and Web Worker Integration (v2)
+- [x] Task 1: Scaffolding and Web Worker Integration (v2)
 - [ ] Task 2: Data Ingestion and Local File Access (v2 Streams API)
 - [ ] Task 3: Query Execution and Data Visualization (v2)
 - [ ] Task 4: Consent-Gated AI Insights (v2)
