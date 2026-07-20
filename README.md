@@ -99,7 +99,7 @@ Process structured data at scale, directly in the browser.
 
 | Format | Features |
 |---|---|
-| CSV, Excel, JSON, Parquet, SQLite, Arrow/Feather | SQL queries via DuckDB WASM |
+| CSV, Excel, JSON, Parquet, SQLite (libSQL/Turso), Arrow/Feather | SQL queries via DuckDB WASM |
 | | Pivot tables, charts, visualizations |
 | | Data cleaning and validation |
 | | Column statistics and profiling |
