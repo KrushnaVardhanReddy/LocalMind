@@ -1,6 +1,6 @@
 # LocalMind Task Tracker
 
-> **Last updated:** 2026-07-19 · Phase 1 complete · Phase 2 in progress
+> **Last updated:** 2026-07-19 · Phase 1 v2 Rewrite in progress
 
 ## Cross-Cutting (Do Before Phase 2)
 - [ ] WorkerPool Abstraction Layer (`docs/tasks/cross_cutting/task_worker_pool.md`)
@@ -8,12 +8,12 @@
 - [ ] Production COOP/COEP Headers (`docs/tasks/cross_cutting/task_production_headers.md`)
 - [ ] PWA & Offline Support (`docs/tasks/cross_cutting/task_pwa.md`)
 
-## Phase 1: Data Ingestion & Analytics ✅
-- [x] Task 1: Scaffolding and Web Worker Integration
-- [x] Task 2: Data Ingestion and Local File Access
-- [x] Task 3: Query Execution and Data Visualization
-- [x] Task 4: Consent-Gated AI Insights
-- [x] Task 5: End-to-End Testing (Phase 1)
+## Phase 1: Data Ingestion & Analytics (v2 Architecture Rewrite) 🔨
+- [ ] Task 1: Scaffolding and Web Worker Integration (v2)
+- [ ] Task 2: Data Ingestion and Local File Access (v2 Streams API)
+- [ ] Task 3: Query Execution and Data Visualization (v2)
+- [ ] Task 4: Consent-Gated AI Insights (v2)
+- [ ] Task 5: End-to-End Testing (Phase 1)
 - [ ] Task 6: AI-Assisted Chart Customization (`docs/tasks/phase-1/task6_ai_chart.md`)
 - [ ] Task 7: Multi-File Auto-Joins & Visual Data Diffing (`docs/tasks/phase-1/task7_joins_diff.md`)
 - [ ] Task 8: Interactive Dashboard Builder (`docs/tasks/phase-1/task8_dashboards.md`)

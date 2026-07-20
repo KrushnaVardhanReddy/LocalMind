@@ -26,7 +26,7 @@ This is not another online file converter. This is a **privacy-first computing p
 
 | Phase | Scope | Status |
 |---|---|---|
-| Phase 1 — Data | CSV, Excel, JSON, SQL, Charts | ✅ Complete |
+| Phase 1 — Data | CSV, Excel, JSON, SQL, Charts | 🔨 v2 Rewrite |
 | Phase 2 — Documents | PDF, DOCX, OCR, Search | 🔨 In Progress |
 | Phase 3 — Media | Image, Audio, Video conversion | 📋 Planned |
 | Phase 4 — Developer & QA | Logs, APIs, Test Data, Network | 📋 Planned |
