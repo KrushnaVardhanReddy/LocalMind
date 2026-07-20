@@ -64,12 +64,15 @@
 - [ ] Task 2: 3D CAD Workspace (`docs/tasks/phase-6/task2_cad.md`)
 - [ ] Task 3: Security / Cryptography Workspace (`docs/tasks/phase-6/task3_crypto.md`)
 - [ ] Task 4: 3D Printer G-Code Viewer (`docs/tasks/phase-6/task4_3d_printing.md`)
+- [ ] Task 5: End-to-End Testing (`docs/tasks/phase-6/task_e2e.md`)
 
 ## Phase 7: Custom WASM Plugin Runtime
 - [ ] Task 1: WASM Plugin Runtime (`docs/tasks/phase-7/task1_plugin_runtime.md`)
+- [ ] Task 2: End-to-End Testing (`docs/tasks/phase-7/task_e2e.md`)
 
 ## Phase 8: Canvas Workspace
 - [ ] Task 1: Infinite Whiteboard Integration (`docs/tasks/phase-8/task1_whiteboard.md`)
+- [ ] Task 2: End-to-End Testing (`docs/tasks/phase-8/task_e2e.md`)
 
 ## Future Architecture & Monetization Pointers
 *These are strategic placeholders so we don't forget the repository and business architecture as the project scales.*
