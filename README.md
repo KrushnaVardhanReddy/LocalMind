@@ -507,6 +507,11 @@ Every segment has the same core problem: they have sensitive files, they need to
 * **The Solution:** File encryption and hashing using libsodium.js, entirely client-side.
 * **Why they pay:** Trusted, auditable local toolset.
 
+**Education & K-12 Administration**
+* **The Pain:** Schools are bound by strict FERPA (US) and GDPR (EU) privacy laws. Teachers and administrators cannot legally upload student grades, attendance, or Individualized Education Programs (IEPs) to unvetted cloud AI tools. Furthermore, students on IT-locked Chromebooks cannot install data science tools like Python or PostgreSQL.
+* **The Solution:** A principal can drag a massive CSV of student data into LocalMind to run pivot tables and charts securely in the browser without uploading any PII. Students can load LocalMind (even offline) to learn SQL and process media without ever installing desktop software.
+* **Why they pay:** Guaranteed student data compliance and seamless access on restricted school hardware.
+
 ---
 
 ## Business Model (Open Core)
