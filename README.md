@@ -403,7 +403,7 @@ When contributing to LocalMind, always consult the `docs/` folder first, and ens
 
 ## Getting Started
 
-> Prerequisites: Node.js 20+, npm 9+
+> Prerequisites: Bun v1.1+
 
 ```bash
 # Clone the repository
@@ -411,10 +411,10 @@ git clone https://github.com/your-org/localmind.git
 cd localmind
 
 # Install dependencies
-npm install
+bun install
 
 # Start the development server
-npm run dev
+bun run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.

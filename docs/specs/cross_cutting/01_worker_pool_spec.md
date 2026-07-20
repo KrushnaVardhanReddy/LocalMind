@@ -1,89 +1,115 @@
-# Cross-Cutting: WorkerPool Specification
+# Spec: Worker Pool Abstraction (v2)
 
 ## 1. Overview
-The `WorkerPool` is a singleton service (`src/lib/services/WorkerPool.ts`) that acts as the **single point of contact** between the SvelteKit UI and all WASM Web Workers. No Svelte component may instantiate a `Worker` directly — all worker communication flows through this service.
+The Worker Pool is the core architectural heartbeat of LocalMind. Because LocalMind loads heavy WebAssembly (WASM) engines (DuckDB, FFmpeg, Tesseract, Transformers.js) directly into the browser, executing them on the main thread would cause the Svelte UI to freeze. 
 
-This abstraction is necessary because LocalMind will eventually manage 10+ concurrent WASM workers across phases. Without a centralized manager, each phase would reinvent lifecycle management, error handling, and message routing independently.
+The Worker Pool ensures:
+1. **Zero UI Blocking:** All WASM execution happens in dedicated Web Workers.
+2. **Lazy Loading:** WASM bundles are only fetched and initialized Just-In-Time (JIT) when requested.
+3. **Seamless Communication:** Main-thread to Worker communication is abstracted via Google's `Comlink`, allowing the UI to call WASM functions as if they were standard `async` functions.
 
-## 2. Worker Lifecycle States
+## 2. Architecture Diagram
 
+```mermaid
+graph TD
+    UI[Svelte UI Components] --> |"await duckdb.query(sql)"| WP[WorkerPool Manager]
+    WP --> |Comlink Proxy| W1[DuckDB Worker]
+    WP --> |Comlink Proxy| W2[FFmpeg Worker]
+    WP --> |Comlink Proxy| W3[Tesseract Worker]
+    
+    W1 --> |Loads via Vite| WASM1[duckdb-eh.wasm]
+    W2 --> |Loads via Vite| WASM2[ffmpeg-core.wasm]
+    
+    subgraph Browser Main Thread
+    UI
+    WP
+    end
+    
+    subgraph Background Threads
+    W1
+    W2
+    W3
+    end
 ```
-UNINITIALIZED → INITIALIZING → READY → BUSY → ERROR
-                                   ↑___________|   (auto-restart attempt)
-```
 
-| State | Description |
-|---|---|
-| `UNINITIALIZED` | Worker has not been spawned yet |
-| `INITIALIZING` | Worker script is loading, WASM module compiling |
-| `READY` | Worker is idle and ready to accept messages |
-| `BUSY` | Worker is processing a request |
-| `ERROR` | Worker has crashed or timed out |
+## 3. Core Technologies
+*   **Web Workers API:** Native browser API for background threads.
+*   **Comlink (by Google):** Wraps `postMessage` in an ES6 Proxy. 
+*   **Vite WASM Plugins:** specifically `?worker` imports to allow Vite to bundle the workers correctly.
 
-## 3. API Contract
+## 4. Implementation Details
+
+### 4.1 The Worker Manager (`src/lib/workers/WorkerManager.ts`)
+This class acts as a Singleton registry for all active workers. It ensures we don't accidentally spawn 5 DuckDB workers when the user navigates between pages.
 
 ```typescript
-// src/lib/services/WorkerPool.ts
+import { wrap } from 'comlink';
 
-type WorkerKey =
-  | 'duckdb'
-  | 'tesseract'
-  | 'ffmpeg'
-  | 'whisper'
-  | 'onnx'
-  | 'mupdf'
-  | 'treesitter'
-  | 'webllm'
-  | 'pyodide';
+export class WorkerManager {
+    private static instances: Map<string, Worker> = new Map();
+    private static proxies: Map<string, any> = new Map();
 
-interface WorkerHandle {
-  key: WorkerKey;
-  state: 'UNINITIALIZED' | 'INITIALIZING' | 'READY' | 'BUSY' | 'ERROR';
-  send<TReq, TRes>(action: string, payload: TReq): Promise<TRes>;
-  terminate(): void;
+    public static async getDuckDB() {
+        if (!this.proxies.has('duckdb')) {
+            // Lazy load the worker file ONLY when requested
+            const worker = new Worker(new URL('./duckdb.worker.ts', import.meta.url), { type: 'module' });
+            this.instances.set('duckdb', worker);
+            
+            // Wrap with Comlink
+            const proxy = wrap(worker);
+            await proxy.init(); // Wait for WASM instantiation
+            this.proxies.set('duckdb', proxy);
+        }
+        return this.proxies.get('duckdb');
+    }
 }
-
-class WorkerPool {
-  get(key: WorkerKey): WorkerHandle;
-  init(key: WorkerKey): Promise<void>;
-  terminate(key: WorkerKey): void;
-  terminateAll(): void;
-}
-
-export const workerPool: WorkerPool;
 ```
 
-## 4. Message Routing
-
-All messages follow the envelope format defined in `docs/contracts/phase-1/ui_worker_contract.md`:
-- Requests carry a UUID `id` and an `action` string.
-- Responses carry the matching `id`, a `status` of `SUCCESS` or `ERROR`, and a `data` or `error` field.
-- The WorkerPool maintains a `Map<id, Promise>` to correlate responses back to their originating requests.
-
-## 5. Error & Crash Recovery
-
-- The WorkerPool listens for `messageerror` and `unhandledrejection` on every Worker it manages.
-- On crash: set state to `ERROR`, reject all pending promises for that worker with a descriptive error, emit a Svelte store event so the UI can show a recovery toast.
-- **Auto-restart**: After 2 seconds, attempt to re-initialize the worker. If re-initialization fails 3 times consecutively, set state to `FATAL` and do not retry.
-- **Timeout**: If a `send()` call does not receive a response within **30 seconds**, it is treated as a timeout crash and triggers the same crash recovery flow.
-
-## 6. Usage Example
+### 4.2 The Worker Contract (`src/lib/workers/duckdb.worker.ts`)
+Each worker exposes a class via `Comlink.expose()`. This acts as the API contract.
 
 ```typescript
-// In a Svelte component or store — NOT constructing Worker directly
-import { workerPool } from '$lib/services/WorkerPool';
+import { expose } from 'comlink';
+import * as duckdb from '@duckdb/duckdb-wasm';
 
-const result = await workerPool.get('duckdb').send('EXECUTE_QUERY', {
-  query: 'SELECT COUNT(*) FROM products',
-});
+class DuckDBService {
+    private db: any = null;
+
+    async init() {
+        // Initialize DuckDB WASM here
+        // This is only called once.
+    }
+
+    async executeQuery(query: string) {
+        if (!this.db) throw new Error("DB not initialized");
+        // Execute and return JSON
+        return await this.db.query(query);
+    }
+}
+
+expose(new DuckDBService());
 ```
 
-## 7. Phase Rollout
+### 4.3 Svelte UI Usage
+Because of Comlink, the Svelte component doesn't need to deal with `onmessage` event listeners.
 
-| Phase | Workers Added |
-|---|---|
-| Phase 1 (done) | `duckdb` |
-| Phase 2 | `tesseract`, `mupdf` |
-| Phase 3 | `ffmpeg`, `whisper`, `magick` |
-| Phase 4 | `treesitter` |
-| Phase 5 | `webllm`, `onnx` |
+```svelte
+<script lang="ts">
+    import { WorkerManager } from '$lib/workers/WorkerManager';
+    
+    let result = null;
+
+    async function runQuery() {
+        // Automatically lazy-loads and initializes if it's the first time
+        const db = await WorkerManager.getDuckDB();
+        result = await db.executeQuery("SELECT * FROM table");
+    }
+</script>
+
+<button on:click={runQuery}>Run Query</button>
+```
+
+## 5. Security & Invariants
+1. **No Shared State:** Workers cannot access the DOM or Svelte stores. All data must be passed as arguments (preferably via `SharedArrayBuffer` for large datasets to avoid copy overhead).
+2. **Graceful Termination:** The `WorkerManager` must include a `terminate(workerId)` method to kill a worker if it hangs (e.g., a user writes an infinite loop SQL query).
+3. **Hardware Limits:** The manager should cap the number of active workers based on `navigator.hardwareConcurrency` to prevent CPU thrashing.

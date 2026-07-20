@@ -1,32 +1,33 @@
-# Task 2: Data Ingestion and Local File Access
+# Task 2: Data Ingestion and Local File Access (v2 Streams API)
 
 ## Objective
-Implement the local file ingestion pipeline, utilizing the File System Access API to load data directly into the browser and process it using memory-efficient streams.
+Implement the zero-copy data ingestion pipeline by using the File System Access API and passing the `File` object through Comlink directly to DuckDB WASM, avoiding memory crashes on large datasets.
 
 ## Prerequisites
-- Completion of Task 1 (Scaffolding and Web Worker Integration).
-- Review `docs/specs/phase-1/01_data_ingestion_spec.md`.
+- Review `docs/specs/phase-1/02_query_engine_spec.md`.
+- Ensure Task 1 (WorkerPool setup) is complete and tested.
 
 ## Implementation Steps
 
-### 1. File Selection UI
-- Create a UI component (`FilePicker.svelte`) utilizing the File System Access API (`showOpenFilePicker`).
-- Add fallback to standard `<input type="file">` for unsupported browsers.
-- Support file types: `.csv`, `.json`, `.parquet`.
+### 1. Implement File Picker UI
+- In `src/routes/+page.svelte`, create a drag-and-drop zone and a "Select File" button.
+- Bind the button to invoke the `window.showOpenFilePicker()` API.
+- Ensure the picker accepts `.csv`, `.json`, and `.parquet` files.
 
-### 2. Stream Processing & Loading to DuckDB
-- Implement logic to read the selected file as a stream or `ArrayBuffer`.
-- Extend the `ui_worker_contract.md` and Web Worker (`duckdb.worker.ts`) to handle a `LOAD_FILE` action.
-- Use DuckDB WASM's virtual file system (VFS) to register the local file blob/buffer.
-- Execute a `CREATE TABLE ... AS SELECT * FROM ...` query to persist the data into DuckDB's in-memory storage.
+### 2. Expand the Worker Contract
+- Update `ui_worker_contract.md` (if needed) and the DuckDB Worker class to implement `registerFile(file: File, tableName: string)`.
 
-### 3. Basic Schema Inference
-- After loading the file into DuckDB, execute a `DESCRIBE` or `PRAGMA table_info` query.
-- Parse the output to determine column names and inferred data types.
-- Store this schema information in a Svelte store for use by the UI.
+### 3. Implement DuckDB File Registration
+- In `src/lib/workers/duckdb.worker.ts`, write the logic for `registerFile()`.
+- Use the `@duckdb/duckdb-wasm` API to register the file handle (`db.registerFileHandle(...)`).
+- After registering the file, execute a `CREATE VIEW` query so the user can immediately select from the file as a table (e.g., `CREATE VIEW uploaded_data AS SELECT * FROM read_csv_auto('filename.csv')`).
 
-## Acceptance Criteria
-- [ ] Users can select a CSV/Parquet file from their local machine.
-- [ ] The file is loaded into DuckDB WASM without uploading to a server.
-- [ ] The schema (columns and types) is correctly inferred and displayed in the UI.
-- [ ] Loading large files (e.g., 50MB+) does not crash the browser tab.
+### 4. Connect UI to Worker
+- In the Svelte component, after obtaining the `File` from the picker, call `WorkerManager.getDuckDB()`.
+- Await the `registerFile()` method, passing the local file object.
+- Show a success notification or error toast upon completion.
+
+## Definition of Done
+- A 5GB CSV can be selected and registered without the browser tab crashing.
+- The browser Memory profile shows no spikes when the file is selected (proving it's not being read into memory via `FileReader`).
+- DuckDB successfully registers the virtual file.

@@ -1,39 +1,46 @@
-# Phase 1: Query Engine & Analytics Specification
+# Spec: Query Engine & Streams API (v2)
 
-## 1. Overview
-The Query Engine is the computational heart of Phase 1. It utilizes WebAssembly (DuckDB WASM) running in Web Workers to perform complex SQL queries, aggregations, and data transformations locally in the browser, matching native database speeds.
+## 1. Objective
+Enable LocalMind to query massive files (e.g., 5GB automotive telemetry CSVs) entirely in the browser without exceeding the V8 memory limit (typically 2-4GB per tab). We achieve this by avoiding `FileReader.readAsText()` and instead using the **File System Access API** combined with **Streams API** to pass chunks directly into DuckDB WASM.
 
-## 2. Core Features
+## 2. Architecture
 
-### 2.1 Local SQL Execution
-- **Engine**: DuckDB WASM.
-- **Functionality**: Execute standard SQL (SELECT, JOIN, GROUP BY, window functions) against loaded CSV, JSON, and Parquet files.
-- **Persistence**: Save frequently used queries to a local IndexedDB/wa-sqlite store.
+```mermaid
+graph LR
+    Disk[Local Hard Drive] --> |File System Access API| Handle[FileSystemFileHandle]
+    Handle --> |ReadableStream| Stream[Chunked Data Stream]
+    Stream --> |Zero-Copy| DuckDB[DuckDB WASM]
+    DuckDB --> |SQL Query| Results[JSON / Arrow]
+```
 
-### 2.2 Visualizations & Profiling
-- **Column Statistics**: Automatically calculate min, max, mean, null count, and unique values for each column.
-- **Charting**: Generate Pivot tables, line charts, bar charts, and pie charts using Apache ECharts based on query results.
+## 3. Implementation Flow
 
-### 2.3 Data Diffing
-- **Behavior**: Compare two datasets (e.g., last month's CSV vs. this month's CSV).
-- **Output**: Highlight added rows, deleted rows, and modified values.
+### 3.1 Obtaining the File Handle
+Instead of `<input type="file">`, we use `window.showOpenFilePicker()` to get a `FileSystemFileHandle`. This prevents the browser from loading the file into memory and grants us direct disk read access.
 
-### 2.4 Python Notebook (Optional Module)
-- **Engine**: Pyodide WASM.
-- **Behavior**: Allow advanced users to run pandas/polars scripts locally against the loaded data for custom data cleaning or analysis.
+```typescript
+const [fileHandle] = await window.showOpenFilePicker({
+    types: [{ accept: { 'text/csv': ['.csv'], 'application/json': ['.json'] } }]
+});
+```
 
-## 3. Architecture & Threading
-- **Isolation**: DuckDB WASM and Pyodide MUST run in dedicated Web Workers.
-- **WorkerPool**: Workers are managed exclusively through `src/lib/services/WorkerPool.ts` — no Svelte component may instantiate a Worker directly. See `docs/specs/cross_cutting/01_worker_pool_spec.md`.
-- **Communication**: The main UI thread communicates with the engine via asynchronous message passing (detailed in `docs/contracts/phase-1/ui_worker_contract.md`).
-- **Concurrency**: Support cancelling long-running queries without hanging the application.
-- **Crash Recovery**: The WorkerPool MUST intercept `messageerror` and `unhandledrejection` events from the DuckDB worker. On crash:
-  1. Set the worker state to `ERROR`.
-  2. Surface a user-visible error toast with a "Restart Engine" action.
-  3. Attempt to automatically re-initialize the worker after a 2-second delay.
-  4. The UI must never hang silently — if a query response does not arrive within 30 seconds, treat it as a timeout crash.
+### 3.2 Registering the File with DuckDB
+DuckDB WASM supports registering an HTML5 File object directly, which internally uses stream buffering.
 
-## 4. Non-Functional Requirements
-- **Performance**: Simple aggregations on a 1M row dataset should return in < 500ms.
-- **Resilience**: Out-of-memory errors in the Web Worker must be caught and presented gracefully to the user in the UI.
-- **Benchmarking**: Performance targets must be validated using `vitest bench` in a dedicated `bench/` directory. Targets: `<2s` parse for 100MB CSV, `<500ms` for 1M-row aggregation. These are regression gates — CI should fail if targets are exceeded by >20%.
+```typescript
+// Inside duckdb.worker.ts
+import * as duckdb from '@duckdb/duckdb-wasm';
+
+async function registerVirtualFile(file: File, tableName: string) {
+    // DuckDB WASM handles the chunking internally when passed a File object
+    await db.registerFileHandle(file.name, file, duckdb.DuckDBDataProtocol.BROWSER_FILEREADER, true);
+    
+    // Create a view or table from the registered file
+    await conn.query(`CREATE VIEW ${tableName} AS SELECT * FROM read_csv_auto('${file.name}')`);
+}
+```
+
+### 3.3 Memory Invariants
+- **NEVER** use `await file.text()` or `await file.arrayBuffer()` on files over 10MB.
+- **ALWAYS** stream data directly into the WASM engine.
+- Results returned from `query()` should be paginated (e.g., `LIMIT 100`) to prevent the result set itself from crashing the UI thread.
