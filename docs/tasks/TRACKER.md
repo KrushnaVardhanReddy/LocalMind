@@ -7,7 +7,7 @@
 - [x] Task 1: Core Scaffolding & WorkerPool Abstraction 🔄 *(Completed - Jules ID: 14075293772290182711)*
 - [x] Task 2: wa-sqlite Workspace Persistence 🔄 *(Completed - PR #12)* (`docs/tasks/cross_cutting/task_wa_sqlite.md`)
 - [x] Task 3: Production COOP/COEP Headers 🔄 *(Completed - PR #11)* (`docs/tasks/cross_cutting/task_production_headers.md`)
-- [ ] Task 4: PWA & Offline Support (`docs/tasks/cross_cutting/task_pwa.md`)
+- [x] Task 4: PWA & Offline Support 🔄 *(Completed)* (`docs/tasks/cross_cutting/task_pwa.md`)
 - [ ] Task 5: Custom WASM Plugin Runtime (`docs/tasks/phase-7/task1_plugin_runtime.md`)
 
 ---
