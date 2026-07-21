@@ -1,35 +1,35 @@
-# Task 4: Consent-Gated AI Insights
+# Task 4: Consent-Gated AI Insights (v2)
 
 ## Objective
-Implement the optional, privacy-preserving AI features (Insights and Text-to-SQL) while strictly adhering to the consent model.
+Implement the "Bring Your Own Key" (BYOK) AI integration, ensuring that no data leaves the browser without explicit user consent and strict truncation.
 
 ## Prerequisites
-- Completion of Task 3 (Query Execution).
 - Review `docs/specs/phase-1/03_ai_insights_spec.md`.
-- Review `docs/contracts/phase-1/cloud_ai_contract.md`.
+- Ensure Task 3 is complete.
 
 ## Implementation Steps
 
-### 1. Global AI Toggle
-- Add a global settings toggle to enable/disable AI features entirely. Store this preference in `localStorage`.
-- Ensure AI UI elements are completely hidden when disabled.
+### 1. LLM Worker Setup
+- Create `src/lib/workers/llm.worker.ts`.
+- Implement `setApiKey()` and `analyzeData()` using standard `fetch` calls to the OpenAI/Anthropic REST APIs.
+- Expose the class via Comlink.
 
-### 2. Text-to-SQL Feature
-- Build an input field for natural language questions.
-- When submitted, extract the current schema (columns/types).
-- **Consent Dialog**: Display a modal showing the exact schema payload that will be sent to the AI provider. Ask for user confirmation.
-- Upon consent, call the AI provider API to generate SQL.
-- Automatically populate the SQL editor with the result and execute it.
+### 2. Add Settings Modal
+- Add a settings gear icon in the UI.
+- Create a modal where the user can paste their `OPENAI_API_KEY`. Save this key in `localStorage`.
 
-### 3. Aggregated Insights
-- Create a button to "Generate Insights" for the current dataset or query result.
-- Calculate basic aggregated statistics locally via DuckDB (e.g., top categories, general trends).
-- **Consent Dialog**: Display the aggregated JSON payload to the user for review. Ensure no raw rows are included.
-- Upon consent, send the payload to the AI provider to generate a natural language summary.
-- Display the generated summary in the UI.
+### 3. Implement the Consent Flow
+- Add an "Ask AI to Analyze" button next to the query results from Task 3.
+- When clicked, do not send data immediately. Show a modal displaying the exact JSON string of the first 5 rows and the schema.
+- Add an "I Consent, Send to AI" button.
 
-## Acceptance Criteria
-- [ ] AI features can be completely disabled globally.
-- [ ] A consent dialog explicitly shows the exact payload before ANY network request is made to an AI provider.
-- [ ] Text-to-SQL successfully translates natural language to queries using only schema data.
-- [ ] Insights generation successfully uses locally aggregated data to provide plain-language summaries.
+### 4. Fetch and Render Insights
+- Upon consent, pass the data to the LLM worker.
+- Display a loading skeleton in the UI.
+- Render the Markdown response returned from the worker.
+
+## Definition of Done
+- A user can enter their API key.
+- The consent modal intercepts all outbound AI requests.
+- The API call happens in a Web Worker, not the main thread.
+- The UI safely renders the AI's markdown response.

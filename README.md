@@ -22,17 +22,14 @@ This is not another online file converter. This is a **privacy-first computing p
 
 ## Status
 
-> 🔨 **Currently building — Phase 2: Document Workspace**
+> 🔨 **Currently building — LocalMind Core MVP**
 
-| Phase | Scope | Status |
+| Module | Scope | Status |
 |---|---|---|
-| Phase 1 — Data | CSV, Excel, JSON, SQL, Charts | 🔨 v2 Rewrite |
-| Phase 2 — Documents | PDF, DOCX, OCR, Search | 🔨 In Progress |
-| Phase 3 — Media | Image, Audio, Video conversion | 📋 Planned |
-| Phase 4 — Developer & QA | Logs, APIs, Test Data, Network | 📋 Planned |
-| Phase 5 — Intelligence | Local LLM, Transcription, Semantic Search | 🔬 Research |
-| Phase 6 — Specialized | 3D CAD, Geo-Spatial, Cryptography | 💡 Idea |
-| Phase 7 — Plugins | Custom User WASM Execution Runtime | 💡 Idea |
+| **LocalMind Analytics** | CSV, Excel, JSON, SQL, Charts | 🔨 v2 Rewrite |
+| **LocalMind Docs** | PDF, DOCX, OCR, Search | 🔨 In Progress |
+| **LocalMind DevTools** | JSON Validators, Logs, APIs | 📋 Planned |
+| **Plugin Ecosystem** | Media, Intelligence, Special Apps | 🔬 Post-MVP |
 
 ---
 
@@ -92,9 +89,11 @@ Users can disable AI features entirely. Local processing is always available, re
 
 ---
 
-## Product Modules
+## Core Product MVP
 
-### 1. Data Workspace
+The core of LocalMind focuses strictly on data, documents, and developer utilities.
+
+### 1. LocalMind Analytics
 Process structured data at scale, directly in the browser.
 
 | Format | Features |
@@ -111,13 +110,13 @@ Process structured data at scale, directly in the browser.
 | | **Drag-and-Drop BI Pivot (Tableau-style)** — visually explore data by dragging dimensions and measures to generate charts without writing SQL |
 | | **Python Notebook** — run pandas/numpy/polars locally via Pyodide WASM |
 | | **Interactive Dashboards** — pin multiple charts to a grid, linked by global filters, saved locally via OPFS |
-| | **AI Chart Customization** — describe a chart in plain English; AI returns an ECharts config applied instantly. Works via consent-gated cloud AI (BYOK) or fully locally via WebLLM (Phase 5). No raw data leaves the device. |
+| | **AI Chart Customization** — describe a chart in plain English; AI returns an ECharts config applied instantly. |
 | | Export results in multiple formats |
 | | Optional AI insights (consent-gated) |
 
 ---
 
-### 2. Document Workspace
+### 2. LocalMind Docs
 Extract meaning from documents without cloud parsing APIs.
 
 | Format | Features |
@@ -137,28 +136,7 @@ Extract meaning from documents without cloud parsing APIs.
 
 ---
 
-### 3. Media Workspace
-Convert, compress, and transform media without uploads.
-
-| Format | Features |
-|---|---|
-| Images, Audio, Video | Format conversion via FFmpeg WASM |
-| | Compression and resizing |
-| | Crop, watermark, thumbnail generation |
-| | **Instant Video Clipper** — visually trim and crop massive videos instantly without uploads |
-| | **Vocal & Stem Separation** — isolate vocals, drums, and bass from audio tracks locally via ONNX AI models |
-| | Batch processing |
-| | **Background Removal** — instant, local AI cutout via rembg (WebGPU) |
-| | **SVG Vectorizer** — convert PNG/JPG logos to crisp SVG paths via potrace-wasm |
-| | **Auto-Subtitles** — generate `.srt` or `.vtt` captions from video files locally via Whisper WASM |
-| | **Advanced image processing** — filters, compositing, RAW conversion via magick-wasm |
-| | **Audio transcription** — convert any audio/video to text locally via Whisper WASM |
-| | **EXIF/Metadata inspector** — view or strip metadata from images and videos |
-| | **Barcode & QR reader** — decode any barcode from an image via ZXing WASM |
-
----
-
-### 4. Developer & QA Workspace
+### 3. LocalMind DevTools
 Utilities for engineers and QA testers working with structured formats, network logs, and testing.
 
 | Format | Features |
@@ -185,56 +163,14 @@ Utilities for engineers and QA testers working with structured formats, network 
 
 ---
 
-### 5. Intelligence Workspace *(Phase 5 — Research)*
-Fully local AI — no cloud, no API keys, no data ever leaves the device.
+## Future Plugin Ecosystem (Post-MVP)
 
-This module flips the default AI model entirely. Instead of the consent-gated cloud bridge, Intelligence Workspace runs small language models directly in the browser using WebGPU acceleration.
+To prevent scope creep and maintain a laser focus on the core MVP, all specialized modules will be built as external **WASM plugins** that plug into the LocalMind Engine.
 
-| Capability | Engine | What It Does |
-|---|---|---|
-| **Local LLM Chat** | WebLLM (WebGPU) | Run Phi-3, Gemma 2B, Llama 3.2 locally — OpenAI-compatible API, zero cloud calls |
-| **Audio Transcription** | Whisper WASM | Transcribe meeting recordings, interviews, dictation — entirely offline |
-| **Semantic Search** | Transformers.js + ONNX | "Ask your documents" - Embed documents locally, search by meaning across your entire workspace offline |
-| **Embedding Clustering** | UMAP (WASM) | Visualize high-dimensional semantic data (like customer segments) in 2D/3D locally |
-| **YouTube Local Summary** | WebLLM (WebGPU) | Paste a YouTube URL to generate a summary entirely on your local GPU (no cloud AI required) |
-| **Local AI Data Janitor** | WebLLM (WebGPU) | Clean datasets row-by-row locally (e.g. format phone numbers, normalize addresses) without cloud APIs |
-| **Text Classification** | Transformers.js | Sentiment analysis, topic classification, intent detection — no API |
-| **Local Translation** | Transformers.js | Translate documents between languages without cloud APIs |
-| **Named Entity Recognition** | Transformers.js | Extract people, orgs, dates, locations from documents locally |
-
-> **Hardware note:** Local LLM requires a device with WebGPU support and ≥8GB RAM. Smaller models (1B–3B params) work well on modern laptops. The transcription and NLP features run on CPU via WASM and work on any device.
-
----
-
-### 6. Specialized Workspaces *(Phase 6)*
-Tools for highly proprietary, industry-specific file formats that cannot be uploaded to cloud platforms.
-
-| Workspace | Engine | What It Does |
-|---|---|---|
-| **Geo-Spatial** | gdal3.js | Convert proprietary shapefiles (.shp) to GeoJSON, reproject maps locally. |
-| **3D CAD & Printing** | OpenCascade.js | View product designs (.step), convert to .stl, and preview G-Code layers for 3D printing. |
-| **Security/Crypto** | libsodium.js | File encryption, key generation, hash validation — zero risk of key leakage. |
-
----
-
-### 7. Custom WASM Plugin Runtime *(Phase 7)*
-Turning LocalMind into an extensible platform.
-
-| Capability | What It Does |
-|---|---|
-| **BYOW (Bring Your Own WASM)** | Users compile their own C++/Rust scripts to `.wasm` and load them into LocalMind. |
-| **Data Pipelines** | Drop a proprietary file, select your custom WASM module, and process it locally. |
-| **Marketplace** | A community-driven library of open-source WASM modules for niche data formats. |
-
----
-
-### 8. Canvas Workspace *(Phase 8)*
-The ultimate offline investigation board.
-
-| Capability | What It Does |
-|---|---|
-| **Infinite Whiteboard** | Drag ECharts, extracted PDF text, and SQL tables onto an infinite, zoomable Excalidraw-style canvas. Saves locally. |
-| **Visual Linking** | Draw arrows between data points, text blocks, and insights to map complex investigations. |
+- **LocalMind Intelligence:** Fully local AI (Phi-3, Llama 3) via WebGPU, semantic search, and clustering.
+- **LocalMind Media:** Transcode and process images, audio, and video via FFmpeg WASM. 
+- **LocalMind Canvas:** Infinite Excalidraw-style whiteboard for investigation mapping.
+- **Specialized Niche Plugins:** Geospatial tools (gdal3.js), 3D CAD viewer (OpenCascade.js), and Cryptography (libsodium).
 
 ---
 
@@ -506,6 +442,11 @@ Every segment has the same core problem: they have sensitive files, they need to
 * **The Pain:** Need to encrypt files or generate hashes, but pasting keys into online tools is a security violation.
 * **The Solution:** File encryption and hashing using libsodium.js, entirely client-side.
 * **Why they pay:** Trusted, auditable local toolset.
+
+**Education & K-12 Administration**
+* **The Pain:** Schools are bound by strict FERPA (US) and GDPR (EU) privacy laws. Teachers and administrators cannot legally upload student grades, attendance, or Individualized Education Programs (IEPs) to unvetted cloud AI tools. Furthermore, students on IT-locked Chromebooks cannot install data science tools like Python or PostgreSQL.
+* **The Solution:** A principal can drag a massive CSV of student data into LocalMind to run pivot tables and charts securely in the browser without uploading any PII. Students can load LocalMind (even offline) to learn SQL and process media without ever installing desktop software.
+* **Why they pay:** Guaranteed student data compliance and seamless access on restricted school hardware.
 
 ---
 
