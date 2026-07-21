@@ -29,6 +29,7 @@
 	},
 	"dependencies": {
 		"@duckdb/duckdb-wasm": "^1.33.1-dev57.0",
-		"comlink": "^4.4.2"
+		"comlink": "^4.4.2",
+		"wa-sqlite": "^1.0.0"
 	}
 }
