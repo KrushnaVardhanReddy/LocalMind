@@ -19,7 +19,8 @@ describe('WorkerManager', () => {
         // Reset the singleton state (hacky, but necessary for static class testing)
         (WorkerManager as any).proxies.clear();
         (WorkerManager as any).instances.clear();
-        (WorkerManager as any).initPromise = null;
+        (WorkerManager as any).initDuckDBPromise = null;
+        (WorkerManager as any).initSQLitePromise = null;
     });
 
     it('should lazily initialize the DuckDB worker exactly once', async () => {
@@ -36,7 +37,6 @@ describe('WorkerManager', () => {
 
     it('should initialize exactly once even for concurrent calls', async () => {
         expect(mockWorker).not.toHaveBeenCalled();
-        (WorkerManager as any).initPromise = null;
 
         const [db1, db2] = await Promise.all([
             WorkerManager.getDuckDB(),
