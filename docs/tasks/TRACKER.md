@@ -7,8 +7,8 @@
 - [x] Task 1: Core Scaffolding & WorkerPool Abstraction 🔄 *(Completed - Jules ID: 14075293772290182711)*
 - [x] Task 2: wa-sqlite Workspace Persistence 🔄 *(Completed - PR #12)* (`docs/tasks/cross_cutting/task_wa_sqlite.md`)
 - [x] Task 3: Production COOP/COEP Headers 🔄 *(Completed - PR #11)* (`docs/tasks/cross_cutting/task_production_headers.md`)
-- [ ] Task 4: PWA & Offline Support (`docs/tasks/cross_cutting/task_pwa.md`)
-- [ ] Task 5: Custom WASM Plugin Runtime (`docs/tasks/phase-7/task1_plugin_runtime.md`)
+- [ ] Task 4: PWA & Offline Support 🔄 *(Running - Jules ID: 12150458870897198267)* (`docs/tasks/cross_cutting/task_pwa.md`)
+- [ ] Task 5: Custom WASM Plugin Runtime 🔄 *(Running - Jules ID: 17168036313140878519)* (`docs/tasks/phase-7/task1_plugin_runtime.md`)
 
 ---
 
@@ -19,7 +19,7 @@
 *Data Ingestion & Visualization*
 - [ ] Task 1.1: Data Ingestion and Local File Access (v2 Streams API)
 - [ ] Task 1.2: Query Execution and Data Visualization (v2)
-- [ ] Task 1.3: Consent-Gated AI Insights (`docs/tasks/phase-1/task4.md`)
+- [ ] Task 1.3: Consent-Gated AI Insights 🔄 *(Running - Jules ID: 18355676882757149333)* (`docs/tasks/phase-1/task4.md`)
 - [ ] Task 5: AI-Assisted Chart Customization (`docs/tasks/phase-1/task5_ai_chart.md`)
 - [ ] Task 6: Multi-File Auto-Joins & Visual Data Diffing (`docs/tasks/phase-1/task6_joins_diff.md`)
 - [ ] Task 7: Tableau-Style BI Pivot Builder (`docs/tasks/phase-1/task7_bi_pivot.md`)
