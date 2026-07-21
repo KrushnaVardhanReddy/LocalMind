@@ -3,6 +3,7 @@ import { wrap } from 'comlink';
 export class WorkerManager {
     private static instances: Map<string, Worker> = new Map();
     private static proxies: Map<string, any> = new Map();
+    private static pluginProxies: Map<string, any> = new Map();
 
     private static initDuckDBPromise: Promise<any> | null = null;
     private static initSQLitePromise: Promise<any> | null = null;
@@ -49,5 +50,23 @@ export class WorkerManager {
         }
 
         return this.initSQLitePromise;
+    }
+
+    public static registerPluginWorker(pluginId: string, worker: Worker, proxy: any) {
+        this.instances.set(`plugin_${pluginId}`, worker);
+        this.pluginProxies.set(pluginId, proxy);
+    }
+
+    public static getPluginWorker(pluginId: string) {
+        return this.pluginProxies.get(pluginId);
+    }
+
+    public static removePluginWorker(pluginId: string) {
+        const worker = this.instances.get(`plugin_${pluginId}`);
+        if (worker) {
+            worker.terminate();
+            this.instances.delete(`plugin_${pluginId}`);
+        }
+        this.pluginProxies.delete(pluginId);
     }
 }
