@@ -5,8 +5,8 @@
 ## 1. LocalMind Core (The Platform Engine)
 *The foundational OS layer that all vertical apps plug into.*
 - [x] Task 1: Core Scaffolding & WorkerPool Abstraction 🔄 *(Completed - Jules ID: 14075293772290182711)*
-- [x] Task 2: wa-sqlite Workspace Persistence 🔄 *(Running - Jules ID: 8553643721779067855)* (`docs/tasks/cross_cutting/task_wa_sqlite.md`)
-- [x] Task 3: Production COOP/COEP Headers 🔄 *(Running - Jules ID: 6905696709514901202)* (`docs/tasks/cross_cutting/task_production_headers.md`)
+- [x] Task 2: wa-sqlite Workspace Persistence 🔄 *(Completed - PR #12)* (`docs/tasks/cross_cutting/task_wa_sqlite.md`)
+- [x] Task 3: Production COOP/COEP Headers 🔄 *(Completed - PR #11)* (`docs/tasks/cross_cutting/task_production_headers.md`)
 - [ ] Task 4: PWA & Offline Support (`docs/tasks/cross_cutting/task_pwa.md`)
 - [ ] Task 5: Custom WASM Plugin Runtime (`docs/tasks/phase-7/task1_plugin_runtime.md`)
 
