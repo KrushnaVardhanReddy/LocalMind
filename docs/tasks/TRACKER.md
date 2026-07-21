@@ -19,7 +19,7 @@
 *Data Ingestion & Visualization*
 - [ ] Task 1.1: Data Ingestion and Local File Access (v2 Streams API)
 - [ ] Task 1.2: Query Execution and Data Visualization (v2)
-- [ ] Task 1.3: Consent-Gated AI Insights (`docs/tasks/phase-1/task4.md`)
+- [x] Task 1.3: Consent-Gated AI Insights (`docs/tasks/phase-1/task4.md`)
 - [ ] Task 5: AI-Assisted Chart Customization (`docs/tasks/phase-1/task5_ai_chart.md`)
 - [ ] Task 6: Multi-File Auto-Joins & Visual Data Diffing (`docs/tasks/phase-1/task6_joins_diff.md`)
 - [ ] Task 7: Tableau-Style BI Pivot Builder (`docs/tasks/phase-1/task7_bi_pivot.md`)
