@@ -69,6 +69,7 @@ MANDATORY RULES — VIOLATION = REJECTED PR:
 6. UNIT TESTS ARE MANDATORY: Every feature PR must include `*.test.ts` files using Vitest. Do not submit code without tests.
 7. Commit message must start with "jules: " prefix.
 8. 100% SPEC-FIRST RULE: If your implementation deviates from the spec in docs/specs/, STOP and flag it.
+9. WIKI MAINTAINER: Read `docs/wiki/Home.md` first to understand project architecture. Update the wiki if your implementation introduces new concepts (see `CLAUDE.md`).
 
 Project: LocalMind — A browser-native, privacy-first workspace for processing data, documents, and media.
 Tech stack:
@@ -83,6 +84,7 @@ Repo layout:
   src/lib/workers/— Web Worker implementations and Comlink service classes
   docs/specs/     — Source-of-truth specification files (READ ONLY for Jules)
   docs/tasks/     — Actionable Jules implementation tasks
+  docs/wiki/      — High-level architectural overviews and philosophy
   scripts/        — Automation scripts (jules_submit.py, stitch_submit.py)
 """.strip()
 
