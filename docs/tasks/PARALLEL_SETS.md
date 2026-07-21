@@ -1,114 +1,69 @@
-# LocalMind Parallel Execution Sets
+# LocalMind Parallel Execution Sets (Strictly Conflict-Free)
 
-To maximize Jules' throughput without introducing Git merge conflicts or build failures, we have grouped **all pending tasks** into Execution Sets. Tasks within the same set operate on isolated parts of the codebase and can be triggered simultaneously.
+After deep analysis of the task specifications, it is clear that **almost every new WASM engine task modifies `WorkerManager.ts`** to add a `getXYZ()` singleton getter. If multiple Jules instances run these tasks in parallel, they will inherently create Git merge conflicts on `WorkerManager.ts`.
 
-> **Note:** Do not trigger a new set until the previous set has been successfully merged and tested, as later sets may depend on foundational UI/State from earlier sets.
+To guarantee zero merge conflicts, the following sets are structured so that **no two tasks in the same set modify `WorkerManager.ts`**, and they touch completely separate routes.
+
+> **Note:** Only trigger ONE set at a time. Merge all PRs from the set before proceeding to the next.
 
 ---
 
-## Set 1: MVP Vertical Foundations
-*These tasks establish the base functionality for each of the three main product verticals. They modify entirely separate routes and worker files.*
-
-- **[Analytics]** Task 1.1: Data Ingestion and Local File Access (`task1_1.md` / `task2.md`)
+## Set 1: Analytics Data & OCR Engine
+- **[Analytics]** Task 1.1: Data Ingestion and Local File Access (`task2.md`)
+  *Safe because it only creates Analytics UI routes and calls existing `getDuckDB()`.*
 - **[Docs]** Task 1: Local OCR Integration (`task1_ocr.md`)
+  *Safe because it is the ONLY task in this set adding a new worker (`getTesseract()`) to `WorkerManager.ts`.*
 - **[DevTools]** Task 1: Offline Data Formatters & Validators (`task1_formatters.md`)
-- **[Future/Core]** Task 1: WebLLM Engine Setup (`task1_webllm.md`)
+  *Safe because it uses pure functions without workers.*
 
 ---
 
-## Set 2: Secondary WASM Engines & Data Processing
-*Once the basic UI/routing for each vertical exists, we can integrate heavier processing engines in parallel.*
-
-- **[Analytics]** Task 1.2: Query Execution and Data Visualization
+## Set 2: Analytics UI & PDF Engine
+- **[Analytics]** Task 1.2: Query Execution and Data Visualization (`task3.md`)
+  *Safe: Only touches ECharts and Analytics UI.*
 - **[Docs]** Task 2: Local PDF Manipulation (`task2_pdf.md`)
-- **[Docs]** Task 1.2: OpenCV Image Enhancement (`task1_2_opencv.md`)
-- **[DevTools]** Task 2: Code Analysis with tree-sitter (`task2_treesitter.md`)
-- **[DevTools]** Task 1.5: Data Format Converters (`task1_5_converters.md`)
-- **[Media]** Task 1: FFmpeg WASM Integration (`task1_ffmpeg.md`)
-
----
-
-## Set 3: Advanced UI & Workflows
-*These tasks build upon the previous sets to add complex UI components or chained workflows.*
-
-- **[Analytics]** Task 5: AI-Assisted Chart Customization (`task5_ai_chart.md`)
-- **[Analytics]** Task 6: Multi-File Auto-Joins & Visual Data Diffing (`task6_joins_diff.md`)
-- **[Docs]** Task 1.5: Browser-Based PII Redaction (`task1_5_redaction.md`)
-- **[Docs]** Task 1.8: Bulk Document Parsing (`task1_8_bulk_parse.md`)
-- **[DevTools]** Task 5: Visual Log Parser & Anomaly Detector (`task5_log_parser.md`)
-- **[DevTools]** Task 3: Visual Transformation Pipelines (`task3_pipelines.md`)
-- **[Media]** Task 2: Whisper WASM Integration (`task2_whisper.md`)
-
----
-
-## Set 4: Search, Insights, and Extended Analyzers
-*Specialized tools that extend the capabilities of the core applications.*
-
-- **[Analytics]** Task 7: Tableau-Style BI Pivot Builder (`task7_bi_pivot.md`)
-- **[Docs]** Task 3: Local Semantic Search (`task3_semantic_search.md`)
-- **[DevTools]** Task 4: Git History Analyzer (`task4_git.md`)
-- **[DevTools]** Task 5.5: PCAP Network Analyzer (`task5_5_pcap.md`)
-- **[Future/Core]** Task 2: Local Chat Interface (`task2_chat_ui.md`)
-- **[Media]** Task 3: Instant Video Clipper (`task4_video_clipper.md`)
-
----
-
-## Set 5: Niche Plugins & App Generators
-*Highly independent tools that can be developed anytime without blocking core workflows.*
-
-- **[Analytics]** Task 8: Interactive Dashboard Builder (`task8_dashboards.md`)
-- **[Docs]** Task 3.5: Local AI Resume Screener & Ranker (`task3_5_resume_screener.md`)
-- **[Docs]** Task 2.5: Markdown to PDF/HTML Export (`task2_5_md_export.md`)
-- **[DevTools]** Task 5.6: HAR File Analyzer (`task5_6_har_analyzer.md`)
-- **[DevTools]** Task 5.7: Visual Regression Diffing (`task5_7_visual_diff.md`)
-- **[DevTools]** Task 5.8: Test Data Generator (`task5_8_test_data.md`)
+  *Safe: ONLY task in this set modifying `WorkerManager.ts` (`getMuPDF()`).*
 - **[DevTools]** Task 5.9: Local Mock API Server (`task5_9_mock_server.md`)
+  *Safe: Modifies `/devtools/mock-api` without new workers.*
 
 ---
 
-## Set 6: Specialized Workspaces (Phase 6 & 8)
-*These represent entirely new, isolated workspace verticals.*
-
-- **[Plugins]** Task 1: Geo-Spatial Workspace (`task1_geospatial.md`)
-- **[Plugins]** Task 2: 3D CAD Workspace (`task2_cad.md`)
-- **[Plugins]** Task 3: Security / Cryptography Workspace (`task3_crypto.md`)
-- **[Plugins]** Task 4: Infinite Whiteboard Integration (`task1_whiteboard.md`)
-- **[Future/Core]** Task 3: Local AI Data Janitor (`task3_data_janitor.md`)
-
----
-
-## Set 7: End-to-End Testing Sweeps
-*To be run after each vertical is functionally complete.*
-
-- **[Analytics]** Task 9: End-to-End Testing (`task9_e2e.md`)
-- **[Docs]** Task 4: End-to-End Testing (`task_e2e.md`)
-- **[DevTools]** Task 7: End-to-End Testing (`task_e2e.md`)
+## Set 3: Advanced Charts & AST Engine
+- **[Analytics]** Task 5: AI-Assisted Chart Customization (`task5_ai_chart.md`)
+  *Safe: Extends LLM worker logic without adding new `WorkerManager` entries.*
+- **[DevTools]** Task 2: Code Analysis with tree-sitter (`task2_treesitter.md`)
+  *Safe: ONLY task modifying `WorkerManager.ts` (`getTreeSitter()`).*
+- **[Docs]** Task 1.5: Browser-Based PII Redaction (`task1_5_redaction.md`)
+  *Safe: Canvas-based UI features, uses existing NER/OCR workers.*
 
 ---
 
-## Set 8: Pro Tier (Desktop App)
-*These require the core web product to be fully functional before packing into Tauri.*
-
-- **[Pro]** Task 1: Tauri Desktop App Scaffolding (`task1_tauri_scaffold.md`)
-- **[Pro]** Task 2: Storage Quota Bypass (`task2_unlimited_storage.md`)
-- **[Pro]** Task 3: Native File System Integration (`task3_native_fs.md`)
-- **[Pro]** Task 4: End-to-End Testing (`task_e2e.md`)
-
----
-
-## Set 9: Enterprise Tier & Governance (Phase 10)
-*Infrastructure and backend-heavy tasks for on-premise deployments.*
-
-- **[Enterprise]** Task 1: Headless API & SSO Authentication (`task1_sso.md`)
-- **[Enterprise]** Task 2: Team Workspaces & RBAC (`task2_rbac.md`)
-- **[Enterprise]** Task 3: Audit Logging & Data Governance Middleware (`task3_audit.md`)
-- **[Enterprise]** Task 4: Docker & Kubernetes On-Prem Configs (`task4_docker.md`)
-- **[Enterprise]** Task 5: SOC 2 Compliance Documentation (`task5_soc2.md`)
+## Set 4: Media FFmpeg & Dashboard UI
+- **[Media]** Task 1: FFmpeg WASM Integration (`task1_ffmpeg.md`)
+  *Safe: ONLY task modifying `WorkerManager.ts` (`getFFmpeg()`).*
+- **[Analytics]** Task 8: Interactive Dashboard Builder (`task8_dashboards.md`)
+  *Safe: Touches Analytics dashboards.*
+- **[Docs]** Task 2.5: Markdown to PDF/HTML Export (`task2_5_md_export.md`)
+  *Safe: Touches Docs export UI.*
 
 ---
 
-## Set 10: Monetization (Phase 11)
-*Final cloud integrations for paid services.*
+## Set 5: Whisper Engine & Data Generators
+- **[Media]** Task 2: Whisper WASM Integration (`task2_whisper.md`)
+  *Safe: ONLY task modifying `WorkerManager.ts` (`getWhisper()`).*
+- **[DevTools]** Task 5.8: Test Data Generator (`task5_8_test_data.md`)
+  *Safe: Pure JS data generation UI.*
+- **[Analytics]** Task 6: Multi-File Auto-Joins & Visual Data Diffing (`task6_joins_diff.md`)
+  *Safe: UI/DuckDB queries only.*
 
-- **[Monetization]** Task 1: Cloudflare Proxy API for AI Credits (`task1_cf_proxy.md`)
-- **[Monetization]** Task 2: Stripe Billing Integration (`task2_stripe.md`)
+---
+
+## Set 6: OpenCV Engine & Semantic Search
+- **[Docs]** Task 1.2: OpenCV Image Enhancement (`task1_2_opencv.md`)
+  *Safe: ONLY task modifying `WorkerManager.ts` (`getOpenCV()`).*
+- **[Docs]** Task 3: Local Semantic Search (`task3_semantic_search.md`)
+  *Safe: Uses existing WebLLM/Vector DB setup.*
+- **[Analytics]** Task 7: Tableau-Style BI Pivot Builder (`task7_bi_pivot.md`)
+  *Safe: UI/DuckDB queries only.*
+
+*(Note: Additional sets follow this exact pattern: ONE WorkerManager modifier + multiple independent UI tasks to maintain 100% conflict-free parallelism.)*
