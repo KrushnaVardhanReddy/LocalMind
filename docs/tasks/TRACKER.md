@@ -42,7 +42,11 @@
 *Offline Utilities for Developers*
 - [x] Task 1: Offline Data Formatters & Validators (JSON, JWT, Base64) ✅ *(Completed - PR #17)* (`docs/tasks/phase-4/task1_formatters.md`)
 - [ ] Task 1.5: Data Format Converters (JSON <-> YAML <-> XML) (`docs/tasks/phase-4/task1_5_converters.md`)
+<<<<<<< HEAD
 - [ ] Task 2: Code Analysis with tree-sitter 🔄 *(Running - Jules ID: 3307633334321330914)* (`docs/tasks/phase-4/task2_treesitter.md`)
+=======
+- [x] Task 2: Code Analysis with tree-sitter (`docs/tasks/phase-4/task2_treesitter.md`)
+>>>>>>> origin/jules-3307633334321330914-f5845f54
 - [ ] Task 3: Visual Transformation Pipelines (`docs/tasks/phase-4/task3_pipelines.md`)
 - [ ] Task 4: Git History Analyzer (`docs/tasks/phase-4/task4_git.md`)
 - [ ] Task 5: Visual Log Parser & Anomaly Detector (`docs/tasks/phase-4/task5_log_parser.md`)
