@@ -1,83 +1,173 @@
 $ vite dev
-5:03:51 PM [vite] (client) Forced re-optimization of dependencies
 
-  VITE v8.1.5  ready in 1829 ms
+  VITE v8.1.5  ready in 1352 ms
 
   ➜  Local:   http://localhost:5173/
   ➜  Network: use --host to expose
-5:04:42 PM [vite] (client) dependencies optimized: wa-sqlite, wa-sqlite/dist/wa-sqlite-async.mjs, wa-sqlite/src/examples/AccessHandlePoolVFS.js
-5:06:38 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/0.js
-5:06:38 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/1.js
-5:06:38 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/2.js
-5:06:38 PM [vite] (client) page reload .svelte-kit/generated/client/app.js
-5:06:38 PM [vite] (client) page reload .svelte-kit/generated/client/matchers.js
-5:06:38 PM [vite] (ssr) page reload .svelte-kit/generated/shared/error-template.js
-5:06:38 PM [vite] (ssr) page reload .svelte-kit/generated/server/internal.js
-5:06:38 PM [vite] (client) page reload .svelte-kit/generated/root.js
-5:06:38 PM [vite] (ssr) page reload .svelte-kit/generated/root.js
-5:06:38 PM [vite] (ssr) page reload .svelte-kit/generated/root.svelte
-5:06:40 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/0.js
-5:06:40 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/1.js
-5:06:40 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/2.js
-5:06:40 PM [vite] (client) page reload .svelte-kit/generated/client/app.js
-5:06:40 PM [vite] (client) page reload .svelte-kit/generated/client/matchers.js
-5:06:40 PM [vite] (ssr) page reload .svelte-kit/generated/shared/error-template.js
-5:06:40 PM [vite] (ssr) page reload .svelte-kit/generated/server/internal.js
-5:06:40 PM [vite] (client) page reload .svelte-kit/generated/root.js
-5:06:40 PM [vite] (ssr) page reload .svelte-kit/generated/root.js
-5:06:40 PM [vite] (ssr) page reload .svelte-kit/generated/root.svelte
-5:07:06 PM [vite] (client) hmr update /src/routes/+page.svelte, /src/routes/layout.css
-5:07:06 PM [vite] (ssr) page reload src/routes/+page.svelte
-5:07:06 PM [vite] (client) dependency optimized: dompurify
-5:07:06 PM [vite] (client) optimized dependencies changed. reloading
-5:07:31 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/0.js
-5:07:31 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/1.js
-5:07:31 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/2.js
-5:07:31 PM [vite] (client) page reload .svelte-kit/generated/client/app.js
-5:07:31 PM [vite] (client) page reload .svelte-kit/generated/client/matchers.js
-5:07:31 PM [vite] (ssr) page reload .svelte-kit/generated/server/internal.js
-5:07:31 PM [vite] (ssr) page reload .svelte-kit/generated/shared/error-template.js
-5:07:31 PM [vite] (client) page reload .svelte-kit/generated/root.js
-5:07:31 PM [vite] (ssr) page reload .svelte-kit/generated/root.js
-5:07:31 PM [vite] (client) hmr update /.svelte-kit/generated/root.svelte
-5:07:31 PM [vite] (ssr) page reload .svelte-kit/generated/root.svelte
-5:07:38 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/0.js
-5:07:38 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/1.js
-5:07:38 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/2.js
-5:07:38 PM [vite] (client) page reload .svelte-kit/generated/client/app.js
-5:07:38 PM [vite] (client) page reload .svelte-kit/generated/client/matchers.js
-5:07:38 PM [vite] (ssr) page reload .svelte-kit/generated/shared/error-template.js
-5:07:38 PM [vite] (ssr) page reload .svelte-kit/generated/server/internal.js
-5:07:38 PM [vite] (client) page reload .svelte-kit/generated/root.js
-5:07:38 PM [vite] (ssr) page reload .svelte-kit/generated/root.js
-5:07:38 PM [vite] (ssr) page reload .svelte-kit/generated/root.svelte
-5:07:40 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/0.js
-5:07:40 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/1.js
-5:07:40 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/2.js
-5:07:40 PM [vite] (client) page reload .svelte-kit/generated/client/app.js
-5:07:40 PM [vite] (client) page reload .svelte-kit/generated/client/matchers.js
-5:07:40 PM [vite] (ssr) page reload .svelte-kit/generated/shared/error-template.js
-5:07:40 PM [vite] (ssr) page reload .svelte-kit/generated/server/internal.js
-5:07:40 PM [vite] (client) page reload .svelte-kit/generated/root.js
-5:07:40 PM [vite] (ssr) page reload .svelte-kit/generated/root.js
-5:07:40 PM [vite] (ssr) page reload .svelte-kit/generated/root.svelte
-5:07:44 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/0.js
-5:07:44 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/1.js
-5:07:44 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/2.js
-5:07:44 PM [vite] (client) page reload .svelte-kit/generated/client/app.js
-5:07:44 PM [vite] (client) page reload .svelte-kit/generated/client/matchers.js
-5:07:44 PM [vite] (ssr) page reload .svelte-kit/generated/shared/error-template.js
-5:07:44 PM [vite] (ssr) page reload .svelte-kit/generated/server/internal.js
-5:07:44 PM [vite] (client) page reload .svelte-kit/generated/root.js
-5:07:44 PM [vite] (ssr) page reload .svelte-kit/generated/root.js
-5:07:44 PM [vite] (ssr) page reload .svelte-kit/generated/root.svelte
-5:08:09 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/0.js
-5:08:09 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/1.js
-5:08:09 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/2.js
-5:08:09 PM [vite] (client) page reload .svelte-kit/generated/client/app.js
-5:08:09 PM [vite] (client) page reload .svelte-kit/generated/client/matchers.js
-5:08:09 PM [vite] (ssr) page reload .svelte-kit/generated/shared/error-template.js
-5:08:09 PM [vite] (ssr) page reload .svelte-kit/generated/server/internal.js
-5:08:09 PM [vite] (client) page reload .svelte-kit/generated/root.js
-5:08:09 PM [vite] (ssr) page reload .svelte-kit/generated/root.js
-5:08:09 PM [vite] (ssr) page reload .svelte-kit/generated/root.svelte
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/buffer.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/utf8.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/compat.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/io/io/adapters.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/metadata-version.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/union-mode.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/precision.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/date-unit.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/time-unit.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/interval-unit.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/body-compression-method.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/compression-type.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/body-compression.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/buffer.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/field-node.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/record-batch.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/dictionary-batch.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/endianness.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/dictionary-kind.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/int.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/dictionary-encoding.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/key-value.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/binary.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/bool.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/date.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/decimal.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/duration.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/fixed-size-binary.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/fixed-size-list.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/floating-point.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/interval.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/large-binary.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/large-utf8.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/list.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/map.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/null.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/struct-.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/time.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/timestamp.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/union.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/utf8.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/type.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/field.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/schema.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/message-header.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/enum.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/vector.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/pretty.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/bn.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/bigint.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/type.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/math.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor/visitor/set.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/row/row/struct.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor/visitor/get.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/row/row/map.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/bit.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/data.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/chunk.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor/visitor/indexof.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor/visitor/iterator.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/vector.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/valid.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/buffer.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/block.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/footer.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/schema.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/ipc/metadata/ipc/metadata/file.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/io/io/interfaces.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/io/io/stream.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/io/io/file.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/int.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor/visitor/vectorloader.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/binary.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/largebinary.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/bool.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/date.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/decimal.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/dictionary.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/fixedsizebinary.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/fixedsizelist.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/float.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/interval.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/duration.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/int.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/list.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/map.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/null.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/struct.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/timestamp.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/time.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/union.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/utf8.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/largeutf8.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor/visitor/builderctor.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor/visitor/typecomparator.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/factories.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/recordbatch.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/table.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/recordbatch.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/message.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor/visitor/typeassembler.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/ipc/metadata/ipc/metadata/json.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/ipc/metadata/ipc/metadata/message.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/ipc/ipc/message.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/ipc/ipc/reader.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor/visitor/vectorassembler.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/ipc/ipc/writer.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/io/whatwg/io/whatwg/iterable.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/io/whatwg/io/whatwg/builder.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/io/whatwg/io/whatwg/reader.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/io/whatwg/io/whatwg/writer.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/ipc/ipc/serialization.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/Arrow.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/Arrow.dom.ts"
+5:59:42 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/0.js
+5:59:42 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/1.js
+5:59:42 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/2.js
+5:59:42 PM [vite] (client) page reload .svelte-kit/generated/client/app.js
+5:59:42 PM [vite] (client) page reload .svelte-kit/generated/client/matchers.js
+5:59:42 PM [vite] (ssr) page reload .svelte-kit/generated/shared/error-template.js
+5:59:42 PM [vite] (ssr) page reload .svelte-kit/generated/server/internal.js
+5:59:42 PM [vite] (client) page reload .svelte-kit/generated/root.js
+5:59:42 PM [vite] (ssr) page reload .svelte-kit/generated/root.js
+5:59:42 PM [vite] (ssr) page reload .svelte-kit/generated/root.svelte
+5:59:51 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/0.js
+5:59:51 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/1.js
+5:59:51 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/2.js
+5:59:51 PM [vite] (client) page reload .svelte-kit/generated/client/app.js
+5:59:51 PM [vite] (client) page reload .svelte-kit/generated/client/matchers.js
+5:59:51 PM [vite] (ssr) page reload .svelte-kit/generated/shared/error-template.js
+5:59:51 PM [vite] (ssr) page reload .svelte-kit/generated/server/internal.js
+5:59:51 PM [vite] (client) page reload .svelte-kit/generated/root.js
+5:59:51 PM [vite] (ssr) page reload .svelte-kit/generated/root.js
+5:59:51 PM [vite] (ssr) page reload .svelte-kit/generated/root.svelte
+5:59:55 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/0.js
+5:59:55 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/1.js
+5:59:55 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/2.js
+5:59:55 PM [vite] (client) page reload .svelte-kit/generated/client/app.js
+5:59:55 PM [vite] (client) page reload .svelte-kit/generated/client/matchers.js
+5:59:55 PM [vite] (ssr) page reload .svelte-kit/generated/shared/error-template.js
+5:59:55 PM [vite] (ssr) page reload .svelte-kit/generated/server/internal.js
+5:59:55 PM [vite] (client) page reload .svelte-kit/generated/root.js
+5:59:55 PM [vite] (ssr) page reload .svelte-kit/generated/root.js
+5:59:55 PM [vite] (ssr) page reload .svelte-kit/generated/root.svelte
+6:00:12 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/0.js
+6:00:12 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/1.js
+6:00:12 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/2.js
+6:00:12 PM [vite] (client) page reload .svelte-kit/generated/client/app.js
+6:00:12 PM [vite] (client) page reload .svelte-kit/generated/client/matchers.js
+6:00:12 PM [vite] (ssr) page reload .svelte-kit/generated/shared/error-template.js
+6:00:12 PM [vite] (ssr) page reload .svelte-kit/generated/server/internal.js
+6:00:12 PM [vite] (client) page reload .svelte-kit/generated/root.js
+6:00:12 PM [vite] (ssr) page reload .svelte-kit/generated/root.js
+6:00:12 PM [vite] (ssr) page reload .svelte-kit/generated/root.svelte
+6:00:14 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/0.js
+6:00:14 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/1.js
+6:00:14 PM [vite] (client) page reload .svelte-kit/generated/client/nodes/2.js
+6:00:14 PM [vite] (client) page reload .svelte-kit/generated/client/app.js
+6:00:14 PM [vite] (client) page reload .svelte-kit/generated/client/matchers.js
+6:00:14 PM [vite] (ssr) page reload .svelte-kit/generated/shared/error-template.js
+6:00:14 PM [vite] (ssr) page reload .svelte-kit/generated/server/internal.js
+6:00:14 PM [vite] (client) page reload .svelte-kit/generated/root.js
+6:00:14 PM [vite] (ssr) page reload .svelte-kit/generated/root.js
+6:00:14 PM [vite] (ssr) page reload .svelte-kit/generated/root.svelte
