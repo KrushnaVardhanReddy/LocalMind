@@ -17,7 +17,7 @@
 
 ### Version 1: LocalMind Analytics 🔨
 *Data Ingestion & Visualization*
-- [ ] Task 1.1: Data Ingestion and Local File Access (v2 Streams API) 🔄 *(Running - Jules ID: 413270323780316085)*
+- [x] Task 1.1: Data Ingestion and Local File Access (v2 Streams API) 🔄 *(Completed - PR #16)*
 - [ ] Task 1.2: Query Execution and Data Visualization (v2)
 - [x] Task 1.3: Consent-Gated AI Insights 🔄 *(Completed - PR #13)* (`docs/tasks/phase-1/task4.md`)
 - [ ] Task 5: AI-Assisted Chart Customization (`docs/tasks/phase-1/task5_ai_chart.md`)

@@ -1,4 +1,9 @@
 import { expose } from 'comlink';
+import * as duckdb from '@duckdb/duckdb-wasm';
+import duckdb_wasm from '@duckdb/duckdb-wasm/dist/duckdb-mvp.wasm?url';
+import mvp_worker from '@duckdb/duckdb-wasm/dist/duckdb-browser-mvp.worker.js?url';
+import duckdb_wasm_eh from '@duckdb/duckdb-wasm/dist/duckdb-eh.wasm?url';
+import eh_worker from '@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js?url';
 
 export interface QueryResult {
     columns: string[];
@@ -30,32 +35,86 @@ export interface DuckDBWorkerContract {
 }
 
 class DuckDBService implements DuckDBWorkerContract {
-    private db: any = null;
+    private db: duckdb.AsyncDuckDB | null = null;
+    private conn: duckdb.AsyncDuckDBConnection | null = null;
 
     async init() {
-        // Initialize DuckDB WASM here
-        // This is only called once.
-        this.db = {};
+        if (this.db) return; // Already initialized
+
+        const MANUAL_BUNDLES: duckdb.DuckDBBundles = {
+            mvp: {
+                mainModule: duckdb_wasm,
+                mainWorker: mvp_worker,
+            },
+            eh: {
+                mainModule: duckdb_wasm_eh,
+                mainWorker: eh_worker,
+            },
+        };
+
+        const bundle = await duckdb.selectBundle(MANUAL_BUNDLES);
+        const worker = new Worker(bundle.mainWorker!);
+        const logger = new duckdb.ConsoleLogger();
+
+        const db = new duckdb.AsyncDuckDB(logger, worker);
+        await db.instantiate(bundle.mainModule, bundle.pthreadWorker);
+
+        this.db = db;
+        this.conn = await db.connect();
     }
 
     async registerFile(file: File, tableName: string) {
-        // Stub
+        if (!this.db || !this.conn) throw new Error("DB not initialized");
+
+        await this.db.registerFileHandle(file.name, file, duckdb.DuckDBDataProtocol.BROWSER_FILEREADER, true);
+
+        let readFunc = 'read_csv_auto';
+        if (file.name.endsWith('.json')) {
+            readFunc = 'read_json_auto';
+        } else if (file.name.endsWith('.parquet')) {
+            readFunc = 'read_parquet';
+        }
+
+        const safeFileName = file.name.replace(/'/g, "''");
+        await this.conn.query(`CREATE OR REPLACE VIEW ${tableName} AS SELECT * FROM ${readFunc}('${safeFileName}')`);
     }
 
-    async query(sql: string, limit?: number): Promise<QueryResult> {
-        if (!this.db) throw new Error("DB not initialized");
+    async query(sql: string, limit: number = 1000): Promise<QueryResult> {
+        if (!this.db || !this.conn) throw new Error("DB not initialized");
+
+        const start = performance.now();
+        // Modify query to include limit if not present and limit is specified
+        let finalSql = sql;
+        if (limit && !sql.toLowerCase().includes('limit')) {
+            finalSql = `${sql} LIMIT ${limit}`;
+        }
+
+        const result = await this.conn.query(finalSql);
+        const executionTimeMs = performance.now() - start;
+
+        // Convert arrow table to array of objects
+        const rows = result.toArray().map(row => row.toJSON());
+        const columns = result.schema.fields.map(f => f.name);
 
         return {
-            columns: ['stub_col'],
-            rows: [{ stub_col: 'stub_val' }],
-            executionTimeMs: 0,
+            columns,
+            rows,
+            executionTimeMs,
         };
     }
 
     async getSchema(tableName: string): Promise<Record<string, string>> {
-        return {
-            stub_col: 'VARCHAR'
-        };
+        if (!this.db || !this.conn) throw new Error("DB not initialized");
+
+        const result = await this.conn.query(`DESCRIBE ${tableName}`);
+        const rows = result.toArray().map(row => row.toJSON());
+
+        const schema: Record<string, string> = {};
+        for (const row of rows) {
+            schema[row.column_name] = row.column_type;
+        }
+
+        return schema;
     }
 }
 

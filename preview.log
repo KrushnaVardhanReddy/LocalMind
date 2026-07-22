@@ -1,0 +1,4 @@
+$ vite preview
+  ➜  Local:   http://localhost:4173/
+  ➜  Network: use --host to expose
+error: script "preview" exited with code 143
