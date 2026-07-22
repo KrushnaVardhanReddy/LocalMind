@@ -22,7 +22,7 @@
 
 ### Version 1: LocalMind Analytics 🔨
 *Data Ingestion & Visualization*
-- [ ] Task 1.1: Data Ingestion and Local File Access (v2 Streams API)
+- [ ] Task 1.1: Data Ingestion and Local File Access (v2 Streams API) 🔄 *(Running - Jules ID: 413270323780316085)*
 - [ ] Task 1.2: Query Execution and Data Visualization (v2)
 - [x] Task 1.3: Consent-Gated AI Insights 🔄 *(Completed - PR #13)* (`docs/tasks/phase-1/task4.md`)
 - [ ] Task 5: AI-Assisted Chart Customization (`docs/tasks/phase-1/task5_ai_chart.md`)
@@ -33,7 +33,7 @@
 
 ### Version 2: LocalMind Docs 🔨
 *Local Document Processing*
-- [ ] Task 1: Local OCR Integration (`docs/tasks/phase-2/task1_ocr.md`)
+- [ ] Task 1: Local OCR Integration 🔄 *(Running - Jules ID: 14401383566050047003)* (`docs/tasks/phase-2/task1_ocr.md`)
 - [ ] Task 1.2: OpenCV Image Enhancement (`docs/tasks/phase-2/task1_2_opencv.md`)
 - [ ] Task 1.5: Browser-Based PII Redaction (`docs/tasks/phase-2/task1_5_redaction.md`)
 - [ ] Task 1.8: Bulk Document Parsing (`docs/tasks/phase-2/task1_8_bulk_parse.md`)
@@ -45,7 +45,7 @@
 
 ### Version 3: LocalMind DevTools
 *Offline Utilities for Developers*
-- [ ] Task 1: Offline Data Formatters & Validators (JSON, JWT, Base64) (`docs/tasks/phase-4/task1_formatters.md`)
+- [ ] Task 1: Offline Data Formatters & Validators (JSON, JWT, Base64) 🔄 *(Running - Jules ID: 16623713031667671701)* (`docs/tasks/phase-4/task1_formatters.md`)
 - [ ] Task 1.5: Data Format Converters (JSON <-> YAML <-> XML) (`docs/tasks/phase-4/task1_5_converters.md`)
 - [ ] Task 2: Code Analysis with tree-sitter (`docs/tasks/phase-4/task2_treesitter.md`)
 - [ ] Task 3: Visual Transformation Pipelines (`docs/tasks/phase-4/task3_pipelines.md`)
