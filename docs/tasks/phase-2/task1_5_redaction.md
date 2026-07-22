@@ -11,9 +11,7 @@ Implement a local PII detection and redaction workflow using ONNX Runtime Web (N
 ## Implementation Steps
 
 ### 1. Install Dependencies
-```bash
-bun add onnxruntime-web
-```
+*(Already completed by Antigravity in `feature/dev`. No need to run these commands.)*
 
 ### 2. Create the NER Worker
 - Create `src/lib/workers/ner.worker.ts`.
@@ -23,7 +21,7 @@ bun add onnxruntime-web
 - Call `expose(new NERService())`.
 
 ### 3. Register with WorkerManager
-- Add `WorkerManager.getNER()` with the Singleton lazy-loading pattern.
+*(Already completed by Antigravity. `getNER()` is already in `WorkerManager.ts`.)*
 
 ### 4. Build the Redaction UI
 - After OCR text extraction, add a "Scan for PII" button.

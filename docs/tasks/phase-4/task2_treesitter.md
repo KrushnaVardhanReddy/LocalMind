@@ -10,10 +10,7 @@ Implement a local code structure analysis tool using the tree-sitter WASM parser
 ## Implementation Steps
 
 ### 1. Install Dependencies
-```bash
-bun add web-tree-sitter
-bun add -D tree-sitter-typescript tree-sitter-python tree-sitter-go tree-sitter-rust tree-sitter-java
-```
+*(Already completed by Antigravity in `feature/dev`. No need to run these commands.)*
 
 ### 2. Create the tree-sitter Worker
 - Create `src/lib/workers/treesitter.worker.ts`.
@@ -37,7 +34,7 @@ bun add -D tree-sitter-typescript tree-sitter-python tree-sitter-go tree-sitter-
 - These `.scm` query files are loaded as raw strings and compiled via `language.query(queryString)`.
 
 ### 4. Register with WorkerManager
-- Add `WorkerManager.getTreeSitter()`.
+*(Already completed by Antigravity. `getTreeSitter()` is already in `WorkerManager.ts`.)*
 
 ### 5. Build the Code Analysis UI
 - Create `src/routes/devtools/code/+page.svelte`.

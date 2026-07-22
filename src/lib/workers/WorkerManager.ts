@@ -10,6 +10,8 @@ export class WorkerManager {
     private static initLLMPromise: Promise<any> | null = null;
     private static initTesseractPromise: Promise<any> | null = null;
     private static initDataGenPromise: Promise<any> | null = null;
+    private static initTreeSitterPromise: Promise<any> | null = null;
+    private static initNERPromise: Promise<any> | null = null;
 
     public static async getDuckDB() {
         if (this.proxies.has('duckdb')) {
@@ -149,5 +151,43 @@ export class WorkerManager {
         }
 
         return this.initDataGenPromise;
+    }
+
+    public static async getTreeSitter() {
+        if (this.proxies.has('treesitter')) {
+            return this.proxies.get('treesitter');
+        }
+
+        if (!this.initTreeSitterPromise) {
+            this.initTreeSitterPromise = (async () => {
+                const worker = new Worker(new URL('./treesitter.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('treesitter', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('treesitter', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initTreeSitterPromise;
+    }
+
+    public static async getNER() {
+        if (this.proxies.has('ner')) {
+            return this.proxies.get('ner');
+        }
+
+        if (!this.initNERPromise) {
+            this.initNERPromise = (async () => {
+                const worker = new Worker(new URL('./ner.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('ner', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('ner', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initNERPromise;
     }
 }
