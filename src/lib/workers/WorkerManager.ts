@@ -111,8 +111,25 @@ export class WorkerManager {
         return this.initTesseractPromise;
     }
 
+    private static initMuPDFPromise: Promise<any> | null = null;
+
     public static async getMuPDF() {
-        throw new Error("NotImplementedError: MuPDF worker is not yet implemented (scheduled for Task 2)");
+        if (this.proxies.has('mupdf')) {
+            return this.proxies.get('mupdf');
+        }
+
+        if (!this.initMuPDFPromise) {
+            this.initMuPDFPromise = (async () => {
+                const worker = new Worker(new URL('./mupdf.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('mupdf', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('mupdf', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initMuPDFPromise;
     }
 
     public static async getDataGen() {
