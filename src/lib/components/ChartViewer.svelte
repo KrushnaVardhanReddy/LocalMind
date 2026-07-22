@@ -3,7 +3,7 @@
     import * as echarts from 'echarts';
     import type { QueryResult } from '$lib/workers/duckdb.worker';
 
-    let { result = null }: { result: QueryResult | null } = $props();
+    let { result = null, customOption = null }: { result: QueryResult | null, customOption?: echarts.EChartsOption | null } = $props();
 
     let chartContainer: HTMLDivElement;
     let chartInstance: echarts.ECharts | null = null;
@@ -32,7 +32,12 @@
     });
 
     $effect(() => {
-        if (chartInstance && result && result.columns && result.columns.length >= 2 && result.rows && result.rows.length > 0) {
+        if (chartInstance && customOption && result && result.rows && result.rows.length > 0) {
+            const optionToSet = { ...customOption };
+            optionToSet.dataset = { source: result.rows };
+            chartInstance.clear();
+            chartInstance.setOption(optionToSet, true);
+        } else if (chartInstance && result && result.columns && result.columns.length >= 2 && result.rows && result.rows.length > 0) {
             const xCol = result.columns[0];
             const yCol = result.columns[1];
 
