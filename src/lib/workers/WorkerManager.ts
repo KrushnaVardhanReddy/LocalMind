@@ -9,6 +9,7 @@ export class WorkerManager {
     private static initSQLitePromise: Promise<any> | null = null;
     private static initLLMPromise: Promise<any> | null = null;
     private static initTesseractPromise: Promise<any> | null = null;
+    private static initDataGenPromise: Promise<any> | null = null;
 
     public static async getDuckDB() {
         if (this.proxies.has('duckdb')) {
@@ -112,5 +113,24 @@ export class WorkerManager {
 
     public static async getMuPDF() {
         throw new Error("NotImplementedError: MuPDF worker is not yet implemented (scheduled for Task 2)");
+    }
+
+    public static async getDataGen() {
+        if (this.proxies.has('datagen')) {
+            return this.proxies.get('datagen');
+        }
+
+        if (!this.initDataGenPromise) {
+            this.initDataGenPromise = (async () => {
+                const worker = new Worker(new URL('./datagen.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('datagen', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('datagen', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initDataGenPromise;
     }
 }
