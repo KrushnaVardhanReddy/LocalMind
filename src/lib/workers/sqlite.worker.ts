@@ -94,6 +94,16 @@ class SQLiteService implements WaSQLiteWorkerContract {
                 enabled INTEGER DEFAULT 1,
                 installed_at INTEGER DEFAULT (unixepoch())
             );
+
+            -- Document Chunks for Semantic Search
+            CREATE TABLE IF NOT EXISTS document_chunks (
+                id TEXT PRIMARY KEY,
+                workspace_id TEXT REFERENCES workspaces(id) ON DELETE CASCADE,
+                file_name TEXT NOT NULL,
+                chunk_index INTEGER NOT NULL,
+                chunk_text TEXT NOT NULL,
+                embedding BLOB NOT NULL -- 384 float32 values stored as raw bytes
+            );
         `;
 
         for await (const stmt of this.sqlite3.statements(this.db, schema)) {
@@ -296,6 +306,25 @@ class SQLiteService implements WaSQLiteWorkerContract {
 
     async updatePluginEnabled(id: string, enabled: boolean): Promise<void> {
         await this.execute(`UPDATE installed_plugins SET enabled = ? WHERE id = ?`, [enabled ? 1 : 0, id]);
+    }
+
+    // --- Document Chunks ---
+    async insertDocumentChunk(record: any): Promise<any> {
+        const id = crypto.randomUUID();
+
+        // Ensure embedding is a Uint8Array for SQLite blob binding
+        const embeddingBlob = new Uint8Array(record.embedding);
+
+        await this.execute(
+            `INSERT INTO document_chunks (id, workspace_id, file_name, chunk_index, chunk_text, embedding) VALUES (?, ?, ?, ?, ?, ?)`,
+            [id, record.workspace_id, record.file_name, record.chunk_index, record.chunk_text, embeddingBlob]
+        );
+        const rows = await this.query(`SELECT * FROM document_chunks WHERE id = ?`, [id]);
+        return rows[0];
+    }
+
+    async getAllDocumentChunks(workspaceId: string): Promise<any[]> {
+        return await this.query(`SELECT * FROM document_chunks WHERE workspace_id = ? ORDER BY file_name ASC, chunk_index ASC`, [workspaceId]);
     }
 }
 
