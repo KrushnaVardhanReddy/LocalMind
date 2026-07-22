@@ -10,7 +10,7 @@ test.describe('Phase 1: Data Workspace E2E Tests', () => {
 
   test.beforeEach(async ({ page }) => {
     // Navigate to the app and initialize engine
-    await page.goto('http://localhost:5173/');
+    await page.goto('/');
 
     // Initialize
     const initBtn = page.getByRole('button', { name: 'Initialize Engine' });
