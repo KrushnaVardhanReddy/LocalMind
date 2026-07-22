@@ -24,6 +24,12 @@ export interface TesseractWorkerContract {
     init(langs?: string[]): Promise<void>;
 
     /**
+     * Optional callback for receiving progress updates from Tesseract.
+     * Use Comlink.proxy() when passing this callback from the main thread.
+     */
+    onProgress?: (progress: number, status: string) => void;
+
+    /**
      * Runs OCR on a single image (PNG, JPEG, TIFF, BMP, or PDF page raster).
      * The image is passed as an ArrayBuffer to avoid copying via Comlink transfer.
      */

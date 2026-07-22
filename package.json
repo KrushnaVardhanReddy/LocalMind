@@ -41,6 +41,7 @@
 		"comlink": "^4.4.2",
 		"dompurify": "^3.4.12",
 		"marked": "^18.0.7",
+		"tesseract.js": "^7.0.0",
 		"wa-sqlite": "^1.0.0"
 	}
 }

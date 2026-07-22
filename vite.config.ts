@@ -32,6 +32,7 @@ export default defineConfig({
 				]
 			},
 			workbox: {
+				maximumFileSizeToCacheInBytes: 15 * 1024 * 1024, // 15 MiB to accommodate tesseract assets
 				runtimeCaching: [
 					{
 						urlPattern: /\.wasm$/,

@@ -8,6 +8,7 @@ export class WorkerManager {
     private static initDuckDBPromise: Promise<any> | null = null;
     private static initSQLitePromise: Promise<any> | null = null;
     private static initLLMPromise: Promise<any> | null = null;
+    private static initTesseractPromise: Promise<any> | null = null;
 
     public static async getDuckDB() {
         if (this.proxies.has('duckdb')) {
@@ -88,5 +89,28 @@ export class WorkerManager {
         }
 
         return this.initLLMPromise;
+    }
+
+    public static async getTesseract() {
+        if (this.proxies.has('tesseract')) {
+            return this.proxies.get('tesseract');
+        }
+
+        if (!this.initTesseractPromise) {
+            this.initTesseractPromise = (async () => {
+                const worker = new Worker(new URL('./tesseract.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('tesseract', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('tesseract', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initTesseractPromise;
+    }
+
+    public static async getMuPDF() {
+        throw new Error("NotImplementedError: MuPDF worker is not yet implemented (scheduled for Task 2)");
     }
 }
