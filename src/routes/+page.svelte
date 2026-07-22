@@ -28,15 +28,92 @@
     let isAnalyzing = $state(false);
     let aiInsight = $state<string | null>(null);
 
+    let isDragOver = $state(false);
+    let uploadStatus = $state<{type: 'success' | 'error' | 'loading', message: string} | null>(null);
+    let customQuery = $state('');
+
     onMount(async () => {
         await loadWorkspaces();
     });
 
     async function runQuery() {
-        // Automatically lazy-loads and initializes if it's the first time
-        const db = await WorkerManager.getDuckDB();
-        result = await db.query("SELECT * FROM table");
-        console.log('Query result:', result);
+        if (!customQuery.trim()) {
+            // Automatically lazy-loads and initializes if it's the first time
+            const db = await WorkerManager.getDuckDB();
+            result = await db.query("SELECT * FROM table");
+            console.log('Query result:', result);
+            return;
+        }
+
+        try {
+            const db = await WorkerManager.getDuckDB();
+            result = await db.query(customQuery);
+            console.log('Query result:', result);
+        } catch (error) {
+            console.error('Query failed:', error);
+            alert(`Query failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
+    }
+
+    async function handleFileSelect() {
+        try {
+            const [fileHandle] = await (window as any).showOpenFilePicker({
+                types: [
+                    {
+                        description: 'Data Files',
+                        accept: {
+                            'text/csv': ['.csv'],
+                            'application/json': ['.json'],
+                            'application/vnd.apache.parquet': ['.parquet']
+                        }
+                    }
+                ]
+            });
+            const file = await fileHandle.getFile();
+            await processFile(file);
+        } catch (error: any) {
+            if (error.name !== 'AbortError') {
+                console.error('File selection failed:', error);
+                uploadStatus = { type: 'error', message: `File selection failed: ${error.message}` };
+            }
+        }
+    }
+
+    function handleDrop(e: DragEvent) {
+        e.preventDefault();
+        isDragOver = false;
+        if (e.dataTransfer?.files && e.dataTransfer.files.length > 0) {
+            const file = e.dataTransfer.files[0];
+            const ext = file.name.split('.').pop()?.toLowerCase();
+            if (['csv', 'json', 'parquet'].includes(ext || '')) {
+                processFile(file);
+            } else {
+                uploadStatus = { type: 'error', message: 'Unsupported file type. Please upload .csv, .json, or .parquet' };
+            }
+        }
+    }
+
+    function handleDragOver(e: DragEvent) {
+        e.preventDefault();
+        isDragOver = true;
+    }
+
+    function handleDragLeave() {
+        isDragOver = false;
+    }
+
+    async function processFile(file: File) {
+        uploadStatus = { type: 'loading', message: `Registering ${file.name}...` };
+        try {
+            const tableName = file.name.replace(/[^a-zA-Z0-9_]/g, '_').replace(/^_+|_+$/g, '').toLowerCase();
+            const db = await WorkerManager.getDuckDB();
+            await db.registerFile(file, tableName);
+            uploadStatus = { type: 'success', message: `Successfully registered file as table: ${tableName}` };
+            customQuery = `SELECT * FROM ${tableName} LIMIT 10`;
+        } catch (error) {
+            console.error('Failed to register file:', error);
+            uploadStatus = { type: 'error', message: `Failed to register file: ${error instanceof Error ? error.message : 'Unknown error'}` };
+        }
     }
 
     async function handleCreateWorkspace() {
@@ -208,15 +285,44 @@
         </div>
     {/if}
 
+    <div class="mb-8 p-4 bg-gray-50 border rounded">
+        <h2 class="text-xl font-semibold mb-4">Data Ingestion</h2>
+
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <div
+            class="border-2 border-dashed rounded-lg p-8 text-center transition-colors {isDragOver ? 'border-purple-500 bg-purple-50' : 'border-gray-300 hover:border-gray-400'}"
+            ondrop={handleDrop}
+            ondragover={handleDragOver}
+            ondragleave={handleDragLeave}
+        >
+            <div class="mb-4 text-gray-600">
+                Drag and drop a .csv, .json, or .parquet file here
+            </div>
+            <div class="text-gray-400 mb-4">or</div>
+            <button
+                onclick={handleFileSelect}
+                class="px-6 py-2 bg-purple-600 text-white rounded shadow hover:bg-purple-700 transition"
+            >
+                Select File
+            </button>
+        </div>
+
+        {#if uploadStatus}
+            <div class="mt-4 p-3 rounded text-sm {uploadStatus.type === 'success' ? 'bg-green-100 text-green-800' : uploadStatus.type === 'error' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'}">
+                {uploadStatus.message}
+            </div>
+        {/if}
+    </div>
+
     <div class="p-4 border rounded">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold">DuckDB Test</h2>
+            <h2 class="text-xl font-bold">Query Data</h2>
             <div class="flex gap-2">
                 <button
                     onclick={runQuery}
                     class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition"
                 >
-                    Run Stub Query
+                    Run Query
                 </button>
                 {#if result}
                     <button
@@ -234,6 +340,13 @@
                 {/if}
             </div>
         </div>
+
+        <textarea
+            placeholder="Enter SQL query (e.g. SELECT * FROM table LIMIT 10)"
+            bind:value={customQuery}
+            class="border p-2 rounded w-full mb-4 font-mono text-sm"
+            rows="3"
+        ></textarea>
 
         {#if result}
             <div class="mt-4 p-4 bg-gray-100 rounded">
