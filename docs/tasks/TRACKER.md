@@ -49,7 +49,7 @@
 - [ ] Task 5.5: PCAP Network Analyzer (`docs/tasks/phase-4/task5_5_pcap.md`)
 - [ ] Task 5.6: HAR File Analyzer (`docs/tasks/phase-4/task5_6_har_analyzer.md`)
 - [ ] Task 5.7: Visual Regression Diffing (`docs/tasks/phase-4/task5_7_visual_diff.md`)
-- [ ] Task 5.8: Test Data Generator (`docs/tasks/phase-4/task5_8_test_data.md`)
+- [x] Task 5.8: Test Data Generator ✅ *(Completed)* (`docs/tasks/phase-4/task5_8_test_data.md`)
 - [x] Task 5.9: Local Mock API Server ✅ *(Completed - PR #19)* (`docs/tasks/phase-4/task5_9_mock_server.md`)
 - [ ] Task 7: End-to-End Testing (`docs/tasks/phase-4/task_e2e.md`)
 
