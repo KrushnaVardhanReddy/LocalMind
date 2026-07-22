@@ -51,6 +51,14 @@ export interface DocumentChunkRecord {
     embedding: ArrayBuffer; // 384 float32 values stored as raw bytes
 }
 
+export interface SavedPipelineRecord {
+    id: string;
+    name: string;
+    nodes: string; // JSON
+    edges: string; // JSON
+    updated_at: number;
+}
+
 export interface WaSQLiteWorkerContract {
     /**
      * Initializes the wa-sqlite WASM engine with an OPFS backend.
@@ -91,4 +99,9 @@ export interface WaSQLiteWorkerContract {
     // --- Document Chunks (Embeddings) ---
     insertDocumentChunk(record: Omit<DocumentChunkRecord, 'id'>): Promise<DocumentChunkRecord>;
     getAllDocumentChunks(workspaceId: string): Promise<DocumentChunkRecord[]>;
+
+    // --- Saved Pipelines ---
+    savePipeline(name: string, nodes: string, edges: string): Promise<SavedPipelineRecord>;
+    listPipelines(): Promise<SavedPipelineRecord[]>;
+    deletePipeline(id: string): Promise<void>;
 }
