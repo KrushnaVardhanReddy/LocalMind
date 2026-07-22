@@ -170,7 +170,7 @@
 				<iframe
 					title="Markdown Preview"
 					class="w-full h-full border-0"
-					srcdoc={\`
+					srcdoc={`
 						<!DOCTYPE html>
 						<html>
 						<head>
@@ -181,10 +181,10 @@
 							</style>
 						</head>
 						<body>
-							\${html}
+							${html}
 						</body>
 						</html>
-					\`}
+					`}
 				></iframe>
 			</div>
 		</div>
