@@ -66,4 +66,92 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
 - **[Analytics]** Task 7: Tableau-Style BI Pivot Builder (`task7_bi_pivot.md`)
   *Safe: UI/DuckDB queries only.*
 
+---
+
+## Set 7: Analyzers & Transformers
+- **[DevTools]** Task 5.5: PCAP Network Analyzer (`task5_5_pcap.md`)
+  *Safe: Potential WorkerManager modifier (WASM PCAP parser).*
+- **[DevTools]** Task 1.5: Data Format Converters (`task1_5_converters.md`)
+  *Safe: Pure JS/UI.*
+- **[DevTools]** Task 3: Visual Transformation Pipelines (`task3_pipelines.md`)
+  *Safe: UI/Logic only.*
+
+---
+
+## Set 8: Logs, Resumes, and Git
+- **[DevTools]** Task 4: Git History Analyzer (`task4_git.md`)
+  *Safe: Potential WorkerManager modifier (isomorphic-git/WASM).*
+- **[Docs]** Task 3.5: Local AI Resume Screener & Ranker (`task3_5_resume_screener.md`)
+  *Safe: Uses existing WebLLM setup.*
+- **[DevTools]** Task 5: Visual Log Parser & Anomaly Detector (`task5_log_parser.md`)
+  *Safe: Uses existing DuckDB/LLM setup.*
+
+---
+
+## Set 9: Remaining Batch Processing
+- **[Docs]** Task 1.8: Bulk Document Parsing (`task1_8_bulk_parse.md`)
+  *Safe: Uses existing OCR/PDF workers.*
+- **[DevTools]** Task 5.6: HAR File Analyzer (`task5_6_har_analyzer.md`)
+  *Safe: Pure JS/UI parsing.*
+- **[DevTools]** Task 5.7: Visual Regression Diffing (`task5_7_visual_diff.md`)
+  *Safe: Canvas/UI manipulation.*
+
+---
+
+## Set 10: AI Core & Media Plugins
+- **[AI]** Task 1: WebLLM Engine Setup (`docs/tasks/phase-5/task1_webllm.md`)
+  *Safe: Dedicated WorkerManager modifier (LLM Engine).*
+- **[AI]** Task 2: Local Chat Interface (`docs/tasks/phase-5/task2_chat_ui.md`)
+  *Safe: UI/Logic only.*
+- **[Media]** Task 3: Instant Video Clipper (`docs/tasks/phase-3/task4_video_clipper.md`)
+  *Safe: Uses existing FFmpeg worker.*
+
+---
+
+## Set 11: Niche Workspaces & Data Janitor
+- **[Plugins]** Task 1: Geo-Spatial Workspace (`docs/tasks/phase-6/task1_geospatial.md`)
+  *Safe: Pure JS/UI (Leaflet/Turf).*
+- **[Plugins]** Task 2: 3D CAD Workspace (`docs/tasks/phase-6/task2_cad.md`)
+  *Safe: Pure JS/UI (Three.js/OCCT).*
+- **[AI]** Task 3: Local AI Data Janitor (`docs/tasks/phase-5/task3_data_janitor.md`)
+  *Safe: Uses existing LLM setup.*
+
+---
+
+## Set 12: Crypto, Whiteboard & End-to-End Tests
+- **[Plugins]** Task 3: Security / Cryptography Workspace (`docs/tasks/phase-6/task3_crypto.md`)
+  *Safe: Potential WorkerManager modifier (Crypto WASM).*
+- **[Plugins]** Task 4: Infinite Whiteboard Integration (`docs/tasks/phase-8/task1_whiteboard.md`)
+  *Safe: Pure JS/UI (Tldraw).*
+- **[Testing]** Task 9, 4, 7: E2E Testing for Phase 1, 2, 4 (`docs/tasks/phase-1/task9_e2e.md`, etc.)
+  *Safe: Playwright setup only.*
+
+---
+
+## Set 13: Desktop App (Pro Tier) & Monetization
+- **[Desktop]** Task 1: Tauri Desktop App Scaffolding (`docs/tasks/phase-9/task1_tauri_scaffold.md`)
+  *Safe: Tauri CLI/Rust backend.*
+- **[Desktop]** Task 2: Storage Quota Bypass (`docs/tasks/phase-9/task2_unlimited_storage.md`)
+  *Safe: Tauri FS API.*
+- **[Monetization]** Task 1: Cloudflare Proxy API for AI Credits (`docs/tasks/phase-11/task1_cf_proxy.md`)
+  *Safe: Cloudflare Workers backend.*
+- **[Monetization]** Task 2: Stripe Billing Integration (`docs/tasks/phase-11/task2_stripe.md`)
+  *Safe: API routes/UI.*
+
+---
+
+## Set 14: Enterprise & Security (On-Premise)
+- **[Enterprise]** Task 1: Headless API & SSO Authentication (SAML/Okta) (`docs/tasks/phase-10/task1_sso.md`)
+  *Safe: Auth routes (SAML/OAuth2).*
+- **[Enterprise]** Task 2: Team Workspaces & RBAC (`docs/tasks/phase-10/task2_rbac.md`)
+  *Safe: Database schema / Middleware.*
+- **[Enterprise]** Task 3: Audit Logging & Data Governance Middleware (`docs/tasks/phase-10/task3_audit.md`)
+  *Safe: Hooks/Middleware.*
+- **[Enterprise]** Task 4: Docker & Kubernetes On-Prem Configs (`docs/tasks/phase-10/task4_docker.md`)
+  *Safe: DevOps configs.*
+- **[Enterprise]** Task 5: SOC 2 Compliance Documentation (`docs/tasks/phase-10/task5_soc2.md`)
+  *Safe: Documentation.*
+- **[Desktop]** Task 3 & 4: Native FS and E2E Tests for Phase 9 (`docs/tasks/phase-9/task3_native_fs.md`)
+  *Safe: Playwright/Tauri APIs.*
+
 *(Note: Additional sets follow this exact pattern: ONE WorkerManager modifier + multiple independent UI tasks to maintain 100% conflict-free parallelism.)*
