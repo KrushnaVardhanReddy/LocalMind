@@ -20,7 +20,7 @@
 - [x] Task 1.1: Data Ingestion and Local File Access (v2 Streams API) ✅ *(Completed - PR #16)*
 - [x] Task 1.2: Query Execution and Data Visualization (v2) ✅ *(Completed - PR #21)*
 - [x] Task 1.3: Consent-Gated AI Insights ✅ *(Completed - PR #13)* (`docs/tasks/phase-1/task4.md`)
-- [ ] Task 5: AI-Assisted Chart Customization (`docs/tasks/phase-1/task5_ai_chart.md`)
+- [ ] Task 5: AI-Assisted Chart Customization 🔄 *(Running - Jules ID: 16498560598087022081)* (`docs/tasks/phase-1/task5_ai_chart.md`)
 - [ ] Task 6: Multi-File Auto-Joins & Visual Data Diffing (`docs/tasks/phase-1/task6_joins_diff.md`)
 - [ ] Task 7: Tableau-Style BI Pivot Builder (`docs/tasks/phase-1/task7_bi_pivot.md`)
 - [ ] Task 8: Interactive Dashboard Builder (`docs/tasks/phase-1/task8_dashboards.md`)
@@ -30,7 +30,7 @@
 *Local Document Processing*
 - [x] Task 1: Local OCR Integration ✅ *(Completed - PR #18)* (`docs/tasks/phase-2/task1_ocr.md`)
 - [ ] Task 1.2: OpenCV Image Enhancement (`docs/tasks/phase-2/task1_2_opencv.md`)
-- [ ] Task 1.5: Browser-Based PII Redaction (`docs/tasks/phase-2/task1_5_redaction.md`)
+- [ ] Task 1.5: Browser-Based PII Redaction 🔄 *(Running - Jules ID: 4167745067130500474)* (`docs/tasks/phase-2/task1_5_redaction.md`)
 - [ ] Task 1.8: Bulk Document Parsing (`docs/tasks/phase-2/task1_8_bulk_parse.md`)
 - [x] Task 2: Local PDF Manipulation ✅ *(Completed - PR #20)* (`docs/tasks/phase-2/task2_pdf.md`)
 - [ ] Task 2.5: Markdown to PDF/HTML Export (`docs/tasks/phase-2/task2_5_md_export.md`)
@@ -42,7 +42,7 @@
 *Offline Utilities for Developers*
 - [x] Task 1: Offline Data Formatters & Validators (JSON, JWT, Base64) ✅ *(Completed - PR #17)* (`docs/tasks/phase-4/task1_formatters.md`)
 - [ ] Task 1.5: Data Format Converters (JSON <-> YAML <-> XML) (`docs/tasks/phase-4/task1_5_converters.md`)
-- [ ] Task 2: Code Analysis with tree-sitter (`docs/tasks/phase-4/task2_treesitter.md`)
+- [ ] Task 2: Code Analysis with tree-sitter 🔄 *(Running - Jules ID: 3307633334321330914)* (`docs/tasks/phase-4/task2_treesitter.md`)
 - [ ] Task 3: Visual Transformation Pipelines (`docs/tasks/phase-4/task3_pipelines.md`)
 - [ ] Task 4: Git History Analyzer (`docs/tasks/phase-4/task4_git.md`)
 - [ ] Task 5: Visual Log Parser & Anomaly Detector (`docs/tasks/phase-4/task5_log_parser.md`)
@@ -50,7 +50,7 @@
 - [ ] Task 5.6: HAR File Analyzer (`docs/tasks/phase-4/task5_6_har_analyzer.md`)
 - [ ] Task 5.7: Visual Regression Diffing (`docs/tasks/phase-4/task5_7_visual_diff.md`)
 - [ ] Task 5.8: Test Data Generator (`docs/tasks/phase-4/task5_8_test_data.md`)
-- [ ] Task 5.9: Local Mock API Server 🔄 *(Running - Jules ID: 17073810535161606818)* (`docs/tasks/phase-4/task5_9_mock_server.md`)
+- [x] Task 5.9: Local Mock API Server ✅ *(Completed - PR #19)* (`docs/tasks/phase-4/task5_9_mock_server.md`)
 - [ ] Task 7: End-to-End Testing (`docs/tasks/phase-4/task_e2e.md`)
 
 ---
