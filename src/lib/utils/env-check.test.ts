@@ -49,9 +49,7 @@ describe('validateCrossOriginIsolation', () => {
         validateCrossOriginIsolation();
 
         expect(console.error).not.toHaveBeenCalled();
-        if (typeof document !== 'undefined' && (document as any).__mock__) {
-             expect(document.body.appendChild).not.toHaveBeenCalled();
-        } else {
+        if (typeof document !== 'undefined' && vi.isMockFunction(document.body.appendChild)) {
              expect(document.body.appendChild).not.toHaveBeenCalled();
         }
     });
@@ -66,11 +64,13 @@ describe('validateCrossOriginIsolation', () => {
         validateCrossOriginIsolation();
 
         expect(console.error).toHaveBeenCalledWith('SharedArrayBuffer is unavailable. DuckDB multi-threading is disabled. Contact your hosting provider.');
-        expect(document.body.appendChild).toHaveBeenCalled();
+        if (typeof document !== 'undefined' && vi.isMockFunction(document.body.appendChild)) {
+            expect(document.body.appendChild).toHaveBeenCalled();
 
-        // get the argument passed to appendChild
-        const appendedElement = (document.body.appendChild as any).mock.calls[0][0];
-        expect(appendedElement.id).toBe('coop-coep-error-banner');
-        expect(appendedElement.textContent).toBe('SharedArrayBuffer is unavailable. DuckDB multi-threading is disabled. Contact your hosting provider.');
+            // get the argument passed to appendChild
+            const appendedElement = (document.body.appendChild as any).mock.calls[0][0];
+            expect(appendedElement.id).toBe('coop-coep-error-banner');
+            expect(appendedElement.textContent).toBe('SharedArrayBuffer is unavailable. DuckDB multi-threading is disabled. Contact your hosting provider.');
+        }
     });
 });

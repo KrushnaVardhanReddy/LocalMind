@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { WorkerManager } from '$lib/workers/WorkerManager';
+    import { deferredPrompt } from '$lib/stores/pwa.store';
     import {
         workspaces,
         currentWorkspace,
@@ -39,11 +40,30 @@
         queryName = '';
         querySql = '';
     }
+
+    async function installApp() {
+        if (!$deferredPrompt) return;
+        $deferredPrompt.prompt();
+        const { outcome } = await $deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+            deferredPrompt.set(null);
+        }
+    }
 </script>
 
 <main class="p-8 max-w-4xl mx-auto">
     <div class="flex justify-between items-center mb-8 bg-white p-4 shadow rounded">
-        <h1 class="text-2xl font-bold">LocalMind</h1>
+        <div class="flex items-center gap-4">
+            <h1 class="text-2xl font-bold">LocalMind</h1>
+            {#if $deferredPrompt}
+                <button
+                    onclick={installApp}
+                    class="px-3 py-1 bg-purple-100 text-purple-700 text-sm font-semibold rounded hover:bg-purple-200 transition"
+                >
+                    Install App
+                </button>
+            {/if}
+        </div>
 
         <div class="flex items-center gap-4">
             <select
