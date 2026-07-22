@@ -21,7 +21,7 @@
 - [x] Task 1.2: Query Execution and Data Visualization (v2) ✅ *(Completed - PR #21)*
 - [x] Task 1.3: Consent-Gated AI Insights ✅ *(Completed - PR #13)* (`docs/tasks/phase-1/task4.md`)
 - [x] Task 5: AI-Assisted Chart Customization ✅ *(Completed - PR #23)* (`docs/tasks/phase-1/task5_ai_chart.md`)
-- [ ] Task 6: Multi-File Auto-Joins & Visual Data Diffing (`docs/tasks/phase-1/task6_joins_diff.md`)
+- [x] Task 6: Multi-File Auto-Joins & Visual Data Diffing ✅ *(Completed)* (`docs/tasks/phase-1/task6_joins_diff.md`)
 - [ ] Task 7: Tableau-Style BI Pivot Builder (`docs/tasks/phase-1/task7_bi_pivot.md`)
 - [ ] Task 8: Interactive Dashboard Builder 🔄 *(Running - Jules ID: 17614248477683432132)* (`docs/tasks/phase-1/task8_dashboards.md`)
 - [ ] Task 9: End-to-End Testing (`docs/tasks/phase-1/task9_e2e.md`)
