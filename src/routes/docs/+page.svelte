@@ -15,18 +15,28 @@
     let imageSrc: string | null = null;
     let originalPdfBuffer: ArrayBuffer | null = null;
     let originalPdfFileName: string = '';
+
+    // Image enhancement state
+    let originalImageBuffer: ArrayBuffer | null = null;
+    let enhancedImageBuffer: ArrayBuffer | null = null;
+    let originalImageSrc: string | null = null;
+    let enhancedImageSrc: string | null = null;
+    let useEnhanced: boolean = true;
+    let imageMimeType: string = '';
     let isDragging = false;
     let imageWidth: number = 0;
     let imageHeight: number = 0;
     let isRedacting = false;
 
     let tesseractWorker: any = null;
+    let opencvWorker: any = null;
     let nerWorker: NERWorkerContract | null = null;
     let mupdfWorker: MuPDFWorkerContract | null = null;
 
     onMount(async () => {
         try {
             tesseractWorker = await WorkerManager.getTesseract();
+            opencvWorker = await WorkerManager.getOpenCV();
             // Assign the proxy callback
             tesseractWorker.onProgress = proxy((p: number, status: string) => {
                 progress = Math.round(p * 100);
@@ -51,6 +61,47 @@
             console.error("Failed to initialize MuPDF", e);
         }
     });
+
+
+    const handleToggleEnhanced = async () => {
+        useEnhanced = !useEnhanced;
+
+        // Re-run OCR with the selected buffer
+        if (!originalImageBuffer || !enhancedImageBuffer) return;
+
+        const bufferToUse = useEnhanced ? enhancedImageBuffer : originalImageBuffer;
+        const srcToUse = useEnhanced ? enhancedImageSrc : originalImageSrc;
+
+        isProcessing = true;
+        progress = 0;
+        statusMessage = `Running OCR on ${useEnhanced ? 'enhanced' : 'original'} image...`;
+        ocrResult = null;
+        piiEntities = [];
+
+        // Update main preview source without revoking since originalImageSrc and enhancedImageSrc are long-lived
+        imageSrc = srcToUse ? srcToUse : null;
+
+        try {
+            await new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    imageWidth = img.width;
+                    imageHeight = img.height;
+                    resolve(null);
+                };
+                img.src = imageSrc!;
+            });
+
+            ocrResult = await tesseractWorker.recognizeImage(bufferToUse, imageMimeType);
+            statusMessage = 'OCR Complete';
+            progress = 100;
+        } catch (error) {
+            console.error('OCR Error', error);
+            statusMessage = 'OCR Failed';
+        } finally {
+            isProcessing = false;
+        }
+    };
 
     const handleDragOver = (e: DragEvent) => {
         e.preventDefault();
@@ -85,11 +136,29 @@
 
         try {
             if (file.type.startsWith('image/')) {
-                // Set up preview image and wait for it to load to get dimensions for bounding boxes
-                if (imageSrc) {
-                    URL.revokeObjectURL(imageSrc);
-                }
-                imageSrc = URL.createObjectURL(file);
+                const arrayBuffer = await file.arrayBuffer();
+                originalImageBuffer = arrayBuffer.slice(0);
+                imageMimeType = file.type;
+
+                // Cleanup old preview URLs
+                if (originalImageSrc) URL.revokeObjectURL(originalImageSrc);
+                if (enhancedImageSrc) URL.revokeObjectURL(enhancedImageSrc);
+                if (imageSrc) URL.revokeObjectURL(imageSrc);
+
+                originalImageSrc = URL.createObjectURL(new Blob([originalImageBuffer], { type: imageMimeType }));
+
+                // Phase 1: Enhancement
+                statusMessage = 'Enhancing image... 1/2';
+                progress = 25;
+
+                // Run enhancement worker
+                enhancedImageBuffer = await opencvWorker.enhance_and_deskew(originalImageBuffer);
+                enhancedImageSrc = URL.createObjectURL(new Blob([enhancedImageBuffer!], { type: 'image/png' }));
+
+                // Set main image source based on toggle (default to enhanced)
+                useEnhanced = true;
+                imageSrc = enhancedImageSrc;
+
                 await new Promise((resolve) => {
                     const img = new Image();
                     img.onload = () => {
@@ -100,11 +169,15 @@
                     img.src = imageSrc!;
                 });
 
-                const arrayBuffer = await file.arrayBuffer();
+                // Phase 2: OCR
+                statusMessage = 'Running OCR... 2/2';
+                progress = 75;
+
                 // We pass arrayBuffer and mimeType. Comlink handles transfer by default for ArrayBuffer in some setups,
                 // but usually requires Comlink.transfer. For simplicity we just pass it directly.
                 // The task instruction says: "The image is passed as an ArrayBuffer"
-                ocrResult = await tesseractWorker.recognizeImage(arrayBuffer, file.type);
+                ocrResult = await tesseractWorker.recognizeImage(useEnhanced ? enhancedImageBuffer : originalImageBuffer, useEnhanced ? 'image/png' : imageMimeType);
+
                 statusMessage = 'OCR Complete';
                 progress = 100;
             } else if (file.type === 'application/pdf') {
@@ -438,8 +511,42 @@
 
             <!-- Preview Column -->
             <div>
-                <h2 class="text-2xl font-semibold mb-4">Preview & Confidence</h2>
-                <div class="relative inline-block max-w-full">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-semibold">Preview & Confidence</h2>
+                    {#if originalImageSrc && enhancedImageSrc}
+                        <div class="flex bg-gray-100 p-1 rounded-lg">
+                            <button
+                                class="px-3 py-1 rounded-md text-sm font-medium transition-colors {useEnhanced ? 'text-gray-600' : 'bg-white shadow text-blue-600'}"
+                                on:click={() => { if(useEnhanced) handleToggleEnhanced(); }}
+                                disabled={isProcessing}
+                            >
+                                Original
+                            </button>
+                            <button
+                                class="px-3 py-1 rounded-md text-sm font-medium transition-colors {useEnhanced ? 'bg-white shadow text-blue-600' : 'text-gray-600'}"
+                                on:click={() => { if(!useEnhanced) handleToggleEnhanced(); }}
+                                disabled={isProcessing}
+                            >
+                                Enhanced
+                            </button>
+                        </div>
+                    {/if}
+                </div>
+
+                {#if originalImageSrc && enhancedImageSrc}
+                <div class="flex gap-4 mb-4 overflow-hidden h-32 opacity-70 hover:opacity-100 transition-opacity">
+                    <div class="flex-1 flex flex-col items-center">
+                        <span class="text-xs text-gray-500 mb-1">Original</span>
+                        <img src={originalImageSrc} alt="Original Thumbnail" class="h-full object-contain bg-gray-50 border rounded {useEnhanced ? '' : 'ring-2 ring-blue-500'}" />
+                    </div>
+                    <div class="flex-1 flex flex-col items-center">
+                        <span class="text-xs text-gray-500 mb-1">Enhanced (Deskew + Denoise)</span>
+                        <img src={enhancedImageSrc} alt="Enhanced Thumbnail" class="h-full object-contain bg-gray-50 border rounded {useEnhanced ? 'ring-2 ring-blue-500' : ''}" />
+                    </div>
+                </div>
+                {/if}
+
+                <div class="relative inline-block max-w-full border rounded shadow-sm bg-gray-50">
                     {#if imageSrc}
                         <img src={imageSrc} alt="Document Preview" class="w-full h-auto block" />
                         {#each ocrResult.words as word}

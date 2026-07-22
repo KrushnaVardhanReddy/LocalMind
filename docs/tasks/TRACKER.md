@@ -29,7 +29,7 @@
 ### Version 2: LocalMind Docs 🔨
 *Local Document Processing*
 - [x] Task 1: Local OCR Integration ✅ *(Completed - PR #18)* (`docs/tasks/phase-2/task1_ocr.md`)
-- [ ] Task 1.2: OpenCV Image Enhancement (`docs/tasks/phase-2/task1_2_opencv.md`)
+- [x] Task 1.2: OpenCV Image Enhancement (`docs/tasks/phase-2/task1_2_opencv.md`)
 - [ ] Task 1.5: Browser-Based PII Redaction 🔄 *(Running - Jules ID: 4167745067130500474)* (`docs/tasks/phase-2/task1_5_redaction.md`)
 - [ ] Task 1.8: Bulk Document Parsing (`docs/tasks/phase-2/task1_8_bulk_parse.md`)
 - [x] Task 2: Local PDF Manipulation ✅ *(Completed - PR #20)* (`docs/tasks/phase-2/task2_pdf.md`)
