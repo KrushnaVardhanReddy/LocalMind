@@ -7,13 +7,8 @@
 - [x] Task 1: Core Scaffolding & WorkerPool Abstraction 🔄 *(Completed - Jules ID: 14075293772290182711)*
 - [x] Task 2: wa-sqlite Workspace Persistence 🔄 *(Completed - PR #12)* (`docs/tasks/cross_cutting/task_wa_sqlite.md`)
 - [x] Task 3: Production COOP/COEP Headers 🔄 *(Completed - PR #11)* (`docs/tasks/cross_cutting/task_production_headers.md`)
-<<<<<<< HEAD
 - [x] Task 4: PWA & Offline Support 🔄 *(Completed - PR #14)* (`docs/tasks/cross_cutting/task_pwa.md`)
-- [ ] Task 5: Custom WASM Plugin Runtime 🔄 *(Running - Jules ID: 17168036313140878519)* (`docs/tasks/phase-7/task1_plugin_runtime.md`)
-=======
-- [ ] Task 4: PWA & Offline Support 🔄 *(Running - Jules ID: 12150458870897198267)* (`docs/tasks/cross_cutting/task_pwa.md`)
-- [x] Task 5: Custom WASM Plugin Runtime 🔄 *(Completed - Jules ID: 17168036313140878519)* (`docs/tasks/phase-7/task1_plugin_runtime.md`)
->>>>>>> origin/jules-13222170876360403491-55f18660
+- [x] Task 5: Custom WASM Plugin Runtime 🔄 *(Completed - PR #15)* (`docs/tasks/phase-7/task1_plugin_runtime.md`)
 
 ---
 
