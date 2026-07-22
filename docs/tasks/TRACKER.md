@@ -23,7 +23,7 @@
 - [x] Task 5: AI-Assisted Chart Customization ✅ *(Completed - PR #23)* (`docs/tasks/phase-1/task5_ai_chart.md`)
 - [ ] Task 6: Multi-File Auto-Joins & Visual Data Diffing (`docs/tasks/phase-1/task6_joins_diff.md`)
 - [ ] Task 7: Tableau-Style BI Pivot Builder (`docs/tasks/phase-1/task7_bi_pivot.md`)
-- [ ] Task 8: Interactive Dashboard Builder (`docs/tasks/phase-1/task8_dashboards.md`)
+- [x] Task 8: Interactive Dashboard Builder (`docs/tasks/phase-1/task8_dashboards.md`)
 - [ ] Task 9: End-to-End Testing (`docs/tasks/phase-1/task9_e2e.md`)
 
 ### Version 2: LocalMind Docs 🔨

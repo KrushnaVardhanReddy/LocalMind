@@ -283,6 +283,12 @@
             >
                 ⚙️
             </button>
+            <a
+                href="/dashboard"
+                class="px-4 py-2 bg-blue-100 text-blue-700 rounded shadow hover:bg-blue-200 transition font-medium flex items-center gap-2"
+            >
+                📊 View Dashboard
+            </a>
         </div>
 
         <div class="flex items-center gap-4">
@@ -483,6 +489,28 @@
                                 {:else}
                                     ✨ Alter Chart
                                 {/if}
+                            </button>
+                        </div>
+
+                        <div class="mt-4">
+                            <button
+                                onclick={() => {
+                                    const saved = localStorage.getItem('localmind_dashboard');
+                                    let items = saved ? JSON.parse(saved) : [];
+                                    const id = crypto.randomUUID();
+                                    const newItem = {
+                                        id,
+                                        title: 'Pinned Chart',
+                                        sql: customQuery,
+                                        customOption: chartCustomOption,
+                                    };
+                                    items.push(newItem);
+                                    localStorage.setItem('localmind_dashboard', JSON.stringify(items));
+                                    alert('Chart pinned to dashboard!');
+                                }}
+                                class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition flex items-center gap-2"
+                            >
+                                📌 Pin to Dashboard
                             </button>
                         </div>
                     </div>
