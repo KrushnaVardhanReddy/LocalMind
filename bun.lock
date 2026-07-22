@@ -32,6 +32,7 @@
         "tree-sitter-cpp": "^0.23.4",
         "tree-sitter-javascript": "^0.25.0",
         "wa-sqlite": "^1.0.0",
+        "wavefile": "^11.0.0",
         "web-tree-sitter": "^0.26.11",
       },
       "devDependencies": {
@@ -1574,6 +1575,8 @@
     "wa-sqlite": ["wa-sqlite@1.0.0", "", {}, ""],
 
     "wasm-feature-detect": ["wasm-feature-detect@1.8.0", "", {}, "sha512-zksaLKM2fVlnB5jQQDqKXXwYHLQUVH9es+5TOOHwGOVJOCeRBCiPjwSg+3tN2AdTCzjgli4jijCH290kXb/zWQ=="],
+
+    "wavefile": ["wavefile@11.0.0", "", { "bin": { "wavefile": "./bin/wavefile.js" } }, "sha512-/OBiAALgWU24IG7sC84cDO/KfFuvajWc5Uec0oV2zrpOOZZDgGdOwHwgEzOrwh8jkubBk7PtZfQBIcI1OaE5Ng=="],
 
     "web-tree-sitter": ["web-tree-sitter@0.26.11", "", {}, "sha512-Q5Dm3YTIXSXuH6FxX6RuzX2Qwpc4DPGiYMU87Wg5Z8OIStiQFiUex4zMDc0vBTw78EphaYJacncJghCHzbZptg=="],
 
