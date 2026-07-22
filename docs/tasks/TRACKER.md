@@ -65,7 +65,7 @@
 
 ### Media Plugins
 - [ ] Task 1: FFmpeg WASM Integration 🔄 *(Running - Jules ID: 10251679764195397038)* (`docs/tasks/phase-3/task1_ffmpeg.md`)
-- [ ] Task 2: Whisper WASM Integration (`docs/tasks/phase-3/task2_whisper.md`)
+- [x] Task 2: Whisper WASM Integration (`docs/tasks/phase-3/task2_whisper.md`)
 - [ ] Task 3: Instant Video Clipper (`docs/tasks/phase-3/task4_video_clipper.md`)
 
 ### Specialized Niche Plugins
