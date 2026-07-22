@@ -10,9 +10,7 @@ Implement a local synthetic test data generator that accepts a JSON schema or SQ
 ## Implementation Steps
 
 ### 1. Install Dependencies
-```bash
-bun add @faker-js/faker
-```
+*(Already completed by Antigravity in `feature/dev`. No need to run these commands.)*
 
 ### 2. Create the Generator Worker
 - Create `src/lib/workers/datagen.worker.ts`.
@@ -35,7 +33,7 @@ bun add @faker-js/faker
 - Call `expose(new DataGenService())`.
 
 ### 3. Register with WorkerManager
-- Add `WorkerManager.getDataGen()`.
+*(Already completed by Antigravity. `getDataGen()` is already in `WorkerManager.ts`.)*
 
 ### 4. Build the Generator UI
 - Create `src/routes/devtools/datagen/+page.svelte`.

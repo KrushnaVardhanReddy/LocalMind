@@ -11,9 +11,7 @@ Implement the OpenCV.js Web Worker to pre-process scanned documents before OCR â
 ## Implementation Steps
 
 ### 1. Install Dependencies
-```bash
-bun add @techstark/opencv-js
-```
+*(Already completed by Antigravity in `feature/dev`. No need to run these commands.)*
 
 ### 2. Create the OpenCV Worker
 - Create `src/lib/workers/opencv.worker.ts`.
@@ -40,7 +38,7 @@ bun add @techstark/opencv-js
 - Call `expose(new OpenCVService())`.
 
 ### 3. Register with WorkerManager
-- Add `WorkerManager.getOpenCV()` with the Singleton lazy-loading pattern.
+*(Already completed by Antigravity. `getOpenCV()` is already in `WorkerManager.ts`.)*
 
 ### 4. Wire into the OCR Pipeline
 - In the Docs upload handler, before calling `Tesseract.recognizeImage()`, call `OpenCV.enhance_and_deskew()`.

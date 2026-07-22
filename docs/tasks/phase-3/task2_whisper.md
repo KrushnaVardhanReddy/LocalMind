@@ -10,9 +10,7 @@ Implement local, offline audio/video transcription using Whisper (tiny/base mode
 ## Implementation Steps
 
 ### 1. Install Dependencies
-```bash
-bun add @xenova/transformers
-```
+*(Already completed by Antigravity in `feature/dev`. No need to run these commands.)*
 The Whisper ONNX model (`Xenova/whisper-tiny`) is downloaded from Hugging Face on first use and cached by the Service Worker.
 
 ### 2. Create the Whisper Worker
@@ -34,7 +32,7 @@ The Whisper ONNX model (`Xenova/whisper-tiny`) is downloaded from Hugging Face o
 - Call `expose(new WhisperService())`.
 
 ### 3. Register with WorkerManager
-- Add `WorkerManager.getWhisper()`.
+*(Already completed by Antigravity. `getWhisper()` is already in `WorkerManager.ts`.)*
 
 ### 4. Build the Transcription UI
 - Add a "Transcribe" tab to the `src/routes/media/+page.svelte` page.

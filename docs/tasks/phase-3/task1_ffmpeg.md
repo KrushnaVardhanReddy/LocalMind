@@ -10,9 +10,7 @@ Implement the FFmpeg WASM Web Worker for local video transcoding, audio extracti
 ## Implementation Steps
 
 ### 1. Install Dependencies
-```bash
-bun add @ffmpeg/ffmpeg @ffmpeg/core
-```
+*(Already completed by Antigravity in `feature/dev`. No need to run these commands.)*
 
 ### 2. Create the FFmpeg Worker
 - Create `src/lib/workers/ffmpeg.worker.ts`.
@@ -22,7 +20,7 @@ bun add @ffmpeg/ffmpeg @ffmpeg/core
 - Call `expose(new FFmpegService())`.
 
 ### 3. Register with WorkerManager
-- Add `WorkerManager.getFFmpeg()`.
+*(Already completed by Antigravity. `getFFmpeg()` is already in `WorkerManager.ts`.)*
 
 ### 4. Build the Media UI
 - Create `src/routes/media/+page.svelte` with three sub-tabs: **Transcode**, **Trim**, **Extract Audio**.

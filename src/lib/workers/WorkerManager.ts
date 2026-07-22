@@ -12,6 +12,9 @@ export class WorkerManager {
     private static initDataGenPromise: Promise<any> | null = null;
     private static initTreeSitterPromise: Promise<any> | null = null;
     private static initNERPromise: Promise<any> | null = null;
+    private static initFFmpegPromise: Promise<any> | null = null;
+    private static initWhisperPromise: Promise<any> | null = null;
+    private static initOpenCVPromise: Promise<any> | null = null;
 
     public static async getDuckDB() {
         if (this.proxies.has('duckdb')) {
@@ -189,5 +192,62 @@ export class WorkerManager {
         }
 
         return this.initNERPromise;
+    }
+
+    public static async getFFmpeg() {
+        if (this.proxies.has('ffmpeg')) {
+            return this.proxies.get('ffmpeg');
+        }
+
+        if (!this.initFFmpegPromise) {
+            this.initFFmpegPromise = (async () => {
+                const worker = new Worker(new URL('./ffmpeg.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('ffmpeg', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('ffmpeg', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initFFmpegPromise;
+    }
+
+    public static async getWhisper() {
+        if (this.proxies.has('whisper')) {
+            return this.proxies.get('whisper');
+        }
+
+        if (!this.initWhisperPromise) {
+            this.initWhisperPromise = (async () => {
+                const worker = new Worker(new URL('./whisper.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('whisper', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('whisper', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initWhisperPromise;
+    }
+
+    public static async getOpenCV() {
+        if (this.proxies.has('opencv')) {
+            return this.proxies.get('opencv');
+        }
+
+        if (!this.initOpenCVPromise) {
+            this.initOpenCVPromise = (async () => {
+                const worker = new Worker(new URL('./opencv.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('opencv', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('opencv', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initOpenCVPromise;
     }
 }

@@ -11,9 +11,7 @@ Implement a local, fully offline semantic search engine over a corpus of documen
 ## Implementation Steps
 
 ### 1. Install Dependencies
-```bash
-bun add @xenova/transformers
-```
+*(Already completed by Antigravity in `feature/dev`. No need to run these commands.)*
 
 ### 2. Create the Embeddings Worker
 - Create `src/lib/workers/embeddings.worker.ts`.

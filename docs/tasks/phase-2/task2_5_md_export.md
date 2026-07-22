@@ -10,9 +10,7 @@ Implement a local Markdown-to-PDF and Markdown-to-HTML export pipeline using a W
 ## Implementation Steps
 
 ### 1. Install Dependencies
-```bash
-bun add marked dompurify @types/dompurify
-```
+*(Already completed by Antigravity in `feature/dev`. No need to run these commands.)*
 
 ### 2. Markdown → HTML Renderer
 - Create `src/lib/utils/markdown-renderer.ts`.
