@@ -7,6 +7,7 @@
     import { marked } from 'marked';
     import DOMPurify from 'dompurify';
     import ChartViewer from '$lib/components/ChartViewer.svelte';
+    import PivotBuilder from '$lib/components/PivotBuilder.svelte';
     import type { QueryResult } from '$lib/workers/duckdb.worker';
     import {
         workspaces,
@@ -43,6 +44,7 @@
     let uploadStatus = $state<{type: 'success' | 'error' | 'loading', message: string} | null>(null);
     let customQuery = $state('');
     let uploadedTables = $state<string[]>([]);
+    let selectedPivotTable = $state('');
 
     onMount(async () => {
         await loadWorkspaces();
@@ -517,6 +519,28 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
             {/if}
         {/if}
     </div>
+
+    {#if uploadedTables.length > 0}
+        <div class="p-4 border rounded mt-4">
+            <h2 class="text-xl font-bold mb-4">Pivot Builder</h2>
+            <div class="mb-4">
+                <label for="pivotTableSelect" class="block text-sm font-medium text-gray-700 mb-1">Select Table to Pivot</label>
+                <select
+                    id="pivotTableSelect"
+                    class="block w-full max-w-xs border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-purple-500 focus:ring-purple-500"
+                    onchange={(e) => selectedPivotTable = (e.target as HTMLSelectElement).value}
+                >
+                    <option value="">-- Select a table --</option>
+                    {#each uploadedTables as t}
+                        <option value={t}>{t}</option>
+                    {/each}
+                </select>
+            </div>
+            {#if selectedPivotTable}
+                <PivotBuilder tableName={selectedPivotTable} />
+            {/if}
+        </div>
+    {/if}
 
     <div class="p-4 border rounded">
         <div class="flex justify-between items-center mb-4">
