@@ -19,6 +19,7 @@
 		"@tailwindcss/vite": "^4.3.0",
 		"@testing-library/svelte": "^5.4.2",
 		"@types/dompurify": "^3.2.0",
+		"@types/highlight.js": "^10.1.0",
 		"@types/jszip": "^3.4.1",
 		"@types/marked": "^6.0.0",
 		"esbuild": "^0.28.1",
@@ -38,8 +39,10 @@
 	},
 	"dependencies": {
 		"@duckdb/duckdb-wasm": "^1.33.1-dev57.0",
+		"ajv": "^8.20.0",
 		"comlink": "^4.4.2",
 		"dompurify": "^3.4.12",
+		"highlight.js": "^11.11.1",
 		"marked": "^18.0.7",
 		"tesseract.js": "^7.0.0",
 		"wa-sqlite": "^1.0.0"

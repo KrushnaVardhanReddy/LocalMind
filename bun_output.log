@@ -1,0 +1,20 @@
+$ vite dev
+
+  VITE v8.1.5  ready in 1205 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+1:46:26 AM [vite] (client) hmr update /src/routes/devtools/formatters/Base64Encoder.svelte, /src/routes/layout.css
+1:46:26 AM [vite] (ssr) page reload src/routes/devtools/formatters/Base64Encoder.svelte
+1:46:30 AM [vite] (client) hmr update /src/routes/devtools/formatters/JwtInspector.svelte, /src/routes/layout.css
+1:46:30 AM [vite] (ssr) page reload src/routes/devtools/formatters/JwtInspector.svelte
+1:46:35 AM [vite] (client) page reload .svelte-kit/generated/client/nodes/0.js
+1:46:35 AM [vite] (client) page reload .svelte-kit/generated/client/nodes/1.js
+1:46:35 AM [vite] (client) page reload .svelte-kit/generated/client/nodes/4.js
+1:46:35 AM [vite] (client) page reload .svelte-kit/generated/client/app.js
+1:46:35 AM [vite] (client) page reload .svelte-kit/generated/client/matchers.js
+1:46:35 AM [vite] (ssr) page reload .svelte-kit/generated/shared/error-template.js
+1:46:35 AM [vite] (ssr) page reload .svelte-kit/generated/server/internal.js
+1:46:35 AM [vite] (client) page reload .svelte-kit/generated/root.js
+1:46:35 AM [vite] (ssr) page reload .svelte-kit/generated/root.js
+1:46:35 AM [vite] (ssr) page reload .svelte-kit/generated/root.svelte
