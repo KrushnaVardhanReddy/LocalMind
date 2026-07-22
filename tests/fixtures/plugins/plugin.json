@@ -1,0 +1,15 @@
+{
+  "name": "Hello World Uppercaser",
+  "version": "1.0.0",
+  "description": "A test plugin that uppercases text",
+  "author": "Test Corp",
+  "entrypoints": {
+    "process": {
+      "description": "Uppercase an array buffer",
+      "input": "ArrayBuffer",
+      "output": "ArrayBuffer"
+    }
+  },
+  "permissions": ["read_data", "write_result"],
+  "wasm_file": "plugin.wasm"
+}

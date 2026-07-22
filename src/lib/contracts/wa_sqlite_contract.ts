@@ -30,6 +30,18 @@ export interface DashboardPanelRecord {
     created_at: number;
 }
 
+export interface InstalledPluginRecord {
+    id: string;
+    name: string;
+    version: string;
+    author: string | null;
+    description: string | null;
+    manifest: string; // JSON blob of plugin.json
+    wasm_opfs_path: string; // path within OPFS
+    enabled: number; // 0 or 1
+    installed_at: number;
+}
+
 export interface WaSQLiteWorkerContract {
     /**
      * Initializes the wa-sqlite WASM engine with an OPFS backend.
@@ -60,4 +72,10 @@ export interface WaSQLiteWorkerContract {
     // --- Preferences ---
     setPreference(key: string, value: unknown): Promise<void>;
     getPreference<T>(key: string): Promise<T | null>;
+
+    // --- Plugins ---
+    savePlugin(record: Omit<InstalledPluginRecord, 'installed_at'>): Promise<InstalledPluginRecord>;
+    listPlugins(): Promise<InstalledPluginRecord[]>;
+    deletePlugin(id: string): Promise<void>;
+    updatePluginEnabled(id: string, enabled: boolean): Promise<void>;
 }

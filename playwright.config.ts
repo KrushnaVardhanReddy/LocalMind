@@ -9,6 +9,12 @@ export default defineConfig({
   reporter: 'html',
   use: {
     trace: 'on-first-retry',
+    baseURL: 'http://localhost:4173',
+  },
+  webServer: {
+    command: 'bun run preview',
+    url: 'http://localhost:4173',
+    reuseExistingServer: !process.env.CI,
   },
 
   projects: [

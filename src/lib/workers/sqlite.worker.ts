@@ -81,6 +81,19 @@ class SQLiteService implements WaSQLiteWorkerContract {
                 key TEXT PRIMARY KEY,
                 value TEXT NOT NULL
             );
+
+            -- Installed Plugins
+            CREATE TABLE IF NOT EXISTS installed_plugins (
+                id TEXT PRIMARY KEY,
+                name TEXT NOT NULL,
+                version TEXT NOT NULL,
+                author TEXT,
+                description TEXT,
+                manifest TEXT NOT NULL, -- JSON blob of plugin.json
+                wasm_opfs_path TEXT NOT NULL, -- path within OPFS
+                enabled INTEGER DEFAULT 1,
+                installed_at INTEGER DEFAULT (unixepoch())
+            );
         `;
 
         for await (const stmt of this.sqlite3.statements(this.db, schema)) {
@@ -259,6 +272,30 @@ class SQLiteService implements WaSQLiteWorkerContract {
         } catch (e) {
             return null;
         }
+    }
+
+    // --- Plugins ---
+    async savePlugin(record: any): Promise<any> {
+        const now = Math.floor(Date.now() / 1000);
+        await this.execute(
+            `INSERT INTO installed_plugins (id, name, version, author, description, manifest, wasm_opfs_path, enabled, installed_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+             ON CONFLICT(id) DO UPDATE SET name = excluded.name, version = excluded.version, author = excluded.author, description = excluded.description, manifest = excluded.manifest, wasm_opfs_path = excluded.wasm_opfs_path, enabled = excluded.enabled`,
+            [record.id, record.name, record.version, record.author, record.description, record.manifest, record.wasm_opfs_path, record.enabled, now]
+        );
+        const rows = await this.query(`SELECT * FROM installed_plugins WHERE id = ?`, [record.id]);
+        return rows[0];
+    }
+
+    async listPlugins(): Promise<any[]> {
+        return await this.query(`SELECT * FROM installed_plugins ORDER BY installed_at DESC`);
+    }
+
+    async deletePlugin(id: string): Promise<void> {
+        await this.execute(`DELETE FROM installed_plugins WHERE id = ?`, [id]);
+    }
+
+    async updatePluginEnabled(id: string, enabled: boolean): Promise<void> {
+        await this.execute(`UPDATE installed_plugins SET enabled = ? WHERE id = ?`, [enabled ? 1 : 0, id]);
     }
 }
 
