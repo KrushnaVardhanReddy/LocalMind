@@ -23,7 +23,7 @@
 - [x] Task 5: AI-Assisted Chart Customization ✅ *(Completed - PR #23)* (`docs/tasks/phase-1/task5_ai_chart.md`)
 - [ ] Task 6: Multi-File Auto-Joins & Visual Data Diffing (`docs/tasks/phase-1/task6_joins_diff.md`)
 - [ ] Task 7: Tableau-Style BI Pivot Builder (`docs/tasks/phase-1/task7_bi_pivot.md`)
-- [ ] Task 8: Interactive Dashboard Builder (`docs/tasks/phase-1/task8_dashboards.md`)
+- [ ] Task 8: Interactive Dashboard Builder 🔄 *(Running - Jules ID: 17614248477683432132)* (`docs/tasks/phase-1/task8_dashboards.md`)
 - [ ] Task 9: End-to-End Testing (`docs/tasks/phase-1/task9_e2e.md`)
 
 ### Version 2: LocalMind Docs 🔨
@@ -33,7 +33,7 @@
 - [ ] Task 1.5: Browser-Based PII Redaction 🔄 *(Running - Jules ID: 4167745067130500474)* (`docs/tasks/phase-2/task1_5_redaction.md`)
 - [ ] Task 1.8: Bulk Document Parsing (`docs/tasks/phase-2/task1_8_bulk_parse.md`)
 - [x] Task 2: Local PDF Manipulation ✅ *(Completed - PR #20)* (`docs/tasks/phase-2/task2_pdf.md`)
-- [ ] Task 2.5: Markdown to PDF/HTML Export (`docs/tasks/phase-2/task2_5_md_export.md`)
+- [ ] Task 2.5: Markdown to PDF/HTML Export 🔄 *(Running - Jules ID: 2906245828349292013)* (`docs/tasks/phase-2/task2_5_md_export.md`)
 - [ ] Task 3: Local Semantic Search (`docs/tasks/phase-2/task3_semantic_search.md`)
 - [ ] Task 3.5: Local AI Resume Screener & Ranker (`docs/tasks/phase-2/task3_5_resume_screener.md`)
 - [ ] Task 4: End-to-End Testing (`docs/tasks/phase-2/task_e2e.md`)
@@ -42,11 +42,7 @@
 *Offline Utilities for Developers*
 - [x] Task 1: Offline Data Formatters & Validators (JSON, JWT, Base64) ✅ *(Completed - PR #17)* (`docs/tasks/phase-4/task1_formatters.md`)
 - [ ] Task 1.5: Data Format Converters (JSON <-> YAML <-> XML) (`docs/tasks/phase-4/task1_5_converters.md`)
-<<<<<<< HEAD
-- [ ] Task 2: Code Analysis with tree-sitter 🔄 *(Running - Jules ID: 3307633334321330914)* (`docs/tasks/phase-4/task2_treesitter.md`)
-=======
-- [x] Task 2: Code Analysis with tree-sitter (`docs/tasks/phase-4/task2_treesitter.md`)
->>>>>>> origin/jules-3307633334321330914-f5845f54
+- [x] Task 2: Code Analysis with tree-sitter ✅ *(Completed)* (`docs/tasks/phase-4/task2_treesitter.md`)
 - [ ] Task 3: Visual Transformation Pipelines (`docs/tasks/phase-4/task3_pipelines.md`)
 - [ ] Task 4: Git History Analyzer (`docs/tasks/phase-4/task4_git.md`)
 - [ ] Task 5: Visual Log Parser & Anomaly Detector (`docs/tasks/phase-4/task5_log_parser.md`)
@@ -68,7 +64,7 @@
 - [ ] Task 3: Local AI Data Janitor (`docs/tasks/phase-5/task3_data_janitor.md`)
 
 ### Media Plugins
-- [ ] Task 1: FFmpeg WASM Integration (`docs/tasks/phase-3/task1_ffmpeg.md`)
+- [ ] Task 1: FFmpeg WASM Integration 🔄 *(Running - Jules ID: 10251679764195397038)* (`docs/tasks/phase-3/task1_ffmpeg.md`)
 - [ ] Task 2: Whisper WASM Integration (`docs/tasks/phase-3/task2_whisper.md`)
 - [ ] Task 3: Instant Video Clipper (`docs/tasks/phase-3/task4_video_clipper.md`)
 
