@@ -18,7 +18,7 @@
 ### Version 1: LocalMind Analytics 🔨
 *Data Ingestion & Visualization*
 - [x] Task 1.1: Data Ingestion and Local File Access (v2 Streams API) 🔄 *(Completed - PR #16)*
-- [ ] Task 1.2: Query Execution and Data Visualization (v2)
+- [ ] Task 1.2: Query Execution and Data Visualization (v2) 🔄 *(Running - Jules ID: 178255937200456921)*
 - [x] Task 1.3: Consent-Gated AI Insights 🔄 *(Completed - PR #13)* (`docs/tasks/phase-1/task4.md`)
 - [ ] Task 5: AI-Assisted Chart Customization (`docs/tasks/phase-1/task5_ai_chart.md`)
 - [ ] Task 6: Multi-File Auto-Joins & Visual Data Diffing (`docs/tasks/phase-1/task6_joins_diff.md`)
@@ -32,7 +32,7 @@
 - [ ] Task 1.2: OpenCV Image Enhancement (`docs/tasks/phase-2/task1_2_opencv.md`)
 - [ ] Task 1.5: Browser-Based PII Redaction (`docs/tasks/phase-2/task1_5_redaction.md`)
 - [ ] Task 1.8: Bulk Document Parsing (`docs/tasks/phase-2/task1_8_bulk_parse.md`)
-- [ ] Task 2: Local PDF Manipulation (`docs/tasks/phase-2/task2_pdf.md`)
+- [ ] Task 2: Local PDF Manipulation 🔄 *(Running - Jules ID: 16015953739524797456)* (`docs/tasks/phase-2/task2_pdf.md`)
 - [ ] Task 2.5: Markdown to PDF/HTML Export (`docs/tasks/phase-2/task2_5_md_export.md`)
 - [ ] Task 3: Local Semantic Search (`docs/tasks/phase-2/task3_semantic_search.md`)
 - [ ] Task 3.5: Local AI Resume Screener & Ranker (`docs/tasks/phase-2/task3_5_resume_screener.md`)
@@ -50,7 +50,7 @@
 - [ ] Task 5.6: HAR File Analyzer (`docs/tasks/phase-4/task5_6_har_analyzer.md`)
 - [ ] Task 5.7: Visual Regression Diffing (`docs/tasks/phase-4/task5_7_visual_diff.md`)
 - [ ] Task 5.8: Test Data Generator (`docs/tasks/phase-4/task5_8_test_data.md`)
-- [ ] Task 5.9: Local Mock API Server (`docs/tasks/phase-4/task5_9_mock_server.md`)
+- [ ] Task 5.9: Local Mock API Server 🔄 *(Running - Jules ID: 17073810535161606818)* (`docs/tasks/phase-4/task5_9_mock_server.md`)
 - [ ] Task 7: End-to-End Testing (`docs/tasks/phase-4/task_e2e.md`)
 
 ---
