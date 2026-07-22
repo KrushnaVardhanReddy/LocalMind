@@ -7,6 +7,7 @@ export class WorkerManager {
 
     private static initDuckDBPromise: Promise<any> | null = null;
     private static initSQLitePromise: Promise<any> | null = null;
+    private static initLLMPromise: Promise<any> | null = null;
 
     public static async getDuckDB() {
         if (this.proxies.has('duckdb')) {
@@ -68,5 +69,24 @@ export class WorkerManager {
             this.instances.delete(`plugin_${pluginId}`);
         }
         this.pluginProxies.delete(pluginId);
+    }
+
+    public static async getLLM() {
+        if (this.proxies.has('llm')) {
+            return this.proxies.get('llm');
+        }
+
+        if (!this.initLLMPromise) {
+            this.initLLMPromise = (async () => {
+                const worker = new Worker(new URL('./llm.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('llm', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('llm', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initLLMPromise;
     }
 }

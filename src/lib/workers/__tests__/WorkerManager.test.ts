@@ -21,6 +21,7 @@ describe('WorkerManager', () => {
         (WorkerManager as any).instances.clear();
         (WorkerManager as any).initDuckDBPromise = null;
         (WorkerManager as any).initSQLitePromise = null;
+        (WorkerManager as any).initLLMPromise = null;
     });
 
     it('should lazily initialize the DuckDB worker exactly once', async () => {
@@ -53,5 +54,17 @@ describe('WorkerManager', () => {
         await WorkerManager.getDuckDB();
 
         expect(wrapSpy).toHaveBeenCalled();
+    });
+
+    it('should lazily initialize the LLM worker exactly once', async () => {
+        expect(mockWorker).not.toHaveBeenCalled();
+
+        const llm1 = await WorkerManager.getLLM();
+        expect(mockWorker).toHaveBeenCalledTimes(1);
+
+        const llm2 = await WorkerManager.getLLM();
+        expect(mockWorker).toHaveBeenCalledTimes(1);
+
+        expect(llm1).toBe(llm2);
     });
 });
