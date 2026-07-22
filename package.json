@@ -47,6 +47,7 @@
     "@apidevtools/swagger-parser": "^12.1.0",
     "@duckdb/duckdb-wasm": "^1.33.1-dev57.0",
     "@faker-js/faker": "^10.5.0",
+    "@huggingface/transformers": "^4.2.0",
     "@readme/openapi-parser": "^6.3.0",
     "ajv": "^8.20.0",
     "comlink": "^4.4.2",
