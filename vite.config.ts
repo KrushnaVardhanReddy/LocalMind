@@ -10,6 +10,10 @@ export default defineConfig({
 	build: {
 		target: 'es2022'
 	},
+	worker: {
+		format: 'es',
+		plugins: () => [wasm(), topLevelAwait()]
+	},
 	plugins: [
 		tailwindcss(),
 		wasm(),
