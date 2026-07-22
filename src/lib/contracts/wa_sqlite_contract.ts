@@ -42,6 +42,15 @@ export interface InstalledPluginRecord {
     installed_at: number;
 }
 
+export interface DocumentChunkRecord {
+    id: string;
+    workspace_id: string;
+    file_name: string;
+    chunk_index: number;
+    chunk_text: string;
+    embedding: ArrayBuffer; // 384 float32 values stored as raw bytes
+}
+
 export interface WaSQLiteWorkerContract {
     /**
      * Initializes the wa-sqlite WASM engine with an OPFS backend.
@@ -78,4 +87,8 @@ export interface WaSQLiteWorkerContract {
     listPlugins(): Promise<InstalledPluginRecord[]>;
     deletePlugin(id: string): Promise<void>;
     updatePluginEnabled(id: string, enabled: boolean): Promise<void>;
+
+    // --- Document Chunks (Embeddings) ---
+    insertDocumentChunk(record: Omit<DocumentChunkRecord, 'id'>): Promise<DocumentChunkRecord>;
+    getAllDocumentChunks(workspaceId: string): Promise<DocumentChunkRecord[]>;
 }

@@ -15,6 +15,7 @@ export class WorkerManager {
     private static initFFmpegPromise: Promise<any> | null = null;
     private static initWhisperPromise: Promise<any> | null = null;
     private static initOpenCVPromise: Promise<any> | null = null;
+    private static initEmbeddingsPromise: Promise<any> | null = null;
 
     public static async getDuckDB() {
         if (this.proxies.has('duckdb')) {
@@ -249,5 +250,24 @@ export class WorkerManager {
         }
 
         return this.initOpenCVPromise;
+    }
+
+    public static async getEmbeddings() {
+        if (this.proxies.has('embeddings')) {
+            return this.proxies.get('embeddings');
+        }
+
+        if (!this.initEmbeddingsPromise) {
+            this.initEmbeddingsPromise = (async () => {
+                const worker = new Worker(new URL('./embeddings.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('embeddings', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('embeddings', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initEmbeddingsPromise;
     }
 }

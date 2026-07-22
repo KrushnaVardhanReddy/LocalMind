@@ -5,6 +5,8 @@
     import type { OCRResult, TesseractWorkerContract } from '$lib/workers/tesseract.worker';
     import type { NERWorkerContract, PIIEntity } from '$lib/workers/ner.worker';
     import type { MuPDFWorkerContract } from '$lib/workers/mupdf.worker';
+    import type { EmbeddingsWorkerContract } from '$lib/contracts/embeddings_worker_contract';
+    import type { WaSQLiteWorkerContract } from '$lib/contracts/wa_sqlite_contract';
 
     let isProcessing = false;
     let isNerProcessing = false;
@@ -28,10 +30,19 @@
     let imageHeight: number = 0;
     let isRedacting = false;
 
+    let searchQuery = '';
+    let isSearching = false;
+    let searchResults: { file_name: string; chunk_text: string; score: number }[] = [];
+
     let tesseractWorker: any = null;
     let opencvWorker: any = null;
     let nerWorker: NERWorkerContract | null = null;
     let mupdfWorker: MuPDFWorkerContract | null = null;
+    let embeddingsWorker: EmbeddingsWorkerContract | null = null;
+    let sqliteWorker: WaSQLiteWorkerContract | null = null;
+
+    let isIndexing = false;
+    let defaultWorkspaceId = 'default-workspace'; // Default workspace for MVP
 
     onMount(async () => {
         try {
@@ -60,8 +71,26 @@
         } catch (e) {
             console.error("Failed to initialize MuPDF", e);
         }
-    });
 
+        try {
+            embeddingsWorker = await WorkerManager.getEmbeddings();
+            await embeddingsWorker?.init();
+        } catch (e) {
+            console.error("Failed to initialize Embeddings worker", e);
+        }
+
+        try {
+            sqliteWorker = await WorkerManager.getSQLite();
+            // Ensure workspace exists
+            try {
+                await sqliteWorker?.createWorkspace(defaultWorkspaceId);
+            } catch (e) {
+                // Ignore if it already exists or handle accordingly
+            }
+        } catch (e) {
+            console.error("Failed to initialize SQLite", e);
+        }
+    });
 
     const handleToggleEnhanced = async () => {
         useEnhanced = !useEnhanced;
@@ -100,6 +129,130 @@
             statusMessage = 'OCR Failed';
         } finally {
             isProcessing = false;
+        }
+    };
+
+    const chunkText = (text: string, maxTokens: number = 256, overlapTokens: number = 32): string[] => {
+        // Approximate tokenization: 1 token ~ 4 chars
+        const maxChars = maxTokens * 4;
+        const overlapChars = overlapTokens * 4;
+        const chunks: string[] = [];
+
+        if (!text) return chunks;
+
+        let startIndex = 0;
+        while (startIndex < text.length) {
+            let endIndex = startIndex + maxChars;
+            if (endIndex < text.length) {
+                // Try to find a nice break point (space or newline)
+                let breakPoint = text.lastIndexOf('\n', endIndex);
+                if (breakPoint <= startIndex) {
+                    breakPoint = text.lastIndexOf(' ', endIndex);
+                }
+                if (breakPoint > startIndex) {
+                    endIndex = breakPoint;
+                }
+            } else {
+                endIndex = text.length;
+            }
+
+            chunks.push(text.substring(startIndex, endIndex).trim());
+            startIndex = endIndex - overlapChars;
+            if (startIndex < 0) startIndex = 0;
+            // Prevent infinite loop if overlap is too big
+            if (endIndex <= startIndex) startIndex = endIndex;
+        }
+
+        return chunks.filter(c => c.length > 0);
+    };
+
+    const indexDocument = async (fileName: string, text: string) => {
+        if (!embeddingsWorker || !sqliteWorker || !text) return;
+
+        isIndexing = true;
+        const currentStatus = statusMessage;
+        statusMessage = `Indexing ${fileName} for Semantic Search...`;
+
+        try {
+            const chunks = chunkText(text);
+            if (chunks.length > 0) {
+                // We could batch them, but our worker's embedBatch already handles batching internally if we pass the whole array
+                // The prompt says: "For each chunk, call EmbeddingsWorkerContract.embed()."
+                // OR "process in batches of 32 to avoid OOM errors". We'll use embedBatch.
+                const vectors = await embeddingsWorker.embedBatch(chunks);
+
+                for (let i = 0; i < chunks.length; i++) {
+                    const chunk = chunks[i];
+                    const vector = vectors[i];
+
+                    // Convert number[] to Float32Array then to ArrayBuffer for wa-sqlite
+                    const floatArray = new Float32Array(vector);
+
+                    await sqliteWorker.insertDocumentChunk({
+                        workspace_id: defaultWorkspaceId,
+                        file_name: fileName,
+                        chunk_index: i,
+                        chunk_text: chunk,
+                        embedding: floatArray.buffer
+                    });
+                }
+            }
+        } catch (error) {
+            console.error("Error indexing document:", error);
+            alert("Failed to index document for semantic search.");
+        } finally {
+            isIndexing = false;
+            statusMessage = currentStatus;
+        }
+    };
+
+    const handleSearch = async () => {
+        if (!searchQuery.trim() || !embeddingsWorker || !sqliteWorker) return;
+
+        isSearching = true;
+        searchResults = [];
+
+        try {
+            // Embed query
+            const queryVector = await embeddingsWorker.embed(searchQuery);
+
+            // Load all chunks
+            const chunks = await sqliteWorker.getAllDocumentChunks(defaultWorkspaceId);
+
+            if (chunks.length === 0) {
+                alert("No documents indexed for search.");
+                return;
+            }
+
+            // Gather raw blobs to pass to worker
+            const chunkBlobs: Uint8Array[] = chunks.map(chunk => new Uint8Array(chunk.embedding));
+
+            // Compute similarity locally in the worker off the main thread
+            const scores = await embeddingsWorker.computeSimilarity(queryVector, chunkBlobs);
+
+            // Zip and sort
+            const scoredChunks = chunks.map((chunk, i) => ({
+                file_name: chunk.file_name,
+                chunk_text: chunk.chunk_text,
+                score: scores[i]
+            }));
+
+            scoredChunks.sort((a, b) => b.score - a.score);
+
+            // Return top 10
+            searchResults = scoredChunks.slice(0, 10);
+
+        } catch (error) {
+            console.error("Search error:", error);
+            alert("Search failed.");
+        } finally {
+            isSearching = false;
+        }
+    };
+
+    const handleSearchKeypress = (e: KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            handleSearch();
         }
     };
 
@@ -227,6 +380,11 @@
                 } catch(e: any) {
                     alert(e.message || "PDF processing error");
                 }
+            }
+
+            // Index the document for semantic search after successful OCR
+            if (ocrResult?.text) {
+                await indexDocument(file.name, ocrResult.text);
             }
         } catch (error) {
             console.error('Error processing document', error);
@@ -410,7 +568,52 @@
 </script>
 
 <div class="container mx-auto p-8">
-    <h1 class="text-3xl font-bold mb-6">Docs Engine (OCR)</h1>
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">Docs Engine (OCR)</h1>
+
+        <!-- Search Bar -->
+        <div class="flex gap-2 w-96">
+            <input
+                type="text"
+                bind:value={searchQuery}
+                on:keypress={handleSearchKeypress}
+                placeholder="Semantic search (e.g., 'invoices from CA')"
+                class="border rounded px-4 py-2 flex-grow"
+                disabled={isSearching || isIndexing}
+            />
+            <button
+                on:click={handleSearch}
+                disabled={isSearching || isIndexing || !searchQuery.trim()}
+                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+            >
+                {isSearching ? 'Searching...' : 'Search'}
+            </button>
+        </div>
+    </div>
+
+    <!-- Search Results View -->
+    {#if searchResults.length > 0}
+        <div class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-semibold">Search Results</h2>
+                <button class="text-gray-500 hover:text-gray-800" on:click={() => searchResults = []}>Clear Results</button>
+            </div>
+
+            <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                {#each searchResults as result}
+                    <div class="bg-white border rounded p-4 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-sm truncate text-blue-800" title={result.file_name}>{result.file_name}</h3>
+                            <span class="text-xs font-mono bg-blue-100 text-blue-800 px-2 py-1 rounded">Score: {result.score.toFixed(3)}</span>
+                        </div>
+                        <p class="text-sm text-gray-700 line-clamp-4 leading-relaxed bg-gray-50 p-2 rounded border border-gray-100">
+                            {result.chunk_text}
+                        </p>
+                    </div>
+                {/each}
+            </div>
+        </div>
+    {/if}
 
     <div
         class="border-4 border-dashed rounded-lg p-12 text-center transition-colors {isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'}"
