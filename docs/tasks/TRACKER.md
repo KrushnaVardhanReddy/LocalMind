@@ -21,7 +21,7 @@
 - [x] Task 1.2: Query Execution and Data Visualization (v2) ✅ *(Completed - PR #21)*
 - [x] Task 1.3: Consent-Gated AI Insights ✅ *(Completed - PR #13)* (`docs/tasks/phase-1/task4.md`)
 - [x] Task 5: AI-Assisted Chart Customization ✅ *(Completed - PR #23)* (`docs/tasks/phase-1/task5_ai_chart.md`)
-- [ ] Task 6: Multi-File Auto-Joins & Visual Data Diffing (`docs/tasks/phase-1/task6_joins_diff.md`)
+- [ ] Task 6: Multi-File Auto-Joins & Visual Data Diffing 🔄 *(Running - Jules ID: 16431435685689981051)* (`docs/tasks/phase-1/task6_joins_diff.md`)
 - [ ] Task 7: Tableau-Style BI Pivot Builder (`docs/tasks/phase-1/task7_bi_pivot.md`)
 - [ ] Task 8: Interactive Dashboard Builder 🔄 *(Running - Jules ID: 17614248477683432132)* (`docs/tasks/phase-1/task8_dashboards.md`)
 - [ ] Task 9: End-to-End Testing (`docs/tasks/phase-1/task9_e2e.md`)
@@ -49,7 +49,7 @@
 - [ ] Task 5.5: PCAP Network Analyzer (`docs/tasks/phase-4/task5_5_pcap.md`)
 - [ ] Task 5.6: HAR File Analyzer (`docs/tasks/phase-4/task5_6_har_analyzer.md`)
 - [ ] Task 5.7: Visual Regression Diffing (`docs/tasks/phase-4/task5_7_visual_diff.md`)
-- [ ] Task 5.8: Test Data Generator (`docs/tasks/phase-4/task5_8_test_data.md`)
+- [ ] Task 5.8: Test Data Generator 🔄 *(Running - Jules ID: 5757722457106610683)* (`docs/tasks/phase-4/task5_8_test_data.md`)
 - [x] Task 5.9: Local Mock API Server ✅ *(Completed - PR #19)* (`docs/tasks/phase-4/task5_9_mock_server.md`)
 - [ ] Task 7: End-to-End Testing (`docs/tasks/phase-4/task_e2e.md`)
 
@@ -65,7 +65,7 @@
 
 ### Media Plugins
 - [ ] Task 1: FFmpeg WASM Integration 🔄 *(Running - Jules ID: 10251679764195397038)* (`docs/tasks/phase-3/task1_ffmpeg.md`)
-- [ ] Task 2: Whisper WASM Integration (`docs/tasks/phase-3/task2_whisper.md`)
+- [ ] Task 2: Whisper WASM Integration 🔄 *(Running - Jules ID: 10259295137520103283)* (`docs/tasks/phase-3/task2_whisper.md`)
 - [ ] Task 3: Instant Video Clipper (`docs/tasks/phase-3/task4_video_clipper.md`)
 
 ### Specialized Niche Plugins
