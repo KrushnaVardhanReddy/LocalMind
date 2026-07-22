@@ -16,6 +16,26 @@ export class WorkerManager {
     private static initWhisperPromise: Promise<any> | null = null;
     private static initOpenCVPromise: Promise<any> | null = null;
     private static initEmbeddingsPromise: Promise<any> | null = null;
+    private static initConverterPromise: Promise<any> | null = null;
+
+    public static async getConverter() {
+        if (this.proxies.has('converter')) {
+            return this.proxies.get('converter');
+        }
+
+        if (!this.initConverterPromise) {
+            this.initConverterPromise = (async () => {
+                const worker = new Worker(new URL('./converter.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('converter', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('converter', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initConverterPromise;
+    }
 
     public static async getDuckDB() {
         if (this.proxies.has('duckdb')) {
