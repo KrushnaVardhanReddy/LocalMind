@@ -5,7 +5,7 @@
 
     let file: File | null = $state(null);
     let fileSizeWarning = $state('');
-    let activeTab: 'transcode' | 'trim' | 'extract' = $state('transcode');
+    let activeTab: 'transcode' | 'trim' | 'extract' | 'transcribe' = $state('transcode');
 
     // Processing State
     let isProcessing = $state(false);
@@ -26,6 +26,15 @@
     let trimEndSeconds = $state('10');
     let trimThumbnailUrl = $state('');
     let isGeneratingThumbnail = $state(false);
+
+
+    // Transcribe State
+    let transcribeModel: 'tiny' | 'base' = $state('tiny');
+    let transcribeResultText = $state('');
+    let transcribeResultSRT = $state('');
+    let isExtractingAudio = $state(false);
+    let isTranscribing = $state(false);
+    let whisperProgressMsg = $state('');
 
     // Extract Audio State
     let extractOutputExt: 'mp3' | 'wav' | 'ogg' = $state('mp3');
@@ -136,6 +145,98 @@
         }
     }
 
+
+    function formatTimeSRT(seconds: number): string {
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = Math.floor(seconds % 60);
+        const ms = Math.floor((seconds % 1) * 1000);
+        return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')},${ms.toString().padStart(3, '0')}`;
+    }
+
+    async function handleTranscribe() {
+        if (!file) return;
+        isProcessing = true;
+        progressRatio = 0;
+        errorMsg = '';
+        transcribeResultText = '';
+        transcribeResultSRT = '';
+        whisperProgressMsg = '';
+
+        try {
+            const inputExt = file.name.split('.').pop()?.toLowerCase() || '';
+            let audioBuffer: ArrayBuffer;
+
+            const isVideo = ['mp4', 'webm', 'avi', 'mov'].includes(inputExt);
+            const needsConversion = isVideo || ['mp3', 'ogg'].includes(inputExt);
+
+            if (needsConversion) {
+                isExtractingAudio = true;
+                const ffmpegWorker = await getWorker();
+                const buffer = await file.arrayBuffer();
+                audioBuffer = await ffmpegWorker.extractAudio(buffer, 'wav');
+                isExtractingAudio = false;
+            } else {
+                audioBuffer = await file.arrayBuffer();
+            }
+
+            isTranscribing = true;
+            whisperProgressMsg = 'Initializing model...';
+
+            const whisperWorker = await WorkerManager.getWhisper();
+            const progressProxy = proxy((data: any) => {
+                if (data.status === 'progress') {
+                    progressRatio = data.progress / 100;
+                    whisperProgressMsg = `Downloading model (${Math.round(data.loaded / 1024 / 1024)} MB)...`;
+                } else if (data.status === 'ready') {
+                    whisperProgressMsg = 'Model ready. Transcribing...';
+                }
+            });
+            await whisperWorker.init(transcribeModel, progressProxy);
+
+            whisperProgressMsg = 'Transcribing...';
+            const result = await whisperWorker.transcribe(audioBuffer);
+
+            transcribeResultText = result.text;
+
+            let srtOutput = '';
+            result.chunks.forEach((chunk: any, index: number) => {
+                const start = formatTimeSRT(chunk.timestamp[0]);
+                const end = formatTimeSRT(chunk.timestamp[1] !== null ? chunk.timestamp[1] : chunk.timestamp[0] + 5);
+                srtOutput += `${index + 1}\n${start} --> ${end}\n${chunk.text.trim()}\n\n`;
+            });
+            transcribeResultSRT = srtOutput.trim();
+
+        } catch (e: any) {
+            errorMsg = e.message || 'Transcription failed.';
+            console.error(e);
+        } finally {
+            isProcessing = false;
+            isExtractingAudio = false;
+            isTranscribing = false;
+            whisperProgressMsg = '';
+        }
+    }
+
+
+    async function copyToClipboard(text: string) {
+        try {
+            await navigator.clipboard.writeText(text);
+        } catch (err) {
+            console.error('Failed to copy text: ', err);
+        }
+    }
+
+    function downloadText(content: string, filename: string) {
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
     async function handleExtractAudio() {
         if (!file) return;
         isProcessing = true;
@@ -210,13 +311,19 @@
                 >
                     Trim
                 </button>
-                <button
-                    class="px-4 py-2 text-sm font-medium border-b-2 {activeTab === 'extract' ? 'border-purple-500 text-purple-400' : 'border-transparent text-gray-400 hover:text-gray-200'}"
-                    onclick={() => activeTab = 'extract'}
-                    disabled={isProcessing}
-                >
-                    Extract Audio
-                </button>
+
+                    <button
+                        class="px-4 py-2 text-sm font-medium border-b-2 {activeTab === 'extract' ? 'border-purple-500 text-purple-400' : 'border-transparent text-gray-400 hover:text-gray-200'}"
+                        onclick={() => activeTab = 'extract'}
+                    >
+                        Extract Audio
+                    </button>
+                    <button
+                        class="px-4 py-2 text-sm font-medium border-b-2 {activeTab === 'transcribe' ? 'border-purple-500 text-purple-400' : 'border-transparent text-gray-400 hover:text-gray-200'}"
+                        onclick={() => activeTab = 'transcribe'}
+                    >
+                        Transcribe
+                    </button>
             </div>
 
             <!-- Drop Zone -->
@@ -349,6 +456,84 @@
                                 Trim
                             </button>
                         </div>
+                    </div>
+                {/if}
+
+
+                {#if activeTab === 'transcribe'}
+                    <div class="space-y-4">
+                        <h2 class="text-xl font-semibold">Transcription Settings</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-1" for="transcribeModel">Model Size</label>
+                                <select id="transcribeModel" bind:value={transcribeModel} class="w-full bg-gray-800 border border-gray-700 rounded-md p-2 text-white" disabled={isProcessing}>
+                                    <option value="tiny">Tiny (fastest)</option>
+                                    <option value="base">Base (more accurate)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="pt-4 flex items-center justify-between">
+                            <button
+                                class="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 text-white font-bold py-2 px-6 rounded transition-colors"
+                                onclick={handleTranscribe}
+                                disabled={!file || isProcessing}
+                            >
+                                Transcribe
+                            </button>
+                        </div>
+
+                        {#if isProcessing && (isExtractingAudio || isTranscribing)}
+                            <div class="mt-4 p-4 bg-gray-800 rounded border border-gray-700">
+                                <div class="text-purple-400 font-medium">
+                                    {#if isExtractingAudio}
+                                        Extracting audio... 1/2
+                                    {:else if isTranscribing}
+                                        Transcribing... 2/2
+                                        <div class="text-sm text-gray-400 mt-1">{whisperProgressMsg}</div>
+                                    {/if}
+                                </div>
+                            </div>
+                        {/if}
+
+                        {#if transcribeResultText || transcribeResultSRT}
+                            <div class="mt-6 space-y-4">
+                                <div>
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h3 class="text-lg font-medium text-gray-200">Plain Text</h3>
+                                        <div class="flex gap-2">
+                                            <button
+                                                class="bg-blue-600 hover:bg-blue-700 text-white text-xs py-1 px-3 rounded"
+                                                onclick={() => copyToClipboard(transcribeResultText)}
+                                            >
+                                                Copy
+                                            </button>
+                                        <button
+                                            class="bg-gray-700 hover:bg-gray-600 text-white text-xs py-1 px-3 rounded"
+                                            onclick={() => downloadText(transcribeResultText, 'transcript.txt')}
+                                        >
+                                            Download .txt
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="p-3 bg-gray-800 border border-gray-700 rounded text-gray-300 whitespace-pre-wrap text-sm max-h-48 overflow-y-auto">
+                                        {transcribeResultText}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between items-center mb-2">
+                                        <h3 class="text-lg font-medium text-gray-200">SRT Subtitles</h3>
+                                        <button
+                                            class="bg-gray-700 hover:bg-gray-600 text-white text-xs py-1 px-3 rounded"
+                                            onclick={() => downloadText(transcribeResultSRT, 'transcript.srt')}
+                                        >
+                                            Download .srt
+                                        </button>
+                                    </div>
+                                    <pre class="p-3 bg-gray-800 border border-gray-700 rounded text-gray-300 whitespace-pre-wrap text-xs max-h-48 overflow-y-auto">{transcribeResultSRT}</pre>
+                                </div>
+                            </div>
+                        {/if}
                     </div>
                 {/if}
 
