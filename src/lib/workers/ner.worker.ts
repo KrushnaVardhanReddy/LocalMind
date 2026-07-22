@@ -104,6 +104,7 @@ class NERService implements NERWorkerContract {
 
         return regexEntities;
     }
+    }
 }
 
 expose(new NERService());

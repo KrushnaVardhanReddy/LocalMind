@@ -17,8 +17,12 @@
         setWorkspace,
         saveQuery
     } from '$lib/stores/workspace.store';
+    import type { EChartsOption } from 'echarts';
 
     let result: QueryResult | null = $state(null);
+    let chartCustomOption: EChartsOption | null = $state(null);
+    let chartPrompt = $state('');
+    let isGeneratingChart = $state(false);
     let isExecuting = $state(false);
     let newWorkspaceName = $state('');
     let queryName = $state('');
@@ -26,6 +30,7 @@
 
     let showSettings = $state(false);
     let showConsent = $state(false);
+    let showChartConsent = $state(false);
     let schemaForConsent = $state<Record<string, string>>({});
     let rowsForConsent = $state<any[]>([]);
     let isAnalyzing = $state(false);
@@ -40,6 +45,8 @@
     });
 
     async function runQuery() {
+        chartCustomOption = null; // Clear custom chart on new manual query
+
         if (!customQuery.trim()) {
             // Automatically lazy-loads and initializes if it's the first time
             const db = await WorkerManager.getDuckDB();
@@ -159,6 +166,46 @@
         showConsent = true;
     }
 
+    async function handleChartAI() {
+        if (!result) return;
+        const db = await WorkerManager.getDuckDB();
+        schemaForConsent = await db.getSchema("stub_table"); // Using stub_table as we only have stub data
+        showChartConsent = true;
+    }
+
+    async function onConsentToChartAI() {
+        showChartConsent = false;
+        isGeneratingChart = true;
+        try {
+            const apiKey = localStorage.getItem('OPENAI_API_KEY');
+            const provider = localStorage.getItem('LLM_PROVIDER') as 'openai' | 'anthropic' || 'openai';
+
+            if (!apiKey) {
+                alert('Please configure your API key in Settings first.');
+                showSettings = true;
+                return;
+            }
+
+            const llm = await WorkerManager.getLLM();
+            await llm.setApiKey(apiKey, provider);
+
+            const configResult = await llm.generateChartConfig(chartPrompt, schemaForConsent);
+
+            if (configResult && configResult.sql && configResult.option) {
+                const db = await WorkerManager.getDuckDB();
+                result = await db.query(configResult.sql, 1000);
+                chartCustomOption = configResult.option;
+            } else {
+                alert('Failed to generate valid chart configuration.');
+            }
+        } catch (error) {
+            console.error('AI Chart Generation failed:', error);
+            alert(`Chart Generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        } finally {
+            isGeneratingChart = false;
+        }
+    }
+
     async function onConsentToAI() {
         showConsent = false;
         isAnalyzing = true;
@@ -205,6 +252,15 @@
         sampleRows={rowsForConsent}
         onconsent={onConsentToAI}
         oncancel={() => showConsent = false}
+    />
+{/if}
+
+{#if showChartConsent}
+    <ConsentModal
+        schema={schemaForConsent}
+        sampleRows={[]}
+        onconsent={onConsentToChartAI}
+        oncancel={() => showChartConsent = false}
     />
 {/if}
 
@@ -406,7 +462,29 @@
 
                     <div class="mt-8 border-t pt-4">
                         <h2 class="font-semibold mb-4">Visualization:</h2>
-                        <ChartViewer result={result} />
+                        <ChartViewer result={result} customOption={chartCustomOption} />
+
+                        <div class="mt-4 flex gap-2">
+                            <input
+                                type="text"
+                                placeholder="Make this a pie chart grouped by Region"
+                                bind:value={chartPrompt}
+                                class="border p-2 rounded w-full flex-grow"
+                                onkeydown={(e) => { if (e.key === 'Enter') handleChartAI(); }}
+                            />
+                            <button
+                                onclick={handleChartAI}
+                                disabled={isGeneratingChart || !chartPrompt.trim()}
+                                class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition flex items-center gap-2 whitespace-nowrap disabled:bg-gray-400"
+                            >
+                                {#if isGeneratingChart}
+                                    <span class="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
+                                    Generating...
+                                {:else}
+                                    ✨ Alter Chart
+                                {/if}
+                            </button>
+                        </div>
                     </div>
                 {:else}
                     <div class="text-gray-500 text-center py-4">
