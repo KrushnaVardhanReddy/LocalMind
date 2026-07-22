@@ -6,6 +6,8 @@
     import ConsentModal from '$lib/components/ConsentModal.svelte';
     import { marked } from 'marked';
     import DOMPurify from 'dompurify';
+    import ChartViewer from '$lib/components/ChartViewer.svelte';
+    import type { QueryResult } from '$lib/workers/duckdb.worker';
     import {
         workspaces,
         currentWorkspace,
@@ -16,7 +18,8 @@
         saveQuery
     } from '$lib/stores/workspace.store';
 
-    let result: any = $state(null);
+    let result: QueryResult | null = $state(null);
+    let isExecuting = $state(false);
     let newWorkspaceName = $state('');
     let queryName = $state('');
     let querySql = $state('');
@@ -46,12 +49,21 @@
         }
 
         try {
+            isExecuting = true;
             const db = await WorkerManager.getDuckDB();
-            result = await db.query(customQuery);
+            result = await db.query(customQuery, 1000);
             console.log('Query result:', result);
         } catch (error) {
             console.error('Query failed:', error);
             alert(`Query failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        } finally {
+            isExecuting = false;
+        }
+    }
+
+    function handleKeydown(e: KeyboardEvent) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            runQuery();
         }
     }
 
@@ -342,16 +354,65 @@
         </div>
 
         <textarea
-            placeholder="Enter SQL query (e.g. SELECT * FROM table LIMIT 10)"
+            placeholder="Enter SQL query (e.g. SELECT * FROM table LIMIT 10) - Press Ctrl+Enter to run"
             bind:value={customQuery}
+            onkeydown={handleKeydown}
             class="border p-2 rounded w-full mb-4 font-mono text-sm"
             rows="3"
         ></textarea>
 
-        {#if result}
-            <div class="mt-4 p-4 bg-gray-100 rounded">
-                <h2 class="font-semibold">Result:</h2>
-                <pre class="text-sm mt-2">{JSON.stringify(result, null, 2)}</pre>
+        {#if isExecuting}
+            <div class="flex justify-center items-center py-8">
+                <span class="animate-spin inline-block w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full"></span>
+            </div>
+        {:else if result}
+            <div class="mt-4 p-4 bg-white border rounded">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="font-semibold">Result Data:</h2>
+                    <span class="text-sm text-gray-500">
+                        {result.rows.length} row{result.rows.length !== 1 ? 's' : ''}
+                        (Execution time: {result.executionTimeMs.toFixed(2)}ms)
+                        {#if result.rows.length >= 1000}
+                            <span class="text-amber-600 font-semibold ml-2">⚠️ Truncated to 1000 rows</span>
+                        {/if}
+                    </span>
+                </div>
+
+                {#if result.rows.length > 0}
+                    <div class="overflow-x-auto border border-gray-200 rounded max-h-96">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50 sticky top-0">
+                                <tr>
+                                    {#each result.columns as col}
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            {col}
+                                        </th>
+                                    {/each}
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                {#each result.rows as row}
+                                    <tr class="hover:bg-gray-50">
+                                        {#each result.columns as col}
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                {row[col] !== null ? row[col] : 'NULL'}
+                                            </td>
+                                        {/each}
+                                    </tr>
+                                {/each}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-8 border-t pt-4">
+                        <h2 class="font-semibold mb-4">Visualization:</h2>
+                        <ChartViewer result={result} />
+                    </div>
+                {:else}
+                    <div class="text-gray-500 text-center py-4">
+                        Query returned 0 rows.
+                    </div>
+                {/if}
             </div>
         {/if}
 
