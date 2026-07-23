@@ -88,7 +88,9 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
 
 ---
 
-## Set 9: Remaining Batch Processing
+## Set 9: Remaining Batch Processing & Core Opt-In
+- **[Core]** Task 1.4: AI Off By Default (Opt-in UI) (`docs/tasks/phase-1/task4_1_ai_opt_in.md`)
+  *Safe: UI/Logic only for AI capability toggle.*
 - **[Docs]** Task 1.8: Bulk Document Parsing (`task1_8_bulk_parse.md`)
   *Safe: Uses existing OCR/PDF workers.*
 - **[DevTools]** Task 5.6: HAR File Analyzer (`task5_6_har_analyzer.md`)

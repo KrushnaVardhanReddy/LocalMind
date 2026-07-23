@@ -20,6 +20,7 @@
 - [x] Task 1.1: Data Ingestion and Local File Access (v2 Streams API) ✅ *(Completed - PR #16)*
 - [x] Task 1.2: Query Execution and Data Visualization (v2) ✅ *(Completed - PR #21)*
 - [x] Task 1.3: Consent-Gated AI Insights ✅ *(Completed - PR #13)* (`docs/tasks/phase-1/task4.md`)
+- [ ] Task 1.4: AI Off By Default (Opt-in UI) (`docs/tasks/phase-1/task4_1_ai_opt_in.md`)
 - [x] Task 5: AI-Assisted Chart Customization ✅ *(Completed - PR #23)* (`docs/tasks/phase-1/task5_ai_chart.md`)
 - [x] Task 6: Multi-File Auto-Joins & Visual Data Diffing ✅ *(Completed - PR #28)* (`docs/tasks/phase-1/task6_joins_diff.md`)
 - [x] Task 7: Tableau-Style BI Pivot Builder ✅ *(Completed - PR #31)* (`docs/tasks/phase-1/task7_bi_pivot.md`)
