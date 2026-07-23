@@ -17,6 +17,7 @@ export class WorkerManager {
     private static initOpenCVPromise: Promise<any> | null = null;
     private static initEmbeddingsPromise: Promise<any> | null = null;
     private static initConverterPromise: Promise<any> | null = null;
+    private static initLogParserPromise: Promise<any> | null = null;
 
 
     public static async getDuckDB() {
@@ -290,5 +291,24 @@ export class WorkerManager {
         }
 
         return this.initConverterPromise;
+    }
+
+    public static async getLogParser() {
+        if (this.proxies.has('logparser')) {
+            return this.proxies.get('logparser');
+        }
+
+        if (!this.initLogParserPromise) {
+            this.initLogParserPromise = (async () => {
+                const worker = new Worker(new URL('./log-parser.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('logparser', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('logparser', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initLogParserPromise;
     }
 }
