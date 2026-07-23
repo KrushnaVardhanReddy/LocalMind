@@ -31,8 +31,8 @@ export function extractDataFromText(text: string): { type: string; data: Record<
             }
         }
 
-        // Simple scoring based on how many fields we found
-        if (matches > bestMatch.score && matches > 0) {
+        // Simple scoring based on how many fields we found. Require at least 2 fields to avoid false positives.
+        if (matches > bestMatch.score && matches >= 2) {
             bestMatch = { type: template.type, data: extracted, score: matches };
         }
     }
