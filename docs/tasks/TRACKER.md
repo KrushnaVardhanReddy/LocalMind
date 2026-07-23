@@ -35,7 +35,7 @@
 - [x] Task 2: Local PDF Manipulation ✅ *(Completed - PR #20)* (`docs/tasks/phase-2/task2_pdf.md`)
 - [ ] Task 2.5: Markdown to PDF/HTML Export 🔄 *(Running - Jules ID: 2906245828349292013)* (`docs/tasks/phase-2/task2_5_md_export.md`)
 - [x] Task 3: Local Semantic Search ✅ *(Completed - PR #32)* (`docs/tasks/phase-2/task3_semantic_search.md`)
-- [ ] Task 3.5: Local AI Resume Screener & Ranker (`docs/tasks/phase-2/task3_5_resume_screener.md`)
+- [ ] Task 3.5: Local AI Resume Screener & Ranker 🔄 *(Running - Jules ID: 2855008485469857274)* (`docs/tasks/phase-2/task3_5_resume_screener.md`)
 - [ ] Task 4: End-to-End Testing (`docs/tasks/phase-2/task_e2e.md`)
 
 ### Version 3: LocalMind DevTools
@@ -44,8 +44,8 @@
 - [x] Task 1.5: Data Format Converters (JSON <-> YAML <-> XML) ✅ *(Completed)* (`docs/tasks/phase-4/task1_5_converters.md`)
 - [x] Task 2: Code Analysis with tree-sitter ✅ *(Completed)* (`docs/tasks/phase-4/task2_treesitter.md`)
 - [x] Task 3: Visual Transformation Pipelines ✅ *(Completed)* (`docs/tasks/phase-4/task3_pipelines.md`)
-- [ ] Task 4: Git History Analyzer (`docs/tasks/phase-4/task4_git.md`)
-- [ ] Task 5: Visual Log Parser & Anomaly Detector (`docs/tasks/phase-4/task5_log_parser.md`)
+- [ ] Task 4: Git History Analyzer 🔄 *(Running - Jules ID: 12716966970896941178)* (`docs/tasks/phase-4/task4_git.md`)
+- [ ] Task 5: Visual Log Parser & Anomaly Detector 🔄 *(Running - Jules ID: 1195510136340802202)* (`docs/tasks/phase-4/task5_log_parser.md`)
 - [x] Task 5.5: PCAP Network Analyzer ✅ *(Completed)* (`docs/tasks/phase-4/task5_5_pcap.md`)
 - [ ] Task 5.6: HAR File Analyzer (`docs/tasks/phase-4/task5_6_har_analyzer.md`)
 - [ ] Task 5.7: Visual Regression Diffing (`docs/tasks/phase-4/task5_7_visual_diff.md`)
