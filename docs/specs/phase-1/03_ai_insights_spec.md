@@ -11,6 +11,8 @@ LocalMind is a privacy-first platform. All AI interactions must be explicitly co
 ## 3. Worker Contract (`docs/contracts/phase-1/llm_worker_contract.ts`)
 ```typescript
 export interface LLMWorkerContract {
+    isAIEnabled(): Promise<boolean>;
+    enableAI(): Promise<void>;
     setApiKey(key: string, provider: 'openai' | 'anthropic'): void;
     analyzeData(prompt: string, dataSample: string): Promise<string>;
 }

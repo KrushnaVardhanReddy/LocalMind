@@ -18,9 +18,10 @@ Implement the "Bring Your Own Key" (BYOK) AI integration, ensuring that no data 
 - Add a settings gear icon in the UI.
 - Create a modal where the user can paste their `OPENAI_API_KEY`. Save this key in `localStorage`.
 
-### 3. Implement the Consent Flow
-- Add an "Ask AI to Analyze" button next to the query results from Task 3.
-- When clicked, do not send data immediately. Show a modal displaying the exact JSON string of the first 5 rows and the schema.
+### 3. Implement the Consent Flow and Opt-In
+- **AI Off By Default:** By default, all AI processing capabilities in the application must be disabled.
+- Add an "Ask AI to Analyze" button next to the query results from Task 3. If AI is disabled, this button should prompt the user to enable AI and accept the privacy warning.
+- When clicked (and AI is enabled), do not send data immediately. Show a modal displaying the exact JSON string of the first 5 rows and the schema.
 - Add an "I Consent, Send to AI" button.
 
 ### 4. Fetch and Render Insights

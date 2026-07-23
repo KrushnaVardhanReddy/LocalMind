@@ -1,5 +1,14 @@
 export interface EmbeddingsWorkerContract {
     /**
+     * Check if AI models are enabled by the user. By default, this is false for privacy and resource conservation.
+     */
+    isAIEnabled(): Promise<boolean>;
+
+    /**
+     * Explicitly enable AI models. This triggers the download/loading of the model.
+     */
+    enableAI(): Promise<void>;
+    /**
      * Downloads and initializes the embedding model (all-MiniLM-L6-v2).
      */
     init(): Promise<void>;

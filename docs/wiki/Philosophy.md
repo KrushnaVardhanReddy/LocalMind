@@ -17,7 +17,8 @@ By leveraging modern web standards, LocalMind runs entirely on your device's CPU
 1. **Zero Data Egress:** Your files never leave your machine. There are no AWS S3 buckets storing your PDFs.
 2. **Offline Capable:** Once loaded, LocalMind functions without an internet connection (via PWA Service Workers).
 3. **No Mocks, True Edge:** We don't simulate local processing while sneaking API calls in the background. If a feature says "Local", it runs a WebAssembly binary on your device.
-4. **Consent-Gated AI:** We acknowledge that local LLMs aren't always smart enough (yet). If an operation requires a cloud AI (like OpenAI), the user is presented with a clear consent modal showing the *exact* aggregated data payload that will be sent. Raw files are never sent.
+4. **AI Off By Default (Privacy-First):** Even though our AI models (WebLLM, Transformers.js) run 100% locally on your device, they consume significant RAM and battery. Therefore, all AI capabilities are **disabled by default**. Users must explicitly opt-in to enable local AI processing.
+5. **Consent-Gated Cloud AI:** If a specific operation absolutely requires a cloud API (like OpenAI), the user is presented with a clear consent modal showing the *exact* aggregated data payload that will be sent. Raw files are never sent.
 
 ## Why Now?
 Three converging technologies make LocalMind possible today:
