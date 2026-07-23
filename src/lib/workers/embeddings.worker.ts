@@ -8,6 +8,14 @@ env.allowLocalModels = false; // We use remote CDN by default for now (or local 
 env.useBrowserCache = true;
 
 class EmbeddingsService implements EmbeddingsWorkerContract {
+    async isAIEnabled(): Promise<boolean> {
+        return true;
+    }
+
+    async enableAI(): Promise<void> {
+        // no-op
+    }
+
     private embedder: FeatureExtractionPipeline | null = null;
 
     async init(): Promise<void> {

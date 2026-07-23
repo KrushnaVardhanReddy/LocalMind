@@ -84,9 +84,9 @@ class DuckDBService implements DuckDBWorkerContract {
 
         const start = performance.now();
         // Modify query to include limit if not present and limit is specified
-        let finalSql = sql;
+        let finalSql = sql.trim().replace(/;$/, '');
         if (limit && !sql.toLowerCase().includes('limit')) {
-            finalSql = `${sql} LIMIT ${limit}`;
+            finalSql = `${finalSql} LIMIT ${limit}`;
         }
 
         const result = await this.conn.query(finalSql);
