@@ -1,6 +1,7 @@
 import { expose } from 'comlink';
 import { pipeline, env, type FeatureExtractionPipeline, type Tensor } from '@xenova/transformers';
 import type { EmbeddingsWorkerContract } from '../contracts/embeddings_worker_contract';
+import { isAIEnabled, setAIEnabled } from './db.utils';
 
 // Configure transformers.js environment for local execution
 env.allowLocalModels = false; // We use remote CDN by default for now (or local if configured)
@@ -11,13 +12,23 @@ class EmbeddingsService implements EmbeddingsWorkerContract {
     private embedder: FeatureExtractionPipeline | null = null;
 
     async isAIEnabled(): Promise<boolean> {
-        return this.aiEnabled;
+        return await isAIEnabled();
     }
 
     async enableAI(): Promise<void> {
-        this.aiEnabled = true;
+        await setAIEnabled(true);
+        await this.init(); // Pre-load the model
+    }
+
+    async disableAI(): Promise<void> {
+        await setAIEnabled(false);
+        this.embedder = null;
     }
     async init(): Promise<void> {
+        if (!(await this.isAIEnabled())) {
+            throw new Error("AI is disabled. Please enable AI capabilities in settings.");
+        }
+
         if (this.embedder) return;
         // The spec specifically mentions 'Xenova/all-MiniLM-L6-v2'
         this.embedder = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2', {
