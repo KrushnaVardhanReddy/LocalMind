@@ -17,6 +17,8 @@ export class WorkerManager {
     private static initOpenCVPromise: Promise<any> | null = null;
     private static initEmbeddingsPromise: Promise<any> | null = null;
     private static initConverterPromise: Promise<any> | null = null;
+    private static initGitPromise: Promise<any> | null = null;
+    private static initLogParserPromise: Promise<any> | null = null;
 
 
     public static async getDuckDB() {
@@ -273,6 +275,27 @@ export class WorkerManager {
         return this.initEmbeddingsPromise;
     }
 
+    private static initMammothPromise: Promise<any> | null = null;
+
+    public static async getMammoth() {
+        if (this.proxies.has('mammoth')) {
+            return this.proxies.get('mammoth');
+        }
+
+        if (!this.initMammothPromise) {
+            this.initMammothPromise = (async () => {
+                const worker = new Worker(new URL('./mammoth.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('mammoth', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('mammoth', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initMammothPromise;
+    }
+
     public static async getConverter() {
         if (this.proxies.has('converter')) {
             return this.proxies.get('converter');
@@ -290,5 +313,43 @@ export class WorkerManager {
         }
 
         return this.initConverterPromise;
+    }
+
+    public static async getGit() {
+        if (this.proxies.has('git')) {
+            return this.proxies.get('git');
+        }
+
+        if (!this.initGitPromise) {
+            this.initGitPromise = (async () => {
+                const worker = new Worker(new URL('./git.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('git', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('git', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initGitPromise;
+    }
+
+    public static async getLogParser() {
+        if (this.proxies.has('logparser')) {
+            return this.proxies.get('logparser');
+        }
+
+        if (!this.initLogParserPromise) {
+            this.initLogParserPromise = (async () => {
+                const worker = new Worker(new URL('./log-parser.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('logparser', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('logparser', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initLogParserPromise;
     }
 }
