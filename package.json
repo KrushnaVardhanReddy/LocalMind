@@ -70,6 +70,7 @@
     "mupdf": "^1.28.0",
     "onnxruntime-web": "^1.27.0",
     "pako": "^3.0.1",
+    "pcap-parser": "^0.2.1",
     "tesseract.js": "^7.0.0",
     "tree-sitter-c": "^0.24.1",
     "tree-sitter-cpp": "^0.23.4",
