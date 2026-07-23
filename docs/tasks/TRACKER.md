@@ -79,6 +79,10 @@
 
 ## 4. Commercial Tiers
 
+> [!CAUTION]
+> **GATE: PRIVATE REPOSITORY REQUIRED**
+> Do not implement any tasks in Section 4 in the public open-source repository. All Pro, Enterprise, and Monetization features must be implemented in a separate private repository and shipped either via WASM Plugins or a proprietary Desktop build.
+
 ### Pro Tier (Tauri Desktop App)
 - [ ] Task 1: Tauri Desktop App Scaffolding (`docs/tasks/phase-9/task1_tauri_scaffold.md`)
 - [ ] Task 2: Storage Quota Bypass (`docs/tasks/phase-9/task2_unlimited_storage.md`)

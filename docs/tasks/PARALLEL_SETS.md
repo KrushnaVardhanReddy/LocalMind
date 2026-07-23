@@ -131,18 +131,22 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
 ---
 
 ## Set 13: Desktop App (Pro Tier) & Monetization
+> [!CAUTION]
+> **GATE: PRIVATE REPOSITORY REQUIRED**
+> Do not use Jules to implement these tasks in the public repository. These are proprietary open-core features. They must be developed in a separate, private repository and compiled to WASM plugins or distributed via a private Tauri build.
+
 - **[Desktop]** Task 1: Tauri Desktop App Scaffolding (`docs/tasks/phase-9/task1_tauri_scaffold.md`)
-  *Safe: Tauri CLI/Rust backend.*
 - **[Desktop]** Task 2: Storage Quota Bypass (`docs/tasks/phase-9/task2_unlimited_storage.md`)
-  *Safe: Tauri FS API.*
 - **[Monetization]** Task 1: Cloudflare Proxy API for AI Credits (`docs/tasks/phase-11/task1_cf_proxy.md`)
-  *Safe: Cloudflare Workers backend.*
 - **[Monetization]** Task 2: Stripe Billing Integration (`docs/tasks/phase-11/task2_stripe.md`)
-  *Safe: API routes/UI.*
 
 ---
 
 ## Set 14: Enterprise & Security (On-Premise)
+> [!CAUTION]
+> **GATE: PRIVATE REPOSITORY REQUIRED**
+> Do not use Jules to implement these tasks in the public repository. These are proprietary open-core features. They must be developed in a separate, private repository and compiled to WASM plugins or distributed via a private Tauri build.
+
 - **[Enterprise]** Task 1: Headless API & SSO Authentication (SAML/Okta) (`docs/tasks/phase-10/task1_sso.md`)
   *Safe: Auth routes (SAML/OAuth2).*
 - **[Enterprise]** Task 2: Team Workspaces & RBAC (`docs/tasks/phase-10/task2_rbac.md`)
