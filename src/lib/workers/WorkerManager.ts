@@ -17,6 +17,7 @@ export class WorkerManager {
     private static initOpenCVPromise: Promise<any> | null = null;
     private static initEmbeddingsPromise: Promise<any> | null = null;
     private static initConverterPromise: Promise<any> | null = null;
+    private static initGitPromise: Promise<any> | null = null;
 
 
     public static async getDuckDB() {
@@ -290,5 +291,24 @@ export class WorkerManager {
         }
 
         return this.initConverterPromise;
+    }
+
+    public static async getGit() {
+        if (this.proxies.has('git')) {
+            return this.proxies.get('git');
+        }
+
+        if (!this.initGitPromise) {
+            this.initGitPromise = (async () => {
+                const worker = new Worker(new URL('./git.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('git', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('git', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initGitPromise;
     }
 }
