@@ -8,11 +8,6 @@ export interface EmbeddingsWorkerContract {
      * Explicitly enable AI models. This triggers the download/loading of the model.
      */
     enableAI(): Promise<void>;
-
-    /**
-     * Disable AI models and prevent loading.
-     */
-    disableAI(): Promise<void>;
     /**
      * Downloads and initializes the embedding model (all-MiniLM-L6-v2).
      */

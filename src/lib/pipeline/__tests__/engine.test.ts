@@ -110,6 +110,7 @@ describe('PipelineEngine', () => {
         mockConverter.formatJson.mockResolvedValue({ success: true, data: '{\n  "a": 1\n}' });
 
         const result = await engine.execute(nodes, edges, '{"a":1}');
+        expect(result.success).toBe(true);
         expect(result.output).toBe('{\n  "a": 1\n}');
         expect(mockConverter.formatJson).toHaveBeenCalledWith('{"a":1}');
     });

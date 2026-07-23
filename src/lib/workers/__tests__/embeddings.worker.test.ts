@@ -37,12 +37,6 @@ vi.mock('@xenova/transformers', () => {
     };
 });
 
-vi.mock('../db.utils', () => ({
-    isAIEnabled: vi.fn().mockResolvedValue(true),
-    setAIEnabled: vi.fn().mockResolvedValue(undefined),
-    getAISettingsDB: vi.fn()
-}));
-
 import { EmbeddingsService } from '../embeddings.worker';
 
 describe('EmbeddingsWorker', () => {

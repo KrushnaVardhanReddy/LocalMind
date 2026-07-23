@@ -1,14 +1,12 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { WorkerManager } from '$lib/workers/WorkerManager';
 
     let { onclose }: { onclose: () => void } = $props();
 
     let apiKey = $state('');
     let provider: 'openai' | 'anthropic' = $state('openai');
-    let aiEnabled = $state(false);
 
-    onMount(async () => {
+    onMount(() => {
         const storedKey = localStorage.getItem('OPENAI_API_KEY');
         const storedProvider = localStorage.getItem('LLM_PROVIDER') as 'openai' | 'anthropic';
         if (storedKey) apiKey = storedKey;

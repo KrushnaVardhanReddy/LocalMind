@@ -1,10 +1,6 @@
 import { expose } from 'comlink';
-import { isAIEnabled, setAIEnabled } from './db.utils';
 
 export interface LLMWorkerContract {
-    isAIEnabled(): Promise<boolean>;
-    enableAI(): Promise<void>;
-    disableAI(): Promise<void>;
     setApiKey(key: string, provider: 'openai' | 'anthropic'): void;
     analyzeData(prompt: string, dataSample: string): Promise<string>;
     generateChartConfig(prompt: string, schema: Record<string, string>): Promise<any>;
@@ -14,18 +10,6 @@ export interface LLMWorkerContract {
 export class LLMService implements LLMWorkerContract {
     private apiKey: string = '';
     private provider: 'openai' | 'anthropic' = 'openai';
-
-    async isAIEnabled(): Promise<boolean> {
-        return await isAIEnabled();
-    }
-
-    async enableAI(): Promise<void> {
-        await setAIEnabled(true);
-    }
-
-    async disableAI(): Promise<void> {
-        await setAIEnabled(false);
-    }
 
     setApiKey(key: string, provider: 'openai' | 'anthropic'): void {
         this.apiKey = key;

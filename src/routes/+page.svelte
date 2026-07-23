@@ -4,7 +4,6 @@
     import { deferredPrompt } from '$lib/stores/pwa.store';
     import SettingsModal from '$lib/components/SettingsModal.svelte';
     import ConsentModal from '$lib/components/ConsentModal.svelte';
-    import AIOptInModal from '$lib/components/AIOptInModal.svelte';
     import { marked } from 'marked';
     import DOMPurify from 'dompurify';
     import ChartViewer from '$lib/components/ChartViewer.svelte';
@@ -33,8 +32,6 @@
     let showSettings = $state(false);
     let showConsent = $state(false);
     let showChartConsent = $state(false);
-    let showAIOptIn = $state(false);
-    let aiDownloadProgress = $state(false);
     let schemaForConsent = $state<Record<string, string>>({});
     let rowsForConsent = $state<any[]>([]);
     let isAnalyzing = $state(false);
@@ -185,12 +182,6 @@
     }
 
     async function handleAskAI() {
-        const llm = await WorkerManager.getLLM();
-        if (!(await llm.isAIEnabled())) {
-            showAIOptIn = true;
-            return;
-        }
-
         if (!result || !result.rows) return;
 
         const db = await WorkerManager.getDuckDB();
@@ -200,12 +191,6 @@
     }
 
     async function handleChartAI() {
-        const llm = await WorkerManager.getLLM();
-        if (!(await llm.isAIEnabled())) {
-            showAIOptIn = true;
-            return;
-        }
-
         if (!result) return;
         const db = await WorkerManager.getDuckDB();
         schemaForConsent = await db.getSchema("stub_table"); // Using stub_table as we only have stub data
@@ -284,12 +269,6 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
 
     async function handleDetectJoins() {
         if (uploadedTables.length < 2) return;
-        const checkLlm = await WorkerManager.getLLM();
-        if (!(await checkLlm.isAIEnabled())) {
-            showAIOptIn = true;
-            return;
-        }
-
         isDetectingJoins = true;
         joinSuggestions = [];
 
@@ -357,23 +336,6 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
             isAnalyzing = false;
         }
     }
-
-    async function handleEnableAI() {
-        aiDownloadProgress = true;
-        try {
-            const llm = await WorkerManager.getLLM();
-            await llm.enableAI();
-
-            const embeddings = await WorkerManager.getEmbeddings();
-            await embeddings.enableAI();
-        } catch (error) {
-            console.error('Failed to enable AI:', error);
-            alert('Failed to download AI models. Check your connection and try again.');
-        } finally {
-            aiDownloadProgress = false;
-            showAIOptIn = false;
-        }
-    }
 </script>
 
 {#if showSettings}
@@ -395,14 +357,6 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
         sampleRows={[]}
         onconsent={onConsentToChartAI}
         oncancel={() => showChartConsent = false}
-    />
-{/if}
-
-{#if showAIOptIn}
-    <AIOptInModal
-        onEnable={handleEnableAI}
-        onCancel={() => showAIOptIn = false}
-        aiDownloadProgress={aiDownloadProgress}
     />
 {/if}
 
