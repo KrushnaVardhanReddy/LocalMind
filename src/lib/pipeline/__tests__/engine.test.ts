@@ -107,7 +107,7 @@ describe('PipelineEngine', () => {
             { id: 'e2-3', source: '2', target: '3' }
         ];
 
-        mockConverter.formatJson.mockResolvedValue('{\n  "a": 1\n}');
+        mockConverter.formatJson.mockResolvedValue({ success: true, data: '{\n  "a": 1\n}' });
 
         const result = await engine.execute(nodes, edges, '{"a":1}');
         expect(result.success).toBe(true);
@@ -126,7 +126,7 @@ describe('PipelineEngine', () => {
             { id: 'e2-3', source: '2', target: '3' }
         ];
 
-        mockConverter.formatJson.mockRejectedValue(new Error('Invalid JSON'));
+        mockConverter.formatJson.mockResolvedValue({ success: false, error: 'Invalid JSON' });
 
         const result = await engine.execute(nodes, edges, 'bad json');
         expect(result.success).toBe(false);

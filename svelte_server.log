@@ -1,0 +1,38 @@
+$ vite dev
+11:50:40 AM [vite] (client) Forced re-optimization of dependencies
+11:50:41 AM [vite] (ssr) [optimizer] bundling dependencies...
+
+  VITE v8.1.5  ready in 2906 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+11:50:41 AM [vite] (client) [optimizer] bundling dependencies...
+11:53:40 AM [vite] (client) hmr update /src/routes/layout.css
+11:53:40 AM [vite] (ssr) page reload src/lib/workers/visual-diff.worker.ts
+11:53:48 AM [vite] (client) hmr update /src/routes/devtools/visual-diff/+page.svelte, /src/routes/layout.css
+11:53:48 AM [vite] (ssr) page reload src/routes/devtools/visual-diff/+page.svelte
+11:53:53 AM [vite] (client) page reload .svelte-kit/generated/client/nodes/0.js
+11:53:53 AM [vite] (client) page reload .svelte-kit/generated/client/nodes/1.js
+11:53:53 AM [vite] (client) page reload .svelte-kit/generated/client/nodes/12.js
+11:53:53 AM [vite] (client) page reload .svelte-kit/generated/client/app.js
+11:53:53 AM [vite] (client) page reload .svelte-kit/generated/client/matchers.js
+11:53:53 AM [vite] (ssr) page reload .svelte-kit/generated/shared/error-template.js
+11:53:53 AM [vite] (ssr) page reload .svelte-kit/generated/server/internal.js
+11:53:53 AM [vite] (client) page reload .svelte-kit/generated/root.js
+11:53:53 AM [vite] (ssr) page reload .svelte-kit/generated/root.js
+11:53:53 AM [vite] (ssr) page reload .svelte-kit/generated/root.svelte
+11:54:31 AM [vite] (client) hmr update /src/routes/layout.css
+11:54:31 AM [vite] (ssr) page reload src/lib/workers/visual-diff.worker.test.ts
+11:54:36 AM [vite] (client) page reload .svelte-kit/generated/client/nodes/0.js
+11:54:36 AM [vite] (client) page reload .svelte-kit/generated/client/nodes/1.js
+11:54:36 AM [vite] (client) page reload .svelte-kit/generated/client/nodes/12.js
+11:54:36 AM [vite] (client) page reload .svelte-kit/generated/client/app.js
+11:54:36 AM [vite] (client) page reload .svelte-kit/generated/client/matchers.js
+11:54:36 AM [vite] (ssr) page reload .svelte-kit/generated/shared/error-template.js
+11:54:36 AM [vite] (ssr) page reload .svelte-kit/generated/server/internal.js
+11:54:36 AM [vite] (client) page reload .svelte-kit/generated/root.js
+11:54:36 AM [vite] (ssr) page reload .svelte-kit/generated/root.js
+11:54:36 AM [vite] (ssr) page reload .svelte-kit/generated/root.svelte
+11:59:06 AM [vite] (client) hmr update /src/routes/layout.css
+11:59:06 AM [vite] (ssr) page reload test-pngjs.ts
+error: script "dev" exited with code 143
