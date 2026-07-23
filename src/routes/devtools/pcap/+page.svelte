@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
     import { wrap } from 'comlink';
     import * as echarts from 'echarts';
-    import type { PCAPWorkerContract } from '$lib/workers/pcap.worker';
+    import type { PCAPWorkerContract } from '$lib/contracts/pcap_contract';
     import type { DuckDBWorkerContract, QueryResult } from '$lib/workers/duckdb.worker';
     import PcapWorker from '$lib/workers/pcap.worker?worker';
     import DuckDbWorker from '$lib/workers/duckdb.worker?worker';

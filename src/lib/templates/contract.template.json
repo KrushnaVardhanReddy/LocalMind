@@ -1,0 +1,8 @@
+{
+  "type": "Contract",
+  "fields": [
+    { "name": "parties", "regex": "(?:This Agreement.*?by and between)(.*?)(?:and)(.*?)(?=\\.)" },
+    { "name": "effective_date", "regex": "(?:Effective Date:?|entered into as of)\\s*([A-Z][a-z]+ \\d{1,2},? \\d{4}|\\d{1,2}[-/]\\d{1,2}[-/]\\d{2,4})" },
+    { "name": "governing_law", "regex": "(?:Governing Law.*?State of)\\s*([A-Za-z\\s]+)(?:\\.)" }
+  ]
+}

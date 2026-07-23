@@ -2,7 +2,7 @@ import { expose } from 'comlink';
 import pcapp from 'pcap-parser';
 import { EventEmitter } from 'events';
 
-import { PCAPWorkerContract } from '../contracts/pcap_contract';
+import type { PCAPWorkerContract } from '../contracts/pcap_contract';
 
 class PcapStream extends EventEmitter {
     constructor(private file: File) {

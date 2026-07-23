@@ -9,6 +9,8 @@ env.useBrowserCache = true;
 
 class EmbeddingsService implements EmbeddingsWorkerContract {
     private embedder: FeatureExtractionPipeline | null = null;
+    public async isAIEnabled(): Promise<boolean> { return false; }
+    public async enableAI(): Promise<void> {}
 
     async init(): Promise<void> {
         if (this.embedder) return;
