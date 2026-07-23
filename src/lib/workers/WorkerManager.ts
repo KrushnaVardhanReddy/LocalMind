@@ -372,4 +372,25 @@ export class WorkerManager {
 
         return this.initVisualDiffPromise;
     }
+
+    private static initWebLLMPromise: Promise<any> | null = null;
+
+    public static async getWebLLM() {
+        if (this.proxies.has('webllm')) {
+            return this.proxies.get('webllm');
+        }
+
+        if (!this.initWebLLMPromise) {
+            this.initWebLLMPromise = (async () => {
+                const worker = new Worker(new URL('./webllm.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('webllm', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('webllm', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initWebLLMPromise;
+    }
 }

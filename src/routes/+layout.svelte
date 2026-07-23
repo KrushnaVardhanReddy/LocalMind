@@ -17,8 +17,13 @@
 		}
 	});
 
+    import { checkWebGPUSupport } from '$lib/utils/webgpu-check';
+
+	let webgpuSupported = $state(true);
+
 	onMount(() => {
 		validateCrossOriginIsolation();
+        webgpuSupported = checkWebGPUSupport().supported;
 	});
 </script>
 
