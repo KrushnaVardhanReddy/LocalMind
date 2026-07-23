@@ -60,18 +60,18 @@
 *Specialized apps to be built as external plugins rather than core features. This prevents scope creep and keeps the core product focused.*
 
 ### LocalMind Intelligence (Core AI API)
-- [ ] Task 1: WebLLM Engine Setup 🔄 *(Running - Jules ID: 1064364557637672797)* (`docs/tasks/phase-5/task1_webllm.md`)
-- [ ] Task 2: Local Chat Interface 🔄 *(Running - Jules ID: 17871505261799680824)* (`docs/tasks/phase-5/task2_chat_ui.md`)
-- [ ] Task 3: Local AI Data Janitor (`docs/tasks/phase-5/task3_data_janitor.md`)
+- [x] Task 1: WebLLM Engine Setup ✅ *(Completed - PR #47)* (`docs/tasks/phase-5/task1_webllm.md`)
+- [x] Task 2: Local Chat Interface ✅ *(Completed - PR #48)* (`docs/tasks/phase-5/task2_chat_ui.md`)
+- [ ] Task 3: Local AI Data Janitor 🔄 *(Running - Jules ID: 1432054905658099484)* (`docs/tasks/phase-5/task3_data_janitor.md`)
 
 ### Media Plugins
-- [ ] Task 1: FFmpeg WASM Integration 🔄 *(Running - Jules ID: 10251679764195397038)* (`docs/tasks/phase-3/task1_ffmpeg.md`)
+- [x] Task 1: FFmpeg WASM Integration ✅ *(Completed)* (`docs/tasks/phase-3/task1_ffmpeg.md`)
 - [x] Task 2: Whisper WASM Integration ✅ *(Completed - PR #30)* (`docs/tasks/phase-3/task2_whisper.md`)
-- [ ] Task 3: Instant Video Clipper 🔄 *(Running - Jules ID: 4623447159128076263)* (`docs/tasks/phase-3/task4_video_clipper.md`)
+- [x] Task 3: Instant Video Clipper ✅ *(Completed - PR #49)* (`docs/tasks/phase-3/task4_video_clipper.md`)
 
 ### Specialized Niche Plugins
-- [ ] Task 1: Geo-Spatial Workspace (`docs/tasks/phase-6/task1_geospatial.md`)
-- [ ] Task 2: 3D CAD Workspace (`docs/tasks/phase-6/task2_cad.md`)
+- [ ] Task 1: Geo-Spatial Workspace 🔄 *(Running - Jules ID: 13997218633702669379)* (`docs/tasks/phase-6/task1_geospatial.md`)
+- [ ] Task 2: 3D CAD Workspace 🔄 *(Running - Jules ID: 6711618601940893187)* (`docs/tasks/phase-6/task2_cad.md`)
 - [ ] Task 3: Security / Cryptography Workspace (`docs/tasks/phase-6/task3_crypto.md`)
 - [ ] Task 4: Infinite Whiteboard Integration (`docs/tasks/phase-8/task1_whiteboard.md`)
 
