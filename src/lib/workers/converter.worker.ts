@@ -3,7 +3,7 @@ import * as yaml from 'js-yaml';
 import { XMLParser, XMLBuilder, XMLValidator } from 'fast-xml-parser';
 import * as pako from 'pako';
 
-import { ConverterWorkerContract, ConverterResult } from '../contracts/converter_contract';
+import type { ConverterWorkerContract, ConverterResult } from '../contracts/converter_contract';
 
 export type ConvertFormat = 'json' | 'yaml' | 'xml';
 

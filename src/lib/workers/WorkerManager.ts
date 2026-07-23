@@ -274,6 +274,27 @@ export class WorkerManager {
         return this.initEmbeddingsPromise;
     }
 
+    private static initMammothPromise: Promise<any> | null = null;
+
+    public static async getMammoth() {
+        if (this.proxies.has('mammoth')) {
+            return this.proxies.get('mammoth');
+        }
+
+        if (!this.initMammothPromise) {
+            this.initMammothPromise = (async () => {
+                const worker = new Worker(new URL('./mammoth.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('mammoth', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('mammoth', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initMammothPromise;
+    }
+
     public static async getConverter() {
         if (this.proxies.has('converter')) {
             return this.proxies.get('converter');
