@@ -60,14 +60,14 @@
 *Specialized apps to be built as external plugins rather than core features. This prevents scope creep and keeps the core product focused.*
 
 ### LocalMind Intelligence (Core AI API)
-- [ ] Task 1: WebLLM Engine Setup (`docs/tasks/phase-5/task1_webllm.md`)
-- [ ] Task 2: Local Chat Interface (`docs/tasks/phase-5/task2_chat_ui.md`)
+- [ ] Task 1: WebLLM Engine Setup 🔄 *(Running - Jules ID: 1064364557637672797)* (`docs/tasks/phase-5/task1_webllm.md`)
+- [ ] Task 2: Local Chat Interface 🔄 *(Running - Jules ID: 17871505261799680824)* (`docs/tasks/phase-5/task2_chat_ui.md`)
 - [ ] Task 3: Local AI Data Janitor (`docs/tasks/phase-5/task3_data_janitor.md`)
 
 ### Media Plugins
 - [ ] Task 1: FFmpeg WASM Integration 🔄 *(Running - Jules ID: 10251679764195397038)* (`docs/tasks/phase-3/task1_ffmpeg.md`)
 - [x] Task 2: Whisper WASM Integration ✅ *(Completed - PR #30)* (`docs/tasks/phase-3/task2_whisper.md`)
-- [ ] Task 3: Instant Video Clipper (`docs/tasks/phase-3/task4_video_clipper.md`)
+- [ ] Task 3: Instant Video Clipper 🔄 *(Running - Jules ID: 4623447159128076263)* (`docs/tasks/phase-3/task4_video_clipper.md`)
 
 ### Specialized Niche Plugins
 - [ ] Task 1: Geo-Spatial Workspace (`docs/tasks/phase-6/task1_geospatial.md`)
