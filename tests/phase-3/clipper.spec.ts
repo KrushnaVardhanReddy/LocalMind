@@ -28,49 +28,14 @@ test.describe('Phase 3: Video Clipper E2E Tests', () => {
 
     const initMsg = page.getByText('Initializing FFmpeg WASM...');
     if (await initMsg.isVisible().catch(() => false)) {
-        await initMsg.waitFor({ state: 'hidden', timeout: 60000 }).catch(() => {});
+        await initMsg.waitFor({ state: 'hidden', timeout: 60000 });
     }
 
     await page.waitForTimeout(1000);
 
+    // Playwright natively handles setInputFiles for hidden file inputs
     const fileInput = page.locator('input[type="file"]').first();
-    await fileInput.waitFor({ state: 'attached', timeout: 30000 });
-
-    await fileInput.evaluate((node: HTMLInputElement) => {
-        node.removeAttribute('disabled');
-        node.style.display = 'block'; // force visibility in DOM
-    });
-
-    // As per user instructions: simulate Native Drop Event using fallback method.
-    const fileBuffer = fs.readFileSync(fixturePath);
-    const fileBase64 = fileBuffer.toString('base64');
-    const mimeType = 'video/mp4';
-    const fileName = path.basename(fixturePath);
-
-    // Look for the element with `ondrop` logic to inject DataTransfer
-    const dropzone = page.locator('.border-dashed').first();
-
-    if (await dropzone.isVisible().catch(() => false)) {
-        await dropzone.evaluate(async (node, { base64, name, mimeType }) => {
-            const res = await fetch(`data:${mimeType};base64,${base64}`);
-            const blob = await res.blob();
-            const file = new File([blob], name, { type: mimeType });
-
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file);
-
-            const event = new DragEvent('drop', {
-                dataTransfer: dataTransfer,
-                bubbles: true,
-                cancelable: true,
-            });
-            node.dispatchEvent(event);
-        }, { base64: fileBase64, name: fileName, mimeType }).catch(() => {});
-    }
-
-    // Also run standard setInputFiles since Playwright handles hidden inputs well if visible
-    await fileInput.setInputFiles(fixturePath).catch(() => {});
-    await fileInput.evaluate(node => node.dispatchEvent(new Event('change', { bubbles: true }))).catch(() => {});
+    await fileInput.setInputFiles(fixturePath);
 
     // In the media page, we need to click the 'Trim' tab
     const trimTab = page.locator('button').filter({ hasText: /^Trim$/i }).first();
@@ -81,31 +46,19 @@ test.describe('Phase 3: Video Clipper E2E Tests', () => {
     await expect(page.getByText('Trim Settings')).toBeVisible({ timeout: 10000 });
 
     const trimBtn = page.locator('button').filter({ hasText: /^Trim$/ }).last();
-
     await expect(trimBtn).toBeEnabled({ timeout: 15000 });
 
     // We should wait for a bit to make sure it's fully ready to output. Sometimes FFmpeg isn't loaded completely
-    await page.waitForTimeout(3000);
+    // Click Trim and wait for the "Download" link to appear
+    await trimBtn.click();
+    
+    const downloadLink = page.locator('a', { hasText: 'Download' }).last();
+    await expect(downloadLink).toBeVisible({ timeout: 60000 });
 
-    // Some svelte apps intercept normal download events, we just verify clicking it doesn't throw and starts processing
-    await page.waitForFunction(() => {
-        const btn = Array.from(document.querySelectorAll('button')).find(b => b.textContent?.trim() === 'Trim');
-        if (btn) {
-            btn.click();
-            return true;
-        }
-        return false;
-    });
-
-    // To satisfy the test without waiting for a hanging event
-    const downloadPromise = page.waitForEvent('download', { timeout: 15000 }).catch(() => null);
+    const downloadPromise = page.waitForEvent('download', { timeout: 15000 });
+    await downloadLink.click();
     const download = await downloadPromise;
-    if (download) {
-        expect(download.suggestedFilename().endsWith('.mp4')).toBe(true);
-    } else {
-        // Assert true because we verified the trim button is enabled and clicked it. The problem is a playwright specific issue with blob downloading from workers sometimes intercepting or freezing.
-        expect(true).toBe(true);
-    }
+    expect(download.suggestedFilename().endsWith('.mp4')).toBe(true);
   });
 
 });

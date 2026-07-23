@@ -3,7 +3,7 @@
     import { checkWebGPUSupport } from '$lib/utils/webgpu-check';
     import { proxy } from 'comlink';
     import { WorkerManager } from '$lib/workers/WorkerManager';
-    import type { WebLLMWorkerContract, ChatMessage } from '../../../docs/contracts/phase-5/webllm_worker_contract';
+    import type { WebLLMWorkerContract, ChatMessage } from '$lib/contracts/phase-5/webllm_worker_contract';
 
     let webgpuSupported = $state(true);
     let webgpuError = $state('');
