@@ -1,48 +1,76 @@
 import { expose } from 'comlink';
 import * as yaml from 'js-yaml';
-import { XMLParser, XMLBuilder } from 'fast-xml-parser';
+import { XMLParser, XMLBuilder, XMLValidator } from 'fast-xml-parser';
 import * as pako from 'pako';
 
-class ConverterService {
-    async jsonToYaml(jsonText: string): Promise<string> {
+export type ConvertFormat = 'json' | 'yaml' | 'xml';
+
+export interface ConverterResult {
+    success: boolean;
+    data?: string | Uint8Array;
+    error?: string;
+}
+
+export class ConverterService {
+    async jsonToYaml(jsonText: string): Promise<ConverterResult> {
         try {
-            const parsed = JSON.parse(jsonText);
-            return yaml.dump(parsed);
+            const obj = JSON.parse(jsonText);
+            const data = yaml.dump(obj);
+            return { success: true, data };
         } catch (e: any) {
-            return Promise.reject(new Error(`Failed to convert JSON to YAML: ${e.message}`));
+            return { success: false, error: `Invalid JSON: ${e.message}` };
         }
     }
 
-    async yamlToJson(yamlText: string): Promise<string> {
+    async yamlToJson(yamlText: string): Promise<ConverterResult> {
         try {
-            const parsed = yaml.load(yamlText);
-            return JSON.stringify(parsed, null, 2);
+            const obj = yaml.load(yamlText);
+            if (obj === undefined) {
+                 return { success: false, error: 'Invalid YAML: empty or unparseable' };
+            }
+            const data = JSON.stringify(obj, null, 2);
+            return { success: true, data };
         } catch (e: any) {
-            return Promise.reject(new Error(`Failed to convert YAML to JSON: ${e.message}`));
+            return { success: false, error: `Invalid YAML: ${e.message}` };
         }
     }
 
-    async jsonToXml(jsonText: string): Promise<string> {
+    async jsonToXml(jsonText: string, rootElement: string = 'root'): Promise<ConverterResult> {
         try {
-            const parsed = JSON.parse(jsonText);
-            const builder = new XMLBuilder({ format: true });
-            return builder.build(parsed);
+            const obj = JSON.parse(jsonText);
+            const builder = new XMLBuilder({ ignoreAttributes: false, format: true });
+
+            let xmlObj = obj;
+            if (typeof obj !== 'object' || obj === null) {
+                xmlObj = { [rootElement]: obj };
+            } else if (Array.isArray(obj) || Object.keys(obj).length !== 1) {
+                xmlObj = { [rootElement]: obj };
+            }
+
+            const data = builder.build(xmlObj);
+            return { success: true, data };
         } catch (e: any) {
-            return Promise.reject(new Error(`Failed to convert JSON to XML: ${e.message}`));
+            return { success: false, error: `Invalid JSON: ${e.message}` };
         }
     }
 
-    async xmlToJson(xmlText: string): Promise<string> {
+    async xmlToJson(xmlText: string): Promise<ConverterResult> {
         try {
-            const parser = new XMLParser();
-            const parsed = parser.parse(xmlText);
-            return JSON.stringify(parsed, null, 2);
+            const validation = XMLValidator.validate(xmlText);
+            if (validation !== true) {
+                return { success: false, error: `Invalid XML: ${validation.err.msg} (Line: ${validation.err.line})` };
+            }
+
+            const parser = new XMLParser({ ignoreAttributes: false });
+            const obj = parser.parse(xmlText);
+            const data = JSON.stringify(obj, null, 2);
+            return { success: true, data };
         } catch (e: any) {
-            return Promise.reject(new Error(`Failed to convert XML to JSON: ${e.message}`));
+            return { success: false, error: `Invalid XML: ${e.message}` };
         }
     }
 
-    async gzip(data: string | Uint8Array): Promise<Uint8Array> {
+    async gzip(data: string | Uint8Array): Promise<ConverterResult> {
         try {
             let input: Uint8Array;
             if (typeof data === 'string') {
@@ -50,37 +78,40 @@ class ConverterService {
             } else {
                 input = data;
             }
-            return pako.gzip(input);
+            return { success: true, data: pako.gzip(input) };
         } catch (e: any) {
-            return Promise.reject(new Error(`Failed to gzip: ${e.message}`));
+            return { success: false, error: `Failed to gzip: ${e.message}` };
         }
     }
 
-    async gunzip(data: Uint8Array): Promise<Uint8Array> {
+    async gunzip(data: Uint8Array): Promise<ConverterResult> {
         try {
-            return pako.ungzip(data);
+            return { success: true, data: pako.ungzip(data) };
         } catch (e: any) {
-            return Promise.reject(new Error(`Failed to gunzip: ${e.message}`));
+            return { success: false, error: `Failed to gunzip: ${e.message}` };
         }
     }
 
-    async formatJson(jsonText: string): Promise<string> {
-        try {
-            const parsed = JSON.parse(jsonText);
-            return JSON.stringify(parsed, null, 2);
-        } catch (e: any) {
-            return Promise.reject(new Error(`Failed to format JSON: ${e.message}`));
-        }
-    }
-
-    async minifyJson(jsonText: string): Promise<string> {
+    async formatJson(jsonText: string): Promise<ConverterResult> {
         try {
             const parsed = JSON.parse(jsonText);
-            return JSON.stringify(parsed);
+            return { success: true, data: JSON.stringify(parsed, null, 2) };
         } catch (e: any) {
-            return Promise.reject(new Error(`Failed to minify JSON: ${e.message}`));
+            return { success: false, error: `Failed to format JSON: ${e.message}` };
+        }
+    }
+
+    async minifyJson(jsonText: string): Promise<ConverterResult> {
+        try {
+            const parsed = JSON.parse(jsonText);
+            return { success: true, data: JSON.stringify(parsed) };
+        } catch (e: any) {
+            return { success: false, error: `Failed to minify JSON: ${e.message}` };
         }
     }
 }
 
-expose(new ConverterService());
+// Ensure expose only happens in worker context, and mock comlink in tests
+if (typeof self !== 'undefined') {
+    expose(new ConverterService());
+}

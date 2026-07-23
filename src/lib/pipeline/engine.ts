@@ -120,30 +120,45 @@ export class PipelineEngine {
 
                 } else if (nodeType === 'json_format') {
                     if (typeof currentInput !== 'string') throw new Error('Expected string input for JSON Format');
-                    currentOutput = await converter.formatJson(currentInput);
+                    const res = await converter.formatJson(currentInput);
+                    if (!res.success) throw new Error(res.error);
+                    currentOutput = res.data;
                 } else if (nodeType === 'json_minify') {
                     if (typeof currentInput !== 'string') throw new Error('Expected string input for JSON Minify');
-                    currentOutput = await converter.minifyJson(currentInput);
+                    const res = await converter.minifyJson(currentInput);
+                    if (!res.success) throw new Error(res.error);
+                    currentOutput = res.data;
                 } else if (nodeType === 'yaml_to_json') {
                      if (typeof currentInput !== 'string') throw new Error('Expected string input for YAML to JSON');
-                     currentOutput = await converter.yamlToJson(currentInput);
+                     const res = await converter.yamlToJson(currentInput);
+                     if (!res.success) throw new Error(res.error);
+                     currentOutput = res.data;
                 } else if (nodeType === 'json_to_yaml') {
                      if (typeof currentInput !== 'string') throw new Error('Expected string input for JSON to YAML');
-                     currentOutput = await converter.jsonToYaml(currentInput);
+                     const res = await converter.jsonToYaml(currentInput);
+                     if (!res.success) throw new Error(res.error);
+                     currentOutput = res.data;
                 } else if (nodeType === 'xml_to_json') {
                      if (typeof currentInput !== 'string') throw new Error('Expected string input for XML to JSON');
-                     currentOutput = await converter.xmlToJson(currentInput);
+                     const res = await converter.xmlToJson(currentInput);
+                     if (!res.success) throw new Error(res.error);
+                     currentOutput = res.data;
                 } else if (nodeType === 'json_to_xml') {
                      if (typeof currentInput !== 'string') throw new Error('Expected string input for JSON to XML');
-                     currentOutput = await converter.jsonToXml(currentInput);
+                     const res = await converter.jsonToXml(currentInput);
+                     if (!res.success) throw new Error(res.error);
+                     currentOutput = res.data;
                 } else if (nodeType === 'gzip') {
-                     currentOutput = await converter.gzip(currentInput);
+                     const res = await converter.gzip(currentInput);
+                     if (!res.success) throw new Error(res.error);
+                     currentOutput = res.data;
                 } else if (nodeType === 'gunzip') {
                      if (typeof currentInput === 'string') {
                          throw new Error('Expected Uint8Array input for gunzip');
                      }
-                     const unzippedBytes = await converter.gunzip(currentInput);
-                     currentOutput = new TextDecoder().decode(unzippedBytes);
+                     const res = await converter.gunzip(currentInput);
+                     if (!res.success) throw new Error(res.error);
+                     currentOutput = new TextDecoder().decode(res.data);
                 } else if (nodeType === 'output') {
                     currentOutput = currentInput;
                 } else {

@@ -18,6 +18,7 @@ export class WorkerManager {
     private static initEmbeddingsPromise: Promise<any> | null = null;
     private static initConverterPromise: Promise<any> | null = null;
 
+
     public static async getDuckDB() {
         if (this.proxies.has('duckdb')) {
             return this.proxies.get('duckdb');
