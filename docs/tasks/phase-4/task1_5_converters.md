@@ -19,11 +19,21 @@ bun add js-yaml fast-xml-parser
 - Implement the following methods via Comlink:
 
   ```typescript
+  export interface ConverterResult {
+      success: boolean;
+      data?: string | Uint8Array;
+      error?: string;
+  }
+
   interface ConverterWorkerContract {
-      jsonToYaml(jsonText: string): Promise<string>;
-      yamlToJson(yamlText: string): Promise<string>;
-      jsonToXml(jsonText: string, rootElement?: string): Promise<string>;
-      xmlToJson(xmlText: string): Promise<string>;
+      jsonToYaml(jsonText: string): Promise<ConverterResult>;
+      yamlToJson(yamlText: string): Promise<ConverterResult>;
+      jsonToXml(jsonText: string, rootElement?: string): Promise<ConverterResult>;
+      xmlToJson(xmlText: string): Promise<ConverterResult>;
+      gzip(data: string | Uint8Array): Promise<ConverterResult>;
+      gunzip(data: Uint8Array): Promise<ConverterResult>;
+      formatJson(jsonText: string): Promise<ConverterResult>;
+      minifyJson(jsonText: string): Promise<ConverterResult>;
   }
   ```
 

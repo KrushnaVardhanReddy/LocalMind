@@ -3,15 +3,11 @@ import * as yaml from 'js-yaml';
 import { XMLParser, XMLBuilder, XMLValidator } from 'fast-xml-parser';
 import * as pako from 'pako';
 
+import { ConverterWorkerContract, ConverterResult } from '../contracts/converter_contract';
+
 export type ConvertFormat = 'json' | 'yaml' | 'xml';
 
-export interface ConverterResult {
-    success: boolean;
-    data?: string | Uint8Array;
-    error?: string;
-}
-
-export class ConverterService {
+export class ConverterService implements ConverterWorkerContract {
     async jsonToYaml(jsonText: string): Promise<ConverterResult> {
         try {
             const obj = JSON.parse(jsonText);

@@ -2,9 +2,7 @@ import { expose } from 'comlink';
 import pcapp from 'pcap-parser';
 import { EventEmitter } from 'events';
 
-export interface PCAPWorkerContract {
-    loadPCAP(file: File): Promise<{ file: File, hasCredentials: boolean }>;
-}
+import { PCAPWorkerContract } from '../contracts/pcap_contract';
 
 class PcapStream extends EventEmitter {
     constructor(private file: File) {

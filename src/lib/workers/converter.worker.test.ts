@@ -32,7 +32,7 @@ describe('ConverterService', () => {
             const result = await converter.yamlToJson(yamlText);
             expect(result.success).toBe(true);
 
-            const parsed = JSON.parse(result.data!);
+            const parsed = JSON.parse(result.data as string);
             expect(parsed).toEqual({ name: 'test', value: 123 });
         });
 
@@ -79,7 +79,7 @@ describe('ConverterService', () => {
             const result = await converter.xmlToJson(xmlText);
             expect(result.success).toBe(true);
 
-            const parsed = JSON.parse(result.data!);
+            const parsed = JSON.parse(result.data as string);
             expect(parsed).toEqual({ root: { name: 'test', value: 123 } });
         });
 
