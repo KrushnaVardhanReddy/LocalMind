@@ -9,7 +9,15 @@ env.useBrowserCache = true;
 
 class EmbeddingsService implements EmbeddingsWorkerContract {
     private embedder: FeatureExtractionPipeline | null = null;
+    private aiEnabled: boolean = false;
 
+    async isAIEnabled(): Promise<boolean> {
+        return this.aiEnabled;
+    }
+
+    async enableAI(): Promise<void> {
+        this.aiEnabled = true;
+    }
     async init(): Promise<void> {
         if (this.embedder) return;
         // The spec specifically mentions 'Xenova/all-MiniLM-L6-v2'

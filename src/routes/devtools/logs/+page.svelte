@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import { WorkerManager } from '$lib/workers/WorkerManager';
     import type { LogParserWorkerContract, LogPattern, LogParseResult, AnomalyCluster } from '$lib/workers/log-parser.worker';
+    // @ts-expect-error No type declarations available for this package
     import VirtualList from 'svelte-virtual-list-ce';
 
     let logParser: LogParserWorkerContract = $state() as unknown as LogParserWorkerContract;
