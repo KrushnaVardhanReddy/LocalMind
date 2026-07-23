@@ -26,10 +26,10 @@ This is not another online file converter. This is a **privacy-first computing p
 
 | Module | Scope | Status |
 |---|---|---|
-| **LocalMind Analytics** | CSV, Excel, JSON, SQL, Charts | 🔨 v2 Rewrite |
-| **LocalMind Docs** | PDF, DOCX, OCR, Search | 🔨 In Progress |
-| **LocalMind DevTools** | JSON Validators, Logs, APIs | 📋 Planned |
-| **Plugin Ecosystem** | Media, Intelligence, Special Apps | 🔬 Post-MVP |
+| **LocalMind Analytics** | CSV, Excel, JSON, SQL, Charts | 🟢 Beta |
+| **LocalMind Docs** | PDF, DOCX, OCR, Search | 🟢 Beta |
+| **LocalMind DevTools** | JSON Validators, Logs, APIs | 🟢 Beta |
+| **Plugin Ecosystem** | Media, Intelligence, Special Apps | 🔨 In Progress |
 
 ---
 
@@ -300,6 +300,7 @@ LocalMind operates on a dual-deployment model to balance zero-friction acquisiti
 | **wa-sqlite** *(new)* | SQLite WASM for persistent workspace state, saved queries, and user preferences |
 | **MuPDF WASM** *(new)* | Advanced PDF operations — merge, split, redact, annotate |
 | **tree-sitter WASM** *(new)* | Incremental code parsing for 40+ languages — structure extraction, complexity analysis |
+| **OpenCV WASM** *(new)* | Image enhancement and auto-deskewing for scanned documents |
 | **magick-wasm** *(new)* | ImageMagick in the browser — advanced image filters, format conversion, compositing |
 | **ZXing WASM** *(new)* | Barcode and QR code detection and decoding from images |
 | **libarchive.js** *(new)* | Archive extraction in the browser (ZIP, RAR, 7z, TAR) |
@@ -334,6 +335,13 @@ All specifications, contracts, and actionable tasks live in the `docs/` director
 - **`docs/tasks/`**: Contains granular, actionable development tasks mapped directly back to the specs and contracts.
 
 When contributing to LocalMind, always consult the `docs/` folder first, and ensure any architectural changes are reflected in the contracts before implementation.
+
+### AI Delegation Pipeline (Jules + OpenCode + Antigravity)
+
+We use a three-tier AI delegation strategy for rapid development:
+- **Jules:** Handles asynchronous PR generation for new WASM workers, unit tests, and isolated logic (via `jules_submit.py`).
+- **OpenCode (Local LLM):** Handles quick config tweaks and minor localized edits.
+- **Antigravity:** Handles complex debugging, merge conflict resolution, and architectural integration.
 
 ---
 
@@ -453,6 +461,8 @@ Every segment has the same core problem: they have sensitive files, they need to
 ## Business Model (Open Core)
 
 LocalMind operates on a Freemium / Open Core model to ensure privacy claims remain auditable while building a sustainable business.
+
+> **Architecture Note:** All Pro, Enterprise, and Monetization features are maintained in a separate, private repository. These commercial features are shipped either as isolated WASM Plugins or baked into the proprietary Desktop build, ensuring the public open-source repository remains strictly focused on the core free tier.
 
 ### Free (Open Source)
 - **Deployment:** Web app (`localmind.dev`)
