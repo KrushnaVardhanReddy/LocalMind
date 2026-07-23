@@ -104,6 +104,14 @@ class SQLiteService implements WaSQLiteWorkerContract {
                 chunk_text TEXT NOT NULL,
                 embedding BLOB NOT NULL -- 384 float32 values stored as raw bytes
             );
+
+            CREATE TABLE IF NOT EXISTS saved_pipelines (
+                id TEXT PRIMARY KEY,
+                name TEXT NOT NULL,
+                nodes TEXT NOT NULL,
+                edges TEXT NOT NULL,
+                updated_at INTEGER NOT NULL
+            );
         `;
 
         for await (const stmt of this.sqlite3.statements(this.db, schema)) {
@@ -325,6 +333,26 @@ class SQLiteService implements WaSQLiteWorkerContract {
 
     async getAllDocumentChunks(workspaceId: string): Promise<any[]> {
         return await this.query(`SELECT * FROM document_chunks WHERE workspace_id = ? ORDER BY file_name ASC, chunk_index ASC`, [workspaceId]);
+    }
+
+    // --- Saved Pipelines ---
+    async savePipeline(name: string, nodes: string, edges: string): Promise<any> {
+        const id = crypto.randomUUID();
+        const now = Math.floor(Date.now() / 1000);
+        await this.execute(
+            `INSERT INTO saved_pipelines (id, name, nodes, edges, updated_at) VALUES (?, ?, ?, ?, ?)`,
+            [id, name, nodes, edges, now]
+        );
+        const rows = await this.query(`SELECT * FROM saved_pipelines WHERE id = ?`, [id]);
+        return rows[0];
+    }
+
+    async listPipelines(): Promise<any[]> {
+        return await this.query(`SELECT * FROM saved_pipelines ORDER BY updated_at DESC`);
+    }
+
+    async deletePipeline(id: string): Promise<void> {
+        await this.execute(`DELETE FROM saved_pipelines WHERE id = ?`, [id]);
     }
 }
 
