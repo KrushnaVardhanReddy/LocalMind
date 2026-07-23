@@ -1,0 +1,9 @@
+{
+  "type": "Resume",
+  "fields": [
+    { "name": "name", "regex": "^\\s*([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)+)(?=\\s*\\n)" },
+    { "name": "email", "regex": "\\b([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})\\b" },
+    { "name": "phone", "regex": "\\b(?:\\+?\\d{1,3}[-.\\s]?)?\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}\\b" },
+    { "name": "skills", "regex": "(?:Skills|Core Competencies):?\\s*([^\\n]+)" }
+  ]
+}

@@ -32,7 +32,7 @@
 - [x] Task 1: Local OCR Integration ✅ *(Completed - PR #18)* (`docs/tasks/phase-2/task1_ocr.md`)
 - [x] Task 1.2: OpenCV Image Enhancement ✅ *(Completed - PR #33)* (`docs/tasks/phase-2/task1_2_opencv.md`)
 - [ ] Task 1.5: Browser-Based PII Redaction 🔄 *(Running - Jules ID: 4167745067130500474)* (`docs/tasks/phase-2/task1_5_redaction.md`)
-- [ ] Task 1.8: Bulk Document Parsing 🔄 *(Running - Jules ID: 9806321565349271752)* (`docs/tasks/phase-2/task1_8_bulk_parse.md`)
+- [x] Task 1.8: Bulk Document Parsing ✅ *(Completed)* (`docs/tasks/phase-2/task1_8_bulk_parse.md`)
 - [x] Task 2: Local PDF Manipulation ✅ *(Completed - PR #20)* (`docs/tasks/phase-2/task2_pdf.md`)
 - [ ] Task 2.5: Markdown to PDF/HTML Export 🔄 *(Running - Jules ID: 2906245828349292013)* (`docs/tasks/phase-2/task2_5_md_export.md`)
 - [x] Task 3: Local Semantic Search ✅ *(Completed - PR #32)* (`docs/tasks/phase-2/task3_semantic_search.md`)
