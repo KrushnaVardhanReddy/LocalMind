@@ -19,6 +19,7 @@ export class WorkerManager {
     private static initConverterPromise: Promise<any> | null = null;
     private static initGitPromise: Promise<any> | null = null;
     private static initLogParserPromise: Promise<any> | null = null;
+    private static initVisualDiffPromise: Promise<any> | null = null;
 
 
     public static async getDuckDB() {
@@ -351,5 +352,24 @@ export class WorkerManager {
         }
 
         return this.initLogParserPromise;
+    }
+
+    public static async getVisualDiff() {
+        if (this.proxies.has('visualdiff')) {
+            return this.proxies.get('visualdiff');
+        }
+
+        if (!this.initVisualDiffPromise) {
+            this.initVisualDiffPromise = (async () => {
+                const worker = new Worker(new URL('./visual-diff.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('visualdiff', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('visualdiff', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initVisualDiffPromise;
     }
 }
