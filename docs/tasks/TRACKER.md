@@ -87,6 +87,32 @@
 - [ ] Task 12: Local Recipe Vault & Grocery Planner (`docs/tasks/phase-6/task12_recipe_vault.md`)
 - [ ] Task 13: Vehicle Telemetry & CAN Bus Analyzer (`docs/tasks/phase-6/task13_telemetry.md`)
 
+### Legal Plugins
+- [ ] Task 1: Local Contract Analyzer (`docs/tasks/phase-13/task1_contract_analyzer.md`)
+- [ ] Task 2: Deposition Transcript Summarizer (`docs/tasks/phase-13/task2_deposition.md`)
+- [ ] Task 3: Legal Case Research Vault (`docs/tasks/phase-13/task3_case_vault.md`)
+
+### Education & Research Plugins
+- [ ] Task 1: Academic Paper Summarizer (`docs/tasks/phase-14/task1_paper_summarizer.md`)
+- [ ] Task 2: Local Citation & Bibliography Builder (`docs/tasks/phase-14/task2_citation_builder.md`)
+- [ ] Task 3: Offline Plagiarism Checker (`docs/tasks/phase-14/task3_plagiarism_checker.md`)
+
+### Construction & Engineering Plugins
+- [ ] Task 1: Blueprint & Technical Drawing OCR (`docs/tasks/phase-15/task1_blueprint_ocr.md`)
+- [ ] Task 2: Safety Incident Log Analyzer (`docs/tasks/phase-15/task2_incident_log.md`)
+
+### Cybersecurity & IT Plugins
+- [ ] Task 1: Offline Threat Intelligence Parser (`docs/tasks/phase-16/task1_threat_intel.md`)
+- [ ] Task 2: Offline Secrets & API Key Auditor (`docs/tasks/phase-16/task2_secrets_auditor.md`)
+
+### Creative Industry Plugins
+- [ ] Task 1: Offline Screenwriting Assistant (`docs/tasks/phase-17/task1_screenwriting.md`)
+- [ ] Task 2: Brand Style Guide Analyzer (`docs/tasks/phase-17/task2_brand_analyzer.md`)
+
+### Finance & Insurance Plugins
+- [ ] Task 1: Insurance Policy Simplifier (`docs/tasks/phase-18/task1_insurance.md`)
+- [ ] Task 2: Offline Stock Backtester (`docs/tasks/phase-18/task2_backtester.md`)
+
 ---
 
 ## 4. Commercial Tiers
