@@ -187,6 +187,8 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
   *Safe: Uses existing Whisper and WebLLM.*
 - **[Plugins]** Task 12: Local Recipe Vault & Grocery Planner (`docs/tasks/phase-6/task12_recipe_vault.md`)
   *Safe: Uses existing OCR, DuckDB, WebLLM.*
+- **[Plugins]** Task 13: Vehicle Telemetry & CAN Bus Analyzer (`docs/tasks/phase-6/task13_telemetry.md`)
+  *Safe: Uses existing DuckDB and WebLLM.*
 
 ---
 

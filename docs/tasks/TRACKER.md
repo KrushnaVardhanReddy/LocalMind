@@ -85,6 +85,7 @@
 - [ ] Task 10: Kids Learning & Reading Buddy (`docs/tasks/phase-6/task10_kids_learning.md`)
 - [ ] Task 11: Offline Voice Journal (`docs/tasks/phase-6/task11_voice_journal.md`)
 - [ ] Task 12: Local Recipe Vault & Grocery Planner (`docs/tasks/phase-6/task12_recipe_vault.md`)
+- [ ] Task 13: Vehicle Telemetry & CAN Bus Analyzer (`docs/tasks/phase-6/task13_telemetry.md`)
 
 ---
 
