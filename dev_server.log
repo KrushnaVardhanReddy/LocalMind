@@ -1,9 +1,0 @@
-$ vite dev
-7:29:44 PM [vite] (client) Forced re-optimization of dependencies
-
-  VITE v8.1.5  ready in 1982 ms
-
-  ➜  Local:   http://localhost:5173/
-  ➜  Network: use --host to expose
-7:31:07 PM [vite] (client) dependency optimized: fast-xml-parser
-error: script "dev" exited with code 143
