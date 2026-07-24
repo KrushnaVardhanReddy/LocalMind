@@ -177,3 +177,5 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
   *Safe: Uses existing DuckDB and WebLLM.*
 - **[Plugins]** Task 9: AI Speech & Articulation Coach (`docs/tasks/phase-6/task9_speech_coach.md`)
   *Safe: Uses existing Whisper and WebLLM.*
+- **[Plugins]** Task 10: Kids Learning & Reading Buddy (`docs/tasks/phase-6/task10_kids_learning.md`)
+  *Safe: Uses existing Whisper and WebLLM.*
