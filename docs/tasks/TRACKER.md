@@ -113,6 +113,9 @@
 - [ ] Task 1: Insurance Policy Simplifier (`docs/tasks/phase-18/task1_insurance.md`)
 - [ ] Task 2: Offline Stock Backtester (`docs/tasks/phase-18/task2_backtester.md`)
 
+### Real Estate & HOA Plugins
+- [ ] Task 1: HOA CC&R Analyzer & Auditor (`docs/tasks/phase-19/task1_hoa_analyzer.md`)
+
 ---
 
 ## 4. Commercial Tiers

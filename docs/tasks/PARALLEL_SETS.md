@@ -239,3 +239,9 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
   *Safe: Uses existing DuckDB and WebLLM.*
 - **[Creative]** Task 2: Brand Style Guide Analyzer (`docs/tasks/phase-17/task2_brand_analyzer.md`)
   *Safe: Uses existing OCR and DuckDB.*
+
+---
+
+## Set 22: Real Estate & HOA
+- **[Real Estate]** Task 1: HOA CC&R Analyzer & Auditor (`docs/tasks/phase-19/task1_hoa_analyzer.md`)
+  *Safe: Uses existing MuPDF, WebLLM, and DuckDB.*
