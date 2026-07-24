@@ -192,4 +192,4 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
 
 ## Set 17: Mobile Ecosystem
 - **[Mobile]** Task 1: LocalMind "Lite" Mobile App (`docs/tasks/phase-12/task1_mobile_lite.md`)
-  *Safe: Capacitor configuration only. Restricts heavy workers to preserve battery.*
+  *Safe: Tauri Mobile configuration only. Restricts heavy workers to preserve battery.*
