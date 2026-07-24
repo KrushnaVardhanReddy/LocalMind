@@ -20,6 +20,7 @@ export class WorkerManager {
     private static initGitPromise: Promise<any> | null = null;
     private static initLogParserPromise: Promise<any> | null = null;
     private static initVisualDiffPromise: Promise<any> | null = null;
+    private static initGeoPromise: Promise<any> | null = null;
 
 
     public static async getDuckDB() {
@@ -371,5 +372,24 @@ export class WorkerManager {
         }
 
         return this.initVisualDiffPromise;
+    }
+
+    public static async getGeo() {
+        if (this.proxies.has('geo')) {
+            return this.proxies.get('geo');
+        }
+
+        if (!this.initGeoPromise) {
+            this.initGeoPromise = (async () => {
+                const worker = new Worker(new URL('./geo.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('geo', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('geo', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initGeoPromise;
     }
 }
