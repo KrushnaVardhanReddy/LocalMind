@@ -110,3 +110,6 @@
 ### Monetization Proxy (Cloudflare)
 - [ ] Task 1: Cloudflare Proxy API for AI Credits (`docs/tasks/phase-11/task1_cf_proxy.md`)
 - [ ] Task 2: Stripe Billing Integration (`docs/tasks/phase-11/task2_stripe.md`)
+
+### Phase 12: Mobile Ecosystem (Capacitor)
+- [ ] Task 1: LocalMind "Lite" Mobile iOS/Android App (`docs/tasks/phase-12/task1_mobile_lite.md`)

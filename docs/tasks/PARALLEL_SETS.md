@@ -187,3 +187,9 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
   *Safe: Uses existing Whisper and WebLLM.*
 - **[Plugins]** Task 12: Local Recipe Vault & Grocery Planner (`docs/tasks/phase-6/task12_recipe_vault.md`)
   *Safe: Uses existing OCR, DuckDB, WebLLM.*
+
+---
+
+## Set 17: Mobile Ecosystem
+- **[Mobile]** Task 1: LocalMind "Lite" Mobile App (`docs/tasks/phase-12/task1_mobile_lite.md`)
+  *Safe: Capacitor configuration only. Restricts heavy workers to preserve battery.*
