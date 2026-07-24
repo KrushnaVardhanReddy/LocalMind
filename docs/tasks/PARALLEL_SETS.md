@@ -175,3 +175,5 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
   *Safe: Uses existing OCR and DuckDB.*
 - **[Plugins]** Task 8: Medical & Health Insights (`docs/tasks/phase-6/task8_health.md`)
   *Safe: Uses existing DuckDB and WebLLM.*
+- **[Plugins]** Task 9: AI Speech & Articulation Coach (`docs/tasks/phase-6/task9_speech_coach.md`)
+  *Safe: Uses existing Whisper and WebLLM.*

@@ -79,6 +79,7 @@
 - [ ] Task 6: Offline Code Interpreter (Pyodide) (`docs/tasks/phase-6/task6_code_interpreter.md`)
 - [ ] Task 7: Personal Finance & Tax Workspace (`docs/tasks/phase-6/task7_finance.md`)
 - [ ] Task 8: Medical & Health Insights (`docs/tasks/phase-6/task8_health.md`)
+- [ ] Task 9: AI Speech & Articulation Coach (`docs/tasks/phase-6/task9_speech_coach.md`)
 
 ---
 
