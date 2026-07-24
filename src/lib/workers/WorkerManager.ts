@@ -20,6 +20,7 @@ export class WorkerManager {
     private static initGitPromise: Promise<any> | null = null;
     private static initLogParserPromise: Promise<any> | null = null;
     private static initVisualDiffPromise: Promise<any> | null = null;
+    private static initCADPromise: Promise<any> | null = null;
 
 
     public static async getDuckDB() {
@@ -102,6 +103,7 @@ export class WorkerManager {
 
         return this.initLLMPromise;
     }
+
 
     public static async getTesseract() {
         if (this.proxies.has('tesseract')) {
@@ -371,5 +373,51 @@ export class WorkerManager {
         }
 
         return this.initVisualDiffPromise;
+    }
+
+    private static initWebLLMPromise: Promise<any> | null = null;
+
+    public static async getWebLLM() {
+        if (this.proxies.has('webllm')) {
+            return this.proxies.get('webllm');
+        }
+
+        if (!this.initWebLLMPromise) {
+            this.initWebLLMPromise = (async () => {
+                const worker = new Worker(new URL('./webllm.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('webllm', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('webllm', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initWebLLMPromise;
+    }
+
+    public static async getCAD() {
+        if (this.proxies.has('cad')) {
+            return this.proxies.get('cad');
+        }
+
+        if (!this.initCADPromise) {
+            this.initCADPromise = (async () => {
+                const worker = new Worker(new URL('./cad.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('cad', worker);
+
+                const proxy = wrap<any>(worker);
+                // The CAD worker init is explicitly called later or initialized internally?
+                // Wait, our worker has an init() function!
+                // We shouldn't call it here since it might be slow, or we can await it.
+                // Looking at duckdb/sqlite, they do await proxy.init()
+                // Looking at ffmpeg, they just return the proxy and call init in the component.
+                // Let's just return the proxy and let the component call init(), just like other workers.
+                this.proxies.set('cad', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initCADPromise;
     }
 }

@@ -10,6 +10,9 @@ export default defineConfig({
 	build: {
 		target: 'es2022'
 	},
+	optimizeDeps: {
+		exclude: ['opencascade.js']
+	},
 	worker: {
 		format: 'es',
 		plugins: () => [wasm(), topLevelAwait()]
@@ -36,7 +39,7 @@ export default defineConfig({
 				]
 			},
 			workbox: {
-				maximumFileSizeToCacheInBytes: 50 * 1024 * 1024, // 50 MiB to accommodate large WASM and Tesseract assets
+				maximumFileSizeToCacheInBytes: 100 * 1024 * 1024, // 50 MiB to accommodate large WASM and Tesseract assets
 				runtimeCaching: [
 					{
 						urlPattern: /\.wasm$/,
@@ -64,6 +67,12 @@ export default defineConfig({
 		})
 	],
 	server: {
+		headers: {
+			'Cross-Origin-Opener-Policy': 'same-origin',
+			'Cross-Origin-Embedder-Policy': 'require-corp'
+		}
+	},
+	preview: {
 		headers: {
 			'Cross-Origin-Opener-Policy': 'same-origin',
 			'Cross-Origin-Embedder-Policy': 'require-corp'

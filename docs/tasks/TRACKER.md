@@ -24,17 +24,17 @@
 - [x] Task 5: AI-Assisted Chart Customization ✅ *(Completed - PR #23)* (`docs/tasks/phase-1/task5_ai_chart.md`)
 - [x] Task 6: Multi-File Auto-Joins & Visual Data Diffing ✅ *(Completed - PR #28)* (`docs/tasks/phase-1/task6_joins_diff.md`)
 - [x] Task 7: Tableau-Style BI Pivot Builder ✅ *(Completed - PR #31)* (`docs/tasks/phase-1/task7_bi_pivot.md`)
-- [ ] Task 8: Interactive Dashboard Builder 🔄 *(Running - Jules ID: 17614248477683432132)* (`docs/tasks/phase-1/task8_dashboards.md`)
+- [x] Task 8: Interactive Dashboard Builder ✅ *(Completed)* (`docs/tasks/phase-1/task8_dashboards.md`)
 - [ ] Task 9: End-to-End Testing (`docs/tasks/phase-1/task9_e2e.md`)
 
 ### Version 2: LocalMind Docs 🔨
 *Local Document Processing*
 - [x] Task 1: Local OCR Integration ✅ *(Completed - PR #18)* (`docs/tasks/phase-2/task1_ocr.md`)
 - [x] Task 1.2: OpenCV Image Enhancement ✅ *(Completed - PR #33)* (`docs/tasks/phase-2/task1_2_opencv.md`)
-- [ ] Task 1.5: Browser-Based PII Redaction 🔄 *(Running - Jules ID: 4167745067130500474)* (`docs/tasks/phase-2/task1_5_redaction.md`)
+- [x] Task 1.5: Browser-Based PII Redaction ✅ *(Completed)* (`docs/tasks/phase-2/task1_5_redaction.md`)
 - [x] Task 1.8: Bulk Document Parsing ✅ *(Completed)* (`docs/tasks/phase-2/task1_8_bulk_parse.md`)
 - [x] Task 2: Local PDF Manipulation ✅ *(Completed - PR #20)* (`docs/tasks/phase-2/task2_pdf.md`)
-- [ ] Task 2.5: Markdown to PDF/HTML Export 🔄 *(Running - Jules ID: 2906245828349292013)* (`docs/tasks/phase-2/task2_5_md_export.md`)
+- [x] Task 2.5: Markdown to PDF/HTML Export ✅ *(Completed)* (`docs/tasks/phase-2/task2_5_md_export.md`)
 - [x] Task 3: Local Semantic Search ✅ *(Completed - PR #32)* (`docs/tasks/phase-2/task3_semantic_search.md`)
 - [x] Task 3.5: Local AI Resume Screener & Ranker ✅ *(Completed)* (`docs/tasks/phase-2/task3_5_resume_screener.md`)
 - [ ] Task 4: End-to-End Testing (`docs/tasks/phase-2/task_e2e.md`)
@@ -60,18 +60,18 @@
 *Specialized apps to be built as external plugins rather than core features. This prevents scope creep and keeps the core product focused.*
 
 ### LocalMind Intelligence (Core AI API)
-- [ ] Task 1: WebLLM Engine Setup 🔄 *(Running - Jules ID: 1064364557637672797)* (`docs/tasks/phase-5/task1_webllm.md`)
-- [ ] Task 2: Local Chat Interface 🔄 *(Running - Jules ID: 17871505261799680824)* (`docs/tasks/phase-5/task2_chat_ui.md`)
-- [ ] Task 3: Local AI Data Janitor (`docs/tasks/phase-5/task3_data_janitor.md`)
+- [x] Task 1: WebLLM Engine Setup ✅ *(Completed - PR #47)* (`docs/tasks/phase-5/task1_webllm.md`)
+- [x] Task 2: Local Chat Interface ✅ *(Completed - PR #48)* (`docs/tasks/phase-5/task2_chat_ui.md`)
+- [ ] Task 3: Local AI Data Janitor 🔄 *(Running - Jules ID: 1432054905658099484)* (`docs/tasks/phase-5/task3_data_janitor.md`)
 
 ### Media Plugins
-- [ ] Task 1: FFmpeg WASM Integration 🔄 *(Running - Jules ID: 10251679764195397038)* (`docs/tasks/phase-3/task1_ffmpeg.md`)
+- [x] Task 1: FFmpeg WASM Integration ✅ *(Completed)* (`docs/tasks/phase-3/task1_ffmpeg.md`)
 - [x] Task 2: Whisper WASM Integration ✅ *(Completed - PR #30)* (`docs/tasks/phase-3/task2_whisper.md`)
-- [ ] Task 3: Instant Video Clipper 🔄 *(Running - Jules ID: 4623447159128076263)* (`docs/tasks/phase-3/task4_video_clipper.md`)
+- [x] Task 3: Instant Video Clipper ✅ *(Completed - PR #49)* (`docs/tasks/phase-3/task4_video_clipper.md`)
 
 ### Specialized Niche Plugins
-- [ ] Task 1: Geo-Spatial Workspace (`docs/tasks/phase-6/task1_geospatial.md`)
-- [ ] Task 2: 3D CAD Workspace (`docs/tasks/phase-6/task2_cad.md`)
+- [ ] Task 1: Geo-Spatial Workspace 🔄 *(Running - Jules ID: 13997218633702669379)* (`docs/tasks/phase-6/task1_geospatial.md`)
+- [ ] Task 2: 3D CAD Workspace 🔄 *(Running - Jules ID: 6711618601940893187)* (`docs/tasks/phase-6/task2_cad.md`)
 - [ ] Task 3: Security / Cryptography Workspace (`docs/tasks/phase-6/task3_crypto.md`)
 - [ ] Task 4: Infinite Whiteboard Integration (`docs/tasks/phase-8/task1_whiteboard.md`)
 

@@ -100,22 +100,22 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
 
 ---
 
-## Set 10: AI Core & Media Plugins
-- **[AI]** Task 1: WebLLM Engine Setup (`docs/tasks/phase-5/task1_webllm.md`)
+## Set 10: AI Core & Media Plugins *(Completed)*
+- **[AI]** Task 1: WebLLM Engine Setup (`docs/tasks/phase-5/task1_webllm.md`) ✅
   *Safe: Dedicated WorkerManager modifier (LLM Engine).*
-- **[AI]** Task 2: Local Chat Interface (`docs/tasks/phase-5/task2_chat_ui.md`)
+- **[AI]** Task 2: Local Chat Interface (`docs/tasks/phase-5/task2_chat_ui.md`) ✅
   *Safe: UI/Logic only.*
-- **[Media]** Task 3: Instant Video Clipper (`docs/tasks/phase-3/task4_video_clipper.md`)
+- **[Media]** Task 3: Instant Video Clipper (`docs/tasks/phase-3/task4_video_clipper.md`) ✅
   *Safe: Uses existing FFmpeg worker.*
 
 ---
 
 ## Set 11: Niche Workspaces & Data Janitor
-- **[Plugins]** Task 1: Geo-Spatial Workspace (`docs/tasks/phase-6/task1_geospatial.md`)
+- **[Plugins]** Task 1: Geo-Spatial Workspace 🔄 *(Running - Jules ID: 13997218633702669379)* (`docs/tasks/phase-6/task1_geospatial.md`)
   *Safe: Pure JS/UI (Leaflet/Turf).*
-- **[Plugins]** Task 2: 3D CAD Workspace (`docs/tasks/phase-6/task2_cad.md`)
+- **[Plugins]** Task 2: 3D CAD Workspace 🔄 *(Running - Jules ID: 6711618601940893187)* (`docs/tasks/phase-6/task2_cad.md`)
   *Safe: Pure JS/UI (Three.js/OCCT).*
-- **[AI]** Task 3: Local AI Data Janitor (`docs/tasks/phase-5/task3_data_janitor.md`)
+- **[AI]** Task 3: Local AI Data Janitor 🔄 *(Running - Jules ID: 1432054905658099484)* (`docs/tasks/phase-5/task3_data_janitor.md`)
   *Safe: Uses existing LLM setup.*
 
 ---
