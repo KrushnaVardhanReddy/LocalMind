@@ -74,6 +74,7 @@
 - [ ] Task 2: 3D CAD Workspace 🔄 *(Running - Jules ID: 6711618601940893187)* (`docs/tasks/phase-6/task2_cad.md`)
 - [ ] Task 3: Security / Cryptography Workspace (`docs/tasks/phase-6/task3_crypto.md`)
 - [ ] Task 4: Infinite Whiteboard Integration (`docs/tasks/phase-8/task1_whiteboard.md`)
+- [ ] Task 5: Language Learning Workspace (`docs/tasks/phase-6/task5_language.md`)
 
 ---
 

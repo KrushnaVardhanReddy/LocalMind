@@ -125,6 +125,8 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
   *Safe: Potential WorkerManager modifier (Crypto WASM).*
 - **[Plugins]** Task 4: Infinite Whiteboard Integration (`docs/tasks/phase-8/task1_whiteboard.md`)
   *Safe: Pure JS/UI (Tldraw).*
+- **[Plugins]** Task 5: Language Learning Workspace (`docs/tasks/phase-6/task5_language.md`)
+  *Safe: Uses existing WebLLM and Whisper workers.*
 - **[Testing]** Task 9, 4, 7: E2E Testing for Phase 1, 2, 4 (`docs/tasks/phase-1/task9_e2e.md`, etc.)
   *Safe: Playwright setup only.*
 
