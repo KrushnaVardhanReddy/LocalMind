@@ -68,6 +68,7 @@
 - [x] Task 1: FFmpeg WASM Integration ✅ *(Completed)* (`docs/tasks/phase-3/task1_ffmpeg.md`)
 - [x] Task 2: Whisper WASM Integration ✅ *(Completed - PR #30)* (`docs/tasks/phase-3/task2_whisper.md`)
 - [x] Task 3: Instant Video Clipper ✅ *(Completed - PR #49)* (`docs/tasks/phase-3/task4_video_clipper.md`)
+- [ ] Task 4: Podcast & Meeting Summarizer (`docs/tasks/phase-3/task5_summarizer.md`)
 
 ### Specialized Niche Plugins
 - [ ] Task 1: Geo-Spatial Workspace 🔄 *(Running - Jules ID: 13997218633702669379)* (`docs/tasks/phase-6/task1_geospatial.md`)
@@ -75,6 +76,9 @@
 - [ ] Task 3: Security / Cryptography Workspace (`docs/tasks/phase-6/task3_crypto.md`)
 - [ ] Task 4: Infinite Whiteboard Integration (`docs/tasks/phase-8/task1_whiteboard.md`)
 - [ ] Task 5: Language Learning Workspace (`docs/tasks/phase-6/task5_language.md`)
+- [ ] Task 6: Offline Code Interpreter (Pyodide) (`docs/tasks/phase-6/task6_code_interpreter.md`)
+- [ ] Task 7: Personal Finance & Tax Workspace (`docs/tasks/phase-6/task7_finance.md`)
+- [ ] Task 8: Medical & Health Insights (`docs/tasks/phase-6/task8_health.md`)
 
 ---
 

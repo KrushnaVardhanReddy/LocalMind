@@ -163,3 +163,15 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
   *Safe: Playwright/Tauri APIs.*
 
 *(Note: Additional sets follow this exact pattern: ONE WorkerManager modifier + multiple independent UI tasks to maintain 100% conflict-free parallelism.)*
+
+---
+
+## Set 15: Advanced Niche Workspaces & Analyzers
+- **[Media]** Task 4: Podcast & Meeting Summarizer (`docs/tasks/phase-3/task5_summarizer.md`)
+  *Safe: Uses existing Whisper and WebLLM.*
+- **[Plugins]** Task 6: Offline Code Interpreter (`docs/tasks/phase-6/task6_code_interpreter.md`)
+  *Safe: Potential WorkerManager modifier (Pyodide WASM).*
+- **[Plugins]** Task 7: Personal Finance & Tax Workspace (`docs/tasks/phase-6/task7_finance.md`)
+  *Safe: Uses existing OCR and DuckDB.*
+- **[Plugins]** Task 8: Medical & Health Insights (`docs/tasks/phase-6/task8_health.md`)
+  *Safe: Uses existing DuckDB and WebLLM.*
