@@ -52,6 +52,7 @@
 - [x] Task 5.7: Visual Regression Diffing ✅ *(Completed)* (`docs/tasks/phase-4/task5_7_visual_diff.md`)
 - [x] Task 5.8: Test Data Generator ✅ *(Completed - PR #29)* (`docs/tasks/phase-4/task5_8_test_data.md`)
 - [x] Task 5.9: Local Mock API Server ✅ *(Completed - PR #19)* (`docs/tasks/phase-4/task5_9_mock_server.md`)
+- [ ] Task 6: PII Data Sanitizer (JSON/CSV) (`docs/tasks/phase-4/task6_pii_sanitizer.md`)
 - [ ] Task 7: End-to-End Testing (`docs/tasks/phase-4/task_e2e.md`)
 
 ---
@@ -69,6 +70,7 @@
 - [x] Task 2: Whisper WASM Integration ✅ *(Completed - PR #30)* (`docs/tasks/phase-3/task2_whisper.md`)
 - [x] Task 3: Instant Video Clipper ✅ *(Completed - PR #49)* (`docs/tasks/phase-3/task4_video_clipper.md`)
 - [ ] Task 4: Podcast & Meeting Summarizer (`docs/tasks/phase-3/task5_summarizer.md`)
+- [ ] Task 5: Study Note & Flashcard Generator (`docs/tasks/phase-3/task6_study_notes.md`)
 
 ### Specialized Niche Plugins
 - [ ] Task 1: Geo-Spatial Workspace 🔄 *(Running - Jules ID: 13997218633702669379)* (`docs/tasks/phase-6/task1_geospatial.md`)
@@ -81,6 +83,8 @@
 - [ ] Task 8: Medical & Health Insights (`docs/tasks/phase-6/task8_health.md`)
 - [ ] Task 9: AI Speech & Articulation Coach (`docs/tasks/phase-6/task9_speech_coach.md`)
 - [ ] Task 10: Kids Learning & Reading Buddy (`docs/tasks/phase-6/task10_kids_learning.md`)
+- [ ] Task 11: Offline Voice Journal (`docs/tasks/phase-6/task11_voice_journal.md`)
+- [ ] Task 12: Local Recipe Vault & Grocery Planner (`docs/tasks/phase-6/task12_recipe_vault.md`)
 
 ---
 

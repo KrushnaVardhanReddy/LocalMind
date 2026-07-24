@@ -179,3 +179,11 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
   *Safe: Uses existing Whisper and WebLLM.*
 - **[Plugins]** Task 10: Kids Learning & Reading Buddy (`docs/tasks/phase-6/task10_kids_learning.md`)
   *Safe: Uses existing Whisper and WebLLM.*
+- **[DevTools]** Task 6: PII Data Sanitizer (`docs/tasks/phase-4/task6_pii_sanitizer.md`)
+  *Safe: Uses existing WebLLM/DuckDB.*
+- **[Media]** Task 5: Study Note & Flashcard Generator (`docs/tasks/phase-3/task6_study_notes.md`)
+  *Safe: Uses existing Whisper and WebLLM.*
+- **[Plugins]** Task 11: Offline Voice Journal (`docs/tasks/phase-6/task11_voice_journal.md`)
+  *Safe: Uses existing Whisper and WebLLM.*
+- **[Plugins]** Task 12: Local Recipe Vault & Grocery Planner (`docs/tasks/phase-6/task12_recipe_vault.md`)
+  *Safe: Uses existing OCR, DuckDB, WebLLM.*
