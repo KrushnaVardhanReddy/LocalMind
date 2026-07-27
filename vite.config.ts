@@ -42,6 +42,7 @@ export default defineConfig({
 				]
 			},
 			workbox: {
+				navigateFallback: null,
 				maximumFileSizeToCacheInBytes: 100 * 1024 * 1024, // 50 MiB to accommodate large WASM and Tesseract assets
 				runtimeCaching: [
 					{
