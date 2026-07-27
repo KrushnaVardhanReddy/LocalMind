@@ -111,11 +111,11 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
 ---
 
 ## Set 11: Niche Workspaces & Data Janitor
-- **[Plugins]** Task 1: Geo-Spatial Workspace 🔄 *(Running - Jules ID: 13997218633702669379)* (`docs/tasks/phase-6/task1_geospatial.md`)
+- **[Plugins]** Task 1: Geo-Spatial Workspace ✅ *(Completed - PR #51)* (`docs/tasks/phase-6/task1_geospatial.md`)
   *Safe: Pure JS/UI (Leaflet/Turf).*
 - **[Plugins]** Task 2: 3D CAD Workspace 🔄 *(Running - Jules ID: 6711618601940893187)* (`docs/tasks/phase-6/task2_cad.md`)
   *Safe: Pure JS/UI (Three.js/OCCT).*
-- **[AI]** Task 3: Local AI Data Janitor 🔄 *(Running - Jules ID: 1432054905658099484)* (`docs/tasks/phase-5/task3_data_janitor.md`)
+- **[AI]** Task 3: Local AI Data Janitor ✅ *(Completed - PR #52)* (`docs/tasks/phase-5/task3_data_janitor.md`)
   *Safe: Uses existing LLM setup.*
 
 ---
