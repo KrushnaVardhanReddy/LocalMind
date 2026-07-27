@@ -21,6 +21,7 @@ export class WorkerManager {
     private static initLogParserPromise: Promise<any> | null = null;
     private static initVisualDiffPromise: Promise<any> | null = null;
     private static initCADPromise: Promise<any> | null = null;
+    private static initGeoPromise: Promise<any> | null = null;
 
 
     public static async getDuckDB() {
@@ -407,17 +408,31 @@ export class WorkerManager {
                 this.instances.set('cad', worker);
 
                 const proxy = wrap<any>(worker);
-                // The CAD worker init is explicitly called later or initialized internally?
-                // Wait, our worker has an init() function!
-                // We shouldn't call it here since it might be slow, or we can await it.
-                // Looking at duckdb/sqlite, they do await proxy.init()
-                // Looking at ffmpeg, they just return the proxy and call init in the component.
-                // Let's just return the proxy and let the component call init(), just like other workers.
+                // Let the component call init(), just like other workers (e.g. FFmpeg)
                 this.proxies.set('cad', proxy);
                 return proxy;
             })();
         }
 
         return this.initCADPromise;
+    }
+
+    public static async getGeo() {
+        if (this.proxies.has('geo')) {
+            return this.proxies.get('geo');
+        }
+
+        if (!this.initGeoPromise) {
+            this.initGeoPromise = (async () => {
+                const worker = new Worker(new URL('./geo.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('geo', worker);
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('geo', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initGeoPromise;
     }
 }
