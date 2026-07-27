@@ -75,9 +75,9 @@
 ### Specialized Niche Plugins
 - [x] Task 1: Geo-Spatial Workspace ✅ *(Completed - PR #51)* (`docs/tasks/phase-6/task1_geospatial.md`)
 - [ ] Task 2: 3D CAD Workspace 🔄 *(Running - Jules ID: 6711618601940893187)* (`docs/tasks/phase-6/task2_cad.md`)
-- [ ] Task 3: Security / Cryptography Workspace (`docs/tasks/phase-6/task3_crypto.md`)
-- [ ] Task 4: Infinite Whiteboard Integration (`docs/tasks/phase-8/task1_whiteboard.md`)
-- [ ] Task 5: Language Learning Workspace (`docs/tasks/phase-6/task5_language.md`)
+- [ ] Task 3: Security / Cryptography Workspace 🔄 *(Running - Jules ID: 5000879008191099918)* (`docs/tasks/phase-6/task3_crypto.md`)
+- [ ] Task 4: Infinite Whiteboard Integration 🔄 *(Running - Jules ID: 16657880211204918934)* (`docs/tasks/phase-8/task1_whiteboard.md`)
+- [ ] Task 5: Language Learning Workspace 🔄 *(Running - Jules ID: 4489897751899106247)* (`docs/tasks/phase-6/task5_language.md`)
 - [ ] Task 6: Offline Code Interpreter (Pyodide) (`docs/tasks/phase-6/task6_code_interpreter.md`)
 - [ ] Task 7: Personal Finance & Tax Workspace (`docs/tasks/phase-6/task7_finance.md`)
 - [ ] Task 8: Medical & Health Insights (`docs/tasks/phase-6/task8_health.md`)

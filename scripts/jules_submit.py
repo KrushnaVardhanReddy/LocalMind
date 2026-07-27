@@ -137,6 +137,22 @@ TASKS = {
         "phase": "phase-1",
         "prompt": _load_prompt("docs/tasks/phase-1/task9_e2e.md"),
     },
+    # ── Set 12 ─────────────────────────────────────────────────────────────────
+    51: {
+        "name": "Set 12 Task 1 — Security / Cryptography Workspace",
+        "phase": "phase-6",
+        "prompt": _load_prompt("docs/tasks/phase-6/task3_crypto.md"),
+    },
+    52: {
+        "name": "Set 12 Task 2 — Infinite Whiteboard Integration (Excalidraw)",
+        "phase": "phase-8",
+        "prompt": _load_prompt("docs/tasks/phase-8/task1_whiteboard.md"),
+    },
+    53: {
+        "name": "Set 12 Task 3 — Language Learning Workspace (Polyglot)",
+        "phase": "phase-6",
+        "prompt": _load_prompt("docs/tasks/phase-6/task5_language.md"),
+    },
 }
 
 # ──────────────────────────────────────────────────────────────────────────────
