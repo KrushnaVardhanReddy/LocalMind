@@ -193,7 +193,7 @@
             try {
                 const s = await db.getSchema(t);
                 for (const [k, v] of Object.entries(s)) {
-                    combinedSchema[`${t}.${k}`] = v;
+                    combinedSchema[`${t}.${k}`] = v as string;
                 }
             } catch (e) {
                 console.error(`Failed to get schema for ${t}`, e);
