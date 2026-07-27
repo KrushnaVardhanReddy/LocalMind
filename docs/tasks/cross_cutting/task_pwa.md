@@ -19,6 +19,7 @@ bun add -D vite-plugin-pwa
   - `registerType: 'prompt'` — do not auto-update; prompt the user.
   - `includeAssets`: include all `.wasm` files, icons, and fonts.
   - `workbox.runtimeCaching`: configure `CacheFirst` for WASM files (match `/\.wasm$/`), `NetworkOnly` for AI API calls (match `/api\/ai/`).
+  - `workbox.navigateFallback`: must be set to `null` to prevent SvelteKit from crashing during development SSR (`index.html` 404 errors).
   - `manifest`: use the manifest defined in `04_pwa_spec.md`.
 
 ### 3. Create App Icons
