@@ -186,6 +186,22 @@
         }
     }
 
+    async function getActiveSchemas() {
+        const db = await WorkerManager.getDuckDB();
+        let combinedSchema: Record<string, string> = {};
+        for (const t of uploadedTables) {
+            try {
+                const s = await db.getSchema(t);
+                for (const [k, v] of Object.entries(s)) {
+                    combinedSchema[`${t}.${k}`] = v;
+                }
+            } catch (e) {
+                console.error(`Failed to get schema for ${t}`, e);
+            }
+        }
+        return combinedSchema;
+    }
+
     async function handleAskAI() {
         const llm = await WorkerManager.getLLM();
         if (!(await llm.isAIEnabled())) {
@@ -195,8 +211,7 @@
 
         if (!result || !result.rows) return;
 
-        const db = await WorkerManager.getDuckDB();
-        schemaForConsent = await db.getSchema("stub_table"); // Using stub_table as we only have stub data
+        schemaForConsent = await getActiveSchemas();
         rowsForConsent = result.rows.slice(0, 5);
         showConsent = true;
     }
@@ -209,8 +224,7 @@
         }
 
         if (!result) return;
-        const db = await WorkerManager.getDuckDB();
-        schemaForConsent = await db.getSchema("stub_table"); // Using stub_table as we only have stub data
+        schemaForConsent = await getActiveSchemas();
         showChartConsent = true;
     }
 
