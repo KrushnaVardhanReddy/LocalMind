@@ -12,3 +12,4 @@ static/gdal3.js/
 # Playwright generated artifacts
 playwright-report/
 test-results/
+dev-dist/

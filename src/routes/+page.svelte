@@ -83,35 +83,37 @@
         }
     }
 
-    async function handleFileSelect() {
-        try {
-            const fileHandles = await (window as any).showOpenFilePicker({
-                multiple: true,
-                types: [
-                    {
-                        description: 'Data Files',
-                        accept: {
-                            'text/csv': ['.csv'],
-                            'application/json': ['.json'],
-                            'application/vnd.apache.parquet': ['.parquet']
-                        }
-                    }
-                ]
-            });
+    let fileInput: HTMLInputElement;
 
-            for (const fileHandle of fileHandles) {
-                const file = await fileHandle.getFile();
+    function handleFileSelect() {
+        if (fileInput) {
+            fileInput.click();
+        }
+    }
+
+    async function onFileInputChange(e: Event) {
+        const target = e.target as HTMLInputElement;
+        if (!target.files || target.files.length === 0) return;
+
+        let processedCount = 0;
+        for (let i = 0; i < target.files.length; i++) {
+            const file = target.files[i];
+            const ext = file.name.split('.').pop()?.toLowerCase();
+            if (['csv', 'json', 'parquet'].includes(ext || '')) {
                 await processFile(file);
-            }
-            if (fileHandles.length > 1) {
-                uploadStatus = { type: 'success', message: `Successfully registered ${fileHandles.length} files.` };
-            }
-        } catch (error: any) {
-            if (error.name !== 'AbortError') {
-                console.error('File selection failed:', error);
-                uploadStatus = { type: 'error', message: `File selection failed: ${error.message}` };
+                processedCount++;
+            } else {
+                uploadStatus = { type: 'error', message: `Unsupported file type: ${file.name}` };
+                // Continue with other files if supported
             }
         }
+        
+        if (processedCount > 1) {
+            uploadStatus = { type: 'success', message: `Successfully registered ${processedCount} files.` };
+        }
+        
+        // Reset input so the same file can be selected again if needed
+        target.value = '';
     }
 
     async function handleDrop(e: DragEvent) {
@@ -515,6 +517,14 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
                 Drag and drop a .csv, .json, or .parquet file here
             </div>
             <div class="text-gray-400 mb-4">or</div>
+            <input
+                type="file"
+                bind:this={fileInput}
+                multiple
+                accept=".csv,.json,.parquet"
+                class="hidden"
+                onchange={onFileInputChange}
+            />
             <button
                 onclick={handleFileSelect}
                 class="px-6 py-2 bg-purple-600 text-white rounded shadow hover:bg-purple-700 transition"

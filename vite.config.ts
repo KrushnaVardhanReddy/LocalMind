@@ -25,6 +25,9 @@ export default defineConfig({
 		VitePWA({
 			registerType: 'prompt',
 			includeAssets: ['**/*.wasm', 'icons/*.png', 'fonts/*.{woff,woff2}'],
+			devOptions: {
+				enabled: true
+			},
 			manifest: {
 				name: 'LocalMind',
 				short_name: 'LocalMind',

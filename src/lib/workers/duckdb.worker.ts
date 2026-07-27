@@ -4,6 +4,9 @@ import duckdb_wasm from '@duckdb/duckdb-wasm/dist/duckdb-mvp.wasm?url';
 import mvp_worker from '@duckdb/duckdb-wasm/dist/duckdb-browser-mvp.worker.js?url';
 import duckdb_wasm_eh from '@duckdb/duckdb-wasm/dist/duckdb-eh.wasm?url';
 import eh_worker from '@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js?url';
+import duckdb_wasm_coi from '@duckdb/duckdb-wasm/dist/duckdb-coi.wasm?url';
+import coi_worker from '@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js?url';
+import coi_pthread_worker from '@duckdb/duckdb-wasm/dist/duckdb-browser-coi.pthread.worker.js?url';
 
 export interface QueryResult {
     columns: string[];
@@ -50,6 +53,11 @@ class DuckDBService implements DuckDBWorkerContract {
                 mainModule: duckdb_wasm_eh,
                 mainWorker: eh_worker,
             },
+            coi: {
+                mainModule: duckdb_wasm_coi,
+                mainWorker: coi_worker,
+                pthreadWorker: coi_pthread_worker
+            }
         };
 
         const bundle = await duckdb.selectBundle(MANUAL_BUNDLES);
@@ -66,7 +74,8 @@ class DuckDBService implements DuckDBWorkerContract {
     async registerFile(file: File, tableName: string) {
         if (!this.db || !this.conn) throw new Error("DB not initialized");
 
-        await this.db.registerFileHandle(file.name, file, duckdb.DuckDBDataProtocol.BROWSER_FILEREADER, true);
+        const buffer = new Uint8Array(await file.arrayBuffer());
+        await this.db.registerFileBuffer(file.name, buffer);
 
         let readFunc = 'read_csv_auto';
         if (file.name.endsWith('.json')) {
