@@ -81,9 +81,7 @@ export class CADService implements CADWorkerContract {
         this.oc.BRepBndLib.Add(shape, bndBox, false);
 
 
-        bndBox.Get(minP[0], minP[1], minP[2], maxP[0], maxP[1], maxP[2]);
-        // Bnd_Box Get method actually takes references in C++, but in JS it might return an array or we might need to allocate handles.
-        // Let's use CornerMin and CornerMax
+        // Use CornerMin and CornerMax (JS-friendly alternative to C++ reference-based Get())
         const cMin = bndBox.CornerMin();
         const cMax = bndBox.CornerMax();
         const boundingBox = {

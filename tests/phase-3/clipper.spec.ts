@@ -51,7 +51,7 @@ test.describe('Phase 3: Video Clipper E2E Tests', () => {
     // We should wait for a bit to make sure it's fully ready to output. Sometimes FFmpeg isn't loaded completely
     // Click Trim and wait for the "Download" link to appear
     await trimBtn.click();
-    
+
     const downloadLink = page.locator('a', { hasText: 'Download' }).last();
     await expect(downloadLink).toBeVisible({ timeout: 60000 });
 
