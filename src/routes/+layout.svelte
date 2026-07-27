@@ -50,6 +50,18 @@
 	</div>
 {/if}
 
-{@render children()}
+<nav class="bg-indigo-900 text-white p-4 shadow-md flex justify-between items-center sticky top-0 z-40">
+	<div class="font-bold text-xl flex items-center gap-2">
+		<span>🧠 LocalMind</span>
+	</div>
+	<div class="flex gap-4">
+		<a href="/" class="hover:text-indigo-300 transition font-medium">Workspace</a>
+		<a href="/dashboard" class="hover:text-indigo-300 transition font-medium">Dashboards</a>
+	</div>
+</nav>
+
+<main class="min-h-screen bg-gray-50 pb-12">
+	{@render children()}
+</main>
 
 <StatusBar />
