@@ -20,6 +20,6 @@ export interface LLMWorkerContract {
 
 ## 4. UI Flow
 1. User clicks "Ask AI".
-2. UI runs a `DESCRIBE table` and `SELECT * LIMIT 5` query via DuckDB.
+2. UI dynamically iterates over all `uploadedTables`, runs `DESCRIBE <table>` to aggregate a combined active schema, and runs `SELECT * LIMIT 5` on the active query result via DuckDB.
 3. UI presents a Modal: "LocalMind wants to send the following schema and 5 rows to OpenAI. Do you consent?"
 4. If Yes, UI calls `WorkerManager.getLLM().analyzeData(...)`.
