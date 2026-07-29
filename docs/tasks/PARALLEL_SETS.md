@@ -245,15 +245,25 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
 
 ---
 
-## ⛔ Deferred Appendix — Out of Active Rotation
+## ⏸ Deferred Appendix — Revisit Post-MVP
 
-> [!WARNING]
-> The following tasks have been **removed from all parallel sets** and deferred indefinitely. They target consumer lifestyle use cases misaligned with LocalMind's positioning as a professional-grade, privacy-first local AI platform.
-> If revisited, they must be built as **standalone products** on top of the LocalMind Plugin SDK.
+> [!NOTE]
+> Valid LocalMind use case but deprioritized. Only schedule after core five-pillar workspaces are complete.
 
 | Task | Reason |
 |---|---|
-| Task 9: AI Speech & Articulation Coach | Consumer app; wrong audience |
-| Task 10: Kids Learning & Reading Buddy | Different user segment entirely |
-| Task 11: Offline Voice Journal | Consumer lifestyle app |
-| Task 12: Local Recipe Vault & Grocery Planner | Consumer lifestyle app |
+| Task 9: AI Speech & Articulation Coach | Strong offline privacy angle; Whisper already in stack; professional self-coaching use case |
+
+---
+
+## ⛔ Deleted — Out of Scope
+
+> [!CAUTION]
+> These tasks have been **permanently removed** from the LocalMind roadmap. Wrong audience, no architectural fit, no meaningful reuse of the LocalMind stack. Do not re-add to any set.
+> If ever pursued, they must be entirely separate standalone products.
+
+| Task | Reason |
+|---|---|
+| Task 10: Kids Learning & Reading Buddy | Wrong audience; requires gamification & parental controls — different product discipline |
+| Task 11: Offline Voice Journal | Consumer journaling app; no data-processing value |
+| Task 12: Local Recipe Vault & Grocery Planner | Off-mission; wrong persona; no architectural fit |

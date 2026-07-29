@@ -177,7 +177,9 @@ LocalMind is built on a **Plugin SDK** that allows professional vertical solutio
 - **Finance Plugins:** Personal finance & tax workspace, Stock backtester, Insurance policy simplifier.
 - **Education Plugins:** Academic paper summarizer, Citation builder, Plagiarism checker.
 
-> **Not in scope:** Consumer lifestyle apps (recipe vaults, voice journals, kids learning, etc.) are out of scope for the LocalMind roadmap. These should be separate products built on top of the Plugin SDK if pursued.
+> **Deferred (post-MVP):** AI Speech & Articulation Coach — valid offline privacy use case (Whisper-based), revisit after core workspaces ship.
+>
+> **Out of scope permanently:** Consumer lifestyle apps (kids learning, voice journals, recipe vaults, grocery planners) are not LocalMind features. If pursued, they must be entirely separate products built on top of the Plugin SDK.
 
 ---
 
