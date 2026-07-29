@@ -1,6 +1,6 @@
 # LocalMind Architecture Tracker
 
-> **Last updated:** 2026-07-20 · OS-Level Platform & MVP Restructuring
+> **Last updated:** 2026-07-29 · Product Focus Review — Consumer lifestyle features deferred
 
 ## 1. LocalMind Core (The Platform Engine)
 *The foundational OS layer that all vertical apps plug into.*
@@ -82,11 +82,10 @@
 - [ ] Task 6: Offline Code Interpreter (Pyodide) (`docs/tasks/phase-6/task6_code_interpreter.md`)
 - [ ] Task 7: Personal Finance & Tax Workspace (`docs/tasks/phase-6/task7_finance.md`)
 - [ ] Task 8: Medical & Health Insights (`docs/tasks/phase-6/task8_health.md`)
-- [ ] Task 9: AI Speech & Articulation Coach (`docs/tasks/phase-6/task9_speech_coach.md`)
-- [ ] Task 10: Kids Learning & Reading Buddy (`docs/tasks/phase-6/task10_kids_learning.md`)
-- [ ] Task 11: Offline Voice Journal (`docs/tasks/phase-6/task11_voice_journal.md`)
-- [ ] Task 12: Local Recipe Vault & Grocery Planner (`docs/tasks/phase-6/task12_recipe_vault.md`)
 - [ ] Task 13: Vehicle Telemetry & CAN Bus Analyzer (`docs/tasks/phase-6/task13_telemetry.md`)
+
+> [!NOTE]
+> **Tasks 9–12 below have been deferred.** See Section 5 for rationale.
 
 ### Legal Plugins
 - [ ] Task 1: Local Contract Analyzer (`docs/tasks/phase-13/task1_contract_analyzer.md`)
@@ -116,6 +115,20 @@
 
 ### Real Estate & HOA Plugins
 - [ ] Task 1: HOA CC&R Analyzer & Auditor (`docs/tasks/phase-19/task1_hoa_analyzer.md`)
+
+---
+
+## 5. Deferred — Out of Scope for Core Roadmap
+
+> [!WARNING]
+> These features target consumer lifestyle use cases that are **misaligned with LocalMind's positioning** as a professional, privacy-first local AI platform for data, documents, and development workflows. They dilute the product brand and target a completely different audience.
+>
+> If any of these are revisited in the future, they should be built as **completely separate products** on top of the LocalMind Plugin SDK — not as official LocalMind plugins.
+
+- ~~[ ] Task 9: AI Speech & Articulation Coach~~ *(Deferred — consumer app, out of scope)* (`docs/tasks/phase-6/task9_speech_coach.md`)
+- ~~[ ] Task 10: Kids Learning & Reading Buddy~~ *(Deferred — wrong audience segment)* (`docs/tasks/phase-6/task10_kids_learning.md`)
+- ~~[ ] Task 11: Offline Voice Journal~~ *(Deferred — consumer lifestyle app)* (`docs/tasks/phase-6/task11_voice_journal.md`)
+- ~~[ ] Task 12: Local Recipe Vault & Grocery Planner~~ *(Deferred — consumer lifestyle app)* (`docs/tasks/phase-6/task12_recipe_vault.md`)
 
 ---
 
