@@ -10,6 +10,13 @@
 - [x] Task 4: PWA & Offline Support ✅ *(Completed - PR #14)* (`docs/tasks/cross_cutting/task_pwa.md`)
 - [x] Task 5: Custom WASM Plugin Runtime ✅ *(Completed - PR #15)* (`docs/tasks/phase-7/task1_plugin_runtime.md`)
 
+### UX & Product Polish (Cross-Cutting)
+*Critical for first impression, onboarding, and retention.*
+- [ ] UX-1: Landing Dashboard & Workspace Routing (`docs/tasks/cross_cutting/task_ux1_dashboard_routing.md`)
+- [ ] UX-2: Command Palette (⌘K) (`docs/tasks/cross_cutting/task_ux2_command_palette.md`)
+- [ ] UX-3: Static HTML Report Export (`docs/tasks/cross_cutting/task_ux3_report_export.md`)
+- [ ] UX-4: Template Gallery (`docs/tasks/cross_cutting/task_ux4_template_gallery.md`)
+
 ---
 
 ## 2. Core Product MVP (The Focus)
@@ -24,7 +31,10 @@
 - [x] Task 5: AI-Assisted Chart Customization ✅ *(Completed - PR #23)* (`docs/tasks/phase-1/task5_ai_chart.md`)
 - [x] Task 6: Multi-File Auto-Joins & Visual Data Diffing ✅ *(Completed - PR #28)* (`docs/tasks/phase-1/task6_joins_diff.md`)
 - [x] Task 7: Tableau-Style BI Pivot Builder ✅ *(Completed - PR #31)* (`docs/tasks/phase-1/task7_bi_pivot.md`)
-- [ ] Task 7.1: BI Pivot Builder - Manual Chart Type Selector (`docs/tasks/phase-1/task7_1_bi_chart_selector.md`)
+- [ ] Task 7.1: BI Pivot Builder - ECharts Visualization & Chart Type Selector (`docs/tasks/phase-1/task7_1_bi_chart_selector.md`)
+- [ ] Task 7.2: BI Pivot Builder - True Pivot, Filters & SQL Panel (`docs/tasks/phase-1/task7_2_bi_pivot_filters.md`)
+- [ ] Task 7.3: BI Pivot Builder - Table Polish (Totals, Pagination, Empty State) (`docs/tasks/phase-1/task7_3_bi_table_polish.md`)
+- [ ] Task 7.4: BI Pivot Builder - Component Architecture & Premium UI (`docs/tasks/phase-1/task7_4_bi_component_architecture.md`)
 - [x] Task 8: Interactive Dashboard Builder ✅ *(Completed)* (`docs/tasks/phase-1/task8_dashboards.md`)
 - [ ] Task 9: End-to-End Testing (`docs/tasks/phase-1/task9_e2e.md`)
 

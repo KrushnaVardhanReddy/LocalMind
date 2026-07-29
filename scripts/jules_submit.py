@@ -133,9 +133,24 @@ TASKS = {
         "prompt": _load_prompt("docs/tasks/phase-1/task6_joins_diff.md"),
     },
     71: {
-        "name": "Task 7.1 — BI Pivot Builder Manual Chart Type Selector",
+        "name": "Task 7.1 — BI Pivot Builder ECharts Visualization & Chart Type Selector",
         "phase": "phase-1",
         "prompt": _load_prompt("docs/tasks/phase-1/task7_1_bi_chart_selector.md"),
+    },
+    72: {
+        "name": "Task 7.2 — BI Pivot Builder True Pivot, Filters & SQL Panel",
+        "phase": "phase-1",
+        "prompt": _load_prompt("docs/tasks/phase-1/task7_2_bi_pivot_filters.md"),
+    },
+    73: {
+        "name": "Task 7.3 — BI Pivot Builder Table Polish (Totals, Pagination, Empty State)",
+        "phase": "phase-1",
+        "prompt": _load_prompt("docs/tasks/phase-1/task7_3_bi_table_polish.md"),
+    },
+    74: {
+        "name": "Task 7.4 — BI Pivot Builder Component Architecture & Premium UI",
+        "phase": "phase-1",
+        "prompt": _load_prompt("docs/tasks/phase-1/task7_4_bi_component_architecture.md"),
     },
     9: {
         "name": "Task 9 — End-to-End Testing (Phase 1)",
@@ -157,6 +172,27 @@ TASKS = {
         "name": "Set 12 Task 3 — Language Learning Workspace (Polyglot)",
         "phase": "phase-6",
         "prompt": _load_prompt("docs/tasks/phase-6/task5_language.md"),
+    },
+    # ── Set 16: UX & Product Polish ────────────────────────────────────────────
+    81: {
+        "name": "UX-1 — Landing Dashboard & Workspace Routing",
+        "phase": "cross_cutting",
+        "prompt": _load_prompt("docs/tasks/cross_cutting/task_ux1_dashboard_routing.md"),
+    },
+    82: {
+        "name": "UX-2 — Command Palette (Cmd+K)",
+        "phase": "cross_cutting",
+        "prompt": _load_prompt("docs/tasks/cross_cutting/task_ux2_command_palette.md"),
+    },
+    83: {
+        "name": "UX-3 — Static HTML Report Export",
+        "phase": "cross_cutting",
+        "prompt": _load_prompt("docs/tasks/cross_cutting/task_ux3_report_export.md"),
+    },
+    84: {
+        "name": "UX-4 — Template Gallery",
+        "phase": "cross_cutting",
+        "prompt": _load_prompt("docs/tasks/cross_cutting/task_ux4_template_gallery.md"),
     },
 }
 

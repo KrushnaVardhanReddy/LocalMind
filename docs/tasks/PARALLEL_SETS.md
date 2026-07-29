@@ -65,8 +65,14 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
   *Safe: Uses existing WebLLM/Vector DB setup.*
 - **[Analytics]** Task 7: Tableau-Style BI Pivot Builder (`task7_bi_pivot.md`)
   *Safe: UI/DuckDB queries only.*
-- **[Analytics]** Task 7.1: BI Pivot Builder - Manual Chart Type Selector (`docs/tasks/phase-1/task7_1_bi_chart_selector.md`)
+- **[Analytics]** Task 7.1: BI Pivot Builder - ECharts Visualization & Chart Type Selector (`docs/tasks/phase-1/task7_1_bi_chart_selector.md`)
   *Safe: Pure JS/UI (ECharts/Svelte state).*
+- **[Analytics]** Task 7.2: BI Pivot Builder - True Pivot, Filters & SQL Panel (`docs/tasks/phase-1/task7_2_bi_pivot_filters.md`)
+  *Safe: Pure JS/UI (DuckDB PIVOT syntax, Svelte state).*
+- **[Analytics]** Task 7.3: BI Pivot Builder - Table Polish (`docs/tasks/phase-1/task7_3_bi_table_polish.md`)
+  *Safe: Pure JS/UI (client-side pagination, totals).*
+- **[Analytics]** Task 7.4: BI Pivot Builder - Component Architecture & Premium UI (`docs/tasks/phase-1/task7_4_bi_component_architecture.md`)
+  *Safe: Pure JS/UI (Svelte component refactor, CSS animations). Must run AFTER 7.1–7.3.*
 
 ---
 
@@ -131,6 +137,24 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
   *Safe: Uses existing WebLLM and Whisper workers.*
 - **[Testing]** Task 9, 4, 7: E2E Testing for Phase 1, 2, 4 (`docs/tasks/phase-1/task9_e2e.md`, etc.)
   *Safe: Playwright setup only.*
+
+---
+
+## Set 16: UX & Product Polish (Pre-Launch)
+> [!IMPORTANT]
+> These tasks are **critical for product launch**. They determine whether new users stay or leave. Prioritize before Set 13+ (commercial features).
+
+- **[UX]** UX-1: Landing Dashboard & Workspace Routing (`docs/tasks/cross_cutting/task_ux1_dashboard_routing.md`)
+  *Safe: Routes/UI only. Restructures existing +page.svelte into workspace routes. No WorkerManager changes.*
+- **[UX]** UX-2: Command Palette (⌘K) (`docs/tasks/cross_cutting/task_ux2_command_palette.md`)
+  *Safe: Pure UI component. Global keyboard listener in +layout.svelte.*
+- **[UX]** UX-3: Static HTML Report Export (`docs/tasks/cross_cutting/task_ux3_report_export.md`)
+  *Safe: Pure JS (HTML template generation). No workers.*
+- **[UX]** UX-4: Template Gallery (`docs/tasks/cross_cutting/task_ux4_template_gallery.md`)
+  *Safe: Pure UI + wa-sqlite storage. No WorkerManager changes.*
+
+> [!NOTE]
+> **Execution order:** UX-1 (Dashboard & Routing) must run first — it creates the route structure that UX-2, UX-3, and UX-4 plug into. UX-2/3/4 can run in parallel after UX-1 merges.
 
 ---
 
