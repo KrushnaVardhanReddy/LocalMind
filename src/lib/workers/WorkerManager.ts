@@ -22,6 +22,7 @@ export class WorkerManager {
     private static initVisualDiffPromise: Promise<any> | null = null;
     private static initCADPromise: Promise<any> | null = null;
     private static initGeoPromise: Promise<any> | null = null;
+    private static initCryptoPromise: Promise<any> | null = null;
 
 
     public static async getDuckDB() {
@@ -434,5 +435,25 @@ export class WorkerManager {
         }
 
         return this.initGeoPromise;
+    }
+
+    public static async getCrypto() {
+        if (this.proxies.has('crypto')) {
+            return this.proxies.get('crypto');
+        }
+
+        if (!this.initCryptoPromise) {
+            this.initCryptoPromise = (async () => {
+                const worker = new Worker(new URL('./crypto.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('crypto', worker);
+
+                const proxy = wrap<any>(worker);
+                await proxy.init();
+                this.proxies.set('crypto', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initCryptoPromise;
     }
 }
