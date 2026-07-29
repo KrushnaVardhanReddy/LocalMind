@@ -1,6 +1,8 @@
 <script lang="ts">
-    import { onMount, tick } from 'svelte';
+
+    import { onMount, tick, onDestroy } from 'svelte';
     import { WorkerManager } from '$lib/workers/WorkerManager';
+    import * as echarts from 'echarts';
 
     let { tableName } = $props<{ tableName: string }>();
 
@@ -15,6 +17,115 @@
     let queryError = $state<string | null>(null);
 
     const aggregations = ['SUM', 'COUNT', 'AVG', 'MIN', 'MAX'];
+
+    let chartType = $state<'auto' | 'bar' | 'line' | 'pie' | 'scatter' | 'area'>('auto');
+    let chartContainer = $state<HTMLElement | null>(null) as unknown as HTMLElement;
+    let chartInstance = $state<echarts.ECharts | null>(null);
+
+    function buildEchartsOption(res: any, type: string, currentRows: string[], currentValues: { column: string, agg: string }[]) {
+        if (!res || !res.rows || res.rows.length === 0) return {};
+
+        let inferredType = type;
+        if (inferredType === 'auto') {
+            const categories = res.rows.length;
+            if (categories <= 5) {
+                inferredType = 'pie';
+            } else if (categories <= 20) {
+                inferredType = 'bar';
+            } else {
+                inferredType = 'line';
+            }
+        }
+
+        if (inferredType === 'scatter' && currentValues.length < 2) {
+            inferredType = 'bar';
+        }
+
+        const option: any = {
+            tooltip: { trigger: 'axis' },
+            legend: { data: [] },
+            xAxis: { type: 'category', data: [] },
+            yAxis: { type: 'value' },
+            series: []
+        };
+
+        if (inferredType === 'pie') {
+            option.tooltip.trigger = 'item';
+            delete option.xAxis;
+            delete option.yAxis;
+
+            const firstRowCol = currentRows[0] || 'Category';
+            const firstValCol = currentValues.length > 0 ? `${currentValues[0].agg}_${currentValues[0].column}` : 'Value';
+
+            option.series.push({
+                name: firstValCol,
+                type: 'pie',
+                radius: '50%',
+                data: res.rows.map((r: any) => ({
+                    name: r[firstRowCol] || 'Unknown',
+                    value: r[firstValCol] || 0
+                }))
+            });
+        } else if (inferredType === 'scatter') {
+            delete option.xAxis.data;
+            option.xAxis.type = 'value';
+
+            const xCol = `${currentValues[0].agg}_${currentValues[0].column}`;
+            const yCol = `${currentValues[1].agg}_${currentValues[1].column}`;
+
+            option.series.push({
+                name: `${xCol} vs ${yCol}`,
+                type: 'scatter',
+                data: res.rows.map((r: any) => [r[xCol] || 0, r[yCol] || 0])
+            });
+        } else {
+            const xAxisCol = currentRows.length > 0 ? currentRows[0] : null;
+            if (xAxisCol) {
+                option.xAxis.data = res.rows.map((r: any) => String(r[xAxisCol]));
+            } else {
+                option.xAxis.data = ['Total'];
+            }
+
+            currentValues.forEach(val => {
+                const colName = `${val.agg}_${val.column}`;
+                option.legend.data.push(colName);
+
+                const seriesConfig: any = {
+                    name: colName,
+                    type: inferredType === 'area' ? 'line' : inferredType,
+                    data: res.rows.map((r: any) => r[colName] || 0)
+                };
+
+                if (inferredType === 'area') {
+                    seriesConfig.areaStyle = {};
+                }
+
+                option.series.push(seriesConfig);
+            });
+        }
+
+        return option;
+    }
+
+    $effect(() => {
+        if (chartContainer && result && result.rows) {
+            if (!chartInstance) {
+                chartInstance = echarts.init(chartContainer);
+            }
+            const option = buildEchartsOption(result, chartType, rows, values);
+            chartInstance.setOption(option, true);
+        } else if (chartInstance) {
+            chartInstance.clear();
+        }
+    });
+
+    onDestroy(() => {
+        if (chartInstance) {
+            chartInstance.dispose();
+            chartInstance = null;
+        }
+    });
+
 
     onMount(async () => {
         await fetchSchema();
@@ -224,7 +335,38 @@
         </div>
     </div>
 
+
+    <!-- Chart Selector and Canvas -->
+    <div class="mt-4 bg-white p-4 border rounded">
+        <div class="flex justify-between items-center mb-4">
+            <h4 class="font-bold">Visualization</h4>
+            <div class="flex items-center gap-2">
+                <label for="chartType" class="text-sm font-medium text-gray-700">Chart Type:</label>
+                <select id="chartType" value={chartType} onchange={(e) => chartType = (e.target as HTMLSelectElement).value as any} class="border rounded p-1 text-sm">
+                    <option value="auto">Auto</option>
+                    <option value="bar">Bar</option>
+                    <option value="line">Line</option>
+                    <option value="pie">Pie</option>
+                    <option value="scatter">Scatter</option>
+                    <option value="area">Area</option>
+                </select>
+            </div>
+        </div>
+        {#if result && result.rows && result.rows.length > 0}
+            <div bind:this={chartContainer} style="width: 100%; height: 400px;"></div>
+        {:else if result && result.rows && result.rows.length === 0}
+            <div class="w-full h-[400px] flex items-center justify-center text-gray-500 bg-gray-50 rounded">
+                No data available to chart.
+            </div>
+        {:else}
+            <div class="w-full h-[400px] flex items-center justify-center text-gray-400 border border-dashed rounded">
+                Configure pivot table to view chart
+            </div>
+        {/if}
+    </div>
+
     <!-- Results Grid -->
+
     <div class="mt-4">
         {#if isExecuting}
             <div class="flex justify-center py-8">
