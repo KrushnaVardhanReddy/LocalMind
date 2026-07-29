@@ -37,6 +37,64 @@
 
 ---
 
+## 🟡 ACTIVE SETS (MVP2 — Sessions + Docs Workspace)
+
+> [!IMPORTANT]
+> Start MVP2 only after Wave 5 (E2E tests) is merged and green. Goal: make LocalMind sticky with Sessions and open the Docs workspace to unlock HR/Legal users.
+
+### MVP2 Wave A: Sessions Core + Docs Route (Parallel)
+*Zero overlap: Sessions touches OPFS/wa-sqlite. Docs creates a new `/docs` route. No shared files.*
+- **[Sessions]** Session-1: Core Session Schema & Local Export (`docs/tasks/cross_cutting/task_session1_core.md`)
+- **[Docs]** Docs-1: Docs Workspace Route & Layout (`docs/tasks/phase-2/task_docs_workspace.md`)
+
+### MVP2 Wave B: Sessions Import + Docs Search UI (Parallel)
+*Safe: Session import extends SessionManager. Docs search extends `/docs` route only.*
+- **[Sessions]** Session-4: Session Import — restore from `.lm` file (`docs/tasks/cross_cutting/task_session4_import.md`)
+- **[Docs]** Docs-2: Semantic Search UI in Docs workspace (`docs/tasks/phase-2/task_docs_search_ui.md`)
+
+### MVP2 Wave C: Sessions PDF Export + Docs E2E (Parallel)
+*Safe: PDF export is a pure CSS + print strategy. Docs E2E is Playwright-only.*
+- **[Sessions]** Session-3: PDF Report Export (`docs/tasks/cross_cutting/task_session3_pdf_export.md`)
+- **[Docs]** Docs E2E: End-to-End Testing for Docs Workspace (`docs/tasks/phase-2/task_e2e.md`)
+
+---
+
+## 🟡 ACTIVE SETS (MVP3 — Plugin Ecosystem Completion)
+
+> [!IMPORTANT]
+> Start MVP3 after MVP2 Wave A is merged (Sessions core and Docs route must exist for Annotate and Diagrams to link into the workspace launcher).
+
+### MVP3 Wave A: Canvas Plugins + DevTools Completion (Parallel)
+*All pure UI — no new WASM workers. Touch completely separate routes.*
+- **[Plugin]** Task 14: LocalMind Annotate — Image & Screenshot Annotation (`docs/tasks/phase-6/task14_annotate.md`)
+- **[Plugin]** Task 15: LocalMind Diagrams — AI Diagram Generation (`docs/tasks/phase-6/task15_diagrams.md`)
+- **[DevTools]** Task 6: PII Data Sanitizer (JSON/CSV) (`docs/tasks/phase-4/task6_pii_sanitizer.md`)
+
+### MVP3 Wave B: Media Plugins (Parallel, no new WorkerManager entries)
+*Both use existing Whisper + WebLLM workers. Touch separate routes.*
+- **[Media]** Task 4: Podcast & Meeting Summarizer (`docs/tasks/phase-3/task5_summarizer.md`)
+- **[Media]** Task 5: Study Note & Flashcard Generator (`docs/tasks/phase-3/task6_study_notes.md`)
+
+### MVP3 Wave C: Offline Code Interpreter (Alone — new WorkerManager entry)
+*Must run alone because it adds `getPyodide()` to WorkerManager.ts.*
+- **[Plugin]** Task 6: Offline Code Interpreter (Pyodide) (`docs/tasks/phase-6/task6_code_interpreter.md`)
+
+### MVP3 Wave D: Niche Vertical Plugins (Parallel)
+*All use existing DuckDB/WebLLM/OCR workers. Touch separate plugin routes.*
+- **[Plugin]** Task 7: Personal Finance & Tax Workspace (`docs/tasks/phase-6/task7_finance.md`)
+- **[Plugin]** Task 8: Medical & Health Insights (`docs/tasks/phase-6/task8_health.md`)
+- **[Plugin]** Task 13: Vehicle Telemetry & CAN Bus Analyzer (`docs/tasks/phase-6/task13_telemetry.md`)
+
+### MVP3 Wave E: Legal & Education Verticals (Parallel)
+*All use existing MuPDF/WebLLM/Semantic Search workers.*
+- **[Legal]** Task 1: Local Contract Analyzer (`docs/tasks/phase-13/task1_contract_analyzer.md`)
+- **[Legal]** Task 2: Deposition Transcript Summarizer (`docs/tasks/phase-13/task2_deposition.md`)
+- **[Legal]** Task 3: Legal Case Research Vault (`docs/tasks/phase-13/task3_case_vault.md`)
+- **[Education]** Task 1: Academic Paper Summarizer (`docs/tasks/phase-14/task1_paper_summarizer.md`)
+- **[Education]** Task 2: Citation & Bibliography Builder (`docs/tasks/phase-14/task2_citation_builder.md`)
+
+---
+
 ## ⏸ DEFERRED SETS (Post-v1)
 *The sets below are preserved for future use but should not be scheduled for the initial launch.*
 
