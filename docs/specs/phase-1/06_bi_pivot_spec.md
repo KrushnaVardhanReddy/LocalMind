@@ -40,7 +40,7 @@ After DuckDB returns the pivot result:
 - **Pivot Table:** rendered in a sticky-header grid with totals row.
 - **Chart binding:** each `Values` measure maps to a chart series.
   - Default chart type is auto-selected by data cardinality: ≤ 5 categories → Pie; ≤ 20 categories → Bar; > 20 categories → Line.
-  - User can override chart type via a dropdown.
+  - User can manually override chart type via a dropdown selector (Supported: Bar, Line, Pie, Scatter, Area). If invalid configuration is provided for a chart type (e.g. Pie chart with multiple measures), the visualization gracefully degrades or takes the first dimension/measure.
 
 ## 5. Invariants
 1. The pivot SQL is always displayed in a collapsible "Generated SQL" panel — no hidden queries.
