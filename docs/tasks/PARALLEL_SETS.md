@@ -177,20 +177,15 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
   *Safe: Uses existing OCR and DuckDB.*
 - **[Plugins]** Task 8: Medical & Health Insights (`docs/tasks/phase-6/task8_health.md`)
   *Safe: Uses existing DuckDB and WebLLM.*
-- **[Plugins]** Task 9: AI Speech & Articulation Coach (`docs/tasks/phase-6/task9_speech_coach.md`)
-  *Safe: Uses existing Whisper and WebLLM.*
-- **[Plugins]** Task 10: Kids Learning & Reading Buddy (`docs/tasks/phase-6/task10_kids_learning.md`)
-  *Safe: Uses existing Whisper and WebLLM.*
 - **[DevTools]** Task 6: PII Data Sanitizer (`docs/tasks/phase-4/task6_pii_sanitizer.md`)
   *Safe: Uses existing WebLLM/DuckDB.*
 - **[Media]** Task 5: Study Note & Flashcard Generator (`docs/tasks/phase-3/task6_study_notes.md`)
   *Safe: Uses existing Whisper and WebLLM.*
-- **[Plugins]** Task 11: Offline Voice Journal (`docs/tasks/phase-6/task11_voice_journal.md`)
-  *Safe: Uses existing Whisper and WebLLM.*
-- **[Plugins]** Task 12: Local Recipe Vault & Grocery Planner (`docs/tasks/phase-6/task12_recipe_vault.md`)
-  *Safe: Uses existing OCR, DuckDB, WebLLM.*
 - **[Plugins]** Task 13: Vehicle Telemetry & CAN Bus Analyzer (`docs/tasks/phase-6/task13_telemetry.md`)
   *Safe: Uses existing DuckDB and WebLLM.*
+
+> [!NOTE]
+> Tasks 9–12 (Speech Coach, Kids Learning, Voice Journal, Recipe Vault) have been removed from all parallel sets. See Deferred Appendix.
 
 ---
 
@@ -247,3 +242,18 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
 ## Set 22: Real Estate & HOA
 - **[Real Estate]** Task 1: HOA CC&R Analyzer & Auditor (`docs/tasks/phase-19/task1_hoa_analyzer.md`)
   *Safe: Uses existing MuPDF, WebLLM, and DuckDB.*
+
+---
+
+## ⛔ Deferred Appendix — Out of Active Rotation
+
+> [!WARNING]
+> The following tasks have been **removed from all parallel sets** and deferred indefinitely. They target consumer lifestyle use cases misaligned with LocalMind's positioning as a professional-grade, privacy-first local AI platform.
+> If revisited, they must be built as **standalone products** on top of the LocalMind Plugin SDK.
+
+| Task | Reason |
+|---|---|
+| Task 9: AI Speech & Articulation Coach | Consumer app; wrong audience |
+| Task 10: Kids Learning & Reading Buddy | Different user segment entirely |
+| Task 11: Offline Voice Journal | Consumer lifestyle app |
+| Task 12: Local Recipe Vault & Grocery Planner | Consumer lifestyle app |

@@ -163,14 +163,21 @@ Utilities for engineers and QA testers working with structured formats, network 
 
 ---
 
-## Future Plugin Ecosystem (Post-MVP)
+## Plugin Ecosystem (Post-MVP)
 
-To prevent scope creep and maintain a laser focus on the core MVP, all specialized modules will be built as external **WASM plugins** that plug into the LocalMind Engine.
+LocalMind is built on a **Plugin SDK** that allows professional vertical solutions to extend the platform without polluting the core product. All plugins run entirely locally using the existing WASM runtime.
 
+**Professional Plugin Verticals (Planned):**
 - **LocalMind Intelligence:** Fully local AI (Phi-3, Llama 3) via WebGPU, semantic search, and clustering.
-- **LocalMind Media:** Transcode and process images, audio, and video via FFmpeg WASM. 
-- **LocalMind Canvas:** Infinite Excalidraw-style whiteboard for investigation mapping.
-- **Specialized Niche Plugins:** Geospatial tools (gdal3.js), 3D CAD viewer (OpenCascade.js), and Cryptography (libsodium).
+- **LocalMind Media:** Transcode and process audio/video via FFmpeg + Whisper WASM. Summarize meetings and podcasts offline.
+- **LocalMind Canvas:** Infinite whiteboard (Excalidraw) for investigation mapping and data flow diagrams.
+- **Engineering Plugins:** 3D CAD viewer (OpenCascade.js), Geospatial analysis (gdal3.js), Code Interpreter (Pyodide).
+- **Security Plugins:** Cryptography workspace (libsodium), Threat intelligence, Secrets & API key auditor.
+- **Legal Plugins:** Contract analyzer, Deposition summarizer, Legal case research vault.
+- **Finance Plugins:** Personal finance & tax workspace, Stock backtester, Insurance policy simplifier.
+- **Education Plugins:** Academic paper summarizer, Citation builder, Plagiarism checker.
+
+> **Not in scope:** Consumer lifestyle apps (recipe vaults, voice journals, kids learning, etc.) are out of scope for the LocalMind roadmap. These should be separate products built on top of the Plugin SDK if pursued.
 
 ---
 
