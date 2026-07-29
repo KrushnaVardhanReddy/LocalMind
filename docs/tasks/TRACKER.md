@@ -22,8 +22,8 @@
 ## 2. Core Product MVP (The Focus)
 *The primary value proposition: A privacy-first local AI workspace.*
 
-### Version 1: LocalMind Analytics 🔨
-*Data Ingestion & Visualization*
+### Version 1: LocalMind Analytics 🔨 (Sole Focus for Initial Launch)
+*Data Ingestion, SQL, Pivot, & Visualization*
 - [x] Task 1.1: Data Ingestion and Local File Access (v2 Streams API) ✅ *(Completed - PR #16)*
 - [x] Task 1.2: Query Execution and Data Visualization (v2) ✅ *(Completed - PR #21)*
 - [x] Task 1.3: Consent-Gated AI Insights ✅ *(Completed - PR #13)* (`docs/tasks/phase-1/task4.md`)
@@ -37,6 +37,11 @@
 - [ ] Task 7.4: BI Pivot Builder - Component Architecture & Premium UI (`docs/tasks/phase-1/task7_4_bi_component_architecture.md`)
 - [x] Task 8: Interactive Dashboard Builder ✅ *(Completed)* (`docs/tasks/phase-1/task8_dashboards.md`)
 - [ ] Task 9: End-to-End Testing (`docs/tasks/phase-1/task9_e2e.md`)
+
+---
+
+## 3. Deferred to Post-v1 (Focusing on Analytics MVP First)
+*To ensure a high-quality initial launch, all non-Analytics workspaces and plugins have been deferred. We are focusing 100% on making the data processing and visualization experience exceptional.*
 
 ### Version 2: LocalMind Docs 🔨
 *Local Document Processing*
@@ -68,7 +73,7 @@
 
 ---
 
-## 3. Future Plugin Ecosystem (Post-MVP)
+### Future Plugin Ecosystem
 *Specialized apps to be built as external plugins rather than core features. This prevents scope creep and keeps the core product focused.*
 
 ### LocalMind Intelligence (Core AI API)
