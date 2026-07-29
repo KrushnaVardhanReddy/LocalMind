@@ -5,6 +5,7 @@
 	import { validateCrossOriginIsolation } from '$lib/utils/env-check';
 	import { useRegisterSW } from 'virtual:pwa-register/svelte';
 	import StatusBar from '$lib/components/StatusBar.svelte';
+	import CommandPalette from '$lib/components/CommandPalette.svelte';
 
 	let { children } = $props();
 
@@ -64,4 +65,5 @@
 	{@render children()}
 </main>
 
+<CommandPalette />
 <StatusBar />
