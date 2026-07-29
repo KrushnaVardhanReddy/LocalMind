@@ -118,17 +118,26 @@
 
 ---
 
-## 5. Deferred — Out of Scope for Core Roadmap
+## 5. Deferred — Revisit Post-MVP
 
-> [!WARNING]
-> These features target consumer lifestyle use cases that are **misaligned with LocalMind's positioning** as a professional, privacy-first local AI platform for data, documents, and development workflows. They dilute the product brand and target a completely different audience.
->
-> If any of these are revisited in the future, they should be built as **completely separate products** on top of the LocalMind Plugin SDK — not as official LocalMind plugins.
+> [!NOTE]
+> These features have a valid use case within LocalMind's mission but are deprioritized. They should only be scheduled after the core five-pillar workspaces are complete.
 
-- ~~[ ] Task 9: AI Speech & Articulation Coach~~ *(Deferred — consumer app, out of scope)* (`docs/tasks/phase-6/task9_speech_coach.md`)
-- ~~[ ] Task 10: Kids Learning & Reading Buddy~~ *(Deferred — wrong audience segment)* (`docs/tasks/phase-6/task10_kids_learning.md`)
-- ~~[ ] Task 11: Offline Voice Journal~~ *(Deferred — consumer lifestyle app)* (`docs/tasks/phase-6/task11_voice_journal.md`)
-- ~~[ ] Task 12: Local Recipe Vault & Grocery Planner~~ *(Deferred — consumer lifestyle app)* (`docs/tasks/phase-6/task12_recipe_vault.md`)
+- [ ] Task 9: AI Speech & Articulation Coach *(Deferred — Whisper-based professional self-coaching tool; strong offline privacy angle)* (`docs/tasks/phase-6/task9_speech_coach.md`)
+
+---
+
+## 6. Deleted — Out of Scope
+
+> [!CAUTION]
+> These features target consumer lifestyle use cases with no meaningful fit to LocalMind's platform mission. They require different product disciplines, different audiences, and provide no architectural reuse. **Do not schedule or implement these as LocalMind features.**
+> If ever pursued, they must be entirely separate products.
+
+| Feature | Reason for Deletion |
+|---|---|
+| Task 10: Kids Learning & Reading Buddy | Wrong audience; requires gamification, parental controls — different product discipline |
+| Task 11: Offline Voice Journal | Consumer journaling app; no data-processing value; standalone product territory |
+| Task 12: Local Recipe Vault & Grocery Planner | Off-mission; wrong persona; no architectural fit with LocalMind |
 
 ---
 
