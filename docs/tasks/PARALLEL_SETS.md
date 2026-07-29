@@ -8,17 +8,28 @@
 
 ## 🟢 ACTIVE SETS (MVP Phase 1)
 
-### Active Set 1: BI Pivot Builder Enhancements
-- **[Analytics]** Task 7.1: BI Pivot Builder - ECharts Visualization & Chart Type Selector (`docs/tasks/phase-1/task7_1_bi_chart_selector.md`)
-- **[Analytics]** Task 7.2: BI Pivot Builder - True Pivot, Filters & SQL Panel (`docs/tasks/phase-1/task7_2_bi_pivot_filters.md`)
-- **[Analytics]** Task 7.3: BI Pivot Builder - Table Polish (`docs/tasks/phase-1/task7_3_bi_table_polish.md`)
-- **[Analytics]** Task 7.4: BI Pivot Builder - Component Architecture & Premium UI (`docs/tasks/phase-1/task7_4_bi_component_architecture.md`) *(Note: Must run after 7.1-7.3)*
+> [!TIP]
+> **How to parallelize:** The tasks below are grouped into "Waves" so they touch completely disjoint files. You can trigger all tasks within a single Wave simultaneously in different terminal tabs. **Merge all PRs from a Wave before starting the next.**
 
-### Active Set 2: UX & Product Polish
+### Wave 1: The Foundation
+*Zero overlap. These touch `+page.svelte`, `PivotBuilder.svelte`, and `+layout.svelte` independently.*
 - **[UX]** UX-1: Landing Dashboard & Workspace Routing (`docs/tasks/cross_cutting/task_ux1_dashboard_routing.md`)
+- **[Analytics]** Task 7.1: BI Pivot Builder - ECharts Visualization (`docs/tasks/phase-1/task7_1_bi_chart_selector.md`)
 - **[UX]** UX-2: Command Palette (⌘K) (`docs/tasks/cross_cutting/task_ux2_command_palette.md`)
+
+### Wave 2: BI Middle & Export
+*Safe because UX-3 targets the newly created `/analytics` route from Wave 1, while 7.2 targets `PivotBuilder.svelte`.*
+- **[Analytics]** Task 7.2: BI Pivot Builder - True Pivot, Filters & SQL Panel (`docs/tasks/phase-1/task7_2_bi_pivot_filters.md`)
 - **[UX]** UX-3: Static HTML Report Export (`docs/tasks/cross_cutting/task_ux3_report_export.md`)
+
+### Wave 3: BI Table & Templates
+*Safe because 7.3 polishes the internal table of `PivotBuilder`, while UX-4 adds templates to the outer `/analytics` layout.*
+- **[Analytics]** Task 7.3: BI Pivot Builder - Table Polish (`docs/tasks/phase-1/task7_3_bi_table_polish.md`)
 - **[UX]** UX-4: Template Gallery (`docs/tasks/cross_cutting/task_ux4_template_gallery.md`)
+
+### Wave 4: The Great Refactor
+*Must run entirely alone. This takes the heavily-modified monolithic `PivotBuilder.svelte` and breaks it apart into a clean component tree.*
+- **[Analytics]** Task 7.4: BI Pivot Builder - Component Architecture & Premium UI (`docs/tasks/phase-1/task7_4_bi_component_architecture.md`)
 
 ---
 
