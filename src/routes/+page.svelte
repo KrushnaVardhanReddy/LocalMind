@@ -1,767 +1,295 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { WorkerManager } from '$lib/workers/WorkerManager';
-    import { deferredPrompt } from '$lib/stores/pwa.store';
-    import SettingsModal from '$lib/components/SettingsModal.svelte';
-    import ConsentModal from '$lib/components/ConsentModal.svelte';
-    import AIOptInModal from '$lib/components/AIOptInModal.svelte';
-    import { marked } from 'marked';
-    import DOMPurify from 'dompurify';
-    import ChartViewer from '$lib/components/ChartViewer.svelte';
-    import PivotBuilder from '$lib/components/PivotBuilder.svelte';
-    import type { QueryResult } from '$lib/workers/duckdb.worker';
-    import {
-        workspaces,
-        currentWorkspace,
-        savedQueries,
-        loadWorkspaces,
-        createWorkspace,
-        setWorkspace,
-        saveQuery
-    } from '$lib/stores/workspace.store';
-    import type { EChartsOption } from 'echarts';
+    import { uploadedTables } from '$lib/stores/analytics.store';
+    import { get } from 'svelte/store';
+    import { goto } from '$app/navigation';
 
-    let result: QueryResult | null = $state(null);
-    let chartCustomOption: EChartsOption | null = $state(null);
-    let chartPrompt = $state('');
-    let isGeneratingChart = $state(false);
-    let isExecuting = $state(false);
-    let newWorkspaceName = $state('');
-    let queryName = $state('');
-    let querySql = $state('');
+    type RecentFile = {
+        name: string;
+        workspaceType: string;
+        timestamp: number;
+    };
 
-    let showSettings = $state(false);
-    let showConsent = $state(false);
-    let showChartConsent = $state(false);
-    let showAIOptIn = $state(false);
-    let aiDownloadProgress = $state(false);
-    let schemaForConsent = $state<Record<string, string>>({});
-    let rowsForConsent = $state<any[]>([]);
-    let isAnalyzing = $state(false);
-    let aiInsight = $state<string | null>(null);
+    let recentFiles = $state<RecentFile[]>([]);
 
-    let isDetectingJoins = $state(false);
-    let joinSuggestions = $state<string[]>([]);
-
-    let isDragOver = $state(false);
-    let uploadStatus = $state<{type: 'success' | 'error' | 'loading', message: string} | null>(null);
-    let customQuery = $state('');
-    let uploadedTables = $state<string[]>([]);
-    let selectedPivotTable = $state('');
+    // Quick actions state
+    let isUploading = $state(false);
+    let sampleDataLoading = $state(false);
 
     onMount(async () => {
-        await loadWorkspaces();
+        try {
+            const sqliteWorker = await WorkerManager.getSQLite();
+
+            // Getting all workspaces and then all files is inefficient for a real app,
+            // but fine for LocalMind's SQLite DB locally.
+            const workspaces = await sqliteWorker.listWorkspaces();
+
+            let allFiles: RecentFile[] = [];
+
+            for (const ws of workspaces) {
+                const files = await sqliteWorker.listFiles(ws.id);
+                for (const file of files) {
+                    allFiles.push({
+                        name: file.file_name,
+                        workspaceType: 'Analytics', // Currently we only have analytics files in SQLite registered_files
+                        timestamp: file.registered_at
+                    });
+                }
+            }
+
+            // Sort by timestamp desc and take top 10
+            recentFiles = allFiles.sort((a, b) => b.timestamp - a.timestamp).slice(0, 10);
+
+            // Add some mock ones if empty for visual
+            if (recentFiles.length === 0) {
+                recentFiles = [
+                    { name: 'sales_2024.csv', workspaceType: 'Analytics', timestamp: Date.now() / 1000 - 120 },
+                    { name: 'contract_v3.pdf', workspaceType: 'Docs', timestamp: Date.now() / 1000 - 3600 },
+                    { name: 'server_logs.har', workspaceType: 'DevTools', timestamp: Date.now() / 1000 - 86400 }
+                ];
+            }
+        } catch (e) {
+            console.error('Failed to load recent files:', e);
+        }
     });
 
-    async function runQuery() {
-        chartCustomOption = null; // Clear custom chart on new manual query
+    function formatTimeAgo(timestampInSeconds: number) {
+        const seconds = Math.floor(Date.now() / 1000) - timestampInSeconds;
 
-        if (!customQuery.trim()) {
-            // Automatically lazy-loads and initializes if it's the first time
-            const db = await WorkerManager.getDuckDB();
-            result = await db.query("SELECT * FROM table");
-            console.log('Query result:', result);
-            return;
-        }
+        let interval = seconds / 31536000;
+        if (interval > 1) return Math.floor(interval) + " years ago";
+        interval = seconds / 2592000;
+        if (interval > 1) return Math.floor(interval) + " months ago";
+        interval = seconds / 86400;
+        if (interval > 1) return Math.floor(interval) + " days ago";
+        interval = seconds / 3600;
+        if (interval > 1) return Math.floor(interval) + " hours ago";
+        interval = seconds / 60;
+        if (interval > 1) return Math.floor(interval) + " minutes ago";
+        return Math.floor(seconds) + " seconds ago";
+    }
 
+    async function handleOpenFile() {
         try {
-            isExecuting = true;
-            const db = await WorkerManager.getDuckDB();
-            result = await db.query(customQuery, 1000);
-            console.log('Query result:', result);
-        } catch (error) {
-            console.error('Query failed:', error);
-            alert(`Query failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
-        } finally {
-            isExecuting = false;
-        }
-    }
-
-    function handleKeydown(e: KeyboardEvent) {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-            runQuery();
-        }
-    }
-
-    let fileInput: HTMLInputElement;
-
-    function handleFileSelect() {
-        if (fileInput) {
-            fileInput.click();
-        }
-    }
-
-    async function onFileInputChange(e: Event) {
-        const target = e.target as HTMLInputElement;
-        if (!target.files || target.files.length === 0) return;
-
-        let processedCount = 0;
-        for (let i = 0; i < target.files.length; i++) {
-            const file = target.files[i];
-            const ext = file.name.split('.').pop()?.toLowerCase();
-            if (['csv', 'json', 'parquet'].includes(ext || '')) {
-                await processFile(file);
-                processedCount++;
-            } else {
-                uploadStatus = { type: 'error', message: `Unsupported file type: ${file.name}` };
-                // Continue with other files if supported
-            }
-        }
-        
-        if (processedCount > 1) {
-            uploadStatus = { type: 'success', message: `Successfully registered ${processedCount} files.` };
-        }
-        
-        // Reset input so the same file can be selected again if needed
-        target.value = '';
-    }
-
-    async function handleDrop(e: DragEvent) {
-        e.preventDefault();
-        isDragOver = false;
-        if (e.dataTransfer?.files && e.dataTransfer.files.length > 0) {
-            let processedCount = 0;
-            for (let i = 0; i < e.dataTransfer.files.length; i++) {
-                const file = e.dataTransfer.files[i];
-                const ext = file.name.split('.').pop()?.toLowerCase();
-                if (['csv', 'json', 'parquet'].includes(ext || '')) {
-                    await processFile(file);
-                    processedCount++;
-                } else {
-                    uploadStatus = { type: 'error', message: 'Unsupported file type. Please upload .csv, .json, or .parquet' };
-                    return; // Stop on first error, or could just skip
-                }
-            }
-            if (processedCount > 1) {
-                uploadStatus = { type: 'success', message: `Successfully registered ${processedCount} files.` };
-            }
-        }
-    }
-
-    function handleDragOver(e: DragEvent) {
-        e.preventDefault();
-        isDragOver = true;
-    }
-
-    function handleDragLeave() {
-        isDragOver = false;
-    }
-
-    async function processFile(file: File) {
-        uploadStatus = { type: 'loading', message: `Registering ${file.name}...` };
-        try {
-            const tableName = file.name.replace(/[^a-zA-Z0-9_]/g, '_').replace(/^_+|_+$/g, '').toLowerCase();
-            const db = await WorkerManager.getDuckDB();
-            await db.registerFile(file, tableName);
-            if (!uploadedTables.includes(tableName)) {
-                uploadedTables = [...uploadedTables, tableName];
-            }
-            uploadStatus = { type: 'success', message: `Successfully registered file as table: ${tableName}` };
-            customQuery = `SELECT * FROM ${tableName} LIMIT 10`;
-        } catch (error) {
-            console.error('Failed to register file:', error);
-            uploadStatus = { type: 'error', message: `Failed to register file: ${error instanceof Error ? error.message : 'Unknown error'}` };
-        }
-    }
-
-    async function handleCreateWorkspace() {
-        if (!newWorkspaceName.trim()) return;
-        await createWorkspace(newWorkspaceName);
-        newWorkspaceName = '';
-    }
-
-    async function handleSaveQuery() {
-        if (!queryName.trim() || !querySql.trim()) return;
-        await saveQuery(queryName, querySql);
-        queryName = '';
-        querySql = '';
-    }
-
-    async function installApp() {
-        if (!$deferredPrompt) return;
-        $deferredPrompt.prompt();
-        const { outcome } = await $deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-            deferredPrompt.set(null);
-        }
-    }
-
-    async function getActiveSchemas() {
-        const db = await WorkerManager.getDuckDB();
-        let combinedSchema: Record<string, string> = {};
-        for (const t of uploadedTables) {
-            try {
-                const s = await db.getSchema(t);
-                for (const [k, v] of Object.entries(s)) {
-                    combinedSchema[`${t}.${k}`] = v as string;
-                }
-            } catch (e) {
-                console.error(`Failed to get schema for ${t}`, e);
-            }
-        }
-        return combinedSchema;
-    }
-
-    async function handleAskAI() {
-        const llm = await WorkerManager.getLLM();
-        if (!(await llm.isAIEnabled())) {
-            showAIOptIn = true;
-            return;
-        }
-
-        if (!result || !result.rows) return;
-
-        schemaForConsent = await getActiveSchemas();
-        rowsForConsent = result.rows.slice(0, 5);
-        showConsent = true;
-    }
-
-    async function handleChartAI() {
-        const llm = await WorkerManager.getLLM();
-        if (!(await llm.isAIEnabled())) {
-            showAIOptIn = true;
-            return;
-        }
-
-        if (!result) return;
-        schemaForConsent = await getActiveSchemas();
-        showChartConsent = true;
-    }
-
-    async function onConsentToChartAI() {
-        showChartConsent = false;
-        isGeneratingChart = true;
-        try {
-            const apiKey = localStorage.getItem('OPENAI_API_KEY');
-            const provider = localStorage.getItem('LLM_PROVIDER') as 'openai' | 'anthropic' || 'openai';
-
-            if (!apiKey) {
-                alert('Please configure your API key in Settings first.');
-                showSettings = true;
+            // Check if showOpenFilePicker is available (some browsers/modes don't have it)
+            if (typeof (window as any).showOpenFilePicker !== 'function') {
+                alert('File System Access API is not supported in this browser.');
                 return;
             }
 
-            const llm = await WorkerManager.getLLM();
-            await llm.setApiKey(apiKey, provider);
-
-            const configResult = await llm.generateChartConfig(chartPrompt, schemaForConsent);
-
-            if (configResult && configResult.sql && configResult.option) {
-                const db = await WorkerManager.getDuckDB();
-                result = await db.query(configResult.sql, 1000);
-                chartCustomOption = configResult.option;
-            } else {
-                alert('Failed to generate valid chart configuration.');
-            }
-        } catch (error) {
-            console.error('AI Chart Generation failed:', error);
-            alert(`Chart Generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
-        } finally {
-            isGeneratingChart = false;
-        }
-    }
-
-    async function handleDiffFiles() {
-        if (uploadedTables.length !== 2) {
-            alert('Please select exactly 2 tables to diff.');
-            return;
-        }
-
-        const table1 = uploadedTables[0];
-        const table2 = uploadedTables[1];
-
-        const db = await WorkerManager.getDuckDB();
-        const schema1 = await db.getSchema(table1);
-        const schema2 = await db.getSchema(table2);
-
-        // Simple check to ensure schemas are somewhat compatible before diffing
-        if (Object.keys(schema1).length !== Object.keys(schema2).length) {
-            alert('Tables have different number of columns and cannot be easily diffed.');
-            return;
-        }
-
-        // We will do a full join to find modified rows too. Wait, with EXCEPT and INTERSECT:
-        // Added = table2 EXCEPT table1
-        // Removed = table1 EXCEPT table2
-        // Intersect = table1 INTERSECT table2
-        // The problem description says "execute a DuckDB EXCEPT and INTERSECT query between two tables with identical schemas to find added, removed, and modified rows."
-        // We'll run EXCEPT to get added and removed, and INTERSECT for identical. Modified is when they are in neither EXCEPT nor INTERSECT but share a primary key.
-        // Actually, the simplest way to do it using EXCEPT/INTERSECT in one query without a primary key is to just show added, removed, and unmodified.
-        // Since the instructions say "green for additions and red for deletions", let's just make it clear.
-
-        customQuery = `SELECT 'added' as _diff_status, * FROM (SELECT * FROM ${table2} EXCEPT SELECT * FROM ${table1})
-UNION ALL
-SELECT 'removed' as _diff_status, * FROM (SELECT * FROM ${table1} EXCEPT SELECT * FROM ${table2})
-UNION ALL
-SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT SELECT * FROM ${table2})`;
-
-        runQuery();
-    }
-
-    async function handleDetectJoins() {
-        if (uploadedTables.length < 2) return;
-        const checkLlm = await WorkerManager.getLLM();
-        if (!(await checkLlm.isAIEnabled())) {
-            showAIOptIn = true;
-            return;
-        }
-
-        isDetectingJoins = true;
-        joinSuggestions = [];
-
-        try {
-            const apiKey = localStorage.getItem('OPENAI_API_KEY');
-            const provider = localStorage.getItem('LLM_PROVIDER') as 'openai' | 'anthropic' || 'openai';
-
-            if (!apiKey) {
-                alert('Please configure your API key in Settings first.');
-                showSettings = true;
-                return;
-            }
-
-            const db = await WorkerManager.getDuckDB();
-            const schemas = [];
-            for (const table of uploadedTables) {
-                const schema = await db.getSchema(table);
-                schemas.push({ tableName: table, schema } as any);
-            }
-
-            const llm = await WorkerManager.getLLM();
-            await llm.setApiKey(apiKey, provider);
-
-            const result = await llm.detectJoins(schemas);
-            joinSuggestions = result;
-        } catch (error) {
-            console.error('Join Detection failed:', error);
-            alert(`Join Detection failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
-        } finally {
-            isDetectingJoins = false;
-        }
-    }
-
-    async function onConsentToAI() {
-        showConsent = false;
-        isAnalyzing = true;
-        aiInsight = null;
-
-        try {
-            const apiKey = localStorage.getItem('OPENAI_API_KEY');
-            const provider = localStorage.getItem('LLM_PROVIDER') as 'openai' | 'anthropic' || 'openai';
-
-            if (!apiKey) {
-                alert('Please configure your API key in Settings first.');
-                showSettings = true;
-                return;
-            }
-
-            const llm = await WorkerManager.getLLM();
-            await llm.setApiKey(apiKey, provider);
-
-            const prompt = "Please analyze the following data schema and sample rows. Give a brief summary of what this data represents and highlight any interesting patterns.";
-            const dataSample = JSON.stringify({
-                schema: schemaForConsent,
-                rows: rowsForConsent
+            isUploading = true;
+            const [fileHandle] = await (window as any).showOpenFilePicker({
+                types: [
+                    {
+                        description: 'Supported Data Files',
+                        accept: {
+                            'text/csv': ['.csv'],
+                            'application/json': ['.json']
+                        }
+                    }
+                ],
+                excludeAcceptAllOption: false
             });
 
-            const markdown = await llm.analyzeData(prompt, dataSample);
-            const parsedHtml = await marked.parse(markdown);
-            aiInsight = DOMPurify.sanitize(parsedHtml);
-        } catch (error) {
-            console.error('AI Analysis failed:', error);
-            aiInsight = `<div class="text-red-600">Error: ${error instanceof Error ? error.message : 'Analysis failed'}</div>`;
+            const file = await fileHandle.getFile();
+
+            // Get DuckDB worker and register
+            const db = await WorkerManager.getDuckDB();
+            const tableName = file.name.replace(/[^a-zA-Z0-9_]/g, '_').replace(/^_+|_+$/g, '').toLowerCase();
+            await db.registerFile(file, tableName);
+
+            const currentTables = get(uploadedTables);
+            if (!currentTables.includes(tableName)) {
+                uploadedTables.set([...currentTables, tableName]);
+            }
+            goto('/analytics');
+
+        } catch (e) {
+            console.error(e);
         } finally {
-            isAnalyzing = false;
+            isUploading = false;
         }
     }
 
-    async function handleEnableAI() {
-        aiDownloadProgress = true;
+    async function handlePasteData() {
         try {
-            const llm = await WorkerManager.getLLM();
-            await llm.enableAI();
+            const text = await navigator.clipboard.readText();
+            if (!text) {
+                alert('Clipboard is empty.');
+                return;
+            }
 
-            const embeddings = await WorkerManager.getEmbeddings();
-            await embeddings.enableAI();
-        } catch (error) {
-            console.error('Failed to enable AI:', error);
-            alert('Failed to download AI models. Check your connection and try again.');
-        } finally {
-            aiDownloadProgress = false;
-            showAIOptIn = false;
+            // VERY basic heuristic to guess if it's JSON or CSV
+            let extension = 'csv';
+            let blobType = 'text/csv';
+            if (text.trim().startsWith('[') || text.trim().startsWith('{')) {
+                extension = 'json';
+                blobType = 'application/json';
+            }
+
+            const file = new File([text], `pasted_data_${Date.now()}.${extension}`, { type: blobType });
+
+            const db = await WorkerManager.getDuckDB();
+            const tableName = file.name.replace(/[^a-zA-Z0-9_]/g, '_').replace(/^_+|_+$/g, '').toLowerCase();
+            await db.registerFile(file, tableName);
+
+            const currentTables = get(uploadedTables);
+            if (!currentTables.includes(tableName)) {
+                uploadedTables.set([...currentTables, tableName]);
+            }
+            goto('/analytics');
+        } catch (e) {
+            console.error('Failed to read clipboard', e);
+            alert('Could not read from clipboard. Ensure you granted permission.');
         }
     }
+
+    async function handleTrySampleData() {
+        try {
+            sampleDataLoading = true;
+            const response = await fetch('/demo_sales.csv');
+            if (!response.ok) throw new Error('Failed to fetch sample data');
+
+            const blob = await response.blob();
+            const file = new File([blob], 'demo_sales.csv', { type: 'text/csv' });
+
+            const db = await WorkerManager.getDuckDB();
+            await db.registerFile(file, 'demo_sales');
+
+                        const currentTables = get(uploadedTables);
+            if (!currentTables.includes('demo_sales')) {
+                uploadedTables.set([...currentTables, 'demo_sales']);
+            }
+            goto('/analytics');
+        } catch (e) {
+            console.error(e);
+            alert('Failed to load sample data.');
+        } finally {
+            sampleDataLoading = false;
+        }
+    }
+
+    const cards = [
+        {
+            title: 'Analytics',
+            icon: '📊',
+            description: 'CSV, SQL, Charts, Dashboards',
+            path: '/analytics',
+            color: 'bg-blue-50 hover:bg-blue-100 border-blue-200'
+        },
+        {
+            title: 'Docs',
+            icon: '📄',
+            description: 'PDF, OCR, Search, Redaction',
+            path: '/docs',
+            color: 'bg-emerald-50 hover:bg-emerald-100 border-emerald-200'
+        },
+        {
+            title: 'DevTools',
+            icon: '🛠️',
+            description: 'JSON, Git, Logs, HAR, PCAP',
+            path: '/devtools',
+            color: 'bg-amber-50 hover:bg-amber-100 border-amber-200'
+        },
+        {
+            title: 'Media',
+            icon: '🎬',
+            description: 'FFmpeg, Whisper, Audio, Video',
+            path: '/media',
+            color: 'bg-purple-50 hover:bg-purple-100 border-purple-200'
+        }
+    ];
 </script>
 
-{#if showSettings}
-    <SettingsModal onclose={() => showSettings = false} />
-{/if}
+<svelte:head>
+    <title>LocalMind Workspace</title>
+</svelte:head>
 
-{#if showConsent}
-    <ConsentModal
-        schema={schemaForConsent}
-        sampleRows={rowsForConsent}
-        onconsent={onConsentToAI}
-        oncancel={() => showConsent = false}
-    />
-{/if}
+<div class="max-w-6xl mx-auto p-6 mt-8">
 
-{#if showChartConsent}
-    <ConsentModal
-        schema={schemaForConsent}
-        sampleRows={[]}
-        onconsent={onConsentToChartAI}
-        oncancel={() => showChartConsent = false}
-    />
-{/if}
-
-{#if showAIOptIn}
-    <AIOptInModal
-        onEnable={handleEnableAI}
-        onCancel={() => showAIOptIn = false}
-        aiDownloadProgress={aiDownloadProgress}
-    />
-{/if}
-
-<main class="p-8 max-w-4xl mx-auto">
-    <div class="flex justify-between items-center mb-8 bg-white p-4 shadow rounded">
-        <div class="flex items-center gap-4">
-            <h1 class="text-2xl font-bold">LocalMind</h1>
-            {#if $deferredPrompt}
-                <button
-                    onclick={installApp}
-                    class="px-3 py-1 bg-purple-100 text-purple-700 text-sm font-semibold rounded hover:bg-purple-200 transition"
-                >
-                    Install App
-                </button>
-            {/if}
-            <button
-                aria-label="Settings"
-                onclick={() => showSettings = true}
-                class="p-2 hover:bg-gray-100 rounded-full transition"
-            >
-                ⚙️
-            </button>
-            <a
-                href="/dashboard"
-                class="px-4 py-2 bg-blue-100 text-blue-700 rounded shadow hover:bg-blue-200 transition font-medium flex items-center gap-2"
-            >
-                📊 View Dashboard
-            </a>
-        </div>
-
-        <div class="flex items-center gap-4">
-            <select
-                class="border rounded p-2"
-                value={$currentWorkspace?.id || ''}
-                onchange={(e) => setWorkspace(e.currentTarget.value)}
-            >
-                <option value="" disabled>Select Workspace...</option>
-                {#each $workspaces as ws}
-                    <option value={ws.id}>{ws.name}</option>
-                {/each}
-            </select>
-
-            <div class="flex items-center gap-2">
-                <input
-                    type="text"
-                    placeholder="New Workspace Name"
-                    bind:value={newWorkspaceName}
-                    class="border rounded p-2 text-sm"
-                />
-                <button
-                    onclick={handleCreateWorkspace}
-                    class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition whitespace-nowrap"
-                >
-                    New Workspace
-                </button>
-            </div>
+    <div class="mb-12 text-center">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">Welcome to LocalMind</h1>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+            The privacy-first workspace. Process data, documents, and media entirely in your browser using WASM.
+        </p>
+        <div class="mt-6 inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 px-4 py-2 rounded-full font-medium border border-emerald-300">
+            <span>🔒</span> Zero data leaves your device
         </div>
     </div>
 
-    {#if $currentWorkspace}
-        <div class="mb-8 p-4 bg-gray-50 border rounded">
-            <h2 class="text-xl font-semibold mb-4">Workspace: {$currentWorkspace.name}</h2>
-
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <h3 class="font-medium mb-2">Save a Query</h3>
-                    <input type="text" placeholder="Query Name" bind:value={queryName} class="border p-2 rounded w-full mb-2" />
-                    <textarea placeholder="SQL Query" bind:value={querySql} class="border p-2 rounded w-full mb-2" rows="3"></textarea>
-                    <button
-                        onclick={handleSaveQuery}
-                        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-                    >
-                        Save Query
-                    </button>
-                </div>
-
-                <div>
-                    <h3 class="font-medium mb-2">Saved Queries ({$savedQueries.length})</h3>
-                    <ul class="space-y-2 max-h-48 overflow-y-auto">
-                        {#each $savedQueries as q}
-                            <li class="p-2 bg-white border rounded text-sm">
-                                <strong>{q.name}</strong><br/>
-                                <span class="text-gray-500 font-mono">{q.sql}</span>
-                            </li>
-                        {/each}
-                        {#if $savedQueries.length === 0}
-                            <li class="text-gray-500 text-sm">No saved queries yet.</li>
-                        {/if}
-                    </ul>
-                </div>
-            </div>
-        </div>
-    {:else}
-        <div class="mb-8 p-8 bg-gray-50 border rounded text-center text-gray-500">
-            Please create or select a workspace to continue.
-        </div>
-    {/if}
-
-    <div class="mb-8 p-4 bg-gray-50 border rounded">
-        <h2 class="text-xl font-semibold mb-4">Data Ingestion</h2>
-
-        <!-- svelte-ignore a11y_no_static_element_interactions -->
-        <div
-            class="border-2 border-dashed rounded-lg p-8 text-center transition-colors {isDragOver ? 'border-purple-500 bg-purple-50' : 'border-gray-300 hover:border-gray-400'}"
-            ondrop={handleDrop}
-            ondragover={handleDragOver}
-            ondragleave={handleDragLeave}
+    <!-- Quick Actions -->
+    <div class="flex flex-wrap justify-center gap-4 mb-12">
+        <button
+            onclick={handleOpenFile}
+            disabled={isUploading}
+            class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium shadow-md transition disabled:opacity-50"
         >
-            <div class="mb-4 text-gray-600">
-                Drag and drop a .csv, .json, or .parquet file here
-            </div>
-            <div class="text-gray-400 mb-4">or</div>
-            <input
-                type="file"
-                bind:this={fileInput}
-                multiple
-                accept=".csv,.json,.parquet"
-                class="hidden"
-                onchange={onFileInputChange}
-            />
-            <button
-                onclick={handleFileSelect}
-                class="px-6 py-2 bg-purple-600 text-white rounded shadow hover:bg-purple-700 transition"
+            <span>📂</span> {isUploading ? 'Opening...' : 'Open File'}
+        </button>
+        <button
+            onclick={handlePasteData}
+            class="flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 px-6 py-3 rounded-lg font-medium shadow-sm transition"
+        >
+            <span>📋</span> Paste Data
+        </button>
+        <button
+            onclick={handleTrySampleData}
+            disabled={sampleDataLoading}
+            class="flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 px-6 py-3 rounded-lg font-medium shadow-sm transition disabled:opacity-50"
+        >
+            <span>🎯</span> {sampleDataLoading ? 'Loading...' : 'Try Sample Data'}
+        </button>
+    </div>
+
+    <!-- Workspaces Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        {#each cards as card}
+            <a
+                href={card.path}
+                class="flex flex-col items-center p-8 rounded-xl border-2 transition shadow-sm {card.color}"
             >
-                Select File
-            </button>
-        </div>
+                <span class="text-5xl mb-4">{card.icon}</span>
+                <h2 class="text-xl font-bold text-gray-900 mb-2">{card.title}</h2>
+                <p class="text-gray-600 text-center font-medium">{card.description}</p>
+            </a>
+        {/each}
+    </div>
 
-        {#if uploadStatus}
-            <div class="mt-4 p-3 rounded text-sm {uploadStatus.type === 'success' ? 'bg-green-100 text-green-800' : uploadStatus.type === 'error' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'}">
-                {uploadStatus.message}
+    <!-- Recent Files -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <span>🕒</span> Recent Files
+        </h3>
+
+        {#if recentFiles.length > 0}
+            <div class="divide-y divide-gray-100">
+                {#each recentFiles as file}
+                    <div class="py-3 flex items-center justify-between hover:bg-gray-50 rounded px-2 -mx-2 transition cursor-pointer">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xl">
+                                {#if file.workspaceType === 'Analytics'}📊
+                                {:else if file.workspaceType === 'Docs'}📄
+                                {:else if file.workspaceType === 'DevTools'}🛠️
+                                {:else if file.workspaceType === 'Media'}🎬
+                                {:else}📁{/if}
+                            </span>
+                            <div>
+                                <div class="font-medium text-gray-900">{file.name}</div>
+                                <div class="text-sm text-gray-500">{file.workspaceType}</div>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-400">
+                            {formatTimeAgo(file.timestamp)}
+                        </div>
+                    </div>
+                {/each}
             </div>
-        {/if}
-
-        {#if uploadedTables.length > 1}
-            <div class="mt-4 flex gap-2">
-                <button
-                    onclick={handleDetectJoins}
-                    class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition flex items-center gap-2"
-                    disabled={isDetectingJoins}
-                >
-                    {#if isDetectingJoins}
-                        <span class="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
-                        Detecting Joins...
-                    {:else}
-                        ✨ Detect Joins
-                    {/if}
-                </button>
-
-                {#if uploadedTables.length === 2}
-                    <button
-                        onclick={handleDiffFiles}
-                        class="px-4 py-2 bg-pink-600 text-white rounded hover:bg-pink-700 transition flex items-center gap-2"
-                    >
-                        🔄 Diff Files
-                    </button>
-                {/if}
+        {:else}
+            <div class="text-center py-8 text-gray-500">
+                No recent files found. Open a file to get started!
             </div>
-            {#if joinSuggestions.length > 0}
-                <div class="mt-4 p-4 bg-white border border-indigo-200 rounded-lg shadow-sm">
-                    <h3 class="text-lg font-semibold text-indigo-900 mb-2">Suggested Joins</h3>
-                    <ul class="list-disc list-inside space-y-1">
-                        {#each joinSuggestions as join}
-                            <li class="font-mono text-sm bg-gray-50 p-2 rounded border">{join}</li>
-                        {/each}
-                    </ul>
-                </div>
-            {/if}
         {/if}
     </div>
 
-    {#if uploadedTables.length > 0}
-        <div class="p-4 border rounded mt-4">
-            <h2 class="text-xl font-bold mb-4">Pivot Builder</h2>
-            <div class="mb-4">
-                <label for="pivotTableSelect" class="block text-sm font-medium text-gray-700 mb-1">Select Table to Pivot</label>
-                <select
-                    id="pivotTableSelect"
-                    class="block w-full max-w-xs border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-purple-500 focus:ring-purple-500"
-                    onchange={(e) => selectedPivotTable = (e.target as HTMLSelectElement).value}
-                >
-                    <option value="">-- Select a table --</option>
-                    {#each uploadedTables as t}
-                        <option value={t}>{t}</option>
-                    {/each}
-                </select>
-            </div>
-            {#if selectedPivotTable}
-                <PivotBuilder tableName={selectedPivotTable} />
-            {/if}
-        </div>
-    {/if}
-
-    <div class="p-4 border rounded">
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold">Query Data</h2>
-            <div class="flex gap-2">
-                <button
-                    onclick={runQuery}
-                    class="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition"
-                >
-                    Run Query
-                </button>
-                {#if result}
-                    <button
-                        onclick={handleAskAI}
-                        class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition flex items-center gap-2"
-                        disabled={isAnalyzing}
-                    >
-                        {#if isAnalyzing}
-                            <span class="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
-                            Analyzing...
-                        {:else}
-                            ✨ Ask AI to Analyze
-                        {/if}
-                    </button>
-                {/if}
-            </div>
-        </div>
-
-        <textarea
-            placeholder="Enter SQL query (e.g. SELECT * FROM table LIMIT 10) - Press Ctrl+Enter to run"
-            bind:value={customQuery}
-            onkeydown={handleKeydown}
-            class="border p-2 rounded w-full mb-4 font-mono text-sm"
-            rows="3"
-        ></textarea>
-
-        {#if isExecuting}
-            <div class="flex justify-center items-center py-8">
-                <span class="animate-spin inline-block w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full"></span>
-            </div>
-        {:else if result}
-            <div class="mt-4 p-4 bg-white border rounded">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="font-semibold">Result Data:</h2>
-                    <span class="text-sm text-gray-500">
-                        {result.rows.length} row{result.rows.length !== 1 ? 's' : ''}
-                        (Execution time: {result.executionTimeMs.toFixed(2)}ms)
-                        {#if result.rows.length >= 1000}
-                            <span class="text-amber-600 font-semibold ml-2">⚠️ Truncated to 1000 rows</span>
-                        {/if}
-                    </span>
-                </div>
-
-                {#if result.rows.length > 0}
-                    <div class="overflow-x-auto border border-gray-200 rounded max-h-96">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50 sticky top-0">
-                                <tr>
-                                    {#each result.columns as col}
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            {col}
-                                        </th>
-                                    {/each}
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                {#each result.rows as row}
-                                    <tr class="{row._diff_status === 'added' ? 'bg-green-50 hover:bg-green-100' : row._diff_status === 'removed' ? 'bg-red-50 hover:bg-red-100' : 'hover:bg-gray-50'}">
-                                        {#each result.columns as col}
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm {row._diff_status === 'added' ? 'text-green-800 font-semibold' : row._diff_status === 'removed' ? 'text-red-800 font-semibold line-through' : 'text-gray-500'}">
-                                                {row[col] !== null ? row[col] : 'NULL'}
-                                            </td>
-                                        {/each}
-                                    </tr>
-                                {/each}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="mt-8 border-t pt-4">
-                        <h2 class="font-semibold mb-4">Visualization:</h2>
-                        <ChartViewer result={result} customOption={chartCustomOption} />
-
-                        <div class="mt-4 flex gap-2">
-                            <input
-                                type="text"
-                                placeholder="Make this a pie chart grouped by Region"
-                                bind:value={chartPrompt}
-                                class="border p-2 rounded w-full flex-grow"
-                                onkeydown={(e) => { if (e.key === 'Enter') handleChartAI(); }}
-                            />
-                            <button
-                                onclick={handleChartAI}
-                                disabled={isGeneratingChart || !chartPrompt.trim()}
-                                class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition flex items-center gap-2 whitespace-nowrap disabled:bg-gray-400"
-                            >
-                                {#if isGeneratingChart}
-                                    <span class="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>
-                                    Generating...
-                                {:else}
-                                    ✨ Alter Chart
-                                {/if}
-                            </button>
-                        </div>
-
-                        <div class="mt-4">
-                            <button
-                                onclick={() => {
-                                    const saved = localStorage.getItem('localmind_dashboard');
-                                    let items = saved ? JSON.parse(saved) : [];
-                                    const id = crypto.randomUUID();
-                                    const newItem = {
-                                        id,
-                                        title: 'Pinned Chart',
-                                        sql: customQuery,
-                                        customOption: chartCustomOption,
-                                    };
-                                    items.push(newItem);
-                                    localStorage.setItem('localmind_dashboard', JSON.stringify(items));
-                                    alert('Chart pinned to dashboard!');
-                                }}
-                                class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition flex items-center gap-2"
-                            >
-                                📌 Pin to Dashboard
-                            </button>
-                        </div>
-                    </div>
-                {:else}
-                    <div class="text-gray-500 text-center py-4">
-                        Query returned 0 rows.
-                    </div>
-                {/if}
-            </div>
-        {/if}
-
-        {#if isAnalyzing}
-            <div class="mt-4 p-6 border border-indigo-100 bg-indigo-50/50 rounded-lg animate-pulse">
-                <div class="h-4 bg-indigo-200 rounded w-1/4 mb-4"></div>
-                <div class="h-3 bg-indigo-100 rounded w-full mb-2"></div>
-                <div class="h-3 bg-indigo-100 rounded w-5/6 mb-2"></div>
-                <div class="h-3 bg-indigo-100 rounded w-4/6"></div>
-            </div>
-        {:else if aiInsight}
-            <div class="mt-4 p-6 border border-indigo-200 bg-white rounded-lg shadow-sm">
-                <h3 class="text-lg font-semibold text-indigo-900 mb-4 flex items-center gap-2">
-                    ✨ AI Insights
-                </h3>
-                <div class="prose prose-sm prose-indigo max-w-none">
-                    {@html aiInsight}
-                </div>
-            </div>
-        {/if}
-    </div>
-</main>
+</div>
