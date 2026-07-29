@@ -110,7 +110,7 @@
 ### Education & Research Plugins
 - [ ] Task 1: Academic Paper Summarizer (`docs/tasks/phase-14/task1_paper_summarizer.md`)
 - [ ] Task 2: Local Citation & Bibliography Builder (`docs/tasks/phase-14/task2_citation_builder.md`)
-- [ ] Task 3: Offline Plagiarism Checker (`docs/tasks/phase-14/task3_plagiarism_checker.md`)
+- [ 5] Task 3: Offline Plagiarism Checker (`docs/tasks/phase-14/task3_plagiarism_checker.md`)
 
 ### Construction & Engineering Plugins
 - [ ] Task 1: Blueprint & Technical Drawing OCR (`docs/tasks/phase-15/task1_blueprint_ocr.md`)
