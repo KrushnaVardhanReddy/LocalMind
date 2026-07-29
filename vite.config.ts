@@ -7,17 +7,48 @@ import topLevelAwait from 'vite-plugin-top-level-await';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+  resolve: {
+    alias: [
+      { find: /.*opencascade.wasm.wasm$/, replacement: '/app/mock-wasm.js' }
+    ]
+  },
+  assetsInclude: ['**/*.wasm.wasm', '**/*.wasm', /node_modules\/opencascade\.js\/.*\.wasm$/],
+  define: {
+    'process.env.IS_PREACT': JSON.stringify('false'),
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+  },
 	build: {
+    rollupOptions: {
+      external: [
+        /node_modules\/opencascade\.js\/.*\.wasm\.wasm$/
+      ]
+    },
 		target: 'es2022'
 	},
+
 	optimizeDeps: {
-		exclude: ['opencascade.js']
+		exclude: ['opencascade.js'],
+		include: ['@excalidraw/excalidraw', 'react', 'react-dom', 'react-dom/client']
 	},
 	worker: {
 		format: 'es',
 		plugins: () => [wasm(), topLevelAwait()]
 	},
 	plugins: [
+  {
+      name: 'mock-opencascade-wasm',
+      enforce: 'pre',
+      resolveId(id) {
+          if (id.includes('opencascade.wasm.wasm')) {
+              return '\0opencascade.wasm.wasm';
+          }
+      },
+      load(id) {
+          if (id === '\0opencascade.wasm.wasm') {
+              return 'export default "";';
+          }
+      }
+  },
 		tailwindcss(),
 		wasm(),
 		topLevelAwait(),

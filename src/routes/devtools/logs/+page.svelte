@@ -118,7 +118,7 @@
     }
 </script>
 
-<div class="container mx-auto p-4 max-w-7xl" onmouseup={handleSelection}>
+<div class="container mx-auto p-4 max-w-7xl" role="button" tabindex="0" onmouseup={handleSelection}>
     <h1 class="text-3xl font-bold mb-6 text-slate-800">Visual Log Parser & Anomaly Detector</h1>
 
     {#if !isReady}
@@ -174,8 +174,8 @@
                 <div class="bg-white border rounded shadow p-4">
                     <h3 class="font-semibold text-slate-800 mb-3">Suggested Pattern</h3>
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-slate-700 mb-1">Regex Pattern (DuckDB syntax)</label>
-                        <input
+                        <label class="block text-sm font-medium text-slate-700 mb-1" for="regex-pattern">Regex Pattern (DuckDB syntax)</label>
+                        <input id="regex-pattern"
                             type="text"
                             class="w-full border rounded p-2 font-mono text-sm"
                             bind:value={patternRegexInput}

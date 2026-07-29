@@ -213,6 +213,7 @@
            class="p-2 border border-slate-600 rounded bg-slate-700 cursor-grab hover:bg-slate-600 hover:border-blue-400 transition-colors"
            draggable={true}
            ondragstart={(e) => onDragStart(e, def.type)}
+           role="button" tabindex="0"
          >
             <div class="font-semibold text-sm">{def.label}</div>
             <div class="text-xs text-slate-400">{def.category}</div>
@@ -300,8 +301,8 @@
 
                {#if selectedNode.type === 'input'}
                  <div class="mb-4">
-                   <label class="block text-sm font-medium mb-1">Input Data</label>
-                   <textarea
+                   <label class="block text-sm font-medium mb-1" for="input-data">Input Data</label>
+                   <textarea id="input-data"
                      class="w-full h-32 bg-slate-900 border border-slate-600 rounded p-2 text-sm font-mono text-slate-300"
                      value={(selectedNode.data.inputData as string) || ''}
                      oninput={(e) => updateInputNodeData(e.currentTarget.value)}
@@ -312,8 +313,8 @@
 
                {#if selectedNode.type === 'regex_extract'}
                  <div class="mb-4">
-                   <label class="block text-sm font-medium mb-1">Regex Pattern</label>
-                   <input
+                   <label class="block text-sm font-medium mb-1" for="regex-pattern">Regex Pattern</label>
+                   <input id="regex-pattern"
                      type="text"
                      class="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm font-mono text-slate-300"
                      value={((selectedNode.data.config as any)?.regexPattern as string) || ''}

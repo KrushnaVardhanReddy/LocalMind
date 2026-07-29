@@ -213,10 +213,10 @@
 
             <div class="mt-4 grid grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-1" for="row-count">
                         Rows to Generate: {rowCount.toLocaleString()}
                     </label>
-                    <input
+                    <input id="row-count"
                         type="range"
                         min="1"
                         max="100000"
@@ -232,10 +232,10 @@
                     />
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                    <label class="block text-sm font-medium text-gray-700 mb-1" for="seed">
                         Seed (Optional)
                     </label>
-                    <input
+                    <input id="seed"
                         type="number"
                         bind:value={seed}
                         placeholder="Leave blank for random"
