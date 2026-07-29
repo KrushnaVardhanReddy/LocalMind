@@ -398,25 +398,26 @@ export class WorkerManager {
         return this.initWebLLMPromise;
     }
 
-    public static async getCAD() {
-        if (this.proxies.has('cad')) {
-            return this.proxies.get('cad');
-        }
-
-        if (!this.initCADPromise) {
-            this.initCADPromise = (async () => {
-                const worker = new Worker(new URL('./cad.worker.ts', import.meta.url), { type: 'module' });
-                this.instances.set('cad', worker);
-
-                const proxy = wrap<any>(worker);
-                // Let the component call init(), just like other workers (e.g. FFmpeg)
-                this.proxies.set('cad', proxy);
-                return proxy;
-            })();
-        }
-
-        return this.initCADPromise;
-    }
+    // CAD WORKSPACE IS DEFERRED POST-MVP
+    // public static async getCAD() {
+    //     if (this.proxies.has('cad')) {
+    //         return this.proxies.get('cad');
+    //     }
+    //
+    //     if (!this.initCADPromise) {
+    //         this.initCADPromise = (async () => {
+    //             const worker = new Worker(new URL('./cad.worker.ts', import.meta.url), { type: 'module' });
+    //             this.instances.set('cad', worker);
+    //
+    //             const proxy = wrap<any>(worker);
+    //             // Let the component call init(), just like other workers (e.g. FFmpeg)
+    //             this.proxies.set('cad', proxy);
+    //             return proxy;
+    //         })();
+    //     }
+    //
+    //     return this.initCADPromise;
+    // }
 
     public static async getGeo() {
         if (this.proxies.has('geo')) {
