@@ -26,10 +26,11 @@ This is not another online file converter. This is a **privacy-first computing p
 
 | Module | Scope | Status |
 |---|---|---|
-| **LocalMind Analytics** | CSV, Excel, JSON, SQL, Charts | 🟢 Beta |
-| **LocalMind Docs** | PDF, DOCX, OCR, Search | 🟢 Beta |
-| **LocalMind DevTools** | JSON Validators, Logs, APIs | 🟢 Beta |
-| **Plugin Ecosystem** | Media, Intelligence, Special Apps | 🔨 In Progress |
+| **LocalMind Analytics** | CSV, Excel, DuckDB, BI Pivot, Charts | 🟢 MVP Focus |
+| **UX & Polish** | Dashboards, Templates, Export | 🟢 MVP Focus |
+| **LocalMind Docs** | PDF, DOCX, OCR, Search | ⏸ Deferred (Post-v1) |
+| **LocalMind DevTools** | JSON Validators, Logs, APIs | ⏸ Deferred (Post-v1) |
+| **Plugin Ecosystem** | Media, Intelligence, Special Apps | ⏸ Deferred (Post-v1) |
 
 ---
 

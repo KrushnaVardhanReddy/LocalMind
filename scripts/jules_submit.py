@@ -157,7 +157,7 @@ TASKS = {
         "phase": "phase-1",
         "prompt": _load_prompt("docs/tasks/phase-1/task9_e2e.md"),
     },
-    # ── Set 12 ─────────────────────────────────────────────────────────────────
+    # ── POST-V1 DEFERRED TASKS ─────────────────────────────────────────────────
     51: {
         "name": "Set 12 Task 1 — Security / Cryptography Workspace",
         "phase": "phase-6",

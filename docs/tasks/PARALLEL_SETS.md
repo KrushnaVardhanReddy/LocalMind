@@ -1,5 +1,30 @@
 # LocalMind Parallel Execution Sets (Strictly Conflict-Free)
 
+> [!CAUTION]
+> **MVP FOCUS: ANALYTICS ONLY**
+> We are currently focusing 100% on the Analytics Workspace (Data Ingestion, Pivot, Dashboards) and UX Polish for our v1 launch. 
+> **DO NOT schedule or execute any tasks related to Docs, DevTools, Media, AI Plugins, or Commercial tiers until v1 is shipped.**
+> Only execute tasks from the "Active Sets" section below.
+
+## 🟢 ACTIVE SETS (MVP Phase 1)
+
+### Active Set 1: BI Pivot Builder Enhancements
+- **[Analytics]** Task 7.1: BI Pivot Builder - ECharts Visualization & Chart Type Selector (`docs/tasks/phase-1/task7_1_bi_chart_selector.md`)
+- **[Analytics]** Task 7.2: BI Pivot Builder - True Pivot, Filters & SQL Panel (`docs/tasks/phase-1/task7_2_bi_pivot_filters.md`)
+- **[Analytics]** Task 7.3: BI Pivot Builder - Table Polish (`docs/tasks/phase-1/task7_3_bi_table_polish.md`)
+- **[Analytics]** Task 7.4: BI Pivot Builder - Component Architecture & Premium UI (`docs/tasks/phase-1/task7_4_bi_component_architecture.md`) *(Note: Must run after 7.1-7.3)*
+
+### Active Set 2: UX & Product Polish
+- **[UX]** UX-1: Landing Dashboard & Workspace Routing (`docs/tasks/cross_cutting/task_ux1_dashboard_routing.md`)
+- **[UX]** UX-2: Command Palette (⌘K) (`docs/tasks/cross_cutting/task_ux2_command_palette.md`)
+- **[UX]** UX-3: Static HTML Report Export (`docs/tasks/cross_cutting/task_ux3_report_export.md`)
+- **[UX]** UX-4: Template Gallery (`docs/tasks/cross_cutting/task_ux4_template_gallery.md`)
+
+---
+
+## ⏸ DEFERRED SETS (Post-v1)
+*The sets below are preserved for future use but should not be scheduled for the initial launch.*
+
 After deep analysis of the task specifications, it is clear that **almost every new WASM engine task modifies `WorkerManager.ts`** to add a `getXYZ()` singleton getter. If multiple Jules instances run these tasks in parallel, they will inherently create Git merge conflicts on `WorkerManager.ts`.
 
 To guarantee zero merge conflicts, the following sets are structured so that **no two tasks in the same set modify `WorkerManager.ts`**, and they touch completely separate routes.
