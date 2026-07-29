@@ -75,7 +75,7 @@ class DuckDBService implements DuckDBWorkerContract {
         if (!this.db || !this.conn) throw new Error("DB not initialized");
 
         const buffer = new Uint8Array(await file.arrayBuffer());
-        await this.db.registerFileBuffer(file.name, buffer);
+        await this.db.registerFileHandle(file.name, file, duckdb.DuckDBDataProtocol.BROWSER_FILEREADER, true);
 
         let readFunc = 'read_csv_auto';
         if (file.name.endsWith('.json')) {

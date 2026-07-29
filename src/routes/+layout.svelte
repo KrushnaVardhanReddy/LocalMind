@@ -6,63 +6,56 @@
 	import { useRegisterSW } from 'virtual:pwa-register/svelte';
 	import StatusBar from '$lib/components/StatusBar.svelte';
 	import CommandPalette from '$lib/components/CommandPalette.svelte';
+	import WorkspaceNav from '$lib/components/workspace/WorkspaceNav.svelte';
 
-	let { children } = $props();
+    let { children } = $props();
 
-	const { needRefresh, updateServiceWorker } = useRegisterSW({
-		onRegistered(swr: ServiceWorkerRegistration | undefined) {
-			console.log('SW registered: ', swr);
-		},
-		onRegisterError(error: unknown) {
-			console.log('SW registration error', error);
-		}
-	});
+    const { needRefresh, updateServiceWorker } = useRegisterSW({
+        onRegistered(swr: ServiceWorkerRegistration | undefined) {
+            console.log('SW registered: ', swr);
+        },
+        onRegisterError(error: unknown) {
+            console.log('SW registration error', error);
+        }
+    });
 
     import { checkWebGPUSupport } from '$lib/utils/webgpu-check';
 
-	let webgpuSupported = $state(true);
+    let webgpuSupported = $state(true);
 
-	onMount(() => {
-		validateCrossOriginIsolation();
+    onMount(() => {
+        validateCrossOriginIsolation();
         webgpuSupported = checkWebGPUSupport().supported;
-	});
+    });
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
-	<link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href={favicon} />
+    <link rel="manifest" href="/manifest.webmanifest" />
 </svelte:head>
 
 {#if $needRefresh}
-	<div class="fixed bottom-4 right-4 bg-gray-900 text-white px-4 py-3 rounded shadow-lg flex items-center gap-4 z-50">
-		<span class="text-sm">A new version is available.</span>
-		<button
-			class="bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded text-sm font-semibold transition"
-			onclick={() => updateServiceWorker(true)}
-		>
-			Reload
-		</button>
-		<button
-			class="text-gray-400 hover:text-white text-sm transition"
-			onclick={() => ($needRefresh = false)}
-		>
-			Dismiss
-		</button>
-	</div>
+    <div class="fixed bottom-4 right-4 bg-gray-900 text-white px-4 py-3 rounded shadow-lg flex items-center gap-4 z-50">
+        <span class="text-sm">A new version is available.</span>
+        <button
+            class="bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded text-sm font-semibold transition"
+            onclick={() => updateServiceWorker(true)}
+        >
+            Reload
+        </button>
+        <button
+            class="text-gray-400 hover:text-white text-sm transition"
+            onclick={() => ($needRefresh = false)}
+        >
+            Dismiss
+        </button>
+    </div>
 {/if}
 
-<nav class="bg-indigo-900 text-white p-4 shadow-md flex justify-between items-center sticky top-0 z-40">
-	<div class="font-bold text-xl flex items-center gap-2">
-		<span>🧠 LocalMind</span>
-	</div>
-	<div class="flex gap-4">
-		<a href="/" class="hover:text-indigo-300 transition font-medium">Workspace</a>
-		<a href="/dashboard" class="hover:text-indigo-300 transition font-medium">Dashboards</a>
-	</div>
-</nav>
+<WorkspaceNav />
 
 <main class="min-h-screen bg-gray-50 pb-12">
-	{@render children()}
+    {@render children()}
 </main>
 
 <CommandPalette />
