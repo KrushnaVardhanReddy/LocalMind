@@ -487,17 +487,25 @@ LocalMind operates on a Freemium / Open Core model to ensure privacy claims rema
   - **Cloud Sync:** Saved workspaces, templates, and team sharing across devices.
   - Advanced analytics and priority processing.
 
+### Team / Business — *$45/user/month*
+- **Deployment:** Tauri Desktop App + Team Cloud Sync
+- **Features:**
+  - Everything in Pro, plus centralized billing.
+  - Shared team workspaces, query libraries, and custom dashboard templates.
+  - Role-based access control (RBAC) and basic audit logs.
+  - Shared AI Credit pool for the entire team.
+
 ### AI Credits
 Cloud AI features (summaries, report generation, natural language queries) are billed per-use, because they incur real inference costs. Local processing remains fully available regardless of AI credit balance.
 
 > **BYOK vs. LocalMind Proxy:** Phase 1 uses a strict Bring Your Own Key (BYOK) model — API keys are held in-memory and sent directly from the browser to the AI provider; LocalMind never sees them. A future **LocalMind Proxy** (hosted on Cloudflare Workers) will offer a subscription-funded alternative that removes BYOK friction for non-technical users. The proxy is stateless and logs nothing — see `docs/specs/proxy/01_cloudflare_proxy_spec.md` for the architecture.
 
-### Enterprise
-- SSO and team workspaces
-- Audit logs and data governance
-- On-premise deployment
-- Custom integrations and SLAs
-- Security review and compliance documentation
+### Enterprise — *Custom Pricing ($10k+/year)*
+- SSO (Okta/SAML) and advanced data governance.
+- Strict audit logs for compliance (HIPAA/SOC2).
+- On-premise deployment options (air-gapped environments).
+- Custom integrations and SLAs.
+- Security review and compliance documentation.
 
 ### Plugin Marketplace (Future)
 - Third-party developers can build and sell specialized plugins (Legal, Finance, Medical, Construction verticals) via the LocalMind Plugin SDK.
