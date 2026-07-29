@@ -18,11 +18,11 @@ Establish the Playwright test suite for Phase 1 to guarantee that data ingestion
 - Write a SQL query via the UI, submit it, and assert that the Data Grid renders the expected rows.
 
 ### 3. AI Consent Flow Tests
-- Mock the `localStorage` to inject a fake OpenAI API key.
+- Inject a real test OpenAI API key via environment variables.
 - Click the "Ask AI" button.
 - Assert that the network request is BLOCKED and the Consent Modal appears.
-- Click "I Consent" and mock the outbound network request to return a fake summary.
-- Assert the summary renders on the screen.
+- Click "I Consent" and allow the actual outbound network request to proceed.
+- Assert the real summary renders on the screen.
 
 ## Definition of Done
 - `bun run test:e2e` passes across all 3 major browser engines.
