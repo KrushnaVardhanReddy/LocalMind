@@ -1,12 +1,18 @@
 <script lang="ts">
-    import { onMount, tick } from 'svelte';
+    import { onMount, tick, onDestroy } from 'svelte';
     import { WorkerManager } from '$lib/workers/WorkerManager';
+    import * as echarts from 'echarts';
+    import { buildEchartsOption, type ChartType } from '$lib/utils/chartBuilder';
 
     let { tableName } = $props<{ tableName: string }>();
 
     let allColumns = $state<string[]>([]);
     let rows = $state<string[]>([]);
     let values = $state<{ column: string, agg: string }[]>([]);
+
+    let chartType = $state<ChartType>('auto');
+    let chartRef = $state<HTMLElement | null>(null);
+    let chartInstance: echarts.ECharts | null = null;
 
     let dragItem = $state<{ type: string, column: string, index?: number } | null>(null);
 
@@ -136,6 +142,35 @@
             isExecuting = false;
         }
     }
+
+    $effect(() => {
+        if (chartRef) {
+            if (!chartInstance) {
+                chartInstance = echarts.init(chartRef);
+            }
+            const option = buildEchartsOption(result, chartType, rows, values);
+            chartInstance.setOption(option, true);
+        }
+    });
+
+    // Also resize chart on window resize
+    function handleResize() {
+        if (chartInstance) {
+            chartInstance.resize();
+        }
+    }
+
+    onMount(() => {
+        window.addEventListener('resize', handleResize);
+    });
+
+    onDestroy(() => {
+        window.removeEventListener('resize', handleResize);
+        if (chartInstance) {
+            chartInstance.dispose();
+            chartInstance = null;
+        }
+    });
 </script>
 
 <div class="p-4 bg-gray-50 border rounded-lg">
@@ -222,6 +257,25 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- ECharts Container and Controls -->
+    <div class="mt-4 bg-white border rounded p-4">
+        <div class="flex items-center gap-4 mb-4">
+            <h4 class="font-semibold text-sm text-gray-700">Visualization</h4>
+            <div class="flex items-center gap-2 text-sm">
+                <label for="chartType" class="text-gray-600">Chart Type:</label>
+                <select id="chartType" bind:value={chartType} class="border rounded px-2 py-1 bg-white">
+                    <option value="auto">Auto</option>
+                    <option value="bar">Bar</option>
+                    <option value="line">Line</option>
+                    <option value="pie">Pie</option>
+                    <option value="scatter">Scatter</option>
+                    <option value="area">Area</option>
+                </select>
+            </div>
+        </div>
+        <div bind:this={chartRef} class="w-full min-h-[400px]"></div>
     </div>
 
     <!-- Results Grid -->

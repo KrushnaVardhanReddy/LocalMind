@@ -11,6 +11,16 @@ vi.mock('$lib/workers/WorkerManager', () => ({
     }
 }));
 
+// Mock echarts since jsdom doesn't support canvas well
+vi.mock('echarts', () => ({
+    init: vi.fn().mockReturnValue({
+        setOption: vi.fn(),
+        resize: vi.fn(),
+        dispose: vi.fn(),
+        clear: vi.fn()
+    })
+}));
+
 describe('PivotBuilder Component', () => {
     beforeEach(() => {
         vi.clearAllMocks();
@@ -117,5 +127,15 @@ describe('PivotBuilder Component', () => {
         // Result table renders
         expect(screen.getByText('USA')).toBeDefined();
         expect(screen.getByText('100')).toBeDefined();
+    });
+
+    it('displays chart type selector and has default "auto" option', async () => {
+        render(PivotBuilder, { tableName: 'sales' });
+
+        await tick();
+
+        const selector = screen.getByLabelText('Chart Type:') as HTMLSelectElement;
+        expect(selector).toBeDefined();
+        expect(selector.value).toBe('auto');
     });
 });

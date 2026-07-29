@@ -10,6 +10,16 @@ vi.mock('$lib/workers/WorkerManager', () => ({
     }
 }));
 
+// Mock echarts to fix canvas issues in tests
+vi.mock('echarts', () => ({
+    init: vi.fn().mockReturnValue({
+        setOption: vi.fn(),
+        resize: vi.fn(),
+        dispose: vi.fn(),
+        clear: vi.fn()
+    })
+}));
+
 // Mock $app/environment
 vi.mock('$app/environment', () => ({
     browser: true
