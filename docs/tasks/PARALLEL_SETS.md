@@ -65,6 +65,8 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
   *Safe: Uses existing WebLLM/Vector DB setup.*
 - **[Analytics]** Task 7: Tableau-Style BI Pivot Builder (`task7_bi_pivot.md`)
   *Safe: UI/DuckDB queries only.*
+- **[Analytics]** Task 7.1: BI Pivot Builder - Manual Chart Type Selector (`docs/tasks/phase-1/task7_1_bi_chart_selector.md`)
+  *Safe: Pure JS/UI (ECharts/Svelte state).*
 
 ---
 

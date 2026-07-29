@@ -24,6 +24,7 @@
 - [x] Task 5: AI-Assisted Chart Customization ✅ *(Completed - PR #23)* (`docs/tasks/phase-1/task5_ai_chart.md`)
 - [x] Task 6: Multi-File Auto-Joins & Visual Data Diffing ✅ *(Completed - PR #28)* (`docs/tasks/phase-1/task6_joins_diff.md`)
 - [x] Task 7: Tableau-Style BI Pivot Builder ✅ *(Completed - PR #31)* (`docs/tasks/phase-1/task7_bi_pivot.md`)
+- [ ] Task 7.1: BI Pivot Builder - Manual Chart Type Selector (`docs/tasks/phase-1/task7_1_bi_chart_selector.md`)
 - [x] Task 8: Interactive Dashboard Builder ✅ *(Completed)* (`docs/tasks/phase-1/task8_dashboards.md`)
 - [ ] Task 9: End-to-End Testing (`docs/tasks/phase-1/task9_e2e.md`)
 
