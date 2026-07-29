@@ -132,6 +132,11 @@ TASKS = {
         "phase": "phase-1",
         "prompt": _load_prompt("docs/tasks/phase-1/task6_joins_diff.md"),
     },
+    71: {
+        "name": "Task 7.1 — BI Pivot Builder Manual Chart Type Selector",
+        "phase": "phase-1",
+        "prompt": _load_prompt("docs/tasks/phase-1/task7_1_bi_chart_selector.md"),
+    },
     9: {
         "name": "Task 9 — End-to-End Testing (Phase 1)",
         "phase": "phase-1",
