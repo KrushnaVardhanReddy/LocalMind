@@ -1,29 +1,78 @@
-# Task 5: End-to-End Testing (Phase 1)
+# Task 9: End-to-End Testing (Phase 1 — Full Analytics Surface)
 
 ## Objective
-Establish the Playwright test suite for Phase 1 to guarantee that data ingestion, WASM workers, and AI consent flows work properly across Chrome, Firefox, and WebKit without regressions.
+Establish a comprehensive Playwright test suite that validates the complete Phase 1 user journey — from the new workspace launcher dashboard through data ingestion, BI pivot building, report export, and AI consent flows — across Chrome, Firefox, and WebKit without regressions.
+
+**No mocking allowed.** All tests must run against real DuckDB WASM workers and the actual application stack. AI tests use real API keys injected via environment variables.
 
 ## Prerequisites
-- Tasks 1 through 4 must be fully complete and merged.
+- All Wave 1–4 tasks merged: UX-1 (Dashboard), UX-2 (Command Palette), Task 7.1–7.4 (PivotBuilder), UX-3 (Report Export), UX-4 (Template Gallery).
+- `LOCALMIND_TEST_API_KEY` set in CI environment.
+- Sample test fixtures committed to `tests/fixtures/`:
+  - `sales_100k.csv` (100k rows: `region`, `product`, `revenue`, `date`)
+  - `logs_10k.csv` (10k rows: `status_code`, `method`, `path`, `response_time`)
 
-## Implementation Steps
+## Implementation
 
 ### 1. Playwright Setup
-- Run `bun create playwright` if not already installed.
-- Configure `playwright.config.ts` to spin up the local Vite dev server before running tests.
+- Configure `playwright.config.ts` to spin up `bun run dev` before tests.
+- Use `webServer` option with `reuseExistingServer: true` in CI.
+- Browsers: Chromium, Firefox, WebKit (Desktop viewports only).
+- Test output: HTML report + screenshots on failure committed to CI artifacts.
 
-### 2. Worker & DuckDB Tests
-- Write a test to upload a sample 1MB CSV via the mock file picker.
-- Assert that the virtual file is successfully registered in DuckDB.
-- Write a SQL query via the UI, submit it, and assert that the Data Grid renders the expected rows.
+### 2. Workspace Launcher (UX-1)
+- Navigate to `/` and assert the workspace launcher dashboard renders.
+- Assert workspace cards for Analytics, Docs, DevTools are visible.
+- Click "Analytics" card and assert navigation to `/analytics`.
+- Assert `<h1>` heading is correct.
 
-### 3. AI Consent Flow Tests
-- Inject a real test OpenAI API key via environment variables.
-- Click the "Ask AI" button.
-- Assert that the network request is BLOCKED and the Consent Modal appears.
-- Click "I Consent" and allow the actual outbound network request to proceed.
-- Assert the real summary renders on the screen.
+### 3. Command Palette (UX-2)
+- On `/analytics`, press `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS).
+- Assert the Command Palette modal opens.
+- Type "pivot" and assert filtered results appear.
+- Press `Escape` and assert the palette closes without navigation.
+
+### 4. Data Ingestion & DuckDB
+- Navigate to `/analytics`.
+- Drop `tests/fixtures/sales_100k.csv` onto the file drop zone using `page.dispatchEvent`.
+- Assert the file appears in the file list with row count visible.
+- Assert the Data Grid renders ≥ 1 row (confirming DuckDB registered the virtual table).
+
+### 5. BI Pivot Builder — Full Journey
+- Drag `region` to the Rows shelf.
+- Drag `revenue` to the Values shelf, set aggregate to `SUM`.
+- Assert the data grid updates with grouped results.
+- Drag `product` to the Columns shelf.
+- Expand the SQL panel and assert it contains `PIVOT` syntax.
+- Assert the ECharts chart `<canvas>` is visible and non-zero in size.
+- Add a filter: drag `region` to Filters, set operator `=` value `"West"`, assert grid filters.
+- Switch chart type to "Line" via the toggle, assert the chart re-renders.
+
+### 6. Template Gallery (UX-4)
+- With `sales_100k.csv` loaded, click the "Templates" button.
+- Assert the Template Gallery modal opens.
+- Assert "Sales Overview" template appears in the suggestion list.
+- Click "Use Template", assert the Pivot Builder shelves auto-populate.
+- Assert the data grid updates with the template's configuration.
+
+### 7. Static HTML Report Export (UX-3)
+- With a configured pivot view, click "Export Report".
+- Assert the export modal opens with section checkboxes.
+- Select all sections (Pivot Table, Chart, Generated SQL).
+- Click "Export" and assert a file download is triggered (`LocalMind_Report_*.html`).
+- Assert the downloaded file contains `<table>`, `<img>` (base64 chart), and `<pre>` (SQL).
+- Assert the file contains no external HTTP requests (no `src="http` patterns).
+
+### 8. AI Consent Flow (No Mocking)
+- Inject `LOCALMIND_TEST_API_KEY` via `playwright.config.ts` env.
+- With a loaded dataset, click "Ask AI".
+- Assert the Consent Modal appears showing the aggregated payload preview.
+- Assert no network request has fired before consent.
+- Click "I Consent".
+- Assert the actual AI request fires and a summary text renders on screen.
 
 ## Definition of Done
-- `bun run test:e2e` passes across all 3 major browser engines.
-- The UI-to-Worker communication is thoroughly validated.
+- `bun run test:e2e` passes across Chromium, Firefox, and WebKit in CI.
+- All 8 test sections pass with zero skips.
+- Screenshots captured on failure are saved as CI artifacts.
+- Full suite completes in under 5 minutes on a standard GitHub Actions runner.
