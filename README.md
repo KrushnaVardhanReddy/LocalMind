@@ -16,7 +16,9 @@ LocalMind is a browser application that performs heavy computation directly on t
 
 You can query gigabyte-scale CSVs with SQL, parse PDFs, transcode video, run OCR, and get AI-generated insights — **without uploading a single byte to a server.**
 
-This is not another online file converter. This is a **privacy-first computing platform.**
+Instead of installing dozens of separate applications — spreadsheets, PDF tools, diagram editors, BI dashboards, AI chat — users open LocalMind once. Capabilities load on-demand as WASM modules. Everything runs locally.
+
+This is not another online file converter. This is a **privacy-first local AI workspace.**
 
 ---
 
@@ -172,6 +174,8 @@ LocalMind is built on a **Plugin SDK** that allows professional vertical solutio
 - **LocalMind Intelligence:** Fully local AI (Phi-3, Llama 3) via WebGPU, semantic search, and clustering.
 - **LocalMind Media:** Transcode and process audio/video via FFmpeg + Whisper WASM. Summarize meetings and podcasts offline.
 - **LocalMind Canvas:** Infinite whiteboard (Excalidraw) for investigation mapping and data flow diagrams.
+- **LocalMind Annotate (Image Workspace):** A lightweight Paint-style annotation workspace. Draw, highlight, annotate screenshots, crop images, and export to PNG/SVG/PDF — entirely offline via canvas and WASM. AI can auto-label objects or generate alt-text for accessibility.
+- **LocalMind Diagrams:** AI-powered diagram generation from code, databases, or plain English. Generate UML class diagrams from source files via tree-sitter, ER diagrams from SQLite schemas via DuckDB, and architecture diagrams from OpenAPI specs — all rendered offline via Mermaid.js or D3 and exported to PNG/SVG/PDF.
 - **Engineering Plugins:** 3D CAD viewer (OpenCascade.js), Geospatial analysis (gdal3.js), Code Interpreter (Pyodide).
 - **Security Plugins:** Cryptography workspace (libsodium), Threat intelligence, Secrets & API key auditor.
 - **Legal Plugins:** Contract analyzer, Deposition summarizer, Legal case research vault.
@@ -374,6 +378,33 @@ bun run dev
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 > **Note:** Some APIs (SharedArrayBuffer, OPFS, WebLLM) require specific cross-origin isolation headers. The dev server configures these automatically via `vite.config.ts` (COOP/COEP headers).
+
+---
+
+## LocalMind Sessions
+
+LocalMind introduces a fundamentally different way to save and share work.
+
+Instead of scattering disconnected files across your filesystem — a PDF here, a spreadsheet there, a SQL script somewhere else — LocalMind wraps everything into a **Session**: a single portable workspace snapshot.
+
+A session can contain:
+- SQL queries and their result sets
+- Charts and dashboard layouts
+- Annotated images and diagrams
+- AI conversation history
+- Uploaded files (or references to local paths in the Desktop version)
+- Notes and workspace state
+
+**Sharing is user-controlled:**
+
+| Method | How |
+|---|---|
+| **Local export** | Save as `workspace.lm` — open the complete environment on any LocalMind installation |
+| **Static report** | Export as a self-contained HTML file — no LocalMind required to view |
+| **PDF export** | Snapshot the full workspace as a printable PDF report |
+| *(Future)* **Read-only link** | Optional cloud share for team review — nothing stored server-side by default |
+
+> **Privacy note:** Sessions exported locally never leave your device. Cloud sharing is always opt-in and user-initiated.
 
 ---
 

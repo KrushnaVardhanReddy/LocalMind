@@ -13,9 +13,9 @@
 
 ### Wave 1: The Foundation
 *Zero overlap. These touch `+page.svelte`, `PivotBuilder.svelte`, and `+layout.svelte` independently.*
-- **[UX]** UX-1: Landing Dashboard & Workspace Routing (`docs/tasks/cross_cutting/task_ux1_dashboard_routing.md`)
-- **[Analytics]** Task 7.1: BI Pivot Builder - ECharts Visualization (`docs/tasks/phase-1/task7_1_bi_chart_selector.md`)
-- **[UX]** UX-2: Command Palette (⌘K) (`docs/tasks/cross_cutting/task_ux2_command_palette.md`)
+- **[UX]** UX-1: Landing Dashboard & Workspace Routing ✅ *(Completed - PR #59)* (`docs/tasks/cross_cutting/task_ux1_dashboard_routing.md`)
+- **[Analytics]** Task 7.1: BI Pivot Builder - ECharts Visualization ✅ *(Completed - PR #57)* (`docs/tasks/phase-1/task7_1_bi_chart_selector.md`)
+- **[UX]** UX-2: Command Palette (⌘K) ✅ *(Completed - PR #55)* (`docs/tasks/cross_cutting/task_ux2_command_palette.md`)
 
 ### Wave 2: BI Middle & Export
 *Safe because UX-3 targets the newly created `/analytics` route from Wave 1, while 7.2 targets `PivotBuilder.svelte`.*
@@ -30,6 +30,10 @@
 ### Wave 4: The Great Refactor
 *Must run entirely alone. This takes the heavily-modified monolithic `PivotBuilder.svelte` and breaks it apart into a clean component tree.*
 - **[Analytics]** Task 7.4: BI Pivot Builder - Component Architecture & Premium UI (`docs/tasks/phase-1/task7_4_bi_component_architecture.md`)
+
+### Wave 5: Validation (End-to-End Tests)
+*Must run after all Phase 1 UI and architecture changes are merged. No mocking allowed.*
+- **[Testing]** Task 9: End-to-End Testing (`docs/tasks/phase-1/task9_e2e.md`)
 
 ---
 
@@ -101,7 +105,7 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
   *Safe: Uses existing WebLLM/Vector DB setup.*
 - **[Analytics]** Task 7: Tableau-Style BI Pivot Builder (`task7_bi_pivot.md`)
   *Safe: UI/DuckDB queries only.*
-- **[Analytics]** Task 7.1: BI Pivot Builder - ECharts Visualization & Chart Type Selector (`docs/tasks/phase-1/task7_1_bi_chart_selector.md`)
+- **[Analytics]** Task 7.1: BI Pivot Builder - ECharts Visualization & Chart Type Selector ✅ *(Completed - PR #57)* (`docs/tasks/phase-1/task7_1_bi_chart_selector.md`)
   *Safe: Pure JS/UI (ECharts/Svelte state).*
 - **[Analytics]** Task 7.2: BI Pivot Builder - True Pivot, Filters & SQL Panel (`docs/tasks/phase-1/task7_2_bi_pivot_filters.md`)
   *Safe: Pure JS/UI (DuckDB PIVOT syntax, Svelte state).*
@@ -180,9 +184,9 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
 > [!IMPORTANT]
 > These tasks are **critical for product launch**. They determine whether new users stay or leave. Prioritize before Set 13+ (commercial features).
 
-- **[UX]** UX-1: Landing Dashboard & Workspace Routing (`docs/tasks/cross_cutting/task_ux1_dashboard_routing.md`)
+- **[UX]** UX-1: Landing Dashboard & Workspace Routing ✅ *(Completed - PR #59)* (`docs/tasks/cross_cutting/task_ux1_dashboard_routing.md`)
   *Safe: Routes/UI only. Restructures existing +page.svelte into workspace routes. No WorkerManager changes.*
-- **[UX]** UX-2: Command Palette (⌘K) (`docs/tasks/cross_cutting/task_ux2_command_palette.md`)
+- **[UX]** UX-2: Command Palette (⌘K) ✅ *(Completed - PR #55)* (`docs/tasks/cross_cutting/task_ux2_command_palette.md`)
   *Safe: Pure UI component. Global keyboard listener in +layout.svelte.*
 - **[UX]** UX-3: Static HTML Report Export (`docs/tasks/cross_cutting/task_ux3_report_export.md`)
   *Safe: Pure JS (HTML template generation). No workers.*

@@ -12,10 +12,18 @@
 
 ### UX & Product Polish (Cross-Cutting)
 *Critical for first impression, onboarding, and retention.*
-- [ ] UX-1: Landing Dashboard & Workspace Routing (`docs/tasks/cross_cutting/task_ux1_dashboard_routing.md`)
-- [ ] UX-2: Command Palette (⌘K) (`docs/tasks/cross_cutting/task_ux2_command_palette.md`)
+- [x] UX-1: Landing Dashboard & Workspace Routing ✅ *(Completed - PR #59)* (`docs/tasks/cross_cutting/task_ux1_dashboard_routing.md`)
+- [x] UX-2: Command Palette (⌘K) ✅ *(Completed - PR #55)* (`docs/tasks/cross_cutting/task_ux2_command_palette.md`)
 - [ ] UX-3: Static HTML Report Export (`docs/tasks/cross_cutting/task_ux3_report_export.md`)
 - [ ] UX-4: Template Gallery (`docs/tasks/cross_cutting/task_ux4_template_gallery.md`)
+
+### Sessions (Workspace Snapshots) 📋
+*A portable `.lm` workspace file that captures queries, charts, AI conversations, notes, and files in a single shareable artifact. Core differentiator.*
+- [ ] Session-1: Core Session Schema & Local Export (`project.lm` format, OPFS-backed) (`docs/tasks/cross_cutting/task_session1_core.md`)
+- [ ] Session-2: Static HTML Report Export (self-contained, no LocalMind required) (`docs/tasks/cross_cutting/task_ux3_report_export.md`)
+- [ ] Session-3: PDF Report Export (full workspace snapshot) (`docs/tasks/cross_cutting/task_session3_pdf_export.md`)
+- [ ] Session-4: Session Import — restore workspace from `.lm` file (`docs/tasks/cross_cutting/task_session4_import.md`)
+- [ ] Session-5: *(Future / Pro)* Read-only share link via Cloudflare R2 (`docs/tasks/cross_cutting/task_session5_share_link.md`)
 
 ---
 
@@ -31,7 +39,7 @@
 - [x] Task 5: AI-Assisted Chart Customization ✅ *(Completed - PR #23)* (`docs/tasks/phase-1/task5_ai_chart.md`)
 - [x] Task 6: Multi-File Auto-Joins & Visual Data Diffing ✅ *(Completed - PR #28)* (`docs/tasks/phase-1/task6_joins_diff.md`)
 - [x] Task 7: Tableau-Style BI Pivot Builder ✅ *(Completed - PR #31)* (`docs/tasks/phase-1/task7_bi_pivot.md`)
-- [ ] Task 7.1: BI Pivot Builder - ECharts Visualization & Chart Type Selector (`docs/tasks/phase-1/task7_1_bi_chart_selector.md`)
+- [x] Task 7.1: BI Pivot Builder - ECharts Visualization & Chart Type Selector ✅ *(Completed - PR #57)* (`docs/tasks/phase-1/task7_1_bi_chart_selector.md`)
 - [ ] Task 7.2: BI Pivot Builder - True Pivot, Filters & SQL Panel (`docs/tasks/phase-1/task7_2_bi_pivot_filters.md`)
 - [ ] Task 7.3: BI Pivot Builder - Table Polish (Totals, Pagination, Empty State) (`docs/tasks/phase-1/task7_3_bi_table_polish.md`)
 - [ ] Task 7.4: BI Pivot Builder - Component Architecture & Premium UI (`docs/tasks/phase-1/task7_4_bi_component_architecture.md`)
@@ -98,6 +106,10 @@
 - [ ] Task 7: Personal Finance & Tax Workspace (`docs/tasks/phase-6/task7_finance.md`)
 - [ ] Task 8: Medical & Health Insights (`docs/tasks/phase-6/task8_health.md`)
 - [ ] Task 13: Vehicle Telemetry & CAN Bus Analyzer (`docs/tasks/phase-6/task13_telemetry.md`)
+- [ ] Task 14: LocalMind Annotate — Image & Screenshot Annotation Workspace (`docs/tasks/phase-6/task14_annotate.md`)
+  *Canvas-based Paint-style workspace. Freehand draw, shapes, text, arrows, highlights, image crop, AI auto-label. Export PNG/SVG/PDF. No new WASM workers needed (canvas + magick-wasm).*
+- [ ] Task 15: LocalMind Diagrams — AI Diagram Generation Workspace (`docs/tasks/phase-6/task15_diagrams.md`)
+  *Generate UML/ER/architecture diagrams from code (tree-sitter), SQL schemas (DuckDB), OpenAPI specs, or plain English. Render via Mermaid.js / D3. Export PNG/SVG/PDF. Uses existing worker stack.*
 
 > [!NOTE]
 > **Tasks 9–12 below have been deferred.** See Section 5 for rationale.
