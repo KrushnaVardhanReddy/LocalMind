@@ -19,8 +19,8 @@
 
 ### Wave 2: BI Middle & Export
 *Safe because UX-3 targets the newly created `/analytics` route from Wave 1, while 7.2 targets `PivotBuilder.svelte`.*
-- **[Analytics]** Task 7.2: BI Pivot Builder - True Pivot, Filters & SQL Panel (`docs/tasks/phase-1/task7_2_bi_pivot_filters.md`)
-- **[UX]** UX-3: Static HTML Report Export (`docs/tasks/cross_cutting/task_ux3_report_export.md`)
+- **[Analytics]** Task 7.2: BI Pivot Builder - True Pivot, Filters & SQL Panel 🔄 *(Running)* (`docs/tasks/phase-1/task7_2_bi_pivot_filters.md`)
+- **[UX]** UX-3: Static HTML Report Export 🔄 *(Running)* (`docs/tasks/cross_cutting/task_ux3_report_export.md`)
 
 ### Wave 3: BI Table & Templates
 *Safe because 7.3 polishes the internal table of `PivotBuilder`, while UX-4 adds templates to the outer `/analytics` layout.*

@@ -153,7 +153,7 @@ TASKS = {
         "prompt": _load_prompt("docs/tasks/phase-1/task7_4_bi_component_architecture.md"),
     },
     9: {
-        "name": "Task 9 — End-to-End Testing (Phase 1)",
+        "name": "Task 9 — End-to-End Testing (Phase 1 Full Surface)",
         "phase": "phase-1",
         "prompt": _load_prompt("docs/tasks/phase-1/task9_e2e.md"),
     },
