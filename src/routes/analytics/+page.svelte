@@ -9,6 +9,8 @@
     import DOMPurify from 'dompurify';
     import ChartViewer from '$lib/components/ChartViewer.svelte';
     import PivotBuilder from '$lib/components/PivotBuilder.svelte';
+    import ExportModal from '$lib/components/ExportModal.svelte';
+    import { ReportExporter, type ExportConfig } from '$lib/services/ReportExporter';
     import type { QueryResult } from '$lib/workers/duckdb.worker';
     import {
         workspaces,
@@ -48,6 +50,45 @@
     let uploadStatus = $state<{type: 'success' | 'error' | 'loading', message: string} | null>(null);
     let customQuery = $state('');
     let selectedPivotTable = $state('');
+
+    let showExportModal = $state(false);
+    let chartViewerComponent: ChartViewer | undefined = $state();
+    let pivotBuilderComponent: PivotBuilder | undefined = $state();
+
+    async function handleExportReport(config: ExportConfig) {
+        showExportModal = false;
+
+        try {
+            const pivotData = pivotBuilderComponent ? pivotBuilderComponent.getPivotData() : { result: null, chartBase64: null };
+
+            const exportData = {
+                pivotResult: pivotData.result,
+                pivotChartBase64: pivotData.chartBase64,
+                chartBase64: chartViewerComponent ? chartViewerComponent.getChartBase64() : null,
+                aiInsight: aiInsight,
+                generatedSql: customQuery,
+                rawResult: result
+            };
+
+            const html = await ReportExporter.generateHtml(config, exportData);
+
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            const dateStr = new Date().toISOString().split('T')[0];
+            const safeTitle = config.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            a.download = `LocalMind_Report_${safeTitle}_${dateStr}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Export failed:', error);
+            alert(`Export failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
+    }
 
     onMount(async () => {
         await loadWorkspaces();
@@ -422,6 +463,14 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
     />
 {/if}
 
+{#if showExportModal}
+    <ExportModal
+        onclose={() => showExportModal = false}
+        onexport={handleExportReport}
+        defaultTitle={selectedPivotTable ? `${selectedPivotTable} Report` : 'LocalMind Report'}
+    />
+{/if}
+
 <main class="p-8 max-w-4xl mx-auto">
     <div class="flex justify-between items-center mb-8 bg-white p-4 shadow rounded">
         <div class="flex items-center gap-4">
@@ -434,6 +483,12 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
                     Install App
                 </button>
             {/if}
+            <button
+                onclick={() => showExportModal = true}
+                class="px-4 py-2 bg-teal-100 text-teal-700 text-sm font-semibold rounded hover:bg-teal-200 transition flex items-center gap-2"
+            >
+                📄 Export Report
+            </button>
             <button
                 aria-label="Settings"
                 onclick={() => showSettings = true}
@@ -607,7 +662,7 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
                 </select>
             </div>
             {#if selectedPivotTable}
-                <PivotBuilder tableName={selectedPivotTable} />
+                <PivotBuilder tableName={selectedPivotTable} bind:this={pivotBuilderComponent} />
             {/if}
         </div>
     {/if}
@@ -692,7 +747,7 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
 
                     <div class="mt-8 border-t pt-4">
                         <h2 class="font-semibold mb-4">Visualization:</h2>
-                        <ChartViewer result={result} customOption={chartCustomOption} />
+                        <ChartViewer result={result} customOption={chartCustomOption} bind:this={chartViewerComponent} />
 
                         <div class="mt-4 flex gap-2">
                             <input
