@@ -44,9 +44,9 @@
 
 ### Robustness Wave A: Infrastructure & Security (Parallel)
 *No shared files. CI touches `.github/`. CSP touches `vite.config.ts` and `_headers`. SW versioning touches `vite.config.ts` (different section — if conflict risk, run alone).*
-- **[Infra]** CI-1: GitHub Actions CI/CD Pipeline (`docs/tasks/cross_cutting/task_ci_pipeline.md`)
-- **[Security]** CI-2: Content Security Policy (`docs/tasks/cross_cutting/task_csp.md`)
-- **[Infra]** CI-3: Service Worker Cache Versioning (`docs/tasks/cross_cutting/task_sw_versioning.md`)
+- **[Infra]** CI-1: GitHub Actions CI/CD Pipeline 🔄 *(Running - Jules ID: 5634607848076839558)* (`docs/tasks/cross_cutting/task_ci_pipeline.md`)
+- **[Security]** CI-2: Content Security Policy (`docs/tasks/cross_cutting/task_csp.md`) 🔄 *(Running - Jules ID: 17046960441958766367)*
+- **[Infra]** CI-3: Service Worker Cache Versioning 🔄 *(Running - Jules ID: 18235611291630241508)* (`docs/tasks/cross_cutting/task_sw_versioning.md`)
 
 ### Robustness Wave B: UX Quality (Parallel)
 *Error boundary touches `+layout.svelte` and `WorkerManager.ts`. Onboarding touches `/analytics/+page.svelte`. a11y is additive across all routes.*
