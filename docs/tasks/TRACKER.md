@@ -19,9 +19,9 @@
 
 ### Platform Robustness (Cross-Cutting)
 *Non-functional requirements that determine production quality and user trust.*
-- [ ] CI-1: GitHub Actions CI/CD Pipeline (`docs/tasks/cross_cutting/task_ci_pipeline.md`)
-- [ ] CI-2: Content Security Policy (CSP) (`docs/tasks/cross_cutting/task_csp.md`)
-- [ ] CI-3: Service Worker Cache Versioning & WASM Update Strategy (`docs/tasks/cross_cutting/task_sw_versioning.md`)
+- [ ] CI-1: GitHub Actions CI/CD Pipeline 🔄 *(Running - Jules ID: 5634607848076839558)* (`docs/tasks/cross_cutting/task_ci_pipeline.md`)
+- [ ] CI-2: Content Security Policy (CSP) 🔄 *(Running - Jules ID: 17046960441958766367)* (`docs/tasks/cross_cutting/task_csp.md`)
+- [ ] CI-3: Service Worker Cache Versioning & WASM Update Strategy 🔄 *(Running - Jules ID: 18235611291630241508)* (`docs/tasks/cross_cutting/task_sw_versioning.md`)
 - [ ] CI-4: Worker Error Boundary & Crash Recovery (`docs/tasks/cross_cutting/task_worker_error_boundary.md`)
 - [ ] CI-5: First-Run Onboarding & Empty State (`docs/tasks/cross_cutting/task_onboarding.md`)
 - [ ] CI-6: Accessibility (a11y) Audit & Remediation (`docs/tasks/cross_cutting/task_a11y_audit.md`)
