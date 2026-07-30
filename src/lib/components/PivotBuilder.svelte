@@ -3,12 +3,16 @@
     import { WorkerManager } from '$lib/workers/WorkerManager';
     import * as echarts from 'echarts';
     import { buildEchartsOption, type ChartType } from '$lib/utils/chartBuilder';
+    import hljs from 'highlight.js';
+    import 'highlight.js/styles/github.css'; // ensure some style is loaded, we can just use default
 
     let { tableName } = $props<{ tableName: string }>();
 
     let allColumns = $state<string[]>([]);
     let rows = $state<string[]>([]);
+    let columns = $state<string[]>([]);
     let values = $state<{ column: string, agg: string }[]>([]);
+    let filters = $state<{ column: string, operator: string, value: string }[]>([]);
 
     let chartType = $state<ChartType>('auto');
     let chartRef = $state<HTMLElement | null>(null);
@@ -19,6 +23,8 @@
     let result = $state<any>(null);
     let isExecuting = $state(false);
     let queryError = $state<string | null>(null);
+    let generatedSQL = $state('');
+    let showSQL = $state(false);
 
     const aggregations = ['SUM', 'COUNT', 'AVG', 'MIN', 'MAX'];
 
@@ -31,7 +37,9 @@
         if (tableName) {
             allColumns = [];
             rows = [];
+            columns = [];
             values = [];
+            filters = [];
             result = null;
             queryError = null;
             fetchSchema();
@@ -70,11 +78,31 @@
 
         const { type, column, index } = dragItem;
 
+        // Check column limits for Columns zone
+        if (targetZone === 'columns' && !columns.includes(column)) {
+            try {
+                const db = await WorkerManager.getDuckDB();
+                const countResult = await db.query(`SELECT COUNT(DISTINCT "${column}") as count FROM "${tableName}"`);
+                const distinctCount = Number(countResult.rows[0].count);
+                if (distinctCount > 50) {
+                    alert('This column has too many distinct values (>50) for a pivot. Consider using it as a Row instead.');
+                    dragItem = null;
+                    return;
+                }
+            } catch (error) {
+                console.error("Failed to check distinct count", error);
+            }
+        }
+
         // Remove from original source if it was already in a zone
         if (type === 'rows' && index !== undefined) {
             rows.splice(index, 1);
+        } else if (type === 'columns' && index !== undefined) {
+            columns.splice(index, 1);
         } else if (type === 'values' && index !== undefined) {
             values.splice(index, 1);
+        } else if (type === 'filters' && index !== undefined) {
+            filters.splice(index, 1);
         }
 
         // Add to new zone
@@ -82,8 +110,14 @@
             if (!rows.includes(column)) {
                 rows.push(column);
             }
+        } else if (targetZone === 'columns') {
+            if (!columns.includes(column)) {
+                columns.push(column);
+            }
         } else if (targetZone === 'values') {
             values.push({ column, agg: 'SUM' });
+        } else if (targetZone === 'filters') {
+            filters.push({ column, operator: '=', value: '' });
         }
 
         dragItem = null;
@@ -96,8 +130,18 @@
         generateAndExecuteSQL();
     }
 
+    function handleRemoveColumn(index: number) {
+        columns.splice(index, 1);
+        generateAndExecuteSQL();
+    }
+
     function handleRemoveValue(index: number) {
         values.splice(index, 1);
+        generateAndExecuteSQL();
+    }
+
+    function handleRemoveFilter(index: number) {
+        filters.splice(index, 1);
         generateAndExecuteSQL();
     }
 
@@ -107,30 +151,65 @@
     }
 
     async function generateAndExecuteSQL() {
-        if (rows.length === 0 && values.length === 0) {
+        if (rows.length === 0 && values.length === 0 && columns.length === 0) {
             result = null;
             return;
         }
 
-        let selectParts: string[] = [];
-        let groupByParts: string[] = [];
-
-        for (const row of rows) {
-            selectParts.push(`"${row}"`);
-            groupByParts.push(`"${row}"`);
+        let sql = '';
+        const whereClauses: string[] = [];
+        for (const filter of filters) {
+            if (filter.value || filter.operator === 'IS NULL' || filter.operator === 'IS NOT NULL') {
+                if (filter.operator === 'IN') {
+                    // split by comma for IN operator
+                    const parts = filter.value.split(',').map(v => `'${v.trim().replace(/'/g, "''")}'`);
+                    whereClauses.push(`"${filter.column}" ${filter.operator} (${parts.join(', ')})`);
+                } else if (filter.operator.includes('LIKE')) {
+                    whereClauses.push(`"${filter.column}" ${filter.operator} '%${filter.value.replace(/'/g, "''")}%'`);
+                } else {
+                    whereClauses.push(`"${filter.column}" ${filter.operator} '${filter.value.replace(/'/g, "''")}'`);
+                }
+            }
         }
+        const whereClauseStr = whereClauses.length > 0 ? `WHERE ${whereClauses.join(' AND ')}` : '';
 
-        for (const val of values) {
-            selectParts.push(`${val.agg}("${val.column}") AS "${val.agg}_${val.column}"`);
+        // Mode 1: Values only
+        if (rows.length === 0 && columns.length === 0) {
+            const selectParts = values.map(v => `${v.agg}("${v.column}") AS "${v.agg}_${v.column}"`);
+            sql = `SELECT ${selectParts.join(', ')} FROM "${tableName}" ${whereClauseStr}`;
         }
+        // Mode 3: Full PIVOT
+        else if (columns.length > 0) {
+            // DuckDB PIVOT syntax:
+            // PIVOT (SELECT dim1, pivot_col, measure FROM table [WHERE]) ON pivot_col USING sum(measure) GROUP BY dim1
+            const selectParts = [...rows.map(r => `"${r}"`), ...columns.map(c => `"${c}"`), ...values.map(v => `"${v.column}"`)];
+            // If there are no rows, we can still pivot, just group by nothing (DuckDB supports PIVOT without GROUP BY if rows are absent)
+            // But standard PIVOT usually requires an inner query.
+            const innerQuery = `SELECT ${selectParts.join(', ')} FROM "${tableName}" ${whereClauseStr}`;
 
-        let sql = `SELECT ${selectParts.join(', ')} FROM "${tableName}"`;
-        if (groupByParts.length > 0) {
-            sql += ` GROUP BY ${groupByParts.join(', ')}`;
+            const onClause = `ON ${columns.map(c => `"${c}"`).join(', ')}`;
+            const usingClause = `USING ${values.map(v => `${v.agg}("${v.column}")`).join(', ')}`;
+            const groupByClause = rows.length > 0 ? `GROUP BY ${rows.map(r => `"${r}"`).join(', ')}` : '';
+
+            sql = `PIVOT (\n    ${innerQuery}\n) ${onClause} ${usingClause}`;
+            if (groupByClause) {
+                sql += ` ${groupByClause}`;
+            }
+        }
+        // Mode 2: Rows + Values (no columns)
+        else {
+            const selectParts = [...rows.map(r => `"${r}"`), ...values.map(v => `${v.agg}("${v.column}") AS "${v.agg}_${v.column}"`)];
+            const groupByParts = rows.map(r => `"${r}"`);
+            sql = `SELECT ${selectParts.join(', ')} FROM "${tableName}" ${whereClauseStr}`;
+            if (groupByParts.length > 0) {
+                sql += ` GROUP BY ${groupByParts.join(', ')}`;
+            }
         }
 
         isExecuting = true;
         queryError = null;
+
+        generatedSQL = sql;
 
         try {
             const db = await WorkerManager.getDuckDB();
@@ -222,6 +301,79 @@
                 </div>
             </div>
 
+            <!-- Columns Zone -->
+            <!-- svelte-ignore a11y_no_static_element_interactions -->
+            <div
+                class="border-2 border-dashed rounded p-4 bg-white min-h-[100px] transition-colors"
+                ondragover={handleDragOver}
+                ondrop={(e) => handleDrop(e, 'columns')}
+            >
+                <h4 class="font-semibold mb-2 text-sm text-gray-700">Columns / Pivot Headers</h4>
+                <div class="flex flex-wrap gap-2">
+                    {#each columns as col, i}
+                        <!-- svelte-ignore a11y_no_static_element_interactions -->
+                        <div
+                            draggable="true"
+                            ondragstart={(e) => handleDragStart(e, 'columns', col, i)}
+                            class="px-2 py-1 bg-purple-100 border border-purple-300 rounded text-sm cursor-grab flex items-center gap-1"
+                        >
+                            {col}
+                            <button onclick={() => handleRemoveColumn(i)} class="text-purple-500 hover:text-purple-700">&times;</button>
+                        </div>
+                    {/each}
+                    {#if columns.length === 0}
+                        <div class="text-gray-400 text-sm italic w-full text-center py-2">Drop columns here</div>
+                    {/if}
+                </div>
+            </div>
+
+            <!-- Filters Zone -->
+            <!-- svelte-ignore a11y_no_static_element_interactions -->
+            <div
+                class="border-2 border-dashed rounded p-4 bg-white min-h-[100px] transition-colors"
+                ondragover={handleDragOver}
+                ondrop={(e) => handleDrop(e, 'filters')}
+            >
+                <h4 class="font-semibold mb-2 text-sm text-gray-700">Filters</h4>
+                <div class="flex flex-col gap-2">
+                    {#each filters as filter, i}
+                        <!-- svelte-ignore a11y_no_static_element_interactions -->
+                        <div
+                            draggable="true"
+                            ondragstart={(e) => handleDragStart(e, 'filters', filter.column, i)}
+                            class="px-2 py-1 bg-yellow-100 border border-yellow-300 rounded text-sm cursor-grab flex items-center gap-2"
+                        >
+                            <span class="font-semibold">{filter.column}</span>
+                            <select
+                                bind:value={filter.operator}
+                                onchange={generateAndExecuteSQL}
+                                class="text-xs bg-white border rounded px-1 cursor-pointer"
+                            >
+                                <option value="=">=</option>
+                                <option value="!=">!=</option>
+                                <option value=">">&gt;</option>
+                                <option value="<">&lt;</option>
+                                <option value=">=">&gt;=</option>
+                                <option value="<=">&lt;=</option>
+                                <option value="LIKE">LIKE</option>
+                                <option value="IN">IN</option>
+                            </select>
+                            <input
+                                type="text"
+                                bind:value={filter.value}
+                                onchange={generateAndExecuteSQL}
+                                class="text-xs bg-white border rounded px-1 w-24"
+                                placeholder="Value..."
+                            />
+                            <button onclick={() => handleRemoveFilter(i)} class="text-yellow-600 hover:text-yellow-800 ml-auto">&times;</button>
+                        </div>
+                    {/each}
+                    {#if filters.length === 0}
+                        <div class="text-gray-400 text-sm italic w-full text-center py-2">Drop columns here</div>
+                    {/if}
+                </div>
+            </div>
+
             <!-- Values Zone -->
             <!-- svelte-ignore a11y_no_static_element_interactions -->
             <div
@@ -276,6 +428,35 @@
             </div>
         </div>
         <div bind:this={chartRef} class="w-full min-h-[400px]"></div>
+    </div>
+
+    <!-- Generated SQL Panel -->
+    <div class="mt-4 bg-white border rounded">
+        <div class="flex items-center justify-between p-3 cursor-pointer bg-gray-50 border-b" onclick={() => showSQL = !showSQL}>
+            <h4 class="font-semibold text-sm text-gray-700 flex items-center gap-2">
+                <svg class={`w-4 h-4 transition-transform ${showSQL ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                Generated SQL
+            </h4>
+        </div>
+        {#if showSQL && generatedSQL}
+            <div class="p-4 relative">
+                <button
+                    class="absolute top-2 right-2 px-2 py-1 bg-gray-200 hover:bg-gray-300 rounded text-xs text-gray-700 z-10"
+                    onclick={() => {
+                        navigator.clipboard.writeText(generatedSQL);
+                        const btn = event?.currentTarget as HTMLButtonElement;
+                        if (btn) {
+                            const original = btn.innerText;
+                            btn.innerText = 'Copied!';
+                            setTimeout(() => btn.innerText = original, 2000);
+                        }
+                    }}
+                >
+                    Copy SQL
+                </button>
+                <pre class="bg-gray-900 text-gray-100 p-3 rounded overflow-x-auto text-sm font-mono m-0">{@html hljs.highlight(generatedSQL, {language: 'sql'}).value}</pre>
+            </div>
+        {/if}
     </div>
 
     <!-- Results Grid -->
