@@ -8,7 +8,7 @@
     import { marked } from 'marked';
     import DOMPurify from 'dompurify';
     import ChartViewer from '$lib/components/ChartViewer.svelte';
-    import PivotBuilder from '$lib/components/PivotBuilder.svelte';
+    import PivotBuilder from '$lib/components/pivot/PivotBuilder.svelte';
     import TemplateGallery from '$lib/components/TemplateGallery.svelte';
     import type { PivotTemplate } from '$lib/templates/template.types';
     import ExportModal from '$lib/components/ExportModal.svelte';
