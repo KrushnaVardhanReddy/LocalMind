@@ -59,6 +59,18 @@ export interface SavedPipelineRecord {
     updated_at: number;
 }
 
+export interface CustomTemplateRecord {
+    id: string;
+    name: string;
+    description: string;
+    icon: string;
+    category: 'sales' | 'hr' | 'logs' | 'finance' | 'general';
+    required_columns: string; // JSON
+    optional_columns: string; // JSON
+    pivot_config: string; // JSON
+    created_at: number;
+}
+
 export interface WaSQLiteWorkerContract {
     /**
      * Initializes the wa-sqlite WASM engine with an OPFS backend.
@@ -104,4 +116,9 @@ export interface WaSQLiteWorkerContract {
     savePipeline(name: string, nodes: string, edges: string): Promise<SavedPipelineRecord>;
     listPipelines(): Promise<SavedPipelineRecord[]>;
     deletePipeline(id: string): Promise<void>;
+
+    // --- Custom Templates ---
+    saveCustomTemplate(record: Omit<CustomTemplateRecord, 'created_at' | 'id'>): Promise<CustomTemplateRecord>;
+    listCustomTemplates(): Promise<CustomTemplateRecord[]>;
+    deleteCustomTemplate(id: string): Promise<void>;
 }
