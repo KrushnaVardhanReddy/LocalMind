@@ -5,6 +5,7 @@ import { defineConfig } from 'vite';
 import wasm from 'vite-plugin-wasm';
 import topLevelAwait from 'vite-plugin-top-level-await';
 import { VitePWA } from 'vite-plugin-pwa';
+import { APP_VERSION } from './src/lib/config/app-version.js';
 
 const CSP_HEADER = [
 	"default-src 'self'",
@@ -60,15 +61,16 @@ export default defineConfig({
 			workbox: {
 				navigateFallback: null,
 				maximumFileSizeToCacheInBytes: 100 * 1024 * 1024, // 50 MiB to accommodate large WASM and Tesseract assets
+				cleanupOutdatedCaches: true,
 				runtimeCaching: [
 					{
 						urlPattern: /\.wasm$/,
 						handler: 'CacheFirst',
 						options: {
-							cacheName: 'wasm-cache',
+							cacheName: `wasm-cache-${APP_VERSION}`,
 							expiration: {
 								maxEntries: 10,
-								maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+								maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
 							},
 							cacheableResponse: {
 								statuses: [0, 200]

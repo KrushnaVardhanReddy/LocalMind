@@ -1,0 +1,11 @@
+{
+  "extends": ["config:base"],
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["@duckdb/*", "echarts", "@sqlite.org/*"],
+      "automerge": false,
+      "labels": ["dependencies", "wasm-update"]
+    }
+  ],
+  "schedule": ["every weekend"]
+}

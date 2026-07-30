@@ -7,6 +7,8 @@ import eh_worker from '@duckdb/duckdb-wasm/dist/duckdb-browser-eh.worker.js?url'
 import duckdb_wasm_coi from '@duckdb/duckdb-wasm/dist/duckdb-coi.wasm?url';
 import coi_worker from '@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js?url';
 import coi_pthread_worker from '@duckdb/duckdb-wasm/dist/duckdb-browser-coi.pthread.worker.js?url';
+import { APP_VERSION } from '../config/app-version.js';
+
 
 export interface QueryResult {
     columns: string[];
@@ -18,7 +20,7 @@ export interface DuckDBWorkerContract {
     /**
      * Initializes the WASM engine. Called once.
      */
-    init(): Promise<void>;
+    init(onProgress?: (msg: string) => void): Promise<void>;
 
     /**
      * Registers a local File object directly with DuckDB.
@@ -41,8 +43,33 @@ class DuckDBService implements DuckDBWorkerContract {
     private db: duckdb.AsyncDuckDB | null = null;
     private conn: duckdb.AsyncDuckDBConnection | null = null;
 
-    async init() {
+    async init(onProgress?: (msg: string) => void) {
         if (this.db) return; // Already initialized
+
+        // WASM Cache Busting
+        try {
+            const cacheKeys = await caches.keys();
+            const expectedCacheName = `wasm-cache-${APP_VERSION}`;
+            let clearedCache = false;
+
+            for (const key of cacheKeys) {
+                if (key.startsWith('wasm-cache-') && key !== expectedCacheName) {
+                    await caches.delete(key);
+                    clearedCache = true;
+                }
+            }
+
+
+            if (clearedCache) {
+                const msg = 'Updating DuckDB engine...';
+                console.log(msg);
+                if (onProgress) onProgress(msg);
+            }
+
+        } catch (e) {
+            console.error('Failed to clear WASM cache:', e);
+        }
+
 
         const MANUAL_BUNDLES: duckdb.DuckDBBundles = {
             mvp: {

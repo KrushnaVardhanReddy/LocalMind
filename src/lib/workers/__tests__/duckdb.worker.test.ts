@@ -1,6 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import * as duckdb from '@duckdb/duckdb-wasm';
 import { expose } from 'comlink';
+import { APP_VERSION } from '../../config/app-version.js';
+
 
 vi.mock('comlink', () => ({
     expose: vi.fn(),
@@ -37,6 +39,14 @@ vi.mock('@duckdb/duckdb-wasm', () => {
     };
 });
 
+
+// Mock caches API
+const mockDelete = vi.fn().mockResolvedValue(true);
+globalThis.caches = {
+    keys: vi.fn().mockResolvedValue([]),
+    delete: mockDelete,
+} as any;
+
 describe('DuckDB Worker', () => {
     let duckdbWorkerModule: any;
 
@@ -59,6 +69,42 @@ describe('DuckDB Worker', () => {
 
     afterEach(() => {
         vi.resetModules();
+    });
+
+
+    it('should clear old WASM caches when version differs', async () => {
+        const consoleSpy = vi.spyOn(console, 'log');
+
+        // Setup mismatched cache keys
+        globalThis.caches.keys = vi.fn().mockResolvedValue([
+            'wasm-cache-v1.0.0', // Old version
+            'other-cache-v1',
+            `wasm-cache-${APP_VERSION}` // Current version
+        ]);
+
+        await service.init();
+
+        // Should check keys
+        expect(mockDelete).toHaveBeenCalledWith('wasm-cache-v1.0.0');
+        expect(mockDelete).not.toHaveBeenCalledWith('other-cache-v1');
+        expect(mockDelete).not.toHaveBeenCalledWith(`wasm-cache-${APP_VERSION}`);
+
+        // Should log the update message
+        expect(consoleSpy).toHaveBeenCalledWith('Updating DuckDB engine...');
+    });
+
+    it('should not clear caches if versions match exactly', async () => {
+        const consoleSpy = vi.spyOn(console, 'log');
+        mockDelete.mockClear();
+
+        globalThis.caches.keys = vi.fn().mockResolvedValue([
+            `wasm-cache-${APP_VERSION}`
+        ]);
+
+        await service.init();
+
+        expect(mockDelete).not.toHaveBeenCalled();
+        expect(consoleSpy).not.toHaveBeenCalledWith('Updating DuckDB engine...');
     });
 
     it('should initialize DuckDB correctly', async () => {
