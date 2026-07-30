@@ -8,6 +8,16 @@
     let chartContainer: HTMLDivElement;
     let chartInstance: echarts.ECharts | null = null;
 
+    export function getChartBase64(): string | null {
+        if (chartInstance) {
+            return chartInstance.getDataURL({
+                type: 'png',
+                backgroundColor: '#ffffff'
+            });
+        }
+        return null;
+    }
+
     onMount(() => {
         if (chartContainer) {
             chartInstance = echarts.init(chartContainer);

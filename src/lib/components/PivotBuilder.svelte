@@ -153,6 +153,20 @@
         }
     });
 
+    export function getPivotData() {
+        let chartBase64: string | null = null;
+        if (chartInstance) {
+            chartBase64 = chartInstance.getDataURL({
+                type: 'png',
+                backgroundColor: '#ffffff'
+            });
+        }
+        return {
+            result,
+            chartBase64
+        };
+    }
+
     // Also resize chart on window resize
     function handleResize() {
         if (chartInstance) {
