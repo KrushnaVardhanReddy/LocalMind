@@ -1,0 +1,6 @@
+{
+  "files": [
+    { "path": ".svelte-kit/output/client/_app/immutable/chunks/*.js", "maxSize": "500 kB" }
+  ],
+  "compressionAlgorithm": "gzip"
+}
