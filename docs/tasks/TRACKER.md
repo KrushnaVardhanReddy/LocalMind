@@ -53,7 +53,7 @@
 - [x] Task 7.3: BI Pivot Builder - Table Polish (Totals, Pagination, Empty State) ✅ *(Completed - PR #62)* (`docs/tasks/phase-1/task7_3_bi_table_polish.md`)
 - [x] Task 7.4: BI Pivot Builder - Component Architecture & Premium UI ✅ *(Completed - PR #64)* (`docs/tasks/phase-1/task7_4_bi_component_architecture.md`)
 - [x] Task 8: Interactive Dashboard Builder ✅ *(Completed)* (`docs/tasks/phase-1/task8_dashboards.md`)
-- [ ] Task 9: End-to-End Testing (Phase 1 Full Surface) 🔄 *(Running - Jules IDs: 3011944537622094326, 3722110549489992243)* (`docs/tasks/phase-1/task9_e2e.md`)
+- [ ] Task 9: End-to-End Testing (Phase 1 Full Surface) 🔄 *(Running - Jules IDs: 3011944537622094326, 3722110549489992243, 17019928584880715656)* (`docs/tasks/phase-1/task9_e2e.md`)
 
 ---
 
