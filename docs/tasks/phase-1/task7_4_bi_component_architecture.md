@@ -143,3 +143,11 @@ export interface PivotConfig {
 - [ ] All existing PivotBuilder functionality preserved (no regressions).
 - [ ] Unit tests for each new component.
 - [ ] Existing PivotBuilder tests still pass.
+
+## Important Note regarding Testing
+**Do not attempt to configure `vitest.config.ts`—it already exists in the repository root and is correctly configured for Svelte 5.** 
+
+If you are facing the `lifecycle_function_unavailable` error, it is likely because you are running `bun test` directly. `bun test` has its own test runner and does **not** automatically read `vitest.config.ts`, meaning it runs without the necessary `jsdom` environment and Svelte testing plugins that are already set up.
+
+**To fix the test environment:**
+Instead of running `bun test`, run **`npx vitest run`** (or add `"test": "vitest run"` to the `scripts` in `package.json` and run `bun run test`). This will utilize the existing `vitest.config.ts` which includes `environment: 'jsdom'` and the `@testing-library/svelte/vite` plugin required for Svelte 5 component testing.
