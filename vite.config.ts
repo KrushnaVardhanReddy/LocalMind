@@ -6,6 +6,22 @@ import wasm from 'vite-plugin-wasm';
 import topLevelAwait from 'vite-plugin-top-level-await';
 import { VitePWA } from 'vite-plugin-pwa';
 
+const CSP_HEADER = [
+	"default-src 'self'",
+	"script-src 'self' 'wasm-unsafe-eval'",
+	"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+	"font-src 'self' https://fonts.gstatic.com",
+	"img-src 'self' data: blob:",
+	"connect-src 'self' https://api.openai.com https://api.anthropic.com https://generativelanguage.googleapis.com",
+	"worker-src 'self' blob:",
+	"child-src blob:",
+	"frame-src 'none'",
+	"object-src 'none'",
+	"base-uri 'self'",
+	"form-action 'self'",
+	"upgrade-insecure-requests;"
+].join('; ');
+
 export default defineConfig({
   resolve: {
     alias: [
@@ -103,12 +119,14 @@ export default defineConfig({
 	],
 	server: {
 		headers: {
+			'Content-Security-Policy-Report-Only': `${CSP_HEADER}; report-uri /csp-report`,
 			'Cross-Origin-Opener-Policy': 'same-origin',
 			'Cross-Origin-Embedder-Policy': 'require-corp'
 		}
 	},
 	preview: {
 		headers: {
+			'Content-Security-Policy': CSP_HEADER,
 			'Cross-Origin-Opener-Policy': 'same-origin',
 			'Cross-Origin-Embedder-Policy': 'require-corp'
 		}
