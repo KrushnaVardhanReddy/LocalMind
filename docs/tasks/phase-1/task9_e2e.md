@@ -73,6 +73,7 @@ Establish a comprehensive Playwright test suite that validates the complete Phas
 
 ## Definition of Done
 - `bun run test:e2e` passes across Chromium, Firefox, and WebKit in CI.
+- **CRITICAL:** You are ONLY responsible for passing the tests in `tests/phase1-e2e.spec.ts`. If the test runner executes other files (like `phase-3/clipper.spec.ts` or `phase-5/janitor.spec.ts`) and they fail, **IGNORE THEM COMPLETELY**. Do not attempt to fix them.
 - All 8 test sections pass with zero skips.
 - Screenshots captured on failure are saved as CI artifacts.
 - Full suite completes in under 5 minutes on a standard GitHub Actions runner.
