@@ -29,7 +29,7 @@
 
 ### Wave 4: The Great Refactor
 *Must run entirely alone. This takes the heavily-modified monolithic `PivotBuilder.svelte` and breaks it apart into a clean component tree.*
-- **[Analytics]** Task 7.4: BI Pivot Builder - Component Architecture & Premium UI 🔄 *(Running - Jules ID: 15821540319989703273)* (`docs/tasks/phase-1/task7_4_bi_component_architecture.md`)
+- **[Analytics]** Task 7.4: BI Pivot Builder - Component Architecture & Premium UI 🔄 *(Running - Jules ID: 7080620422387784828)* (`docs/tasks/phase-1/task7_4_bi_component_architecture.md`)
 
 ### Wave 5: Validation (End-to-End Tests)
 *Must run after all Phase 1 UI and architecture changes are merged. No mocking allowed.*
