@@ -88,3 +88,6 @@ Establish a comprehensive Playwright test suite that validates the complete Phas
   ```
 - **Waiting for reactivity:** After a drop, Svelte 5 `$state` updates happen quickly but asynchronously. Wait for a specific DOM state (`await expect(targetShelf).toContainText('column_name')`) before proceeding to the next assertion rather than relying on arbitrary timeouts.
 - **Locators:** Use explicit `page.getByRole()` or specific text locators instead of fragile CSS selectors to grab the column pills and shelves.
+- **Command Palette Locator:** Svelte 5 renders the palette items asynchronously. Do NOT use `locator('ul > li').filter({ hasText: 'pivot' })`. Instead, type 'pivot' into the input, then use: `await page.getByRole('list').getByText('pivot', { exact: false }).click();`
+- **Pivot Table Select Locator:** The `<select id="pivotTableSelect">` is populated asynchronously by DuckDB. Do not blindly `selectOption('sales_100k')`. You MUST wait for the option to attach to the DOM: `await expect(page.locator('#pivotTableSelect').locator('option', { hasText: 'sales_100k' })).toBeAttached({ timeout: 10000 });` then select it.
+- **AI Consent Modal Locator:** The header text in `ConsentModal.svelte` is exactly `"Privacy Notice & Consent"`, NOT `"Data Privacy Consent"`. Ensure your `.filter({ hasText: ... })` string matches this exactly.
