@@ -76,3 +76,15 @@ Establish a comprehensive Playwright test suite that validates the complete Phas
 - All 8 test sections pass with zero skips.
 - Screenshots captured on failure are saved as CI artifacts.
 - Full suite completes in under 5 minutes on a standard GitHub Actions runner.
+
+## 💡 Implementation Tips for Jules (Playwright + Svelte 5 Drag-and-Drop)
+- **HTML5 Drag and Drop:** Playwright's `page.dragTo()` often fails with Svelte 5's reactive DOM. Instead, explicitly dispatch events:
+  ```typescript
+  await sourceElement.dispatchEvent('dragstart');
+  await targetShelf.dispatchEvent('dragenter');
+  await targetShelf.dispatchEvent('dragover');
+  await targetShelf.dispatchEvent('drop', { dataTransfer: new DataTransfer() });
+  await sourceElement.dispatchEvent('dragend');
+  ```
+- **Waiting for reactivity:** After a drop, Svelte 5 `$state` updates happen quickly but asynchronously. Wait for a specific DOM state (`await expect(targetShelf).toContainText('column_name')`) before proceeding to the next assertion rather than relying on arbitrary timeouts.
+- **Locators:** Use explicit `page.getByRole()` or specific text locators instead of fragile CSS selectors to grab the column pills and shelves.
