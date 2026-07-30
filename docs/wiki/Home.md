@@ -55,6 +55,12 @@ LocalMind is divided into modular workspaces, each dedicated to a specific domai
 
 ---
 
+## 🔮 Future Concepts (Incubation)
+
+- **[Future Concepts (Post-MVP)](./Future_Concepts.md)** — Ideas currently in incubation for user validation: P2P Collaboration, Local RAG, Browser-Native ETL, and Canvas views.
+
+---
+
 ## 🏢 Commercial Architecture
 
 All Pro, Enterprise, and Monetization features are in a **separate private repository**. The public OSS repo contains only the free-tier core. See `README.md → Business Model` for full tier details.
