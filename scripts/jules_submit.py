@@ -157,6 +157,59 @@ TASKS = {
         "phase": "phase-1",
         "prompt": _load_prompt("docs/tasks/phase-1/task9_e2e.md"),
     },
+    # ── Robustness Wave — Ship with/right after MVP1 launch ───────────────────
+    90: {
+        "name": "CI-1 — GitHub Actions CI/CD Pipeline",
+        "phase": "cross_cutting",
+        "prompt": _load_prompt("docs/tasks/cross_cutting/task_ci_pipeline.md"),
+    },
+    91: {
+        "name": "CI-2 — Content Security Policy (CSP)",
+        "phase": "cross_cutting",
+        "prompt": _load_prompt("docs/tasks/cross_cutting/task_csp.md"),
+    },
+    92: {
+        "name": "CI-3 — Service Worker Cache Versioning & WASM Update Strategy",
+        "phase": "cross_cutting",
+        "prompt": _load_prompt("docs/tasks/cross_cutting/task_sw_versioning.md"),
+    },
+    93: {
+        "name": "CI-4 — Worker Error Boundary & Crash Recovery",
+        "phase": "cross_cutting",
+        "prompt": _load_prompt("docs/tasks/cross_cutting/task_worker_error_boundary.md"),
+    },
+    94: {
+        "name": "CI-5 — First-Run Onboarding & Empty State",
+        "phase": "cross_cutting",
+        "prompt": _load_prompt("docs/tasks/cross_cutting/task_onboarding.md"),
+    },
+    95: {
+        "name": "CI-6 — Accessibility (a11y) Audit & Remediation",
+        "phase": "cross_cutting",
+        "prompt": _load_prompt("docs/tasks/cross_cutting/task_a11y_audit.md"),
+    },
+    # ── MVP2: Sessions ────────────────────────────────────────────────────────
+    100: {
+        "name": "Session-1 — Core Session Schema & Local Export",
+        "phase": "cross_cutting",
+        "prompt": _load_prompt("docs/tasks/cross_cutting/task_session1_core.md"),
+    },
+    103: {
+        "name": "Session-3 — PDF Report Export",
+        "phase": "cross_cutting",
+        "prompt": _load_prompt("docs/tasks/cross_cutting/task_session3_pdf_export.md"),
+    },
+    104: {
+        "name": "Session-4 — Session Import (Restore from .lm file)",
+        "phase": "cross_cutting",
+        "prompt": _load_prompt("docs/tasks/cross_cutting/task_session4_import.md"),
+    },
+    # ── MVP2: Docs Workspace ──────────────────────────────────────────────────
+    110: {
+        "name": "Docs-1 — Docs Workspace Route & Layout",
+        "phase": "phase-2",
+        "prompt": _load_prompt("docs/tasks/phase-2/task_docs_workspace.md"),
+    },
     # ── POST-V1 DEFERRED TASKS ─────────────────────────────────────────────────
     51: {
         "name": "Set 12 Task 1 — Security / Cryptography Workspace",

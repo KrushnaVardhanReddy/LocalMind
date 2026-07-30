@@ -3,11 +3,11 @@
 Welcome to the **LocalMind** project wiki! This is the central hub for understanding the architecture, philosophy, and capabilities of the LocalMind ecosystem.
 
 ## 🌟 What is LocalMind?
-LocalMind is a privacy-first, browser-native operating system for your data. It brings enterprise-grade data analytics, document processing, media manipulation, and AI intelligence directly to your device. 
+LocalMind is a **privacy-first local AI workspace** — a browser-native environment that brings enterprise-grade data analytics, document processing, diagram generation, image annotation, and AI intelligence directly to your device, entirely offline.
 
-**Zero cloud. Zero data egress. Unlimited capabilities.**
+**Zero cloud. Zero data egress. One install. Every tool.**
 
-By leveraging cutting-edge WebAssembly (WASM), WebGPU, and the Origin Private File System (OPFS), LocalMind eliminates the need to upload your sensitive data (invoices, code, network logs, medical records) to third-party servers.
+By leveraging cutting-edge WebAssembly (WASM), WebGPU, and the Origin Private File System (OPFS), LocalMind eliminates the need to upload sensitive data to third-party servers. The **Session system** (`project.lm`) further unifies all workspace state into a single portable snapshot — so users share complete analytical environments, not disconnected files.
 
 ---
 
@@ -17,39 +17,58 @@ By leveraging cutting-edge WebAssembly (WASM), WebGPU, and the Origin Private Fi
 Why we built LocalMind. Understanding the shift from Cloud computing back to Edge/Local computing, and why privacy shouldn't be an opt-in feature.
 
 ### [2. Architecture Overview](./Architecture.md)
-How LocalMind works under the hood. A deep dive into SvelteKit, Bun, Web Workers, Comlink, and our zero-copy data pipeline.
+How LocalMind works under the hood. A deep dive into SvelteKit, Bun, Web Workers, Comlink, our zero-copy data pipeline, the Session system, and platform robustness.
 
 ### [3. The WASM Engines](./Engines.md)
 The heavy lifters of LocalMind. Learn about how we run DuckDB, FFmpeg, OpenCV, Transformers.js, and OpenCascade locally in the browser.
 
----
+### [4. Sessions & Workspace Snapshots](./Sessions.md)
+How the `.lm` portable workspace format works — SessionManager, OPFS persistence, import/export, and the Session sharing model.
 
-## 🚀 Workspaces (Phases)
-
-LocalMind is divided into modular workspaces (Phases), each dedicated to a specific domain:
-
-- **[Phase 1: Analytics & BI](../specs/phase-1/)** — Multi-GB DuckDB SQL engine, ECharts, visual joins, and Tableau-style pivoting.
-- **[Phase 2: Docs Engine](../specs/phase-2/01_docs_engine_spec.md)** — Offline OCR, PDF manipulation, and PII redaction.
-- **[Phase 3: Media Engine](../specs/phase-3/01_media_engine_spec.md)** — FFmpeg video transcoding and Whisper speech-to-text.
-- **[Phase 4: DevTools](../specs/phase-4/01_devtools_engine_spec.md)** — tree-sitter code analysis, HAR/PCAP parsing, and mock servers.
-- **[Phase 5: Intelligence](../specs/phase-5/01_intelligence_spec.md)** — Local WebLLM (Phi-3, Llama 3) via WebGPU.
-- **[Phase 6: Specialized Plugins](../specs/phase-6/01_specialized_plugins_spec.md)** — GeoSpatial (GDAL), 3D CAD (OpenCascade), and Cryptography (libsodium).
-- **[Phase 8: Whiteboard](../specs/phase-8/01_whiteboard_spec.md)** — Infinite offline canvas via Excalidraw.
+### [5. Platform Robustness](./Robustness.md)
+CI/CD pipeline, Content Security Policy, Worker Error Boundaries, WASM cache versioning, and our quality standards.
 
 ---
 
-## 🏢 Enterprise & Deployment
+## 🚀 Workspaces
 
-- **[Phase 9: Tauri Desktop App](../specs/phase-9/01_tauri_desktop_spec.md)** — Bypassing browser limits for unlimited OS storage and native filesystem access.
-- **[Phase 10: Enterprise Tier](../specs/phase-10/01_enterprise_spec.md)** — SSO, RBAC, Audit Logging, and On-Premise Docker deployments.
-- **[Phase 11: Monetization Proxy](../specs/phase-11/01_monetization_proxy_spec.md)** — Cloudflare-backed stateless proxy for AI API billing.
+LocalMind is divided into modular workspaces, each dedicated to a specific domain:
+
+### MVP1 (Current Focus)
+- **Analytics Workspace** (`/analytics`) — Multi-GB DuckDB SQL engine, ECharts, BI Pivot Builder (Tableau-style), Template Gallery, Report Export. **[Active development]**
+
+### MVP2 (Post-Launch)
+- **Sessions** — Portable `.lm` workspace snapshots. Save/export/import complete analytical environments.
+- **Docs Workspace** (`/docs`) — Offline OCR, PDF manipulation, PII redaction, and semantic search. All WASM workers already built.
+
+### MVP3 (Ecosystem)
+- **Annotate Workspace** (`/annotate`) — Canvas-based image & screenshot annotation.
+- **Diagrams Workspace** (`/diagrams`) — AI-powered UML, ER, and architecture diagram generation from code/SQL/plain English.
+- **Media Plugins** — FFmpeg video transcoding, Whisper speech-to-text.
+- **DevTools** (`/devtools`) — tree-sitter code analysis, HAR/PCAP parsing, transformation pipelines.
+- **Intelligence** — Local WebLLM (Phi-3, Llama 3) via WebGPU.
+- **Vertical Plugins** — GeoSpatial (GDAL), 3D CAD (OpenCascade), Cryptography (libsodium), Personal Finance, Medical, Legal, Vehicle Telemetry.
+
+### Pro Tier (Private Repo)
+- **Tauri Desktop App** — Bypasses browser memory limits. Unlimited OS filesystem access.
+- **Enterprise** — SSO (Okta/SAML), RBAC, audit logging, on-premise deployment.
+
+---
+
+## 🏢 Commercial Architecture
+
+All Pro, Enterprise, and Monetization features are in a **separate private repository**. The public OSS repo contains only the free-tier core. See `README.md → Business Model` for full tier details.
 
 ---
 
 ## 🛠️ Contributing
 
-LocalMind enforces a strict **Spec-First** and **Contract-First** development cycle.
+LocalMind enforces a strict **Spec-First** and **Contract-First** development cycle:
 1. Read the specs in `docs/specs/`.
 2. Review the TypeScript interfaces in `docs/contracts/`.
-3. Pick up a task from the Tracker.
-4. Ensure all WASM components are executed inside Web Workers to keep the main thread fluid.
+3. Pick up a task from `docs/tasks/TRACKER.md`.
+4. Check `docs/tasks/PARALLEL_SETS.md` before running parallel Jules sessions.
+5. Ensure all WASM components execute inside Web Workers — the main thread is for UI only.
+6. Every PR must pass CI: `bun run check`, `bun run test`, `bun run build`, bundle size guard, and axe a11y audit.
+
+See `CLAUDE.md` for the full AI agent collaboration guide.

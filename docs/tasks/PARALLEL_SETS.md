@@ -37,6 +37,25 @@
 
 ---
 
+## 🔒 ROBUSTNESS WAVE (Ship With or Right After MVP1 Launch)
+
+> [!IMPORTANT]
+> These tasks protect the product's launch quality and user trust. CI/CD and CSP should ideally land **before** the public launch. Error Boundary, Onboarding, and a11y can ship as fast-follow PRs in the first week.
+
+### Robustness Wave A: Infrastructure & Security (Parallel)
+*No shared files. CI touches `.github/`. CSP touches `vite.config.ts` and `_headers`. SW versioning touches `vite.config.ts` (different section — if conflict risk, run alone).*
+- **[Infra]** CI-1: GitHub Actions CI/CD Pipeline (`docs/tasks/cross_cutting/task_ci_pipeline.md`)
+- **[Security]** CI-2: Content Security Policy (`docs/tasks/cross_cutting/task_csp.md`)
+- **[Infra]** CI-3: Service Worker Cache Versioning (`docs/tasks/cross_cutting/task_sw_versioning.md`)
+
+### Robustness Wave B: UX Quality (Parallel)
+*Error boundary touches `+layout.svelte` and `WorkerManager.ts`. Onboarding touches `/analytics/+page.svelte`. a11y is additive across all routes.*
+- **[UX]** CI-4: Worker Error Boundary & Crash Recovery (`docs/tasks/cross_cutting/task_worker_error_boundary.md`)
+- **[UX]** CI-5: First-Run Onboarding & Empty State (`docs/tasks/cross_cutting/task_onboarding.md`)
+- **[UX]** CI-6: Accessibility (a11y) Audit & Remediation (`docs/tasks/cross_cutting/task_a11y_audit.md`)
+
+---
+
 ## 🟡 ACTIVE SETS (MVP2 — Sessions + Docs Workspace)
 
 > [!IMPORTANT]
