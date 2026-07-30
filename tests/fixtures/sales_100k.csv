@@ -1,0 +1,5 @@
+region,product,revenue,date
+North,Widget A,100,2023-01-01
+South,Widget B,150,2023-01-02
+East,Widget A,200,2023-01-03
+West,Widget C,50,2023-01-04

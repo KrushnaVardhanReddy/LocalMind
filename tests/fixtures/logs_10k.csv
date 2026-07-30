@@ -1,0 +1,4 @@
+status_code,method,path,response_time
+200,GET,/api/data,45
+404,GET,/api/unknown,12
+500,POST,/api/submit,500
