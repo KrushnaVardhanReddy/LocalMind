@@ -17,6 +17,15 @@
 - [ ] UX-3: Static HTML Report Export 🔄 *(Running)* (`docs/tasks/cross_cutting/task_ux3_report_export.md`)
 - [ ] UX-4: Template Gallery (`docs/tasks/cross_cutting/task_ux4_template_gallery.md`)
 
+### Platform Robustness (Cross-Cutting)
+*Non-functional requirements that determine production quality and user trust.*
+- [ ] CI-1: GitHub Actions CI/CD Pipeline (`docs/tasks/cross_cutting/task_ci_pipeline.md`)
+- [ ] CI-2: Content Security Policy (CSP) (`docs/tasks/cross_cutting/task_csp.md`)
+- [ ] CI-3: Service Worker Cache Versioning & WASM Update Strategy (`docs/tasks/cross_cutting/task_sw_versioning.md`)
+- [ ] CI-4: Worker Error Boundary & Crash Recovery (`docs/tasks/cross_cutting/task_worker_error_boundary.md`)
+- [ ] CI-5: First-Run Onboarding & Empty State (`docs/tasks/cross_cutting/task_onboarding.md`)
+- [ ] CI-6: Accessibility (a11y) Audit & Remediation (`docs/tasks/cross_cutting/task_a11y_audit.md`)
+
 ### Sessions (Workspace Snapshots) 📋
 *A portable `.lm` workspace file that captures queries, charts, AI conversations, notes, and files in a single shareable artifact. Core differentiator.*
 - [ ] Session-1: Core Session Schema & Local Export (`project.lm` format, OPFS-backed) (`docs/tasks/cross_cutting/task_session1_core.md`)
