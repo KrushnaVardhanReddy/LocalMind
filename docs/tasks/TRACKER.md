@@ -15,7 +15,7 @@
 - [x] UX-1: Landing Dashboard & Workspace Routing ✅ *(Completed - PR #59)* (`docs/tasks/cross_cutting/task_ux1_dashboard_routing.md`)
 - [x] UX-2: Command Palette (⌘K) ✅ *(Completed - PR #55)* (`docs/tasks/cross_cutting/task_ux2_command_palette.md`)
 - [x] UX-3: Static HTML Report Export ✅ *(Completed - PR #60)* (`docs/tasks/cross_cutting/task_ux3_report_export.md`)
-- [ ] UX-4: Template Gallery (`docs/tasks/cross_cutting/task_ux4_template_gallery.md`)
+- [x] UX-4: Template Gallery ✅ *(Completed - PR #63)* (`docs/tasks/cross_cutting/task_ux4_template_gallery.md`)
 
 ### Platform Robustness (Cross-Cutting)
 *Non-functional requirements that determine production quality and user trust.*
@@ -50,8 +50,8 @@
 - [x] Task 7: Tableau-Style BI Pivot Builder ✅ *(Completed - PR #31)* (`docs/tasks/phase-1/task7_bi_pivot.md`)
 - [x] Task 7.1: BI Pivot Builder - ECharts Visualization & Chart Type Selector ✅ *(Completed - PR #57)* (`docs/tasks/phase-1/task7_1_bi_chart_selector.md`)
 - [x] Task 7.2: BI Pivot Builder - True Pivot, Filters & SQL Panel ✅ *(Completed - PR #61)* (`docs/tasks/phase-1/task7_2_bi_pivot_filters.md`)
-- [ ] Task 7.3: BI Pivot Builder - Table Polish (Totals, Pagination, Empty State) (`docs/tasks/phase-1/task7_3_bi_table_polish.md`)
-- [ ] Task 7.4: BI Pivot Builder - Component Architecture & Premium UI (`docs/tasks/phase-1/task7_4_bi_component_architecture.md`)
+- [x] Task 7.3: BI Pivot Builder - Table Polish (Totals, Pagination, Empty State) ✅ *(Completed - PR #62)* (`docs/tasks/phase-1/task7_3_bi_table_polish.md`)
+- [ ] Task 7.4: BI Pivot Builder - Component Architecture & Premium UI 🔄 *(Running - Jules ID: 15821540319989703273)* (`docs/tasks/phase-1/task7_4_bi_component_architecture.md`)
 - [x] Task 8: Interactive Dashboard Builder ✅ *(Completed)* (`docs/tasks/phase-1/task8_dashboards.md`)
 - [ ] Task 9: End-to-End Testing (`docs/tasks/phase-1/task9_e2e.md`)
 

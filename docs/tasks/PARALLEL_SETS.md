@@ -24,12 +24,12 @@
 
 ### Wave 3: BI Table & Templates
 *Safe because 7.3 polishes the internal table of `PivotBuilder`, while UX-4 adds templates to the outer `/analytics` layout.*
-- **[Analytics]** Task 7.3: BI Pivot Builder - Table Polish (`docs/tasks/phase-1/task7_3_bi_table_polish.md`)
-- **[UX]** UX-4: Template Gallery (`docs/tasks/cross_cutting/task_ux4_template_gallery.md`)
+- **[Analytics]** Task 7.3: BI Pivot Builder - Table Polish (`docs/tasks/phase-1/task7_3_bi_table_polish.md`) ✅
+- **[UX]** UX-4: Template Gallery (`docs/tasks/cross_cutting/task_ux4_template_gallery.md`) ✅
 
 ### Wave 4: The Great Refactor
 *Must run entirely alone. This takes the heavily-modified monolithic `PivotBuilder.svelte` and breaks it apart into a clean component tree.*
-- **[Analytics]** Task 7.4: BI Pivot Builder - Component Architecture & Premium UI (`docs/tasks/phase-1/task7_4_bi_component_architecture.md`)
+- **[Analytics]** Task 7.4: BI Pivot Builder - Component Architecture & Premium UI 🔄 *(Running - Jules ID: 15821540319989703273)* (`docs/tasks/phase-1/task7_4_bi_component_architecture.md`)
 
 ### Wave 5: Validation (End-to-End Tests)
 *Must run after all Phase 1 UI and architecture changes are merged. No mocking allowed.*
