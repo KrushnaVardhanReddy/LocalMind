@@ -8,7 +8,9 @@ import type {
     WorkspaceRecord,
     RegisteredFileRecord,
     SavedQueryRecord,
-    DashboardPanelRecord
+    DashboardPanelRecord,
+    SavedPipelineRecord,
+    CustomTemplateRecord
 } from '../contracts/wa_sqlite_contract';
 
 class SQLiteService implements WaSQLiteWorkerContract {
@@ -111,6 +113,18 @@ class SQLiteService implements WaSQLiteWorkerContract {
                 nodes TEXT NOT NULL,
                 edges TEXT NOT NULL,
                 updated_at INTEGER NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS custom_templates (
+                id TEXT PRIMARY KEY,
+                name TEXT NOT NULL,
+                description TEXT NOT NULL,
+                icon TEXT NOT NULL,
+                category TEXT NOT NULL,
+                required_columns TEXT NOT NULL,
+                optional_columns TEXT NOT NULL,
+                pivot_config TEXT NOT NULL,
+                created_at INTEGER NOT NULL
             );
         `;
 
@@ -353,6 +367,29 @@ class SQLiteService implements WaSQLiteWorkerContract {
 
     async deletePipeline(id: string): Promise<void> {
         await this.execute(`DELETE FROM saved_pipelines WHERE id = ?`, [id]);
+    }
+
+    // --- Custom Templates ---
+    async saveCustomTemplate(record: Omit<CustomTemplateRecord, 'created_at' | 'id'>): Promise<CustomTemplateRecord> {
+        const id = crypto.randomUUID();
+        const created_at = Date.now();
+        await this.query(
+            `INSERT INTO custom_templates (id, name, description, icon, category, required_columns, optional_columns, pivot_config, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [id, record.name, record.description, record.icon, record.category, record.required_columns, record.optional_columns, record.pivot_config, created_at]
+        );
+        return {
+            id,
+            ...record,
+            created_at
+        };
+    }
+
+    async listCustomTemplates(): Promise<CustomTemplateRecord[]> {
+        return await this.query<CustomTemplateRecord>(`SELECT * FROM custom_templates ORDER BY created_at DESC`);
+    }
+
+    async deleteCustomTemplate(id: string): Promise<void> {
+        await this.query(`DELETE FROM custom_templates WHERE id = ?`, [id]);
     }
 }
 

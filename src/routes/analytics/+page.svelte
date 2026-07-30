@@ -9,6 +9,8 @@
     import DOMPurify from 'dompurify';
     import ChartViewer from '$lib/components/ChartViewer.svelte';
     import PivotBuilder from '$lib/components/PivotBuilder.svelte';
+    import TemplateGallery from '$lib/components/TemplateGallery.svelte';
+    import type { PivotTemplate } from '$lib/templates/template.types';
     import ExportModal from '$lib/components/ExportModal.svelte';
     import { ReportExporter, type ExportConfig } from '$lib/services/ReportExporter';
     import type { QueryResult } from '$lib/workers/duckdb.worker';
@@ -50,6 +52,8 @@
     let uploadStatus = $state<{type: 'success' | 'error' | 'loading', message: string} | null>(null);
     let customQuery = $state('');
     let selectedPivotTable = $state('');
+    let selectedTableSchema = $state<string[]>([]);
+    let showTemplateGallery = $state(false);
 
     let showExportModal = $state(false);
     let chartViewerComponent: ChartViewer | undefined = $state();
@@ -241,6 +245,37 @@
             }
         }
         return combinedSchema;
+    }
+
+    async function handleTableSelect(tableName: string) {
+        selectedPivotTable = tableName;
+        if (tableName) {
+            try {
+                const db = await WorkerManager.getDuckDB();
+                const schema = await db.getSchema(tableName);
+                selectedTableSchema = Object.keys(schema);
+
+                // Proactively show suggested templates if there are likely matches
+                // For simplicity, we just trigger the gallery to open if any table is selected.
+                // The TemplateGallery component will handle the score filtering.
+                setTimeout(() => {
+                    showTemplateGallery = true;
+                }, 100);
+
+            } catch (e) {
+                console.error("Failed to fetch schema for template gallery", e);
+                selectedTableSchema = [];
+            }
+        } else {
+            selectedTableSchema = [];
+        }
+    }
+
+    function handleApplyTemplate(template: PivotTemplate) {
+        if (pivotBuilderComponent) {
+            (pivotBuilderComponent as any).applyTemplate(template);
+        }
+        showTemplateGallery = false;
     }
 
     async function handleAskAI() {
@@ -647,13 +682,24 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
 
     {#if $uploadedTables.length > 0}
         <div class="p-4 border rounded mt-4">
-            <h2 class="text-xl font-bold mb-4">Pivot Builder</h2>
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Pivot Builder</h2>
+                {#if selectedPivotTable}
+                    <button
+                        onclick={() => showTemplateGallery = true}
+                        class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded hover:bg-indigo-200 transition font-medium flex items-center gap-2"
+                    >
+                        ✨ Templates
+                    </button>
+                {/if}
+            </div>
+
             <div class="mb-4">
                 <label for="pivotTableSelect" class="block text-sm font-medium text-gray-700 mb-1">Select Table to Pivot</label>
                 <select
                     id="pivotTableSelect"
                     class="block w-full max-w-xs border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-purple-500 focus:ring-purple-500"
-                    onchange={(e) => selectedPivotTable = (e.target as HTMLSelectElement).value}
+                    onchange={(e) => handleTableSelect((e.target as HTMLSelectElement).value)}
                 >
                     <option value="">-- Select a table --</option>
                     {#each $uploadedTables as t}
@@ -819,4 +865,11 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
             </div>
         {/if}
     </div>
+    {#if showTemplateGallery}
+        <TemplateGallery
+            columns={selectedTableSchema}
+            onSelectTemplate={handleApplyTemplate}
+            onClose={() => showTemplateGallery = false}
+        />
+    {/if}
 </main>
