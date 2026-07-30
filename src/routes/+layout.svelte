@@ -2,6 +2,7 @@
     import './layout.css';
     import favicon from '$lib/assets/favicon.svg';
     import { onMount } from 'svelte';
+    import { APP_VERSION, CHANGELOG } from '$lib/config/app-version.js';
     import { validateCrossOriginIsolation } from '$lib/utils/env-check';
     import { useRegisterSW } from 'virtual:pwa-register/svelte';
     import StatusBar from '$lib/components/StatusBar.svelte';
@@ -36,12 +37,12 @@
 
 {#if $needRefresh}
     <div class="fixed bottom-4 right-4 bg-gray-900 text-white px-4 py-3 rounded shadow-lg flex items-center gap-4 z-50">
-        <span class="text-sm">A new version is available.</span>
+        <span class="text-sm">🔄 <strong>LocalMind updated</strong> — {CHANGELOG[APP_VERSION] || 'A new version is available.'}</span>
         <button
             class="bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded text-sm font-semibold transition"
             onclick={() => updateServiceWorker(true)}
         >
-            Reload
+            Reload Now
         </button>
         <button
             class="text-gray-400 hover:text-white text-sm transition"
