@@ -22,8 +22,8 @@
 - [x] CI-1: GitHub Actions CI/CD Pipeline ✅ *(Completed - PR #67)* (`docs/tasks/cross_cutting/task_ci_pipeline.md`)
 - [x] CI-2: Content Security Policy (CSP) ✅ *(Completed - PR #65)* (`docs/tasks/cross_cutting/task_csp.md`)
 - [x] CI-3: Service Worker Cache Versioning & WASM Update Strategy ✅ *(Completed - PR #66)* (`docs/tasks/cross_cutting/task_sw_versioning.md`)
-- [/] CI-4: Worker Error Boundary & Crash Recovery ⏳ *(In Progress - Jules ID: 471675081424304943)* (`docs/tasks/cross_cutting/task_worker_error_boundary.md`)
-- [/] CI-5: First-Run Onboarding & Empty State ⏳ *(In Progress - Jules ID: 9309220513483022272)* (`docs/tasks/cross_cutting/task_onboarding.md`)
+- [x] CI-4: Worker Error Boundary & Crash Recovery ✅ *(Completed - PR #74)* (`docs/tasks/cross_cutting/task_worker_error_boundary.md`)
+- [x] CI-5: First-Run Onboarding & Empty State ✅ *(Completed - PR #73)* (`docs/tasks/cross_cutting/task_onboarding.md`)
 - [ ] CI-6: Accessibility (a11y) Audit & Remediation (`docs/tasks/cross_cutting/task_a11y_audit.md`)
 
 ### Sessions (Workspace Snapshots) 📋
