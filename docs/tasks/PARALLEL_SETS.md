@@ -37,8 +37,8 @@
 
 ### Wave 6: Advanced Visualization (Parallel)
 *These tasks push the BI Pivot Builder to world-class status. They can be executed concurrently as they touch different parts of the UI stack (chart config vs grid config).*
-- **[Analytics]** Task 10: Advanced BI Polish (Treemaps, Heatmaps, Cross-filtering) ⏳ *(In Progress - Jules ID: 7632845091085479988)* (`docs/tasks/phase-1/task10_advanced_bi.md`)
-- **[Analytics]** Task 11: High-Performance Data Grid Upgrade ⏳ *(In Progress - Jules ID: 15721770383849764271)* (`docs/tasks/phase-1/task11_data_grid.md`)
+- **[Analytics]** Task 10: Advanced BI Polish (Treemaps, Heatmaps, Cross-filtering) ✅ *(Completed - PR #69)* (`docs/tasks/phase-1/task10_advanced_bi.md`)
+- **[Analytics]** Task 11: High-Performance Data Grid Upgrade ✅ *(Completed - PR #72)* (`docs/tasks/phase-1/task11_data_grid.md`)
 
 ---
 
@@ -55,8 +55,8 @@
 
 ### Robustness Wave B: UX Quality (Parallel)
 *Error boundary touches `+layout.svelte` and `WorkerManager.ts`. Onboarding touches `/analytics/+page.svelte`. a11y is additive across all routes.*
-- **[UX]** CI-4: Worker Error Boundary & Crash Recovery ⏳ *(In Progress - Jules ID: 6632488316008193695)* (`docs/tasks/cross_cutting/task_worker_error_boundary.md`)
-- **[UX]** CI-5: First-Run Onboarding & Empty State ⏳ *(In Progress - Jules ID: 4139416670166197235)* (`docs/tasks/cross_cutting/task_onboarding.md`)
+- **[UX]** CI-4: Worker Error Boundary & Crash Recovery ⏳ *(In Progress - Jules ID: 471675081424304943)* (`docs/tasks/cross_cutting/task_worker_error_boundary.md`)
+- **[UX]** CI-5: First-Run Onboarding & Empty State ⏳ *(In Progress - Jules ID: 9309220513483022272)* (`docs/tasks/cross_cutting/task_onboarding.md`)
 - **[UX]** CI-6: Accessibility (a11y) Audit & Remediation (`docs/tasks/cross_cutting/task_a11y_audit.md`)
 
 ---
