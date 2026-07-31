@@ -30,7 +30,7 @@ CONTEXT — EXISTING REPO LAYOUT & ARCHITECTURE
 ═══════════════════════════════════════════════════════════════
 IMPLEMENTATION TIPS
 ═══════════════════════════════════════════════════════════════
-- Dependencies: Consider installing `ninja-keys` or `svelte-command-palette` instead of building a fuzzy-search UI from scratch.
+- Dependencies: Consider installing `ninja-keys@^1.2.2` or `svelte-command-palette@^2.0.2` instead of building a fuzzy-search UI from scratch.
 - State: Be sure to use `$state` in your `workspace.store.svelte.ts` class/object to ensure reactivity when the active workspace or inspector state changes.
 - Styling: Ensure that the Left Explorer and Right Inspector have explicit min and max widths so the Center Canvas scales appropriately using CSS flexbox.
 
