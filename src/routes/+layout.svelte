@@ -8,6 +8,7 @@
     import StatusBar from '$lib/components/StatusBar.svelte';
     import CommandPalette from '$lib/components/CommandPalette.svelte';
     import WorkspaceNav from '$lib/components/workspace/WorkspaceNav.svelte';
+    import WorkerErrorToast from '$lib/components/WorkerErrorToast.svelte';
 
     let { children } = $props();
 
@@ -23,6 +24,7 @@
     import { checkWebGPUSupport } from '$lib/utils/webgpu-check';
 
     let webgpuSupported = $state(true);
+    let hasError = $state(false);
 
     onMount(() => {
         validateCrossOriginIsolation();
@@ -56,8 +58,25 @@
 <WorkspaceNav />
 
 <main class="min-h-screen bg-gray-50 pb-12">
-    {@render children()}
+    <svelte:boundary onerror={() => hasError = true}>
+        {@render children()}
+    </svelte:boundary>
+    {#if hasError}
+        <div class="fixed inset-0 bg-white z-50 flex items-center justify-center p-4">
+            <div class="text-center max-w-md">
+                <h1 class="text-3xl font-bold text-gray-900 mb-4">Something went wrong</h1>
+                <p class="text-gray-600 mb-8">An unexpected error occurred in the application interface.</p>
+                <button
+                    class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded font-semibold transition"
+                    onclick={() => window.location.reload()}
+                >
+                    Reload app
+                </button>
+            </div>
+        </div>
+    {/if}
 </main>
 
+<WorkerErrorToast />
 <CommandPalette />
 <StatusBar />
