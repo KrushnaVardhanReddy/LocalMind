@@ -122,7 +122,7 @@ export class WorkerManager {
                                 }
                             };
                         }
-                        return target[prop];
+                        return target[prop as keyof typeof target];
                     }
                 });
 
@@ -167,7 +167,7 @@ export class WorkerManager {
                                 }
                             };
                         }
-                        return target[prop];
+                        return target[prop as keyof typeof target];
                     }
                 });
 
