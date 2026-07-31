@@ -29,8 +29,8 @@ test.describe('Phase 1 - Full Analytics Surface', () => {
     }
   });
 
-  async function uploadFile(page) {
-    page.on('console', msg => console.log('BROWSER:', msg.text()));
+  async function uploadFile(page: any) {
+    page.on('console', (msg: any) => console.log('BROWSER:', msg.text()));
     await page.waitForSelector('.border-dashed');
     await page.waitForTimeout(2000);
     
