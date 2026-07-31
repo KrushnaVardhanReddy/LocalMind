@@ -6,6 +6,7 @@
         label,
         color,
         emptyText,
+        tooltip = '',
         onDrop,
         children
     } = $props<{
@@ -13,6 +14,7 @@
         label: string;
         color: 'blue' | 'purple' | 'green' | 'orange';
         emptyText: string;
+        tooltip?: string;
         onDrop: (e: DragEvent, zoneId: string) => void;
         children?: Snippet;
     }>();
@@ -77,7 +79,18 @@
     ondragleave={handleDragLeave}
     ondrop={handleDrop}
 >
-    <h4 class="font-semibold mb-2 text-sm {currentTheme.title}">{label}</h4>
+    <div class="flex items-center gap-1 mb-2">
+        <h4 class="font-semibold text-sm {currentTheme.title}">{label}</h4>
+        {#if tooltip}
+            <div class="relative group cursor-help ml-1 inline-flex items-center justify-center w-4 h-4 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-[10px] font-bold">
+                ?
+                <div class="absolute bottom-full mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-50 left-1/2 -translate-x-1/2 text-center pointer-events-none font-normal leading-tight">
+                    {tooltip}
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+                </div>
+            </div>
+        {/if}
+    </div>
     <div class="flex flex-wrap gap-2 min-h-[32px]">
         {#if children}
             {@render children()}
