@@ -82,7 +82,7 @@
             const schema = await db.getSchema(tableName);
             const cols = Object.entries(schema).map(([name, type]) => {
                 let colType: ColumnType = 'unknown';
-                const typeStr = (type || '').toUpperCase();
+                const typeStr = (String(type) || '').toUpperCase();
                 if (typeStr.includes('INT') || typeStr.includes('FLOAT') || typeStr.includes('DOUBLE') || typeStr.includes('DECIMAL')) {
                     colType = 'numeric';
                 } else if (typeStr.includes('CHAR') || typeStr.includes('TEXT') || typeStr.includes('VARCHAR')) {
@@ -346,6 +346,8 @@
     }
 </script>
 
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- Mobile responsiveness: stack on small screens -->
 <div class="flex flex-col md:flex-row h-[calc(100vh-8rem)] gap-4 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 overflow-hidden rounded-xl border dark:border-gray-700 shadow-sm p-4" onclick={(e) => {
     // Close agg popover if click is outside any pill

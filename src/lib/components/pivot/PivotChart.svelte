@@ -88,7 +88,7 @@
     // Inline chart effect
     $effect(() => {
         if (!chartInstance || !chartRef) return;
-        const rowCols = rows.map(r => r.column);
+        const rowCols = rows.map((r: any) => r.column);
         const colors = getColors();
         const _p = selectedPalette;
         const _d = darkMode;
@@ -102,7 +102,7 @@
     // Fullscreen chart effect
     $effect(() => {
         if (!isFullscreen || !fullscreenChartInstance) return;
-        const rowCols = rows.map(r => r.column);
+        const rowCols = rows.map((r: any) => r.column);
         const colors = getColors();
         const _p = selectedPalette;
         const _d = darkMode;
@@ -239,6 +239,8 @@
     </div>
 </div>
 
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- Fullscreen Modal Overlay -->
 {#if isFullscreen}
     <div
@@ -248,6 +250,7 @@
         role="dialog"
         aria-modal="true"
         aria-label="Chart fullscreen view"
+        tabindex="-1"
     >
         <div class="relative w-full h-full max-w-[95vw] max-h-[90vh] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
              style="box-shadow: 0 32px 80px rgba(0,0,0,0.4);">
