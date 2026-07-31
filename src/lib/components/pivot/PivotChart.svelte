@@ -50,8 +50,8 @@
         if (chartInstance) {
             if (result && result.rows.length > 0 && values.length > 0) {
                 // If we don't have rows (only values), we can still chart it (e.g., single bar)
-                const xAxisCol = rows.length > 0 ? rows[0].column : null;
-                const option = buildEchartsOption(result.rows, xAxisCol, values, chartType as any);
+                const rowCols = rows.map(r => r.column);
+                const option = buildEchartsOption(result, chartType as any, rowCols, values);
                 chartInstance.setOption(option, true);
             } else {
                 chartInstance.clear();

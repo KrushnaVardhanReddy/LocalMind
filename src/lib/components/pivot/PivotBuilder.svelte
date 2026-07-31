@@ -226,7 +226,8 @@
                     groupByCols.push(`"${r.column}"`);
                 });
                 values.forEach(v => {
-                    selectCols.push(`${v.agg}("${v.column}") AS "${v.agg}_${v.column}"`);
+                    const colStr = v.column === '*' ? '*' : `"${v.column}"`;
+                    selectCols.push(`${v.agg}(${colStr}) AS "${v.agg}_${v.column}"`);
                 });
 
                 if (selectCols.length === 0) selectCols.push('*');
@@ -257,7 +258,10 @@
 
                 let sql = `PIVOT "${tableName}" ON "${pivotCol}"`;
 
-                const usingAggs = values.map(v => `${v.agg}("${v.column}") AS "${v.agg}_${v.column}"`);
+                const usingAggs = values.map(v => {
+                    const colStr = v.column === '*' ? '*' : `"${v.column}"`;
+                    return `${v.agg}(${colStr}) AS "${v.agg}_${v.column}"`;
+                });
                 if (usingAggs.length > 0) {
                     sql += ` USING ${usingAggs.join(', ')}`;
                 } else {

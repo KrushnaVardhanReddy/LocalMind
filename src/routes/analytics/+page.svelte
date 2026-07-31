@@ -506,7 +506,7 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
     />
 {/if}
 
-<main class="p-8 max-w-4xl mx-auto">
+<main class="p-8 w-full max-w-screen-2xl mx-auto">
     <div class="flex justify-between items-center mb-8 bg-white p-4 shadow rounded">
         <div class="flex items-center gap-4">
             <h1 class="text-2xl font-bold">LocalMind</h1>
