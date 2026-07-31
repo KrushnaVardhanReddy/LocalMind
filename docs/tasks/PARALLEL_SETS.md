@@ -42,7 +42,7 @@
 
 ### Wave 7: LocalMind OS Macro-Shell
 *Must run alone. Refactors `+layout.svelte` to implement the 4-pane unified OS layout and Command Palette.*
-- **[UX]** Task 1: Macro-Shell Layout & Command Palette (`docs/tasks/phase-9/task1_macro_shell.md`)
+- **[UX]** Task 1: Macro-Shell Layout & Command Palette ⏳ *(In Progress - Jules ID: 4820999300470217898)* (`docs/tasks/phase-9/task1_macro_shell.md`)
 
 ---
 
