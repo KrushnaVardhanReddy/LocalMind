@@ -67,6 +67,9 @@ test.describe('Phase 1 - Full Analytics Surface', () => {
     await page.locator('button', { hasText: 'Run Query' }).click();
     await page.waitForSelector('table tbody tr', { timeout: 60000 });
 
+    // Wait for Pivot Builder to appear
+    await expect(page.locator('h2', { hasText: 'Pivot Builder' })).toBeVisible({ timeout: 60000 });
+
     // Must select a table to pivot before the Templates button appears
     await page.locator('select#pivotTableSelect').selectOption({ index: 1 });
 

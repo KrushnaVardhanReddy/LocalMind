@@ -1,0 +1,243 @@
+$ vite dev
+1:31:28 PM [vite-plugin-svelte] The following packages have a svelte field in their package.json but no exports condition for svelte.
+
+@sveltejs/svelte-virtual-list@3.0.1
+svelte-virtual-list-ce@3.1.0-beta.2
+
+Please see https://github.com/sveltejs/vite-plugin-svelte/blob/main/docs/faq.md#missing-exports-condition for details.
+
+  VITE v8.2.0  ready in 1464 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+1:32:23 PM [vite-plugin-svelte] src/lib/components/ConsentModal.svelte:25:12 Buttons and links should either contain text or have an `aria-label`, `aria-labelledby` or `title` attribute
+https://svelte.dev/e/a11y_consider_explicit_label
+1:32:24 PM [vite-plugin-svelte] src/lib/components/pivot/PivotChart.svelte:228:4 Elements with the 'dialog' interactive role must have a tabindex value
+https://svelte.dev/e/a11y_interactive_supports_focus
+1:32:24 PM [vite-plugin-svelte] src/lib/components/pivot/PivotChart.svelte:228:4 Visible, non-interactive element `<div>` with a click event must be accompanied by a keyboard event handler. Consider whether an interactive element such as `<button type="button">` or `<a>` might be more appropriate
+https://svelte.dev/e/a11y_click_events_have_key_events
+1:32:24 PM [vite-plugin-svelte] src/lib/components/workspace/WorkspaceNav.svelte:45:8 Buttons and links should either contain text or have an `aria-label`, `aria-labelledby` or `title` attribute
+https://svelte.dev/e/a11y_consider_explicit_label
+1:32:25 PM [vite-plugin-svelte] src/lib/components/ExportModal.svelte:10:23 This reference only captures the initial value of `defaultTitle`. Did you mean to reference it inside a closure instead?
+https://svelte.dev/e/state_referenced_locally
+1:32:25 PM [vite-plugin-svelte] src/lib/components/ExportModal.svelte:39:12 Buttons and links should either contain text or have an `aria-label`, `aria-labelledby` or `title` attribute
+https://svelte.dev/e/a11y_consider_explicit_label
+1:32:27 PM [vite-plugin-svelte] src/lib/components/workspace/WorkspaceNav.svelte:45:8 Buttons and links should either contain text or have an `aria-label`, `aria-labelledby` or `title` attribute
+https://svelte.dev/e/a11y_consider_explicit_label
+1:32:28 PM [vite-plugin-svelte] src/lib/components/ConsentModal.svelte:25:12 Buttons and links should either contain text or have an `aria-label`, `aria-labelledby` or `title` attribute
+https://svelte.dev/e/a11y_consider_explicit_label
+1:32:28 PM [vite-plugin-svelte] src/lib/components/ExportModal.svelte:10:23 This reference only captures the initial value of `defaultTitle`. Did you mean to reference it inside a closure instead?
+https://svelte.dev/e/state_referenced_locally
+1:32:28 PM [vite-plugin-svelte] src/lib/components/ExportModal.svelte:39:12 Buttons and links should either contain text or have an `aria-label`, `aria-labelledby` or `title` attribute
+https://svelte.dev/e/a11y_consider_explicit_label
+1:32:28 PM [vite-plugin-svelte] src/lib/components/pivot/PivotChart.svelte:228:4 Elements with the 'dialog' interactive role must have a tabindex value
+https://svelte.dev/e/a11y_interactive_supports_focus
+1:32:28 PM [vite-plugin-svelte] src/lib/components/pivot/PivotChart.svelte:228:4 Visible, non-interactive element `<div>` with a click event must be accompanied by a keyboard event handler. Consider whether an interactive element such as `<button type="button">` or `<a>` might be more appropriate
+https://svelte.dev/e/a11y_click_events_have_key_events
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/buffer.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/utf8.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/compat.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/io/io/adapters.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/metadata-version.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/union-mode.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/precision.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/date-unit.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/time-unit.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/interval-unit.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/body-compression-method.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/compression-type.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/body-compression.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/buffer.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/field-node.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/record-batch.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/dictionary-batch.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/endianness.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/dictionary-kind.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/int.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/dictionary-encoding.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/key-value.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/binary.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/bool.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/date.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/decimal.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/duration.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/fixed-size-binary.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/fixed-size-list.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/floating-point.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/interval.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/large-binary.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/large-utf8.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/list.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/map.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/null.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/struct-.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/time.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/timestamp.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/union.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/utf8.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/type.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/field.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/schema.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/message-header.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/enum.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/vector.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/pretty.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/bn.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/bigint.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/type.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/math.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor/visitor/set.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/row/row/struct.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor/visitor/get.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/row/row/map.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/bit.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/data.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/chunk.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor/visitor/indexof.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor/visitor/iterator.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/vector.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/valid.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/buffer.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/block.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/footer.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/schema.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/ipc/metadata/ipc/metadata/file.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/io/io/interfaces.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/io/io/stream.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/io/io/file.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/int.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor/visitor/vectorloader.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/binary.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/largebinary.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/bool.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/date.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/decimal.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/dictionary.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/fixedsizebinary.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/fixedsizelist.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/float.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/interval.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/duration.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/int.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/list.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/map.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/null.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/struct.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/timestamp.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/time.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/union.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/utf8.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/builder/builder/largeutf8.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor/visitor/builderctor.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor/visitor/typecomparator.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/factories.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/util/util/recordbatch.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/table.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/recordbatch.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/fb/fb/message.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor/visitor/typeassembler.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/ipc/metadata/ipc/metadata/json.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/ipc/metadata/ipc/metadata/message.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/ipc/ipc/message.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/ipc/ipc/reader.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/visitor/visitor/vectorassembler.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/ipc/ipc/writer.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/io/whatwg/io/whatwg/iterable.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/io/whatwg/io/whatwg/builder.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/io/whatwg/io/whatwg/reader.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/io/whatwg/io/whatwg/writer.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/ipc/ipc/serialization.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/Arrow.ts"
+Sourcemap for "/app/node_modules/@duckdb/duckdb-wasm/dist/duckdb-browser-coi.worker.js" points to a source file outside its package: "/app/node_modules/@duckdb/apache-arrow/Arrow.dom.ts"
+
+PWA v1.3.0
+mode      generateSW
+precache  0 entries (0.00 KiB)
+files generated
+  dev-dist/sw.js
+  dev-dist/workbox-8505163a.js
+warnings
+  One of the glob patterns doesn't match any files. Please remove or fix the following: {
+  "globDirectory": "/app/dev-dist",
+  "globPattern": "**/*.{js,wasm,css,html}",
+  "globIgnores": [
+    "**/node_modules/**/*",
+    "sw.js",
+    "workbox-*.js"
+  ]
+}
+
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+1:37:29 PM [vite] (client) page reload playwright-report/index.html
+1:41:16 PM [vite] (client) hmr update /src/routes/layout.css
+1:41:16 PM [vite] (ssr) page reload tests/phase-1/e2e.spec.ts
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+1:41:46 PM [vite] (client) page reload playwright-report/index.html
+1:41:46 PM [vite] (client) page reload playwright-report/index.html
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+
+[1;31m[404] POST /csp-report[0m
+1:43:22 PM [vite] (client) page reload playwright-report/index.html

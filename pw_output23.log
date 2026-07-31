@@ -1,0 +1,165 @@
+
+Running 6 tests using 2 workers
+
+[1/6] [chromium] › tests/phase-1/e2e.spec.ts:6:3 › Phase 1 - Full Analytics Surface › Workspace Launcher (UX-1)
+[2/6] [chromium] › tests/phase-1/e2e.spec.ts:16:3 › Phase 1 - Full Analytics Surface › Command Palette (UX-2)
+[3/6] [chromium] › tests/phase-1/e2e.spec.ts:57:3 › Phase 1 - Full Analytics Surface › Data Ingestion & DuckDB
+[chromium] › tests/phase-1/e2e.spec.ts:57:3 › Phase 1 - Full Analytics Surface › Data Ingestion & DuckDB
+BROWSER: [vite] connecting...
+
+BROWSER: [vite] connected.
+
+[4/6] [chromium] › tests/phase-1/e2e.spec.ts:64:3 › Phase 1 - Full Analytics Surface › BI Pivot Builder & Template Gallery
+[chromium] › tests/phase-1/e2e.spec.ts:64:3 › Phase 1 - Full Analytics Surface › BI Pivot Builder & Template Gallery
+BROWSER: [vite] connecting...
+
+BROWSER: [vite] connected.
+
+BROWSER: [vite] connecting...
+
+[chromium] › tests/phase-1/e2e.spec.ts:57:3 › Phase 1 - Full Analytics Surface › Data Ingestion & DuckDB
+BROWSER: [vite] connecting...
+
+BROWSER: [vite] connected.
+
+[chromium] › tests/phase-1/e2e.spec.ts:64:3 › Phase 1 - Full Analytics Surface › BI Pivot Builder & Template Gallery
+BROWSER: [vite] connected.
+
+[chromium] › tests/phase-1/e2e.spec.ts:57:3 › Phase 1 - Full Analytics Surface › Data Ingestion & DuckDB
+BROWSER: SW registered:  ServiceWorkerRegistration
+
+[chromium] › tests/phase-1/e2e.spec.ts:64:3 › Phase 1 - Full Analytics Surface › BI Pivot Builder & Template Gallery
+BROWSER: SW registered:  ServiceWorkerRegistration
+
+  1) [chromium] › tests/phase-1/e2e.spec.ts:57:3 › Phase 1 - Full Analytics Surface › Data Ingestion & DuckDB
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText(/Successfully registered/i)
+    Expected: visible
+    Timeout: 90000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 90000ms
+      - waiting for getByText(/Successfully registered/i)
+
+
+      52 |     });
+      53 |
+    > 54 |     await expect(page.getByText(/Successfully registered/i)).toBeVisible({ timeout: 90000 });
+         |                                                              ^
+      55 |   }
+      56 |
+      57 |   test('Data Ingestion & DuckDB', async ({ page }) => {
+        at uploadFile (/app/tests/phase-1/e2e.spec.ts:54:62)
+        at /app/tests/phase-1/e2e.spec.ts:59:5
+
+    Error Context: test-results/phase-1-e2e-Phase-1---Full-d112a-rface-Data-Ingestion-DuckDB-chromium/error-context.md
+
+
+[5/6] [chromium] › tests/phase-1/e2e.spec.ts:95:3 › Phase 1 - Full Analytics Surface › Static HTML Report Export (UX-3)
+[chromium] › tests/phase-1/e2e.spec.ts:95:3 › Phase 1 - Full Analytics Surface › Static HTML Report Export (UX-3)
+BROWSER: [vite] connecting...
+
+BROWSER: [vite] connected.
+
+BROWSER: SW registered:  ServiceWorkerRegistration
+
+  2) [chromium] › tests/phase-1/e2e.spec.ts:64:3 › Phase 1 - Full Analytics Surface › BI Pivot Builder & Template Gallery
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText(/Successfully registered/i)
+    Expected: visible
+    Timeout: 90000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 90000ms
+      - waiting for getByText(/Successfully registered/i)
+        - waiting for "http://localhost:5173/analytics" navigation to finish...
+        - navigated to "http://localhost:5173/analytics"
+
+
+      52 |     });
+      53 |
+    > 54 |     await expect(page.getByText(/Successfully registered/i)).toBeVisible({ timeout: 90000 });
+         |                                                              ^
+      55 |   }
+      56 |
+      57 |   test('Data Ingestion & DuckDB', async ({ page }) => {
+        at uploadFile (/app/tests/phase-1/e2e.spec.ts:54:62)
+        at /app/tests/phase-1/e2e.spec.ts:66:5
+
+    Error Context: test-results/phase-1-e2e-Phase-1---Full-a53b9-ot-Builder-Template-Gallery-chromium/error-context.md
+
+
+[6/6] [chromium] › tests/phase-1/e2e.spec.ts:114:3 › Phase 1 - Full Analytics Surface › AI Consent Flow (No Mocking)
+[chromium] › tests/phase-1/e2e.spec.ts:114:3 › Phase 1 - Full Analytics Surface › AI Consent Flow (No Mocking)
+BROWSER: [vite] connecting...
+
+BROWSER: [vite] connected.
+
+BROWSER: SW registered:  ServiceWorkerRegistration
+
+[chromium] › tests/phase-1/e2e.spec.ts:95:3 › Phase 1 - Full Analytics Surface › Static HTML Report Export (UX-3)
+BROWSER: {timestamp: Fri Jul 31 2026 13:18:30 GMT+0000 (Coordinated Universal Time), level: 2, origin: 4, topic: 4, event: 4}
+
+BROWSER: {timestamp: Fri Jul 31 2026 13:18:31 GMT+0000 (Coordinated Universal Time), level: 2, origin: 4, topic: 4, event: 4}
+
+BROWSER: %c[svelte] console_log_state
+%cYour `console.log` contained `$state` proxies. Consider using `$inspect(...)` or `$state.snapshot(...)` instead
+https://svelte.dev/e/console_log_state font-weight: bold font-weight: normal
+
+BROWSER: %c[snapshot] color: grey Query result: {columns: Array(4), rows: Array(3), executionTimeMs: 67.13999999966472}
+
+BROWSER: Query result: Proxy(Object)
+
+[chromium] › tests/phase-1/e2e.spec.ts:114:3 › Phase 1 - Full Analytics Surface › AI Consent Flow (No Mocking)
+BROWSER: {timestamp: Fri Jul 31 2026 13:18:32 GMT+0000 (Coordinated Universal Time), level: 2, origin: 4, topic: 4, event: 4}
+
+BROWSER: {timestamp: Fri Jul 31 2026 13:18:32 GMT+0000 (Coordinated Universal Time), level: 2, origin: 4, topic: 4, event: 4}
+
+BROWSER: %c[svelte] console_log_state
+%cYour `console.log` contained `$state` proxies. Consider using `$inspect(...)` or `$state.snapshot(...)` instead
+https://svelte.dev/e/console_log_state font-weight: bold font-weight: normal
+
+BROWSER: %c[snapshot] color: grey Query result: {columns: Array(4), rows: Array(3), executionTimeMs: 40.55500000016764}
+
+BROWSER: Query result: Proxy(Object)
+
+BROWSER: [vite] connecting...
+
+BROWSER: [vite] connected.
+
+BROWSER: SW registered:  ServiceWorkerRegistration
+
+BROWSER: [vite] hot updated: /src/routes/layout.css
+
+  3) [chromium] › tests/phase-1/e2e.spec.ts:114:3 › Phase 1 - Full Analytics Surface › AI Consent Flow (No Mocking)
+
+    Test timeout of 300000ms exceeded.
+
+    Error: locator.click: Test timeout of 300000ms exceeded.
+    Call log:
+      - waiting for locator('button').filter({ hasText: '✨ Ask AI to Analyze' }).first()
+
+
+      128 |     await expect(page.locator('h2', { hasText: 'Enable Local AI?' })).toBeHidden({ timeout: 60000 });
+      129 |
+    > 130 |     // Now that AI is enabled, click the button again to trigger the consent flow
+          |                                                                              ^
+      131 |     await page.locator('button', { hasText: '✨ Ask AI to Analyze' }).first().click();
+      132 |
+      133 |     // Then, the consent modal for sending data
+        at /app/tests/phase-1/e2e.spec.ts:130:78
+
+    Error Context: test-results/phase-1-e2e-Phase-1---Full-3c9f5-AI-Consent-Flow-No-Mocking--chromium/error-context.md
+
+
+  3 failed
+    [chromium] › tests/phase-1/e2e.spec.ts:57:3 › Phase 1 - Full Analytics Surface › Data Ingestion & DuckDB
+    [chromium] › tests/phase-1/e2e.spec.ts:64:3 › Phase 1 - Full Analytics Surface › BI Pivot Builder & Template Gallery
+    [chromium] › tests/phase-1/e2e.spec.ts:114:3 › Phase 1 - Full Analytics Surface › AI Consent Flow (No Mocking)
+  3 passed (6.7m)
