@@ -1,0 +1,63 @@
+
+> app@0.0.1 dev
+> vite dev
+
+10:44:01 PM [vite-plugin-svelte] The following packages have a svelte field in their package.json but no exports condition for svelte.
+
+@sveltejs/svelte-virtual-list@3.0.1
+svelte-virtual-list-ce@3.1.0-beta.2
+
+Please see https://github.com/sveltejs/vite-plugin-svelte/blob/main/docs/faq.md#missing-exports-condition for details.
+10:44:01 PM [vite] (client) Forced re-optimization of dependencies
+
+  VITE v8.2.0  ready in 2044 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+10:44:02 PM [vite] (client) [optimizer] bundling dependencies...
+10:44:49 PM [vite-plugin-svelte] src/lib/components/workspace/WorkspaceNav.svelte:45:8 Buttons and links should either contain text or have an `aria-label`, `aria-labelledby` or `title` attribute
+https://svelte.dev/e/a11y_consider_explicit_label
+10:44:49 PM [vite] (ssr) Error when evaluating SSR module /src/routes/+layout.svelte: Cannot find module '/app/node_modules/@material/mwc-icon/mwc-icon-host.css' imported from /app/node_modules/@material/mwc-icon/mwc-icon.js
+      at finalizeResolution (node:internal/modules/esm/resolve:275:11)
+      at moduleResolve (node:internal/modules/esm/resolve:861:10)
+      at defaultResolve (node:internal/modules/esm/resolve:985:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:767:38)
+      at nextStep (node:internal/modules/customization_hooks:189:26)
+      at Ie (file:///app/node_modules/@tailwindcss/node/dist/index.mjs:1:539)
+      at nextStep (node:internal/modules/customization_hooks:189:26)
+      at customizationHookResolve (file:///app/node_modules/vite/dist/node/module-runner.js:1036:9)
+      at nextStep (node:internal/modules/customization_hooks:189:26)
+
+[1;31m[500] GET /[0m
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/app/node_modules/@material/mwc-icon/mwc-icon-host.css' imported from /app/node_modules/@material/mwc-icon/mwc-icon.js
+    at finalizeResolution (node:internal/modules/esm/resolve:275:11)
+    at moduleResolve (node:internal/modules/esm/resolve:861:10)
+    at defaultResolve (node:internal/modules/esm/resolve:985:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:767:38)
+    at nextStep (node:internal/modules/customization_hooks:189:26)
+    at Ie (file:///app/node_modules/@tailwindcss/node/dist/index.mjs:1:539)
+    at nextStep (node:internal/modules/customization_hooks:189:26)
+    at customizationHookResolve (file:///app/node_modules/vite/dist/node/module-runner.js:1036:9)
+    at nextStep (node:internal/modules/customization_hooks:189:26)
+
+[1;31m[500] GET /[0m
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/app/node_modules/@material/mwc-icon/mwc-icon-host.css' imported from /app/node_modules/@material/mwc-icon/mwc-icon.js
+    at finalizeResolution (node:internal/modules/esm/resolve:275:11)
+    at moduleResolve (node:internal/modules/esm/resolve:861:10)
+    at defaultResolve (node:internal/modules/esm/resolve:985:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:767:38)
+    at nextStep (node:internal/modules/customization_hooks:189:26)
+    at Ie (file:///app/node_modules/@tailwindcss/node/dist/index.mjs:1:539)
+    at nextStep (node:internal/modules/customization_hooks:189:26)
+    at customizationHookResolve (file:///app/node_modules/vite/dist/node/module-runner.js:1036:9)
+    at nextStep (node:internal/modules/customization_hooks:189:26)
+10:45:27 PM [vite] (ssr) page reload src/routes/+layout.svelte
+10:45:33 PM [vite-plugin-svelte] src/lib/components/workspace/WorkspaceNav.svelte:45:8 Buttons and links should either contain text or have an `aria-label`, `aria-labelledby` or `title` attribute
+https://svelte.dev/e/a11y_consider_explicit_label
+10:45:34 PM [vite] (client) [optimizer] bundling dependencies...
+10:45:37 PM [vite] (client) [optimizer] bundling dependencies...
+10:45:39 PM [vite] (client) dependencies optimized: wa-sqlite, wa-sqlite/dist/wa-sqlite-async.mjs, wa-sqlite/src/examples/AccessHandlePoolVFS.js, workbox-window
+10:45:39 PM [vite] (client) optimized dependencies changed. reloading
