@@ -24,40 +24,44 @@ export const PALETTES: Record<string, string[]> = {
 export const DEFAULT_PALETTE = 'Tableau';
 
 // Premium ECharts base theme shared across all chart types
-function baseTheme(colors: string[]) {
+function baseTheme(colors: string[], darkMode: boolean) {
+    const text = darkMode ? '#e5e7eb' : '#374151';
     return {
         color: colors,
         backgroundColor: 'transparent',
         textStyle: {
             fontFamily: "'Inter', 'Outfit', system-ui, sans-serif",
-            color: '#374151'
+            color: text
         },
         tooltip: {
-            backgroundColor: '#ffffff',
-            borderColor: '#e5e7eb',
+            backgroundColor: darkMode ? '#1f2937' : '#ffffff',
+            borderColor: darkMode ? '#374151' : '#e5e7eb',
             borderWidth: 1,
             borderRadius: 10,
             padding: [10, 14],
             shadowBlur: 16,
-            shadowColor: 'rgba(0,0,0,0.12)',
+            shadowColor: 'rgba(0,0,0,0.25)',
             shadowOffsetY: 4,
             textStyle: {
-                color: '#111827',
+                color: darkMode ? '#f9fafb' : '#111827',
                 fontSize: 13,
                 fontFamily: "'Inter', 'Outfit', system-ui, sans-serif"
             },
-            extraCssText: 'box-shadow: 0 4px 24px 0 rgba(0,0,0,0.12); border-radius: 10px;'
+            extraCssText: `box-shadow: 0 4px 24px 0 rgba(0,0,0,${darkMode ? '0.4' : '0.12'}); border-radius: 10px;`
         }
     };
 }
 
-function premiumAxisStyle(labelCount: number) {
+function premiumAxisStyle(labelCount: number, darkMode: boolean) {
+    const labelColor = darkMode ? '#9ca3af' : '#6b7280';
+    const axisLineColor = darkMode ? '#374151' : '#e5e7eb';
+    const splitLineColor = darkMode ? '#1f2937' : '#f3f4f6';
     return {
         xAxis: {
-            axisLine: { lineStyle: { color: '#e5e7eb' } },
+            axisLine: { lineStyle: { color: axisLineColor } },
             axisTick: { show: false },
             axisLabel: {
-                color: '#6b7280',
+                color: labelColor,
                 fontSize: 12,
                 fontFamily: "'Inter', 'Outfit', system-ui, sans-serif",
                 interval: 0,
@@ -69,12 +73,12 @@ function premiumAxisStyle(labelCount: number) {
             axisLine: { show: false },
             axisTick: { show: false },
             axisLabel: {
-                color: '#6b7280',
+                color: labelColor,
                 fontSize: 12,
                 fontFamily: "'Inter', 'Outfit', system-ui, sans-serif"
             },
             splitLine: {
-                lineStyle: { type: 'dashed', color: '#f3f4f6', width: 1 }
+                lineStyle: { type: 'dashed', color: splitLineColor, width: 1 }
             }
         },
         grid: {
@@ -87,7 +91,7 @@ function premiumAxisStyle(labelCount: number) {
     };
 }
 
-function premiumLegend(data: string[]) {
+function premiumLegend(data: string[], darkMode: boolean) {
     return {
         data,
         bottom: 4,
@@ -95,7 +99,7 @@ function premiumLegend(data: string[]) {
         itemHeight: 12,
         borderRadius: 6,
         textStyle: {
-            color: '#6b7280',
+            color: darkMode ? '#9ca3af' : '#6b7280',
             fontSize: 12,
             fontFamily: "'Inter', 'Outfit', system-ui, sans-serif"
         }
@@ -118,9 +122,10 @@ export function buildEchartsOption(
     chartType: ChartType,
     rows: string[],
     values: PivotValue[],
-    colors: string[] = PALETTES[DEFAULT_PALETTE]
+    colors: string[] = PALETTES[DEFAULT_PALETTE],
+    darkMode: boolean = false
 ): any {
-    const base = baseTheme(colors);
+    const base = baseTheme(colors, darkMode);
 
     if (!result || result.rows.length === 0) {
         return {
@@ -155,7 +160,7 @@ export function buildEchartsOption(
 
     const measureKeys = values.map(v => `${v.agg}_${v.column}`);
     const dimensionLabels = result.rows.map(row => getDimensionLabel(row, rows));
-    const axis = premiumAxisStyle(dimensionLabels.length);
+    const axis = premiumAxisStyle(dimensionLabels.length, darkMode);
 
     if (actualType === 'pie') {
         const firstMeasure = measureKeys[0];
@@ -169,13 +174,13 @@ export function buildEchartsOption(
                 ...base.tooltip,
                 trigger: 'item',
                 formatter: (p: any) => `
-                    <div style="font-weight:600;margin-bottom:4px">${p.name}</div>
+                    <div style="font-weight:600;margin-bottom:4px;color:${darkMode ? '#f9fafb' : '#111827'}">${p.name}</div>
                     <div>${p.marker} ${firstMeasure}: <b>${Number(p.value).toLocaleString()}</b></div>
-                    <div style="color:#9ca3af;font-size:11px">${p.percent}% of total</div>
+                    <div style="color:${darkMode ? '#9ca3af' : '#6b7280'};font-size:11px">${p.percent}% of total</div>
                 `
             },
             legend: {
-                ...premiumLegend(dimensionLabels),
+                ...premiumLegend(dimensionLabels, darkMode),
                 type: 'scroll',
                 orient: 'horizontal'
             },
@@ -183,12 +188,12 @@ export function buildEchartsOption(
                 type: 'pie',
                 radius: ['35%', '68%'],
                 padAngle: 3,
-                itemStyle: { borderRadius: 6, borderWidth: 2, borderColor: '#fff' },
+                itemStyle: { borderRadius: 6, borderWidth: 2, borderColor: darkMode ? '#1f2937' : '#fff' },
                 label: {
                     show: true,
                     formatter: '{b}: {d}%',
                     fontSize: 12,
-                    color: '#374151'
+                    color: darkMode ? '#e5e7eb' : '#374151'
                 },
                 emphasis: {
                     itemStyle: {
@@ -263,7 +268,7 @@ export function buildEchartsOption(
     return {
         ...base,
         tooltip: { ...base.tooltip, trigger: 'axis' },
-        legend: premiumLegend(measureKeys),
+        legend: premiumLegend(measureKeys, darkMode),
         ...axis,
         xAxis: {
             ...axis.xAxis,

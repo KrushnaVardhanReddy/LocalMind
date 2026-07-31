@@ -215,6 +215,26 @@
         try {
             const db = await WorkerManager.getDuckDB();
 
+            // Validate shelf columns against actual schema — removes any stale
+            // pills that don't exist in the current table (e.g. after table switch
+            // or applying a template for a different schema).
+            const validColNames = new Set(allColumns.map(c => c.name.toLowerCase()));
+            const isValidCol = (col: string) => col === '*' || validColNames.has(col.toLowerCase());
+
+            const invalidRows    = rows.filter(r => !isValidCol(r.column));
+            const invalidValues  = values.filter(v => !isValidCol(v.column));
+            const invalidFilters = filters.filter(f => !isValidCol(f.column));
+
+            if (invalidRows.length || invalidValues.length || invalidFilters.length) {
+                const bad = [...invalidRows.map(r => r.column), ...invalidValues.map(v => v.column), ...invalidFilters.map(f => f.column)];
+                queryError = `Column(s) not found in "${tableName}": ${[...new Set(bad)].map(c => `"${c}"`).join(', ')}.\nPlease remove or replace these fields from the shelves.`;
+                rows    = rows.filter(r => isValidCol(r.column));
+                values  = values.filter(v => isValidCol(v.column));
+                filters = filters.filter(f => isValidCol(f.column));
+                isExecuting = false;
+                return;
+            }
+
             // Build Base Select
             let selectCols: string[] = [];
             let groupByCols: string[] = [];

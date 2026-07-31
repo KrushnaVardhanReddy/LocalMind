@@ -4,6 +4,12 @@
     import { buildEchartsOption, PALETTES, DEFAULT_PALETTE } from '$lib/utils/chartBuilder';
     import type { ChartType } from './pivot.types';
 
+    // Dark mode detection (Tailwind class-based)
+    let darkMode = $state(false);
+    function checkDark() {
+        darkMode = document.documentElement.classList.contains('dark');
+    }
+
     let {
         result,
         chartType = 'auto',
@@ -40,11 +46,18 @@
     };
 
     onMount(() => {
+        checkDark();
+        // Watch for class changes on <html> (dark mode toggle)
+        const observer = new MutationObserver(checkDark);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
         if (chartRef) {
             chartInstance = echarts.init(chartRef, null, { renderer: 'canvas' });
             resizeObserver = new ResizeObserver(() => chartInstance?.resize());
             resizeObserver.observe(chartRef);
         }
+
+        return () => observer.disconnect();
     });
 
     onDestroy(() => {
@@ -62,10 +75,10 @@
         if (!chartInstance || !chartRef) return;
         const rowCols = rows.map(r => r.column);
         const colors = getColors();
-        // read selectedPalette so Svelte tracks it
         const _p = selectedPalette;
+        const _d = darkMode;
         if (result && result.rows.length > 0 && values.length > 0) {
-            chartInstance.setOption(buildEchartsOption(result, chartType as any, rowCols, values, colors), true);
+            chartInstance.setOption(buildEchartsOption(result, chartType as any, rowCols, values, colors, darkMode), true);
         } else {
             chartInstance.clear();
         }
@@ -77,8 +90,9 @@
         const rowCols = rows.map(r => r.column);
         const colors = getColors();
         const _p = selectedPalette;
+        const _d = darkMode;
         if (result && result.rows.length > 0 && values.length > 0) {
-            fullscreenChartInstance.setOption(buildEchartsOption(result, chartType as any, rowCols, values, colors), true);
+            fullscreenChartInstance.setOption(buildEchartsOption(result, chartType as any, rowCols, values, colors, darkMode), true);
         } else {
             fullscreenChartInstance.clear();
         }
