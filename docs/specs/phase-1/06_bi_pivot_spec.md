@@ -112,6 +112,16 @@ The chart panel must include a dedicated **fullscreen expand button** (⛶ icon)
 - The modal does **not** re-execute the SQL query; it reuses the same `result` object from the parent `PivotBuilder` state, so the expand/collapse is instant.
 - Keyboard shortcut `Escape` also closes the modal.
 
+### 4.4 Advanced Interactions (Cross-Filtering & Chart Types)
+To elevate the UI to a world-class standard:
+- **Treemaps & Heatmaps**: Support advanced hierarchical and matrix data visualizations alongside the standard Bar/Line/Pie charts.
+- **Cross-Filtering**: The chart must be interactive. Clicking on a visual element (e.g., a pie slice or a bar) will automatically append that category as a filter to the `PivotBuilder`'s Filters shelf and re-execute the query.
+
+### 4.5 High-Performance Data Grid
+The underlying "Query Data" table view must use a high-performance, virtualized data grid (e.g., `perspective-viewer` or `AG Grid`) instead of a basic HTML table.
+- This ensures fluid scrolling for large pivot results (10,000+ rows).
+- Integrates seamlessly with the DuckDB backend results.
+
 ## 5. Generated SQL Panel
 - A collapsible panel labeled "Generated SQL" always displays the exact SQL sent to DuckDB.
 - The SQL is copyable (click-to-copy button).

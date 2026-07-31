@@ -35,6 +35,11 @@
 *Must run after all Phase 1 UI and architecture changes are merged. No mocking allowed.*
 - **[Testing]** Task 9: End-to-End Testing ✅ *(Completed)* (`docs/tasks/phase-1/task9_e2e.md`)
 
+### Wave 6: Advanced Visualization (Parallel)
+*These tasks push the BI Pivot Builder to world-class status. They can be executed concurrently as they touch different parts of the UI stack (chart config vs grid config).*
+- **[Analytics]** Task 10: Advanced BI Polish (Treemaps, Heatmaps, Cross-filtering) (`docs/tasks/phase-1/task10_advanced_bi.md`)
+- **[Analytics]** Task 11: High-Performance Data Grid Upgrade (`docs/tasks/phase-1/task11_data_grid.md`)
+
 ---
 
 ## 🔒 ROBUSTNESS WAVE (Ship With or Right After MVP1 Launch)

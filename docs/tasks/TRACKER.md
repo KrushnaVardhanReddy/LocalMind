@@ -54,6 +54,8 @@
 - [x] Task 7.4: BI Pivot Builder - Component Architecture & Premium UI ✅ *(Completed - PR #64)* (`docs/tasks/phase-1/task7_4_bi_component_architecture.md`)
 - [x] Task 8: Interactive Dashboard Builder ✅ *(Completed)* (`docs/tasks/phase-1/task8_dashboards.md`)
 - [x] Task 9: End-to-End Testing (Phase 1 Full Surface) ✅ *(Completed)* (`docs/tasks/phase-1/task9_e2e.md`)
+- [ ] Task 10: Advanced BI Polish (Treemaps, Heatmaps, Cross-filtering) (`docs/tasks/phase-1/task10_advanced_bi.md`)
+- [ ] Task 11: High-Performance Data Grid Upgrade (`docs/tasks/phase-1/task11_data_grid.md`)
 
 ---
 
@@ -71,6 +73,8 @@
 - [x] Task 3: Local Semantic Search ✅ *(Completed - PR #32)* (`docs/tasks/phase-2/task3_semantic_search.md`)
 - [x] Task 3.5: Local AI Resume Screener & Ranker ✅ *(Completed)* (`docs/tasks/phase-2/task3_5_resume_screener.md`)
 - [ ] Task 4: End-to-End Testing (`docs/tasks/phase-2/task_e2e.md`)
+- [ ] Task 5: Mermaid.js Diagram Integration (`docs/tasks/phase-2/task5_mermaid.md`)
+- [ ] Task 6: Excalidraw Local Whiteboard (`docs/tasks/phase-2/task6_excalidraw.md`)
 
 ### Version 3: LocalMind DevTools
 *Offline Utilities for Developers*
