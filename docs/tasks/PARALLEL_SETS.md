@@ -55,8 +55,8 @@
 
 ### Robustness Wave B: UX Quality (Parallel)
 *Error boundary touches `+layout.svelte` and `WorkerManager.ts`. Onboarding touches `/analytics/+page.svelte`. a11y is additive across all routes.*
-- **[UX]** CI-4: Worker Error Boundary & Crash Recovery (`docs/tasks/cross_cutting/task_worker_error_boundary.md`)
-- **[UX]** CI-5: First-Run Onboarding & Empty State (`docs/tasks/cross_cutting/task_onboarding.md`)
+- **[UX]** CI-4: Worker Error Boundary & Crash Recovery ⏳ *(In Progress - Jules ID: 6632488316008193695)* (`docs/tasks/cross_cutting/task_worker_error_boundary.md`)
+- **[UX]** CI-5: First-Run Onboarding & Empty State ⏳ *(In Progress - Jules ID: 4139416670166197235)* (`docs/tasks/cross_cutting/task_onboarding.md`)
 - **[UX]** CI-6: Accessibility (a11y) Audit & Remediation (`docs/tasks/cross_cutting/task_a11y_audit.md`)
 
 ---
