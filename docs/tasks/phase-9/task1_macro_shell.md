@@ -21,6 +21,20 @@ CONSTRAINTS & RULES
 - Ensure the Command Palette can be triggered globally via `Ctrl+K` or `Cmd+K`.
 
 ═══════════════════════════════════════════════════════════════
+CONTEXT — EXISTING REPO LAYOUT & ARCHITECTURE
+═══════════════════════════════════════════════════════════════
+- `src/routes/+layout.svelte` (Current application layout)
+- `src/app.html`
+- `package.json`
+
+═══════════════════════════════════════════════════════════════
+IMPLEMENTATION TIPS
+═══════════════════════════════════════════════════════════════
+- Dependencies: Consider installing `ninja-keys` or `svelte-command-palette` instead of building a fuzzy-search UI from scratch.
+- State: Be sure to use `$state` in your `workspace.store.svelte.ts` class/object to ensure reactivity when the active workspace or inspector state changes.
+- Styling: Ensure that the Left Explorer and Right Inspector have explicit min and max widths so the Center Canvas scales appropriately using CSS flexbox.
+
+═══════════════════════════════════════════════════════════════
 DELIVERABLES
 ═══════════════════════════════════════════════════════════════
 1. Create `src/lib/stores/workspace.store.svelte.ts` implementing `WorkspaceStoreContract`.
