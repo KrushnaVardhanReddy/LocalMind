@@ -34,4 +34,4 @@ DELIVERABLES
 3. CREATE: `src/lib/components/Whiteboard.svelte`
 
 Commit: "feat: Phase 2 Task 6 excalidraw whiteboard"
-Target branch: feature/task6-excalidraw
+Target branch: feature/dev
