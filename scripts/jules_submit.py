@@ -216,6 +216,11 @@ TASKS = {
         "phase": "phase-9",
         "prompt": _load_prompt("docs/tasks/phase-9/task1_macro_shell.md"),
     },
+    121: {
+        "name": "Task 2 — OPFS File Explorer Sidebar",
+        "phase": "phase-9",
+        "prompt": _load_prompt("docs/tasks/phase-9/task2_explorer.md"),
+    },
     # ── POST-V1 DEFERRED TASKS ─────────────────────────────────────────────────
     51: {
         "name": "Set 12 Task 1 — Security / Cryptography Workspace",

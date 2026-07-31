@@ -135,9 +135,9 @@
 
 ### Phase 9: LocalMind OS (The Macro-Shell) 🖥️
 *A unified modern AI workspace shell integrating the Explorer, Command Palette, and Context Panels.*
-- [/] Task 1: Macro-Shell Layout & Global Store ⏳ *(In Progress - Jules ID: 4820999300470217898)* (`docs/tasks/phase-9/task1_macro_shell.md`)
+- [x] Task 1: Macro-Shell Layout & Global Store ✅ *(Completed - PR #76)* (`docs/tasks/phase-9/task1_macro_shell.md`)
 - [ ] Task 2: OPFS File Explorer Sidebar & Top Nav (`docs/tasks/phase-9/task2_explorer.md`)
-- [/] Task 3: Command Palette Integration ⏳ *(In Progress - Jules ID: 4820999300470217898)* (`docs/tasks/phase-9/task3_command_palette.md`)
+- [x] Task 3: Command Palette Integration ✅ *(Completed - PR #76)* (`docs/tasks/phase-9/task3_command_palette.md`)
 - [ ] Task 4: Dynamic Right Inspector Panel (`docs/tasks/phase-9/task4_inspector.md`)
 - [ ] Task 5: Workspace Migration (`docs/tasks/phase-9/task5_migration.md`)
 
