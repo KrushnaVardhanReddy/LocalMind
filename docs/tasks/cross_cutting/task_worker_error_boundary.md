@@ -5,6 +5,9 @@ OBJECTIVE
 ═══════════════════════════════════════════════════════════════
 Implement a global error boundary that catches WASM worker crashes, OOM errors, and malformed-input failures — showing a user-friendly recovery UI instead of a silently frozen page.
 
+Spec (READ ONLY — implement from it, never edit):
+  docs/specs/cross_cutting/06_worker_error_boundary_spec.md
+
 ═══════════════════════════════════════════════════════════════
 CONSTRAINTS & RULES
 ═══════════════════════════════════════════════════════════════

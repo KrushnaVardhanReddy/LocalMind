@@ -5,6 +5,9 @@ OBJECTIVE
 ═══════════════════════════════════════════════════════════════
 Design and implement a guided first-run experience for new users so they reach their "aha moment" within 30 seconds of opening LocalMind.
 
+Spec (READ ONLY — implement from it, never edit):
+  docs/specs/cross_cutting/07_onboarding_spec.md
+
 ═══════════════════════════════════════════════════════════════
 CONSTRAINTS & RULES
 ═══════════════════════════════════════════════════════════════
