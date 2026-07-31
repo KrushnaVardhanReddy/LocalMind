@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount, onDestroy, tick } from 'svelte';
     import * as echarts from 'echarts';
-    import { buildEchartsOption } from '$lib/utils/chartBuilder';
+    import { buildEchartsOption, PALETTES, DEFAULT_PALETTE } from '$lib/utils/chartBuilder';
     import type { ChartType } from './pivot.types';
 
     let {
@@ -25,30 +25,24 @@
     let resizeObserver: ResizeObserver | null = null;
     let isFullscreen = $state(false);
 
-    const chartIcons: Record<ChartType, string> = {
-        'auto': '📊',
-        'bar': '📊',
-        'line': '📈',
-        'pie': '🥧',
-        'scatter': '⬡',
-        'area': '📉'
-    };
+    // Palette state
+    let selectedPalette = $state(DEFAULT_PALETTE);
+    let showPalettePicker = $state(false);
+    const paletteNames = Object.keys(PALETTES);
 
+    const chartIcons: Record<ChartType, string> = {
+        'auto': '📊', 'bar': '📊', 'line': '📈',
+        'pie': '🥧', 'scatter': '⬡', 'area': '📉'
+    };
     const chartLabels: Record<ChartType, string> = {
-        'auto': 'Auto',
-        'bar': 'Bar',
-        'line': 'Line',
-        'pie': 'Pie',
-        'scatter': 'Scatter',
-        'area': 'Area'
+        'auto': 'Auto', 'bar': 'Bar', 'line': 'Line',
+        'pie': 'Pie', 'scatter': 'Scatter', 'area': 'Area'
     };
 
     onMount(() => {
         if (chartRef) {
             chartInstance = echarts.init(chartRef, null, { renderer: 'canvas' });
-            resizeObserver = new ResizeObserver(() => {
-                chartInstance?.resize();
-            });
+            resizeObserver = new ResizeObserver(() => chartInstance?.resize());
             resizeObserver.observe(chartRef);
         }
     });
@@ -59,25 +53,32 @@
         if (fullscreenChartInstance) fullscreenChartInstance.dispose();
     });
 
-    // Render inline chart — inline reactive reads so Svelte tracks all deps
+    function getColors() {
+        return PALETTES[selectedPalette] ?? PALETTES[DEFAULT_PALETTE];
+    }
+
+    // Inline chart effect
     $effect(() => {
         if (!chartInstance || !chartRef) return;
         const rowCols = rows.map(r => r.column);
+        const colors = getColors();
+        // read selectedPalette so Svelte tracks it
+        const _p = selectedPalette;
         if (result && result.rows.length > 0 && values.length > 0) {
-            const option = buildEchartsOption(result, chartType as any, rowCols, values);
-            chartInstance.setOption(option, true);
+            chartInstance.setOption(buildEchartsOption(result, chartType as any, rowCols, values, colors), true);
         } else {
             chartInstance.clear();
         }
     });
 
-    // Render fullscreen chart — same inline pattern so chartType changes re-trigger it
+    // Fullscreen chart effect
     $effect(() => {
         if (!isFullscreen || !fullscreenChartInstance) return;
         const rowCols = rows.map(r => r.column);
+        const colors = getColors();
+        const _p = selectedPalette;
         if (result && result.rows.length > 0 && values.length > 0) {
-            const option = buildEchartsOption(result, chartType as any, rowCols, values);
-            fullscreenChartInstance.setOption(option, true);
+            fullscreenChartInstance.setOption(buildEchartsOption(result, chartType as any, rowCols, values, colors), true);
         } else {
             fullscreenChartInstance.clear();
         }
@@ -85,6 +86,7 @@
 
     async function openFullscreen() {
         isFullscreen = true;
+        showPalettePicker = false;
         await tick();
         if (fullscreenChartRef && !fullscreenChartInstance) {
             fullscreenChartInstance = echarts.init(fullscreenChartRef, null, { renderer: 'canvas' });
@@ -100,10 +102,17 @@
         }
     }
 
-    function handleKeydown(e: KeyboardEvent) {
-        if (e.key === 'Escape' && isFullscreen) closeFullscreen();
+    function selectPalette(name: string) {
+        selectedPalette = name;
+        showPalettePicker = false;
     }
 
+    function handleKeydown(e: KeyboardEvent) {
+        if (e.key === 'Escape') {
+            if (isFullscreen) closeFullscreen();
+            else showPalettePicker = false;
+        }
+    }
 
     const hasData = $derived(result && result.rows && result.rows.length > 0 && values.length > 0);
 </script>
@@ -111,7 +120,7 @@
 <svelte:window onkeydown={handleKeydown} />
 
 <!-- Inline Chart Panel -->
-<div class="flex flex-col h-full bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-xl shadow-sm overflow-hidden">
+<div class="flex flex-col h-full bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-xl shadow-sm overflow-visible">
     <!-- Toolbar -->
     <div class="flex items-center justify-between px-4 py-2.5 border-b dark:border-gray-700 bg-gray-50/80 dark:bg-gray-800/60 rounded-t-xl">
         <h4 class="font-semibold text-sm text-gray-600 dark:text-gray-300 tracking-wide uppercase">Visualization</h4>
@@ -121,9 +130,7 @@
                 {#each (['auto', 'bar', 'line', 'pie', 'scatter', 'area'] as ChartType[]) as type}
                     <button
                         class="px-2 py-1 rounded-md text-xs font-medium transition-all duration-150
-                            {chartType === type
-                                ? 'bg-indigo-600 text-white shadow-sm'
-                                : 'text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600'}"
+                            {chartType === type ? 'bg-indigo-600 text-white shadow-sm' : 'text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600'}"
                         title={chartLabels[type]}
                         onclick={() => onChartTypeChange(type)}
                     >
@@ -131,6 +138,50 @@
                     </button>
                 {/each}
             </div>
+
+            <!-- Palette picker trigger -->
+            <div class="relative">
+                <button
+                    class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border dark:border-gray-600 bg-white dark:bg-gray-700 hover:border-indigo-400 transition-all duration-150 shadow-sm"
+                    title="Change color palette"
+                    onclick={() => showPalettePicker = !showPalettePicker}
+                >
+                    <!-- Live swatch preview of selected palette -->
+                    <span class="flex gap-0.5">
+                        {#each PALETTES[selectedPalette].slice(0, 5) as c}
+                            <span class="w-3 h-3 rounded-full inline-block" style="background:{c}"></span>
+                        {/each}
+                    </span>
+                    <span class="text-gray-600 dark:text-gray-300">{selectedPalette}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+
+                {#if showPalettePicker}
+                    <!-- Popover -->
+                    <div class="absolute right-0 top-full mt-1 z-40 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-xl shadow-xl p-2 w-52"
+                         style="box-shadow: 0 8px 32px rgba(0,0,0,0.18);">
+                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase px-2 pb-1.5">Color Palette</p>
+                        {#each paletteNames as name}
+                            <button
+                                class="w-full flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left
+                                    {selectedPalette === name ? 'bg-indigo-50 dark:bg-indigo-900/30' : ''}"
+                                onclick={() => selectPalette(name)}
+                            >
+                                <span class="flex gap-0.5 shrink-0">
+                                    {#each PALETTES[name].slice(0, 8) as c}
+                                        <span class="w-3 h-3 rounded-full" style="background:{c}"></span>
+                                    {/each}
+                                </span>
+                                <span class="text-xs font-medium text-gray-700 dark:text-gray-300">{name}</span>
+                                {#if selectedPalette === name}
+                                    <span class="ml-auto text-indigo-600 text-xs">✓</span>
+                                {/if}
+                            </button>
+                        {/each}
+                    </div>
+                {/if}
+            </div>
+
             <!-- Fullscreen button -->
             <button
                 class="p-1.5 rounded-lg text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all duration-150"
@@ -145,7 +196,7 @@
     </div>
 
     <!-- Chart Canvas -->
-    <div class="relative flex-1 p-3 min-h-[300px]">
+    <div class="relative flex-1 p-3 min-h-[300px] overflow-hidden rounded-b-xl">
         <div bind:this={chartRef} class="w-full h-full absolute inset-0"></div>
         {#if !hasData}
             <div class="absolute inset-0 flex items-center justify-center bg-white/90 dark:bg-gray-800/90 z-10">
@@ -160,7 +211,6 @@
 
 <!-- Fullscreen Modal Overlay -->
 {#if isFullscreen}
-    <!-- Backdrop -->
     <div
         class="fixed inset-0 z-50 flex items-center justify-center p-6"
         style="background: rgba(10, 10, 20, 0.75); backdrop-filter: blur(6px);"
@@ -169,12 +219,11 @@
         aria-modal="true"
         aria-label="Chart fullscreen view"
     >
-        <!-- Modal card -->
         <div class="relative w-full h-full max-w-[95vw] max-h-[90vh] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
              style="box-shadow: 0 32px 80px rgba(0,0,0,0.4);">
 
             <!-- Modal header -->
-            <div class="flex items-center justify-between px-6 py-4 border-b dark:border-gray-700 bg-gray-50/80 dark:bg-gray-800/60 shrink-0">
+            <div class="flex items-center justify-between px-6 py-3 border-b dark:border-gray-700 bg-gray-50/80 dark:bg-gray-800/60 shrink-0">
                 <div class="flex items-center gap-3">
                     <span class="text-lg">📊</span>
                     <h3 class="font-semibold text-gray-800 dark:text-gray-100">Chart Explorer</h3>
@@ -185,25 +234,60 @@
                     {/if}
                 </div>
                 <div class="flex items-center gap-2">
-                    <!-- Chart type selector inside modal -->
+                    <!-- Chart type in fullscreen -->
                     <div class="flex items-center gap-0.5 bg-white dark:bg-gray-700 p-1 rounded-lg shadow-sm border dark:border-gray-600">
                         {#each (['auto', 'bar', 'line', 'pie', 'scatter', 'area'] as ChartType[]) as type}
                             <button
                                 class="px-2.5 py-1.5 rounded-md text-xs font-medium transition-all duration-150
-                                    {chartType === type
-                                        ? 'bg-indigo-600 text-white shadow-sm'
-                                        : 'text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600'}"
-                                title={chartLabels[type]}
+                                    {chartType === type ? 'bg-indigo-600 text-white shadow-sm' : 'text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600'}"
                                 onclick={() => onChartTypeChange(type)}
                             >
                                 {chartIcons[type]} {chartLabels[type]}
                             </button>
                         {/each}
                     </div>
+
+                    <!-- Palette picker in fullscreen -->
+                    <div class="relative">
+                        <button
+                            class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border dark:border-gray-600 bg-white dark:bg-gray-700 hover:border-indigo-400 transition-all duration-150 shadow-sm"
+                            onclick={() => showPalettePicker = !showPalettePicker}
+                        >
+                            <span class="flex gap-0.5">
+                                {#each PALETTES[selectedPalette].slice(0, 5) as c}
+                                    <span class="w-3 h-3 rounded-full" style="background:{c}"></span>
+                                {/each}
+                            </span>
+                            <span class="text-gray-600 dark:text-gray-300">{selectedPalette}</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        {#if showPalettePicker}
+                            <div class="absolute right-0 top-full mt-1 z-50 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-xl shadow-xl p-2 w-52"
+                                 style="box-shadow: 0 8px 32px rgba(0,0,0,0.18);">
+                                <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase px-2 pb-1.5">Color Palette</p>
+                                {#each paletteNames as name}
+                                    <button
+                                        class="w-full flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left
+                                            {selectedPalette === name ? 'bg-indigo-50 dark:bg-indigo-900/30' : ''}"
+                                        onclick={() => selectPalette(name)}
+                                    >
+                                        <span class="flex gap-0.5 shrink-0">
+                                            {#each PALETTES[name].slice(0, 8) as c}
+                                                <span class="w-3 h-3 rounded-full" style="background:{c}"></span>
+                                            {/each}
+                                        </span>
+                                        <span class="text-xs font-medium text-gray-700 dark:text-gray-300">{name}</span>
+                                        {#if selectedPalette === name}<span class="ml-auto text-indigo-600 text-xs">✓</span>{/if}
+                                    </button>
+                                {/each}
+                            </div>
+                        {/if}
+                    </div>
+
                     <!-- Close button -->
                     <button
-                        class="ml-2 p-2 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 transition-all duration-150"
-                        title="Close fullscreen (Esc)"
+                        class="ml-1 p-2 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 transition-all duration-150"
+                        title="Close (Esc)"
                         onclick={closeFullscreen}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -213,13 +297,13 @@
                 </div>
             </div>
 
-            <!-- Chart Canvas in modal -->
-            <div class="relative flex-1 p-4">
+            <!-- Chart canvas -->
+            <div class="relative flex-1">
                 <div bind:this={fullscreenChartRef} class="w-full h-full absolute inset-0 p-4"></div>
             </div>
 
             <!-- ESC hint -->
-            <div class="shrink-0 px-6 py-2 text-center text-xs text-gray-400 dark:text-gray-600">
+            <div class="shrink-0 px-6 py-1.5 text-center text-xs text-gray-400 dark:text-gray-600 border-t dark:border-gray-800">
                 Press <kbd class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-xs font-mono">Esc</kbd> to close
             </div>
         </div>

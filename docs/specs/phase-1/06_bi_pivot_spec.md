@@ -72,8 +72,7 @@ After DuckDB returns the pivot result:
 ### 4.1 Visualization Aesthetic (Tableau-Style Premium)
 The ECharts visualization **must** implement a premium Tableau-inspired aesthetic:
 
-- **Color Palette:** Use the Tableau-10 categorical palette:
-  `#4E79A7, #F28E2B, #E15759, #76B7B2, #59A14F, #EDC948, #B07AA1, #FF9DA7, #9C755F, #BAB0AC`
+- **Color Palette:** Default to the Tableau-10 categorical palette. Users can switch palette at any time.
 - **Typography:** All chart labels, tooltips, and legends must use the application's primary font stack (`'Inter', 'Outfit', system-ui, sans-serif`).
 - **Tooltips:** White background (`#ffffff`), 1px `#e5e7eb` border, 10px border-radius, 16px blur drop shadow. Rich formatted content: bold measure name, formatted numeric value, optional percentage for pie.
 - **Grid Lines:** Y-axis uses soft dashed `#f3f4f6` split lines only. X-axis has no split lines. No hard axis borders.
@@ -82,7 +81,28 @@ The ECharts visualization **must** implement a premium Tableau-inspired aestheti
 - **Line/Area Charts:** Lines must be `smooth: true`. Area fill uses `opacity: 0.18`.
 - **Background:** All charts use `backgroundColor: 'transparent'` to integrate cleanly with dark/light card backgrounds.
 
-### 4.2 Fullscreen Visualization Modal
+### 4.2 Color Customization
+Users must be able to customize chart colors without touching any configuration files.
+
+**Named Palette Presets** (selectable via palette swatch picker in the visualization toolbar):
+
+| Palette Name | Colors |
+|---|---|
+| Tableau | `#4E79A7 #F28E2B #E15759 #76B7B2 #59A14F #EDC948 #B07AA1 #FF9DA7 #9C755F #BAB0AC` |
+| Material | `#2196F3 #FF5722 #4CAF50 #9C27B0 #FF9800 #00BCD4 #F44336 #3F51B5 #009688 #FFEB3B` |
+| Pastel | `#AEC6CF #FFD1DC #B5EAD7 #FFDAC1 #C7CEEA #E2B8B8 #D4E8C2 #F7D59C #C9C4E5 #FDE8C8` |
+| Ocean | `#005F73 #0A9396 #94D2BD #E9D8A6 #EE9B00 #CA6702 #BB3E03 #AE2012 #9B2226 #001219` |
+| Vibrant | `#E63946 #F4A261 #2A9D8F #264653 #E9C46A #A8DADC #457B9D #1D3557 #F1FAEE #6D6875` |
+| Monochrome | `#0D1B2A #1B2A3B #2E4057 #3D5A80 #5A7FA0 #88A8BE #B0C8D9 #D0DDE8 #E8EFF4 #F5F8FA` |
+
+**Implementation Requirements:**
+- A palette swatch picker is shown in the chart toolbar (both inline and fullscreen views).
+- Clicking a palette name shows 10 color swatches as small circles in a popover. Clicking confirms the selection.
+- The selected palette name is persisted in local component state and passed to `buildEchartsOption()` as a `colors` parameter.
+- The default palette is **Tableau** on first load.
+- The palette selector is also accessible from within the fullscreen Chart Explorer modal.
+
+### 4.3 Fullscreen Visualization Modal
 The chart panel must include a dedicated **fullscreen expand button** (⛶ icon) in the visualization toolbar.
 
 - On click, the chart transitions into a full-viewport fixed-position modal overlay (`z-index: 50`).

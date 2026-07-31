@@ -11,17 +11,22 @@ export interface PivotValue {
     agg: string;
 }
 
-// Tableau-10 classic categorical palette
-const TABLEAU_COLORS = [
-    '#4E79A7', '#F28E2B', '#E15759', '#76B7B2',
-    '#59A14F', '#EDC948', '#B07AA1', '#FF9DA7',
-    '#9C755F', '#BAB0AC'
-];
+// Named palette presets — see spec section 4.2
+export const PALETTES: Record<string, string[]> = {
+    Tableau:    ['#4E79A7','#F28E2B','#E15759','#76B7B2','#59A14F','#EDC948','#B07AA1','#FF9DA7','#9C755F','#BAB0AC'],
+    Material:   ['#2196F3','#FF5722','#4CAF50','#9C27B0','#FF9800','#00BCD4','#F44336','#3F51B5','#009688','#FFEB3B'],
+    Pastel:     ['#AEC6CF','#FFD1DC','#B5EAD7','#FFDAC1','#C7CEEA','#E2B8B8','#D4E8C2','#F7D59C','#C9C4E5','#FDE8C8'],
+    Ocean:      ['#005F73','#0A9396','#94D2BD','#E9D8A6','#EE9B00','#CA6702','#BB3E03','#AE2012','#9B2226','#001219'],
+    Vibrant:    ['#E63946','#F4A261','#2A9D8F','#264653','#E9C46A','#A8DADC','#457B9D','#1D3557','#F1FAEE','#6D6875'],
+    Monochrome: ['#0D1B2A','#1B2A3B','#2E4057','#3D5A80','#5A7FA0','#88A8BE','#B0C8D9','#D0DDE8','#E8EFF4','#F5F8FA'],
+};
+
+export const DEFAULT_PALETTE = 'Tableau';
 
 // Premium ECharts base theme shared across all chart types
-function baseTheme() {
+function baseTheme(colors: string[]) {
     return {
-        color: TABLEAU_COLORS,
+        color: colors,
         backgroundColor: 'transparent',
         textStyle: {
             fontFamily: "'Inter', 'Outfit', system-ui, sans-serif",
@@ -112,9 +117,10 @@ export function buildEchartsOption(
     result: PivotResult | null,
     chartType: ChartType,
     rows: string[],
-    values: PivotValue[]
+    values: PivotValue[],
+    colors: string[] = PALETTES[DEFAULT_PALETTE]
 ): any {
-    const base = baseTheme();
+    const base = baseTheme(colors);
 
     if (!result || result.rows.length === 0) {
         return {
@@ -243,15 +249,15 @@ export function buildEchartsOption(
         name: key,
         type: seriesType,
         smooth: seriesType === 'line',
-        areaStyle: actualType === 'area' ? {
-            opacity: 0.18,
-            color: TABLEAU_COLORS[idx % TABLEAU_COLORS.length]
-        } : undefined,
         itemStyle: { borderRadius: actualType === 'bar' ? [4, 4, 0, 0] : 0 },
         emphasis: {
             itemStyle: { shadowBlur: 12, shadowColor: 'rgba(0,0,0,0.2)' }
         },
-        data: result.rows.map(row => row[key])
+        data: result.rows.map(row => row[key]),
+        areaStyle: actualType === 'area' ? {
+            opacity: 0.18,
+            color: colors[idx % colors.length]
+        } : undefined
     }));
 
     return {
