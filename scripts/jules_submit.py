@@ -210,6 +210,12 @@ TASKS = {
         "phase": "phase-2",
         "prompt": _load_prompt("docs/tasks/phase-2/task_docs_workspace.md"),
     },
+    # ── Phase 9: LocalMind OS ─────────────────────────────────────────────────
+    120: {
+        "name": "Task 1 — Macro-Shell Layout & Command Palette",
+        "phase": "phase-9",
+        "prompt": _load_prompt("docs/tasks/phase-9/task1_macro_shell.md"),
+    },
     # ── POST-V1 DEFERRED TASKS ─────────────────────────────────────────────────
     51: {
         "name": "Set 12 Task 1 — Security / Cryptography Workspace",
