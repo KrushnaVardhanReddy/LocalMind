@@ -1,7 +1,7 @@
 # Spec: Tableau-Style BI Pivot Builder (Phase 1 — Task 7)
 
 ## 1. Objective
-Provide a drag-and-drop pivot table and chart builder where users assign columns to dimensions (rows/columns) and measures (values/aggregates) — generating SQL GROUP BY queries against DuckDB WASM and rendering results as pivot tables and ECharts visualizations.
+Provide a drag-and-drop pivot table and chart builder where users assign columns to dimensions (rows/columns) and measures (values/aggregates) — generating SQL GROUP BY queries against DuckDB WASM and rendering results as pivot tables and ECharts visualizations with a premium Tableau-style aesthetic.
 
 ## 2. Architecture
 
@@ -13,6 +13,7 @@ graph LR
     DuckDB --> PivotTable[Pivot Table Grid]
     DuckDB --> ECharts[ECharts Visualization]
     SQLGen --> SQLPanel[Generated SQL Panel]
+    ECharts --> FullscreenModal[Fullscreen Expand View]
 ```
 
 ## 3. Pivot Configuration
@@ -58,12 +59,38 @@ GROUP BY region
 ORDER BY region;
 ```
 
+**COUNT wildcard rule (Invariant):**
+When a user adds a COUNT aggregate with the special wildcard column (`*`), the SQL generator **MUST NOT** wrap the `*` in double quotes. The output must be `COUNT(*)` not `COUNT("*")`. DuckDB treats double-quoted identifiers as column names, so `COUNT("*")` raises a `Binder Error: Referenced column "*" not found`. The `*` character must be emitted as a bare SQL token.
+
 ## 4. Visualization Binding
 After DuckDB returns the pivot result:
 - **Pivot Table:** rendered in a sticky-header grid with a grand totals row at the bottom. Paginated at 1,000 rows.
 - **Chart binding:** each `Values` measure maps to a chart series.
   - Default chart type is auto-selected by data cardinality: ≤ 5 categories → Pie; ≤ 20 categories → Bar; > 20 categories → Line.
-  - User can manually override chart type via a dropdown selector (Supported: Bar, Line, Pie, Scatter, Area). If invalid configuration is provided for a chart type (e.g. Pie chart with multiple measures), the visualization gracefully degrades or takes the first dimension/measure.
+  - User can manually override chart type via an icon selector (Supported: Auto, Bar, Line, Pie, Scatter, Area). If invalid configuration is provided for a chart type (e.g. Pie chart with multiple measures), the visualization gracefully degrades to the first dimension/measure.
+
+### 4.1 Visualization Aesthetic (Tableau-Style Premium)
+The ECharts visualization **must** implement a premium Tableau-inspired aesthetic:
+
+- **Color Palette:** Use the Tableau-10 categorical palette:
+  `#4E79A7, #F28E2B, #E15759, #76B7B2, #59A14F, #EDC948, #B07AA1, #FF9DA7, #9C755F, #BAB0AC`
+- **Typography:** All chart labels, tooltips, and legends must use the application's primary font stack (`'Inter', 'Outfit', system-ui, sans-serif`).
+- **Tooltips:** White background (`#ffffff`), 1px `#e5e7eb` border, 10px border-radius, 16px blur drop shadow. Rich formatted content: bold measure name, formatted numeric value, optional percentage for pie.
+- **Grid Lines:** Y-axis uses soft dashed `#f3f4f6` split lines only. X-axis has no split lines. No hard axis borders.
+- **Bar Charts:** Bars have `borderRadius: [4, 4, 0, 0]` (rounded top corners). Hover state adds a soft shadow glow.
+- **Pie Charts:** Rendered as a donut (inner radius 35%, outer 68%) with 3px `padAngle` spacing between segments and a 6px `borderRadius` per segment. Labels show `name: percentage`.
+- **Line/Area Charts:** Lines must be `smooth: true`. Area fill uses `opacity: 0.18`.
+- **Background:** All charts use `backgroundColor: 'transparent'` to integrate cleanly with dark/light card backgrounds.
+
+### 4.2 Fullscreen Visualization Modal
+The chart panel must include a dedicated **fullscreen expand button** (⛶ icon) in the visualization toolbar.
+
+- On click, the chart transitions into a full-viewport fixed-position modal overlay (`z-index: 50`).
+- The modal has a semi-transparent dark backdrop (`rgba(0,0,0,0.6)`).
+- The chart canvas is re-rendered at full size by triggering `chartInstance.resize()` after the transition.
+- A close button (✕) in the top-right corner of the modal collapses it back to the inline view.
+- The modal does **not** re-execute the SQL query; it reuses the same `result` object from the parent `PivotBuilder` state, so the expand/collapse is instant.
+- Keyboard shortcut `Escape` also closes the modal.
 
 ## 5. Generated SQL Panel
 - A collapsible panel labeled "Generated SQL" always displays the exact SQL sent to DuckDB.
@@ -77,10 +104,12 @@ After DuckDB returns the pivot result:
 4. An empty pivot config (no Values shelf) does not execute a query — show an empty state prompt: "Drag columns to Rows and Values to start building your pivot."
 5. Grand totals row computes aggregates across all visible rows.
 6. Filter operators supported: `=`, `!=`, `>`, `<`, `>=`, `<=`, `LIKE`, `IN`.
+7. **COUNT wildcard:** `COUNT(*)` must never be quoted as `COUNT("*")`. The `*` wildcard is always emitted bare.
+8. The fullscreen modal must not trigger a new DuckDB query — it reuses the existing in-memory result.
 
 ## 7. Component Architecture
 
-The PivotBuilder must be decomposed into focused, reusable child components:
+The PivotBuilder is decomposed into focused, reusable child components:
 
 ```
 src/lib/components/pivot/
@@ -88,17 +117,23 @@ src/lib/components/pivot/
 ├── ColumnPanel.svelte        — Column list with type icons & preview tooltips
 ├── ShelfZone.svelte          — Reusable drop zone (Rows / Columns / Values / Filters)
 ├── ShelfPill.svelte          — Individual draggable pill (color-coded)
-├── PivotChart.svelte         — ECharts + chart type selector
+├── PivotChart.svelte         — ECharts + chart type selector + fullscreen modal
 ├── PivotTable.svelte         — Data table with totals, pagination, sorting
 ├── SQLPanel.svelte           — Collapsible SQL viewer with copy button
 ├── FilterEditor.svelte       — Filter operator + value editor
 └── pivot.types.ts            — Shared TypeScript interfaces
 ```
 
+The chart rendering logic is centralized in:
+```
+src/lib/utils/chartBuilder.ts  — Pure function: (result, chartType, rows, values) → ECharts option
+```
+
 ### UX Requirements
 - Column panel shows type icons (🔢 numeric, 🔤 text, 📅 date, 🔘 boolean) and hover preview tooltips with sample values.
 - Drop zones glow/pulse during drag hover.
 - Shelf pills are color-coded: Rows=blue, Columns=purple, Values=green, Filters=orange.
-- Split-pane layout: chart on top, table on bottom.
+- Split-pane layout: chart on left, table on right (or stacked in compact mode).
 - Dark mode compatible via CSS custom properties or Tailwind `dark:` variants.
 - Micro-animations on pill add/remove and panel expand/collapse.
+- Visualization toolbar includes: Chart type selector icons + Fullscreen expand button.

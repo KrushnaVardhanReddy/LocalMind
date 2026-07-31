@@ -1,1 +1,8 @@
 @import 'tailwindcss';
+
+/* Disable browser swipe-to-navigate (back/forward) triggered by horizontal drag/scroll.
+   Also prevents rubber-band bounce which interferes with drag-and-drop in the Pivot Builder. */
+html, body {
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: none;
+}
