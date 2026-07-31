@@ -20,7 +20,7 @@ export interface FilterRule {
   value: string;
 }
 
-export type ChartType = 'auto' | 'bar' | 'line' | 'pie' | 'scatter' | 'area';
+export type ChartType = 'auto' | 'bar' | 'line' | 'pie' | 'scatter' | 'area' | 'treemap' | 'heatmap';
 
 export interface PivotConfig {
   rows: ShelfItem[];
