@@ -10,6 +10,8 @@
     import ChartViewer from '$lib/components/ChartViewer.svelte';
     import PivotBuilder from '$lib/components/pivot/PivotBuilder.svelte';
     import TemplateGallery from '$lib/components/TemplateGallery.svelte';
+    import OnboardingBanner from '$lib/components/OnboardingBanner.svelte';
+    import { builtInTemplates } from '$lib/templates/built-in';
     import type { PivotTemplate } from '$lib/templates/template.types';
     import ExportModal from '$lib/components/ExportModal.svelte';
     import { ReportExporter, type ExportConfig } from '$lib/services/ReportExporter';
@@ -50,6 +52,17 @@
 
     let isDragOver = $state(false);
     let uploadStatus = $state<{type: 'success' | 'error' | 'loading', message: string} | null>(null);
+
+    // Onboarding State
+    let showOnboarding = $state(false);
+    let checklistCollapsed = $state(false);
+    let onboardingChecklist = $state({
+        droppedFile: false,
+        rows: false,
+        values: false,
+        chart: false,
+        export: false
+    });
     let customQuery = $state('');
     let selectedPivotTable = $state('');
     let selectedTableSchema = $state<string[]>([]);
@@ -96,7 +109,55 @@
 
     onMount(async () => {
         await loadWorkspaces();
+
+        // Check for onboarding
+        if (!localStorage.getItem('localmind_onboarded')) {
+            showOnboarding = true;
+            try {
+                const response = await fetch('/demo_sales.csv');
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const file = new File([blob], 'demo_sales.csv', { type: 'text/csv' });
+                    await processFile(file, true);
+                }
+            } catch (e) {
+                console.error('Failed to load demo_sales.csv', e);
+            }
+        }
     });
+
+    function handleStepComplete(step: string) {
+        if (!showOnboarding) return;
+
+        if (step === 'rows') onboardingChecklist.rows = true;
+        if (step === 'values') onboardingChecklist.values = true;
+        if (step === 'chart') onboardingChecklist.chart = true;
+
+        checkOnboardingComplete();
+    }
+
+    function checkOnboardingComplete() {
+        if (onboardingChecklist.droppedFile && onboardingChecklist.rows && onboardingChecklist.values && onboardingChecklist.chart && onboardingChecklist.export) {
+            localStorage.setItem('localmind_onboarded', 'v1');
+            setTimeout(() => { showOnboarding = false; }, 3000);
+        }
+    }
+
+    function handleDismissOnboarding() {
+        showOnboarding = false;
+        localStorage.setItem('localmind_onboarded', 'v1');
+    }
+
+    function applyDemoTemplate() {
+        const salesOverview = builtInTemplates.find(t => t.id === 'sales-overview');
+        if (salesOverview && pivotBuilderComponent) {
+            (pivotBuilderComponent as any).applyTemplate(salesOverview);
+            onboardingChecklist.rows = true;
+            onboardingChecklist.values = true;
+            onboardingChecklist.chart = true;
+            checkOnboardingComplete();
+        }
+    }
 
     async function runQuery() {
         chartCustomOption = null; // Clear custom chart on new manual query
@@ -192,7 +253,7 @@
         isDragOver = false;
     }
 
-    async function processFile(file: File) {
+    async function processFile(file: File, isDemo = false) {
         uploadStatus = { type: 'loading', message: `Registering ${file.name}...` };
         try {
             const tableName = file.name.replace(/[^a-zA-Z0-9_]/g, '_').replace(/^_+|_+$/g, '').toLowerCase();
@@ -201,8 +262,19 @@
             if (!$uploadedTables.includes(tableName)) {
                 $uploadedTables = [...$uploadedTables, tableName];
             }
-            uploadStatus = { type: 'success', message: `Successfully registered file as table: ${tableName}` };
-            customQuery = `SELECT * FROM ${tableName} LIMIT 10`;
+
+            if (isDemo) {
+                uploadStatus = { type: 'success', message: `👋 We loaded a sample sales dataset to get you started.` };
+                handleTableSelect(tableName); // Auto-select for PivotBuilder
+            } else {
+                uploadStatus = { type: 'success', message: `Successfully registered file as table: ${tableName}` };
+                customQuery = `SELECT * FROM ${tableName} LIMIT 10`;
+            }
+
+            if (showOnboarding) {
+                onboardingChecklist.droppedFile = true;
+                checkOnboardingComplete();
+            }
         } catch (error) {
             console.error('Failed to register file:', error);
             uploadStatus = { type: 'error', message: `Failed to register file: ${error instanceof Error ? error.message : 'Unknown error'}` };
@@ -682,6 +754,10 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
 
     {#if $uploadedTables.length > 0}
         <div class="p-4 border rounded mt-4">
+            {#if showOnboarding}
+                <OnboardingBanner onApplyDemo={applyDemoTemplate} onDismiss={handleDismissOnboarding} />
+            {/if}
+
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold">Pivot Builder</h2>
                 {#if selectedPivotTable}
@@ -708,7 +784,12 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
                 </select>
             </div>
             {#if selectedPivotTable}
-                <PivotBuilder tableName={selectedPivotTable} bind:this={pivotBuilderComponent} />
+                <PivotBuilder
+                    tableName={selectedPivotTable}
+                    bind:this={pivotBuilderComponent}
+                    isOnboardingMode={showOnboarding}
+                    onStepComplete={handleStepComplete}
+                />
             {/if}
         </div>
     {/if}
@@ -873,3 +954,46 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
         />
     {/if}
 </main>
+
+{#if showOnboarding}
+    <div class="fixed bottom-8 right-8 z-50 transition-all duration-300 {checklistCollapsed ? 'translate-y-[calc(100%-3rem)]' : 'translate-y-0'}">
+        <div class="bg-white rounded-t-xl rounded-b-lg shadow-2xl border border-indigo-200 w-80 overflow-hidden flex flex-col">
+            <button
+                onclick={() => checklistCollapsed = !checklistCollapsed}
+                class="bg-indigo-600 text-white p-3 font-semibold flex justify-between items-center hover:bg-indigo-700 transition"
+            >
+                <span>Getting Started</span>
+                <span class="text-xl leading-none">{checklistCollapsed ? '↑' : '↓'}</span>
+            </button>
+
+            <div class="p-4 space-y-3 bg-indigo-50/30">
+                <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full flex items-center justify-center border-2 {onboardingChecklist.droppedFile ? 'bg-green-500 border-green-500 text-white' : 'border-indigo-300 text-transparent'}">✓</div>
+                    <span class={onboardingChecklist.droppedFile ? 'line-through text-gray-500' : 'text-gray-800 font-medium'}>Drop a file (or use demo)</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full flex items-center justify-center border-2 {onboardingChecklist.rows ? 'bg-green-500 border-green-500 text-white' : 'border-indigo-300 text-transparent'}">✓</div>
+                    <span class={onboardingChecklist.rows ? 'line-through text-gray-500' : 'text-gray-800 font-medium'}>Drag a column to Rows</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full flex items-center justify-center border-2 {onboardingChecklist.values ? 'bg-green-500 border-green-500 text-white' : 'border-indigo-300 text-transparent'}">✓</div>
+                    <span class={onboardingChecklist.values ? 'line-through text-gray-500' : 'text-gray-800 font-medium'}>Drag a column to Values</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full flex items-center justify-center border-2 {onboardingChecklist.chart ? 'bg-green-500 border-green-500 text-white' : 'border-indigo-300 text-transparent'}">✓</div>
+                    <span class={onboardingChecklist.chart ? 'line-through text-gray-500' : 'text-gray-800 font-medium'}>View the chart</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full flex items-center justify-center border-2 {onboardingChecklist.export ? 'bg-green-500 border-green-500 text-white' : 'border-indigo-300 text-transparent'}">✓</div>
+                    <span class={onboardingChecklist.export ? 'line-through text-gray-500' : 'text-gray-800 font-medium'}>Export a report</span>
+                </div>
+
+                {#if onboardingChecklist.droppedFile && onboardingChecklist.rows && onboardingChecklist.values && onboardingChecklist.chart && onboardingChecklist.export}
+                    <div class="mt-4 p-2 bg-green-100 text-green-800 rounded text-center text-sm font-bold animate-pulse">
+                        🎉 You're ready! Drop your own data anytime.
+                    </div>
+                {/if}
+            </div>
+        </div>
+    </div>
+{/if}

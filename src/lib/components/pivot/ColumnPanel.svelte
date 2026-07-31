@@ -6,12 +6,16 @@
         tableName,
         allColumns = [],
         usedColumns = [],
-        onDragStart
+        onDragStart,
+        isOnboardingMode = false,
+        showRegionHotspot = false
     } = $props<{
         tableName: string;
         allColumns: ColumnInfo[];
         usedColumns: string[];
         onDragStart: (e: DragEvent, column: string) => void;
+        isOnboardingMode?: boolean;
+        showRegionHotspot?: boolean;
     }>();
 
     let searchQuery = $state('');
@@ -70,9 +74,10 @@
     <div class="flex-1 overflow-y-auto p-2">
         {#each filteredColumns as col}
             {@const isUsed = usedColumns.includes(col.name)}
+            {@const isHotspot = isOnboardingMode && showRegionHotspot && col.name === 'region'}
             <!-- svelte-ignore a11y_no_static_element_interactions -->
             <div
-                class="relative p-2 mb-1 rounded border dark:border-gray-700 cursor-grab hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-2 group {isUsed ? 'opacity-50' : 'opacity-100'}"
+                class="relative p-2 mb-1 rounded border dark:border-gray-700 cursor-grab hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-2 group {isUsed ? 'opacity-50' : 'opacity-100'} {isHotspot ? 'ring-2 ring-blue-500 ring-offset-2 bg-blue-50 relative z-10' : ''}"
                 draggable="true"
                 ondragstart={(e) => onDragStart(e, col.name)}
                 onmouseover={() => handleMouseOver(col.name)}
@@ -82,6 +87,14 @@
             >
                 <span class="text-sm">{getTypeIcon(col.type)}</span>
                 <span class="text-sm font-medium text-gray-700 dark:text-gray-200 truncate">{col.name}</span>
+
+                {#if isHotspot}
+                    <div class="absolute -right-4 top-1/2 -translate-y-1/2 w-4 h-4 bg-blue-500 rounded-full animate-ping pointer-events-none"></div>
+                    <div class="absolute left-full ml-4 top-1/2 -translate-y-1/2 bg-blue-600 text-white text-xs px-2 py-1 rounded shadow-lg whitespace-nowrap pointer-events-none z-50">
+                        Drag here to Rows &rarr;
+                        <div class="absolute top-1/2 -left-1 -translate-y-1/2 border-4 border-transparent border-r-blue-600"></div>
+                    </div>
+                {/if}
 
                 {#if hoveredCol === col.name && hoverPreviewData[col.name]}
                     <div class="absolute left-full ml-2 top-0 z-50 w-48 p-2 bg-white dark:bg-gray-800 border dark:border-gray-600 rounded shadow-lg text-xs pointer-events-none">

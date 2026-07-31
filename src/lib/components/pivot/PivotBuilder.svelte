@@ -13,7 +13,7 @@
     import SQLPanel from './SQLPanel.svelte';
     import FilterEditor from './FilterEditor.svelte';
 
-    let { tableName } = $props<{ tableName: string }>();
+    let { tableName, isOnboardingMode = false, onStepComplete } = $props<{ tableName: string; isOnboardingMode?: boolean; onStepComplete?: (step: string) => void }>();
 
     // State
     export function getPivotData() {
@@ -45,6 +45,25 @@
     let isExecuting = $state(false);
     let queryError = $state<string | null>(null);
     let generatedSQL = $state('');
+
+    // Onboarding step tracking effects
+    $effect(() => {
+        if (isOnboardingMode && rows.length > 0 && onStepComplete) {
+            onStepComplete('rows');
+        }
+    });
+
+    $effect(() => {
+        if (isOnboardingMode && values.length > 0 && onStepComplete) {
+            onStepComplete('values');
+        }
+    });
+
+    $effect(() => {
+        if (isOnboardingMode && result && result.rows.length > 0 && onStepComplete) {
+            onStepComplete('chart');
+        }
+    });
 
     let dragItem = $state<{ type: string, column: string, index?: number } | null>(null);
     let layoutStacked = $state(false); // true: stacked (chart top, table bottom), false: side-by-side
@@ -363,6 +382,8 @@
             {allColumns}
             usedColumns={usedColumnNames}
             onDragStart={handleDragStartFromPanel}
+            {isOnboardingMode}
+            showRegionHotspot={rows.length === 0}
         />
     </div>
 
@@ -388,19 +409,28 @@
             <!-- Shelf Grid -->
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
                 <!-- Rows -->
-                <ShelfZone id="rows" label="Rows / Dimensions" color="blue" emptyText="Drop columns here" onDrop={handleDropOnZone}>
-                    {#each rows as row, i}
+                <div class="relative">
+                    {#if isOnboardingMode && rows.length === 0}
+                        <div class="absolute inset-0 z-10 pointer-events-none rounded-lg border-2 border-blue-500 animate-pulse bg-blue-500/10"></div>
+                        <div class="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-blue-600 text-white text-xs px-2 py-1 rounded shadow-lg whitespace-nowrap pointer-events-none z-50">
+                            &larr; Drop columns here to group data
+                            <div class="absolute top-1/2 -right-1 -translate-y-1/2 border-4 border-transparent border-l-blue-600"></div>
+                        </div>
+                    {/if}
+                    <ShelfZone id="rows" label="Rows / Dimensions" color="blue" emptyText="Drop columns here" tooltip="Group your data by this column (like GROUP BY in SQL)" onDrop={handleDropOnZone}>
+                        {#each rows as row, i}
                         <ShelfPill
                             label={row.column}
                             color="blue"
                             onRemove={() => handleRemove('rows', i)}
                             onDragStart={(e) => handleDragStartFromShelf(e, 'rows', row.column, i)}
                         />
-                    {/each}
-                </ShelfZone>
+                        {/each}
+                    </ShelfZone>
+                </div>
 
                 <!-- Columns -->
-                <ShelfZone id="columns" label="Columns / Pivot Headers" color="purple" emptyText="Drop columns here" onDrop={handleDropOnZone}>
+                <ShelfZone id="columns" label="Columns / Pivot Headers" color="purple" emptyText="Drop columns here" tooltip="Pivot your data across this column's distinct values" onDrop={handleDropOnZone}>
                     {#each columns as col, i}
                         <ShelfPill
                             label={col.column}
@@ -412,8 +442,16 @@
                 </ShelfZone>
 
                 <!-- Values -->
-                <ShelfZone id="values" label="Values / Metrics" color="green" emptyText="Drop columns here" onDrop={handleDropOnZone}>
-                    {#each values as val, i}
+                <div class="relative">
+                    {#if isOnboardingMode && rows.length > 0 && values.length === 0}
+                        <div class="absolute inset-0 z-10 pointer-events-none rounded-lg border-2 border-green-500 animate-pulse bg-green-500/10"></div>
+                        <div class="absolute right-full mr-4 top-1/2 -translate-y-1/2 bg-green-600 text-white text-xs px-2 py-1 rounded shadow-lg whitespace-nowrap pointer-events-none z-50">
+                            &larr; Drop a numeric column to aggregate
+                            <div class="absolute top-1/2 -right-1 -translate-y-1/2 border-4 border-transparent border-l-green-600"></div>
+                        </div>
+                    {/if}
+                    <ShelfZone id="values" label="Values / Metrics" color="green" emptyText="Drop columns here" tooltip="Aggregate a numeric column (SUM, COUNT, AVG, MIN, MAX)" onDrop={handleDropOnZone}>
+                        {#each values as val, i}
                         <div class="relative agg-popover-container inline-block">
                             <ShelfPill
                                 label={val.column}
@@ -446,11 +484,12 @@
                                 </div>
                             {/if}
                         </div>
-                    {/each}
-                </ShelfZone>
+                        {/each}
+                    </ShelfZone>
+                </div>
 
                 <!-- Filters -->
-                <ShelfZone id="filters" label="Filters" color="orange" emptyText="Drop columns here" onDrop={handleDropOnZone}>
+                <ShelfZone id="filters" label="Filters" color="orange" emptyText="Drop columns here" tooltip="Narrow your dataset to rows matching a condition" onDrop={handleDropOnZone}>
                     {#each filters as filter, i}
                         <ShelfPill
                             label={filter.column}
