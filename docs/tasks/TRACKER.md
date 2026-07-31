@@ -128,6 +128,20 @@
 
 > [!NOTE]
 > **Tasks 9–12 below have been deferred.** See Section 5 for rationale.
+- [ ] Task 9: Full PII Redaction Implementation (`docs/tasks/phase-1/task9_pii.md`)
+- [ ] Task 12: Offline Document Analysis (`docs/tasks/phase-1/task12_docs.md`)
+
+---
+
+### Phase 9: LocalMind OS (The Macro-Shell) 🖥️
+*A unified modern AI workspace shell integrating the Explorer, Command Palette, and Context Panels.*
+- [ ] Task 1: Macro-Shell Layout & Global Store (`docs/tasks/phase-9/task1_macro_shell.md`)
+- [ ] Task 2: OPFS File Explorer Sidebar & Top Nav (`docs/tasks/phase-9/task2_explorer.md`)
+- [ ] Task 3: Command Palette Integration (`docs/tasks/phase-9/task3_command_palette.md`)
+- [ ] Task 4: Dynamic Right Inspector Panel (`docs/tasks/phase-9/task4_inspector.md`)
+- [ ] Task 5: Workspace Migration (`docs/tasks/phase-9/task5_migration.md`)
+
+---
 
 ### Legal Plugins
 - [ ] Task 1: Local Contract Analyzer (`docs/tasks/phase-13/task1_contract_analyzer.md`)
