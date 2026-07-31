@@ -73,7 +73,7 @@
     // Inline chart effect
     $effect(() => {
         if (!chartInstance || !chartRef) return;
-        const rowCols = rows.map(r => r.column);
+        const rowCols = rows.map((r: any) => r.column);
         const colors = getColors();
         const _p = selectedPalette;
         const _d = darkMode;
@@ -87,7 +87,7 @@
     // Fullscreen chart effect
     $effect(() => {
         if (!isFullscreen || !fullscreenChartInstance) return;
-        const rowCols = rows.map(r => r.column);
+        const rowCols = rows.map((r: any) => r.column);
         const colors = getColors();
         const _p = selectedPalette;
         const _d = darkMode;

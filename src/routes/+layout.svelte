@@ -8,6 +8,8 @@
     import StatusBar from '$lib/components/StatusBar.svelte';
     import CommandPalette from '$lib/components/CommandPalette.svelte';
     import WorkspaceNav from '$lib/components/workspace/WorkspaceNav.svelte';
+    import WorkerErrorToast from '$lib/components/WorkerErrorToast.svelte';
+
 
     let { children } = $props();
 
@@ -55,9 +57,28 @@
 
 <WorkspaceNav />
 
-<main class="min-h-screen bg-gray-50 pb-12">
-    {@render children()}
-</main>
+<svelte:boundary>
+    <main class="min-h-screen bg-gray-50 pb-12">
+        {@render children()}
+    </main>
+    {#snippet failed(error, reset)}
+        <div class="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+            <div class="bg-white p-8 rounded-xl shadow-xl max-w-lg w-full text-center">
+                <div class="text-red-500 text-5xl mb-4">⚠️</div>
+                <h1 class="text-2xl font-bold text-gray-900 mb-2">Something went wrong</h1>
+                <p class="text-gray-600 mb-6 bg-gray-100 p-4 rounded text-left overflow-auto text-sm font-mono max-h-40">{error}</p>
+                <button
+                    class="bg-indigo-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition"
+                    onclick={reset}
+                >
+                    Try again
+                </button>
+            </div>
+        </div>
+    {/snippet}
+</svelte:boundary>
+
+<WorkerErrorToast />
 
 <CommandPalette />
 <StatusBar />

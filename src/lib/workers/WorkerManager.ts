@@ -1,7 +1,11 @@
 import { wrap } from 'comlink';
+import { addCrashEvent } from '../stores/workerHealth.store.js';
+
 
 export class WorkerManager {
     private static instances: Map<string, Worker> = new Map();
+    private static duckdbRegisteredFiles: { file: File, tableName: string }[] = [];
+
     private static proxies: Map<string, any> = new Map();
     private static pluginProxies: Map<string, any> = new Map();
 
@@ -25,6 +29,59 @@ export class WorkerManager {
     private static initCryptoPromise: Promise<any> | null = null;
 
 
+
+    private static registerWorkerListeners(workerName: string, worker: Worker) {
+        worker.onerror = (err) => {
+            addCrashEvent({ workerName, error: err.message || 'Worker crashed', type: 'crash' });
+        };
+        worker.onmessageerror = () => {
+            addCrashEvent({ workerName, error: 'Worker message error (malformed input)', type: 'crash' });
+        };
+    }
+
+
+    public static async restartWorker(workerName: string) {
+        const worker = this.instances.get(workerName);
+        if (worker) {
+            worker.terminate();
+        }
+        this.instances.delete(workerName);
+        this.proxies.delete(workerName);
+
+        switch (workerName) {
+            case 'duckdb': this.initDuckDBPromise = null; break;
+            case 'sqlite': this.initSQLitePromise = null; break;
+            case 'llm': this.initLLMPromise = null; break;
+            case 'tesseract': this.initTesseractPromise = null; break;
+            case 'datagen': this.initDataGenPromise = null; break;
+            case 'treesitter': this.initTreeSitterPromise = null; break;
+            case 'ner': this.initNERPromise = null; break;
+            case 'ffmpeg': this.initFFmpegPromise = null; break;
+            case 'whisper': this.initWhisperPromise = null; break;
+            case 'opencv': this.initOpenCVPromise = null; break;
+            case 'embeddings': this.initEmbeddingsPromise = null; break;
+            case 'mammoth': this.initMammothPromise = null; break;
+            case 'converter': this.initConverterPromise = null; break;
+            case 'git': this.initGitPromise = null; break;
+            case 'logparser': this.initLogParserPromise = null; break;
+            case 'visualdiff': this.initVisualDiffPromise = null; break;
+            case 'webllm': this.initWebLLMPromise = null; break;
+            case 'geo': this.initGeoPromise = null; break;
+            case 'crypto': this.initCryptoPromise = null; break;
+        }
+
+        if (workerName === 'duckdb') {
+            const newDb = await this.getDuckDB();
+            for (const f of this.duckdbRegisteredFiles) {
+                try {
+                    await newDb.registerFile(f.file, f.tableName);
+                } catch (e) {
+                    console.error("Failed to re-register file on DuckDB restart", e);
+                }
+            }
+        }
+    }
+
     public static async getDuckDB() {
         if (this.proxies.has('duckdb')) {
             return this.proxies.get('duckdb');
@@ -34,13 +91,43 @@ export class WorkerManager {
             this.initDuckDBPromise = (async () => {
                 // Lazy load the worker file ONLY when requested
                 const worker = new Worker(new URL('./duckdb.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('duckdb', worker);
                 this.instances.set('duckdb', worker);
 
                 // Wrap with Comlink
                 const proxy = wrap<any>(worker);
                 await proxy.init(); // Wait for WASM instantiation
-                this.proxies.set('duckdb', proxy);
-                return proxy;
+
+                // Use a JS Proxy to intercept calls to the Comlink proxy safely
+                const wrappedProxy = new Proxy(proxy, {
+                    get: (target, prop) => {
+                        if (prop === 'registerFile') {
+                            return async (file: File, tableName: string) => {
+                                this.duckdbRegisteredFiles.push({ file, tableName });
+                                return await target.registerFile(file, tableName);
+                            };
+                        }
+                        if (prop === 'query') {
+                            return async (...args: any[]) => {
+                                try {
+                                    return await Promise.race([
+                                        target.query(...args),
+                                        new Promise((_, reject) => setTimeout(() => reject(new Error('OOM Timeout')), 30000))
+                                    ]);
+                                } catch (err: any) {
+                                    if (err.message === 'OOM Timeout') {
+                                        addCrashEvent({ workerName: 'duckdb', error: 'OOM Timeout detected', type: 'oom' });
+                                    }
+                                    throw err;
+                                }
+                            };
+                        }
+                        return target[prop];
+                    }
+                });
+
+                this.proxies.set('duckdb', wrappedProxy);
+                return wrappedProxy;
             })();
         }
 
@@ -56,13 +143,36 @@ export class WorkerManager {
             this.initSQLitePromise = (async () => {
                 // Lazy load the worker file ONLY when requested
                 const worker = new Worker(new URL('./sqlite.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('sqlite', worker);
                 this.instances.set('sqlite', worker);
 
                 // Wrap with Comlink
                 const proxy = wrap<any>(worker);
                 await proxy.init(); // Wait for WASM instantiation
-                this.proxies.set('sqlite', proxy);
-                return proxy;
+
+                const wrappedProxy = new Proxy(proxy, {
+                    get: (target, prop) => {
+                        if (prop === 'query') {
+                            return async (...args: any[]) => {
+                                try {
+                                    return await Promise.race([
+                                        target.query(...args),
+                                        new Promise((_, reject) => setTimeout(() => reject(new Error('OOM Timeout')), 30000))
+                                    ]);
+                                } catch (err: any) {
+                                    if (err.message === 'OOM Timeout') {
+                                        addCrashEvent({ workerName: 'sqlite', error: 'OOM Timeout detected', type: 'oom' });
+                                    }
+                                    throw err;
+                                }
+                            };
+                        }
+                        return target[prop];
+                    }
+                });
+
+                this.proxies.set('sqlite', wrappedProxy);
+                return wrappedProxy;
             })();
         }
 
@@ -95,6 +205,7 @@ export class WorkerManager {
         if (!this.initLLMPromise) {
             this.initLLMPromise = (async () => {
                 const worker = new Worker(new URL('./llm.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('llm', worker);
                 this.instances.set('llm', worker);
 
                 const proxy = wrap<any>(worker);
@@ -115,6 +226,7 @@ export class WorkerManager {
         if (!this.initTesseractPromise) {
             this.initTesseractPromise = (async () => {
                 const worker = new Worker(new URL('./tesseract.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('tesseract', worker);
                 this.instances.set('tesseract', worker);
 
                 const proxy = wrap<any>(worker);
@@ -136,6 +248,7 @@ export class WorkerManager {
         if (!this.initMuPDFPromise) {
             this.initMuPDFPromise = (async () => {
                 const worker = new Worker(new URL('./mupdf.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('mupdf', worker);
                 this.instances.set('mupdf', worker);
 
                 const proxy = wrap<any>(worker);
@@ -155,6 +268,7 @@ export class WorkerManager {
         if (!this.initDataGenPromise) {
             this.initDataGenPromise = (async () => {
                 const worker = new Worker(new URL('./datagen.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('datagen', worker);
                 this.instances.set('datagen', worker);
 
                 const proxy = wrap<any>(worker);
@@ -174,6 +288,7 @@ export class WorkerManager {
         if (!this.initTreeSitterPromise) {
             this.initTreeSitterPromise = (async () => {
                 const worker = new Worker(new URL('./treesitter.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('treesitter', worker);
                 this.instances.set('treesitter', worker);
 
                 const proxy = wrap<any>(worker);
@@ -193,6 +308,7 @@ export class WorkerManager {
         if (!this.initNERPromise) {
             this.initNERPromise = (async () => {
                 const worker = new Worker(new URL('./ner.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('ner', worker);
                 this.instances.set('ner', worker);
 
                 const proxy = wrap<any>(worker);
@@ -212,6 +328,7 @@ export class WorkerManager {
         if (!this.initFFmpegPromise) {
             this.initFFmpegPromise = (async () => {
                 const worker = new Worker(new URL('./ffmpeg.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('ffmpeg', worker);
                 this.instances.set('ffmpeg', worker);
 
                 const proxy = wrap<any>(worker);
@@ -231,6 +348,7 @@ export class WorkerManager {
         if (!this.initWhisperPromise) {
             this.initWhisperPromise = (async () => {
                 const worker = new Worker(new URL('./whisper.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('whisper', worker);
                 this.instances.set('whisper', worker);
 
                 const proxy = wrap<any>(worker);
@@ -250,6 +368,7 @@ export class WorkerManager {
         if (!this.initOpenCVPromise) {
             this.initOpenCVPromise = (async () => {
                 const worker = new Worker(new URL('./opencv.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('opencv', worker);
                 this.instances.set('opencv', worker);
 
                 const proxy = wrap<any>(worker);
@@ -269,6 +388,7 @@ export class WorkerManager {
         if (!this.initEmbeddingsPromise) {
             this.initEmbeddingsPromise = (async () => {
                 const worker = new Worker(new URL('./embeddings.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('embeddings', worker);
                 this.instances.set('embeddings', worker);
 
                 const proxy = wrap<any>(worker);
@@ -290,6 +410,7 @@ export class WorkerManager {
         if (!this.initMammothPromise) {
             this.initMammothPromise = (async () => {
                 const worker = new Worker(new URL('./mammoth.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('mammoth', worker);
                 this.instances.set('mammoth', worker);
 
                 const proxy = wrap<any>(worker);
@@ -309,6 +430,7 @@ export class WorkerManager {
         if (!this.initConverterPromise) {
             this.initConverterPromise = (async () => {
                 const worker = new Worker(new URL('./converter.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('converter', worker);
                 this.instances.set('converter', worker);
 
                 const proxy = wrap<any>(worker);
@@ -328,6 +450,7 @@ export class WorkerManager {
         if (!this.initGitPromise) {
             this.initGitPromise = (async () => {
                 const worker = new Worker(new URL('./git.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('git', worker);
                 this.instances.set('git', worker);
 
                 const proxy = wrap<any>(worker);
@@ -347,6 +470,7 @@ export class WorkerManager {
         if (!this.initLogParserPromise) {
             this.initLogParserPromise = (async () => {
                 const worker = new Worker(new URL('./log-parser.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('logparser', worker);
                 this.instances.set('logparser', worker);
 
                 const proxy = wrap<any>(worker);
@@ -366,6 +490,7 @@ export class WorkerManager {
         if (!this.initVisualDiffPromise) {
             this.initVisualDiffPromise = (async () => {
                 const worker = new Worker(new URL('./visual-diff.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('visualdiff', worker);
                 this.instances.set('visualdiff', worker);
 
                 const proxy = wrap<any>(worker);
@@ -387,6 +512,7 @@ export class WorkerManager {
         if (!this.initWebLLMPromise) {
             this.initWebLLMPromise = (async () => {
                 const worker = new Worker(new URL('./webllm.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('webllm', worker);
                 this.instances.set('webllm', worker);
 
                 const proxy = wrap<any>(worker);
@@ -427,6 +553,7 @@ export class WorkerManager {
         if (!this.initGeoPromise) {
             this.initGeoPromise = (async () => {
                 const worker = new Worker(new URL('./geo.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('geo', worker);
                 this.instances.set('geo', worker);
 
                 const proxy = wrap<any>(worker);
@@ -446,6 +573,7 @@ export class WorkerManager {
         if (!this.initCryptoPromise) {
             this.initCryptoPromise = (async () => {
                 const worker = new Worker(new URL('./crypto.worker.ts', import.meta.url), { type: 'module' });
+                this.registerWorkerListeners('crypto', worker);
                 this.instances.set('crypto', worker);
 
                 const proxy = wrap<any>(worker);
