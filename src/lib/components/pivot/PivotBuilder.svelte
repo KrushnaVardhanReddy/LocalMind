@@ -79,7 +79,7 @@
             const schema = await db.getSchema(tableName);
             const cols = Object.entries(schema).map(([name, type]) => {
                 let colType: ColumnType = 'unknown';
-                const typeStr = (type || '').toUpperCase();
+                const typeStr = (String(type) || '').toUpperCase();
                 if (typeStr.includes('INT') || typeStr.includes('FLOAT') || typeStr.includes('DOUBLE') || typeStr.includes('DECIMAL')) {
                     colType = 'numeric';
                 } else if (typeStr.includes('CHAR') || typeStr.includes('TEXT') || typeStr.includes('VARCHAR')) {
