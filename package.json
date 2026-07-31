@@ -70,6 +70,7 @@
     "@types/three": "^0.185.1",
     "@xenova/transformers": "^2.17.2",
     "@xyflow/svelte": "^1.6.2",
+    "ag-grid-community": "^32.0.0",
     "ajv": "^8.20.0",
     "buffer": "^6.0.3",
     "comlink": "^4.4.2",

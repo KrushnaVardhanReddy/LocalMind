@@ -29,8 +29,8 @@ test.describe('Phase 1 - Full Analytics Surface', () => {
     }
   });
 
-  async function uploadFile(page) {
-    page.on('console', msg => console.log('BROWSER:', msg.text()));
+  async function uploadFile(page: any) {
+    page.on('console', (msg: any) => console.log('BROWSER:', msg.text()));
     await page.waitForSelector('.border-dashed');
     await page.waitForTimeout(2000);
     
@@ -66,6 +66,13 @@ test.describe('Phase 1 - Full Analytics Surface', () => {
     await uploadFile(page);
     await page.locator('button', { hasText: 'Run Query' }).click();
     await page.waitForSelector('table tbody tr', { timeout: 60000 });
+
+    // Switch to Pivot Builder panel
+    await page.locator('button', { hasText: '🔀 Pivot' }).click();
+
+    // Wait for Pivot Builder to appear
+    await expect(page.locator('h2', { hasText: 'Pivot Builder' })).toBeVisible({ timeout: 60000 });
+    await page.waitForSelector('.ag-row', { timeout: 60000 });
 
     // Must select a table to pivot before the Templates button appears
     await page.locator('select#pivotTableSelect').selectOption({ index: 1 });
