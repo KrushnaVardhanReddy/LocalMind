@@ -13,6 +13,12 @@ export class CommandRegistry {
     static getBuiltInCommands(): Command[] {
         return [
             {
+                id: 'nav-home',
+                label: 'Go Home',
+                category: 'navigate',
+                action: () => goto('/')
+            },
+            {
                 id: 'nav-analytics',
                 label: 'Go to Analytics',
                 category: 'navigate',
