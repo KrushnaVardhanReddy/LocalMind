@@ -123,6 +123,8 @@
   *Canvas-based Paint-style workspace. Freehand draw, shapes, text, arrows, highlights, image crop, AI auto-label. Export PNG/SVG/PDF. No new WASM workers needed (canvas + magick-wasm).*
 - [ ] Task 15: LocalMind Diagrams — AI Diagram Generation Workspace (`docs/tasks/phase-6/task15_diagrams.md`)
   *Generate UML/ER/architecture diagrams from code (tree-sitter), SQL schemas (DuckDB), OpenAPI specs, or plain English. Render via Mermaid.js / D3. Export PNG/SVG/PDF. Uses existing worker stack.*
+- [ ] Task 16: Advanced Scientific & Network Visualizations (`docs/tasks/phase-6/task16_advanced_vis.md`)
+  *Dedicated workspace for complex data relationships. Network graphs (Cytoscape.js), custom hierarchies (D3.js), interactive data exploration (Observable Plot), and scientific charting (Plotly.js).*
 
 > [!NOTE]
 > **Tasks 9–12 below have been deferred.** See Section 5 for rationale.
