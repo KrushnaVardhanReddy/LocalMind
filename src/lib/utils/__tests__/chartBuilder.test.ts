@@ -75,7 +75,8 @@ describe('chartBuilder utility', () => {
             const opt = buildEchartsOption(result, 'scatter', ['A'], values);
 
             expect(opt.series[0].type).toBe('scatter');
-            expect(opt.series[0].data[0]).toEqual([10, 20]);
+            expect(opt.series[0].data[0].value).toEqual([10, 20]);
+            expect(opt.series[0].data[0].rowData).toEqual({ A: 'foo', SUM_B: 10, AVG_C: 20 });
             expect(opt.xAxis.name).toBe('SUM_B');
             expect(opt.yAxis.name).toBe('AVG_C');
         });
@@ -94,7 +95,8 @@ describe('chartBuilder utility', () => {
 
             expect(opt.series[0].type).toBe('bar');
             expect(opt.xAxis.data).toEqual(['All']);
-            expect(opt.series[0].data).toEqual([100]);
+            expect(opt.series[0].data[0].value).toEqual(100);
+            expect(opt.series[0].data[0].rowData).toEqual({ SUM_B: 100 });
         });
     });
 });

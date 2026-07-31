@@ -1,4 +1,4 @@
-export type ChartType = 'auto' | 'bar' | 'line' | 'pie' | 'scatter' | 'area';
+export type ChartType = 'auto' | 'bar' | 'line' | 'pie' | 'scatter' | 'area' | 'treemap' | 'heatmap';
 
 export interface PivotResult {
     columns: string[];
@@ -158,7 +158,12 @@ export function buildEchartsOption(
         actualType = 'bar';
     }
 
-    const measureKeys = values.map(v => `${v.agg}_${v.column}`);
+    // measureKeys typically matches values but in a PIVOT the query returns expanded columns.
+    // Spec says: Values shelf defines measures, Columns shelf defines the pivot headers.
+    // `result.columns` will contain the dimension columns + pivoted measure columns.
+    // If we have rows, the first N columns of result.columns match the row definitions.
+    const measureKeys = result.columns.filter(c => !rows.includes(c));
+
     const dimensionLabels = result.rows.map(row => getDimensionLabel(row, rows));
     const axis = premiumAxisStyle(dimensionLabels.length, darkMode);
 
@@ -166,7 +171,8 @@ export function buildEchartsOption(
         const firstMeasure = measureKeys[0];
         const pieData = result.rows.map((row, i) => ({
             name: dimensionLabels[i],
-            value: row[firstMeasure]
+            value: row[firstMeasure],
+            rowData: row // attach for cross-filtering
         }));
         return {
             ...base,
@@ -212,7 +218,10 @@ export function buildEchartsOption(
     if (actualType === 'scatter') {
         const measureX = measureKeys[0];
         const measureY = measureKeys[1];
-        const scatterData = result.rows.map(row => [row[measureX], row[measureY]]);
+        const scatterData = result.rows.map(row => ({
+            value: [row[measureX], row[measureY]],
+            rowData: row // attach for cross-filtering
+        }));
         return {
             ...base,
             tooltip: {
@@ -248,6 +257,110 @@ export function buildEchartsOption(
         };
     }
 
+    if (actualType === 'treemap') {
+        const firstMeasure = measureKeys[0];
+        const treemapData = result.rows.map((row, i) => ({
+            name: dimensionLabels[i],
+            value: row[firstMeasure],
+            rowData: row // attach for cross-filtering
+        }));
+        return {
+            ...base,
+            tooltip: {
+                ...base.tooltip,
+                trigger: 'item',
+                formatter: (p: any) => `
+                    <div style="font-weight:600;margin-bottom:4px;color:${darkMode ? '#f9fafb' : '#111827'}">${p.name}</div>
+                    <div>${p.marker} ${firstMeasure}: <b>${Number(p.value).toLocaleString()}</b></div>
+                `
+            },
+            series: [{
+                type: 'treemap',
+                data: treemapData,
+                roam: false,
+                nodeClick: false, // Handle via generic click event
+                breadcrumb: { show: false },
+                itemStyle: {
+                    borderColor: darkMode ? '#1f2937' : '#fff',
+                    borderWidth: 1,
+                    gapWidth: 1
+                }
+            }]
+        };
+    }
+
+    if (actualType === 'heatmap') {
+        const xDim = rows[0] || 'All';
+        const yDim = rows[1] || ''; // Need 2 dimensions for good heatmap
+        const measure = measureKeys[0];
+
+        // Format data: [xIndex, yIndex, value]
+        const xLabels = Array.from(new Set(result.rows.map(r => r[xDim])));
+        const yLabels = yDim ? Array.from(new Set(result.rows.map(r => r[yDim]))) : ['All'];
+
+        const heatmapData = result.rows.map(row => {
+            const xIndex = xLabels.indexOf(row[xDim]);
+            const yIndex = yDim ? yLabels.indexOf(row[yDim]) : 0;
+            return {
+                value: [xIndex, yIndex, row[measure]],
+                rowData: row // attach for cross-filtering
+            };
+        });
+
+        return {
+            ...base,
+            tooltip: {
+                ...base.tooltip,
+                trigger: 'item',
+                formatter: (p: any) => `
+                    <div style="font-weight:600;margin-bottom:4px;color:${darkMode ? '#f9fafb' : '#111827'}">
+                        ${xLabels[p.value[0]]} ${yDim ? ' - ' + yLabels[p.value[1]] : ''}
+                    </div>
+                    <div>${p.marker} ${measure}: <b>${Number(p.value[2]).toLocaleString()}</b></div>
+                `
+            },
+            grid: {
+                ...axis.grid,
+                right: '10%' // make room for visual map
+            },
+            xAxis: {
+                ...axis.xAxis,
+                type: 'category',
+                data: xLabels,
+                splitArea: { show: true }
+            },
+            yAxis: {
+                ...axis.yAxis,
+                type: 'category',
+                data: yLabels,
+                splitArea: { show: true }
+            },
+            visualMap: {
+                min: Math.min(...result.rows.map(r => Number(r[measure]))),
+                max: Math.max(...result.rows.map(r => Number(r[measure]))),
+                calculable: true,
+                orient: 'vertical',
+                right: '2%',
+                bottom: '15%',
+                inRange: {
+                    color: [colors[0] + '33', colors[0]] // light to solid base color
+                },
+                textStyle: { color: darkMode ? '#9ca3af' : '#6b7280' }
+            },
+            series: [{
+                type: 'heatmap',
+                data: heatmapData,
+                label: { show: false },
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }]
+        };
+    }
+
     // Bar, Line, Area — premium treatment
     const seriesType = actualType === 'area' ? 'line' : actualType;
     const series = measureKeys.map((key, idx) => ({
@@ -258,7 +371,10 @@ export function buildEchartsOption(
         emphasis: {
             itemStyle: { shadowBlur: 12, shadowColor: 'rgba(0,0,0,0.2)' }
         },
-        data: result.rows.map(row => row[key]),
+        data: result.rows.map(row => ({
+            value: row[key],
+            rowData: row // attach for cross-filtering
+        })),
         areaStyle: actualType === 'area' ? {
             opacity: 0.18,
             color: colors[idx % colors.length]

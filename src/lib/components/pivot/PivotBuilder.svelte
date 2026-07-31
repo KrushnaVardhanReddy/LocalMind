@@ -49,6 +49,9 @@
     let dragItem = $state<{ type: string, column: string, index?: number } | null>(null);
     let layoutStacked = $state(false); // true: stacked (chart top, table bottom), false: side-by-side
 
+    // Aggregation Popover state
+    let activeAggPopoverIndex = $state<number | null>(null);
+
     const PAGE_SIZE = 1000;
     const aggregations = ['SUM', 'COUNT', 'AVG', 'MIN', 'MAX'] as const;
 
@@ -79,7 +82,7 @@
             const schema = await db.getSchema(tableName);
             const cols = Object.entries(schema).map(([name, type]) => {
                 let colType: ColumnType = 'unknown';
-                const typeStr = (type || '').toUpperCase();
+                const typeStr = (String(type) || '').toUpperCase();
                 if (typeStr.includes('INT') || typeStr.includes('FLOAT') || typeStr.includes('DOUBLE') || typeStr.includes('DECIMAL')) {
                     colType = 'numeric';
                 } else if (typeStr.includes('CHAR') || typeStr.includes('TEXT') || typeStr.includes('VARCHAR')) {
@@ -189,6 +192,24 @@
     function handleValueAggChange(index: number, newAgg: string) {
         if (values[index]) {
             values[index].agg = newAgg as any;
+            activeAggPopoverIndex = null;
+            triggerQuery();
+        }
+    }
+
+    function handleChartClick(rowData: any) {
+        let changed = false;
+        for (const row of rows) {
+            const val = rowData[row.column];
+            if (val !== undefined && val !== null) {
+                const exists = filters.find(f => f.column === row.column && f.value === String(val) && f.operator === '=');
+                if (!exists) {
+                    filters.push({ column: row.column, operator: '=', value: String(val) });
+                    changed = true;
+                }
+            }
+        }
+        if (changed) {
             triggerQuery();
         }
     }
@@ -325,8 +346,15 @@
     }
 </script>
 
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- Mobile responsiveness: stack on small screens -->
-<div class="flex flex-col md:flex-row h-[calc(100vh-8rem)] gap-4 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 overflow-hidden rounded-xl border dark:border-gray-700 shadow-sm p-4">
+<div class="flex flex-col md:flex-row h-[calc(100vh-8rem)] gap-4 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 overflow-hidden rounded-xl border dark:border-gray-700 shadow-sm p-4" onclick={(e) => {
+    // Close agg popover if click is outside any pill
+    if (!(e.target as HTMLElement).closest('.agg-popover-container')) {
+        activeAggPopoverIndex = null;
+    }
+}}>
 
     <!-- Left Sidebar: Columns -->
     <div class="w-full md:w-64 flex-shrink-0 h-48 md:h-full rounded-lg overflow-hidden shadow-sm">
@@ -386,24 +414,38 @@
                 <!-- Values -->
                 <ShelfZone id="values" label="Values / Metrics" color="green" emptyText="Drop columns here" onDrop={handleDropOnZone}>
                     {#each values as val, i}
-                        <ShelfPill
-                            label={val.column}
-                            color="green"
-                            onRemove={() => handleRemove('values', i)}
-                            onDragStart={(e) => handleDragStartFromShelf(e, 'values', val.column, i)}
-                        >
-                            {#snippet extras()}
-                                <select
-                                    value={val.agg}
-                                    onchange={(e) => handleValueAggChange(i, (e.target as HTMLSelectElement).value)}
-                                    class="text-xs bg-white dark:bg-gray-800 border border-green-300 dark:border-green-700 rounded px-1 py-0.5 cursor-pointer focus:outline-none"
-                                >
+                        <div class="relative agg-popover-container inline-block">
+                            <ShelfPill
+                                label={val.column}
+                                color="green"
+                                onRemove={() => handleRemove('values', i)}
+                                onDragStart={(e) => handleDragStartFromShelf(e, 'values', val.column, i)}
+                            >
+                                {#snippet extras()}
+                                    <button
+                                        class="text-xs bg-white dark:bg-gray-800 border border-green-300 dark:border-green-700 rounded px-1.5 py-0.5 cursor-pointer hover:bg-green-50 dark:hover:bg-gray-700 focus:outline-none"
+                                        onclick={(e) => {
+                                            e.stopPropagation();
+                                            activeAggPopoverIndex = activeAggPopoverIndex === i ? null : i;
+                                        }}
+                                    >
+                                        {val.agg} <span class="text-[10px] ml-0.5">▼</span>
+                                    </button>
+                                {/snippet}
+                            </ShelfPill>
+                            {#if activeAggPopoverIndex === i}
+                                <div class="absolute left-0 top-full mt-1 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded shadow-lg py-1 w-24">
                                     {#each aggregations as agg}
-                                        <option value={agg}>{agg}</option>
+                                        <button
+                                            class="w-full text-left px-3 py-1 text-xs hover:bg-gray-100 dark:hover:bg-gray-700 {val.agg === agg ? 'font-bold text-green-600 dark:text-green-400' : 'text-gray-700 dark:text-gray-300'}"
+                                            onclick={(e) => { e.stopPropagation(); handleValueAggChange(i, agg); }}
+                                        >
+                                            {agg}
+                                        </button>
                                     {/each}
-                                </select>
-                            {/snippet}
-                        </ShelfPill>
+                                </div>
+                            {/if}
+                        </div>
                     {/each}
                 </ShelfZone>
 
@@ -442,6 +484,7 @@
                     {rows}
                     {values}
                     onChartTypeChange={(t) => chartType = t}
+                    onChartClick={handleChartClick}
                 />
             </div>
 

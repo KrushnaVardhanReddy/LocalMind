@@ -15,13 +15,15 @@
         chartType = 'auto',
         rows,
         values,
-        onChartTypeChange
+        onChartTypeChange,
+        onChartClick
     } = $props<{
         result: any;
         chartType: ChartType;
         rows: any[];
         values: any[];
         onChartTypeChange: (type: ChartType) => void;
+        onChartClick?: (rowData: any) => void;
     }>();
 
     let chartRef: HTMLElement = $state() as unknown as HTMLElement;
@@ -38,12 +40,24 @@
 
     const chartIcons: Record<ChartType, string> = {
         'auto': '📊', 'bar': '📊', 'line': '📈',
-        'pie': '🥧', 'scatter': '⬡', 'area': '📉'
+        'pie': '🥧', 'scatter': '⬡', 'area': '📉',
+        'treemap': '🔲', 'heatmap': '🌡️'
     };
     const chartLabels: Record<ChartType, string> = {
         'auto': 'Auto', 'bar': 'Bar', 'line': 'Line',
-        'pie': 'Pie', 'scatter': 'Scatter', 'area': 'Area'
+        'pie': 'Pie', 'scatter': 'Scatter', 'area': 'Area',
+        'treemap': 'Treemap', 'heatmap': 'Heatmap'
     };
+
+    function attachClickListeners(instance: echarts.ECharts | null) {
+        if (!instance) return;
+        instance.off('click');
+        instance.on('click', (params: any) => {
+            if (onChartClick && params.data && params.data.rowData) {
+                onChartClick(params.data.rowData);
+            }
+        });
+    }
 
     onMount(() => {
         checkDark();
@@ -53,6 +67,7 @@
 
         if (chartRef) {
             chartInstance = echarts.init(chartRef, null, { renderer: 'canvas' });
+            attachClickListeners(chartInstance);
             resizeObserver = new ResizeObserver(() => chartInstance?.resize());
             resizeObserver.observe(chartRef);
         }
@@ -73,7 +88,7 @@
     // Inline chart effect
     $effect(() => {
         if (!chartInstance || !chartRef) return;
-        const rowCols = rows.map(r => r.column);
+        const rowCols = rows.map((r: any) => r.column);
         const colors = getColors();
         const _p = selectedPalette;
         const _d = darkMode;
@@ -87,7 +102,7 @@
     // Fullscreen chart effect
     $effect(() => {
         if (!isFullscreen || !fullscreenChartInstance) return;
-        const rowCols = rows.map(r => r.column);
+        const rowCols = rows.map((r: any) => r.column);
         const colors = getColors();
         const _p = selectedPalette;
         const _d = darkMode;
@@ -104,6 +119,7 @@
         await tick();
         if (fullscreenChartRef && !fullscreenChartInstance) {
             fullscreenChartInstance = echarts.init(fullscreenChartRef, null, { renderer: 'canvas' });
+            attachClickListeners(fullscreenChartInstance);
         }
         setTimeout(() => fullscreenChartInstance?.resize(), 80);
     }
@@ -141,7 +157,7 @@
         <div class="flex items-center gap-2">
             <!-- Chart type selector -->
             <div class="flex items-center gap-0.5 bg-white dark:bg-gray-700 p-1 rounded-lg shadow-sm border dark:border-gray-600">
-                {#each (['auto', 'bar', 'line', 'pie', 'scatter', 'area'] as ChartType[]) as type}
+                {#each (['auto', 'bar', 'line', 'pie', 'scatter', 'area', 'treemap', 'heatmap'] as ChartType[]) as type}
                     <button
                         class="px-2 py-1 rounded-md text-xs font-medium transition-all duration-150
                             {chartType === type ? 'bg-indigo-600 text-white shadow-sm' : 'text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600'}"
@@ -223,6 +239,8 @@
     </div>
 </div>
 
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- Fullscreen Modal Overlay -->
 {#if isFullscreen}
     <div
@@ -232,6 +250,7 @@
         role="dialog"
         aria-modal="true"
         aria-label="Chart fullscreen view"
+        tabindex="-1"
     >
         <div class="relative w-full h-full max-w-[95vw] max-h-[90vh] bg-white dark:bg-gray-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
              style="box-shadow: 0 32px 80px rgba(0,0,0,0.4);">
@@ -250,7 +269,7 @@
                 <div class="flex items-center gap-2">
                     <!-- Chart type in fullscreen -->
                     <div class="flex items-center gap-0.5 bg-white dark:bg-gray-700 p-1 rounded-lg shadow-sm border dark:border-gray-600">
-                        {#each (['auto', 'bar', 'line', 'pie', 'scatter', 'area'] as ChartType[]) as type}
+                        {#each (['auto', 'bar', 'line', 'pie', 'scatter', 'area', 'treemap', 'heatmap'] as ChartType[]) as type}
                             <button
                                 class="px-2.5 py-1.5 rounded-md text-xs font-medium transition-all duration-150
                                     {chartType === type ? 'bg-indigo-600 text-white shadow-sm' : 'text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600'}"
