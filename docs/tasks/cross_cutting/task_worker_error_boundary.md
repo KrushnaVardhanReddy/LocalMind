@@ -1,58 +1,43 @@
-# Worker Error Boundary & Crash Recovery
+TASK: Robustness Wave — CI-4: Worker Error Boundary & Crash Recovery
 
-## Objective
-Implement a global error boundary that catches WASM worker crashes, OOM errors, and malformed-input failures — showing a user-friendly recovery UI instead of a silently frozen page. This is critical UX: if DuckDB crashes mid-query on a 500MB CSV, the user should be able to restart the worker and continue rather than losing their session.
+═══════════════════════════════════════════════════════════════
+OBJECTIVE
+═══════════════════════════════════════════════════════════════
+Implement a global error boundary that catches WASM worker crashes, OOM errors, and malformed-input failures — showing a user-friendly recovery UI instead of a silently frozen page.
 
-## Implementation
-
-### 1. WorkerManager Error Events
-Extend `src/lib/services/WorkerManager.ts`:
+═══════════════════════════════════════════════════════════════
+CONSTRAINTS & RULES
+═══════════════════════════════════════════════════════════════
 - Catch unhandled `error` and `messageerror` events on every worker.
-- Emit a typed `WorkerCrashEvent` to a global Svelte store:
-```typescript
-// src/lib/stores/workerHealth.store.ts
-export interface WorkerCrashEvent {
-  worker: 'duckdb' | 'tesseract' | 'ffmpeg' | 'webllm' | 'mupdf';
-  error: string;
-  timestamp: number;
-  recoverable: boolean; // false for OOM
-}
-export const workerCrashes = writable<WorkerCrashEvent[]>([]);
-```
+- Emit a typed `WorkerCrashEvent` to a global Svelte store (`workerCrashes`).
+- Show a bottom-right toast on crash. Auto-dismiss after 10s.
+- "Restart Worker" terminates and re-initializes the worker (and re-registers OPFS virtual files for DuckDB).
+- Detect OOM via 30s timeout and show specific warning.
+- Wrap root `+layout.svelte` in Svelte error boundary.
 
-### 2. Error Toast Component (`src/lib/components/WorkerErrorToast.svelte`)
-- Subscribe to `workerCrashes` store.
-- When a crash event arrives, show a bottom-right toast:
-  > ⚠️ **DuckDB worker crashed** — your query could not complete.
-  > [Restart Worker] [Dismiss]
-- "Restart Worker" calls `WorkerManager.restart('duckdb')` which terminates and re-initializes the worker.
-- Toast auto-dismisses after 10s if ignored.
-- Show at most 1 toast at a time (queue additional crashes).
+═══════════════════════════════════════════════════════════════
+CONTEXT — EXISTING REPO LAYOUT & ARCHITECTURE
+═══════════════════════════════════════════════════════════════
+- `src/lib/services/WorkerManager.ts`
+- `src/routes/+layout.svelte`
+- `src/lib/stores/workerHealth.store.ts` (to be created)
+- `src/lib/components/WorkerErrorToast.svelte` (to be created)
 
-### 3. WorkerManager.restart(name)
-```typescript
-async restart(name: WorkerName): Promise<void> {
-  await this.terminate(name);
-  await this.init(name);
-  // Restore virtual files in DuckDB if relevant
-}
-```
-For DuckDB specifically, after restart, re-register any OPFS-backed virtual files so the user can re-run their last query.
+═══════════════════════════════════════════════════════════════
+IMPLEMENTATION TIPS
+═══════════════════════════════════════════════════════════════
+- Dependencies: Svelte 5 and Tailwind are already installed. No external toast library.
+- Store: Export `export const workerCrashes = writable<WorkerCrashEvent[]>([])`.
+- Svelte Error Boundary: Wrap the main layout logic to capture uncaught synchronous UI errors.
+- OOM Timeout: Use `Promise.race` inside the `WorkerManager` query dispatcher to detect a 30s timeout on heavy queries.
 
-### 4. OOM Detection
-Browsers don't expose OOM errors directly. Detect heuristically:
-- If a worker post-message times out after 30s, treat as a crash.
-- Show a specific OOM message: "The file may be too large for available memory. Try a smaller file or use the Desktop version for unlimited memory."
+═══════════════════════════════════════════════════════════════
+DELIVERABLES
+═══════════════════════════════════════════════════════════════
+1. CREATE: `src/lib/stores/workerHealth.store.ts`
+2. CREATE: `src/lib/components/WorkerErrorToast.svelte`
+3. MODIFY: `src/lib/services/WorkerManager.ts`
+4. MODIFY: `src/routes/+layout.svelte`
 
-### 5. Global Svelte Error Boundary
-Wrap the root `+layout.svelte` in a try/catch with `onError` lifecycle:
-- If the main thread throws, show a full-page recovery UI with "Reload app" button.
-- Log the error (no PII) to `console.error` and optionally to the consent-gated telemetry service.
-
-## Acceptance Criteria
-- [ ] Simulating a DuckDB worker crash shows the error toast.
-- [ ] "Restart Worker" restores DuckDB and re-registers virtual files.
-- [ ] OOM timeout (30s) shows the large-file warning message.
-- [ ] Main thread uncaught errors show the full-page recovery UI.
-- [ ] Unit tests cover `WorkerManager.restart()` state transitions.
-- [ ] No PII is captured in error messages.
+Commit: "feat: CI-4 worker error boundary and crash recovery"
+Target branch: feature/dev
