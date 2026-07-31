@@ -171,7 +171,7 @@ export function buildEchartsOption(
         const firstMeasure = measureKeys[0];
         const pieData = result.rows.map((row, i) => ({
             name: dimensionLabels[i],
-            value: row[firstMeasure],
+            value: Number(row[firstMeasure]),
             rowData: row // attach for cross-filtering
         }));
         return {
@@ -219,7 +219,7 @@ export function buildEchartsOption(
         const measureX = measureKeys[0];
         const measureY = measureKeys[1];
         const scatterData = result.rows.map(row => ({
-            value: [row[measureX], row[measureY]],
+            value: [Number(row[measureX]), Number(row[measureY])],
             rowData: row // attach for cross-filtering
         }));
         return {
@@ -261,7 +261,7 @@ export function buildEchartsOption(
         const firstMeasure = measureKeys[0];
         const treemapData = result.rows.map((row, i) => ({
             name: dimensionLabels[i],
-            value: row[firstMeasure],
+            value: Number(row[firstMeasure]),
             rowData: row // attach for cross-filtering
         }));
         return {
@@ -302,7 +302,7 @@ export function buildEchartsOption(
             const xIndex = xLabels.indexOf(row[xDim]);
             const yIndex = yDim ? yLabels.indexOf(row[yDim]) : 0;
             return {
-                value: [xIndex, yIndex, row[measure]],
+                value: [xIndex, yIndex, Number(row[measure])],
                 rowData: row // attach for cross-filtering
             };
         });
@@ -372,7 +372,7 @@ export function buildEchartsOption(
             itemStyle: { shadowBlur: 12, shadowColor: 'rgba(0,0,0,0.2)' }
         },
         data: result.rows.map(row => ({
-            value: row[key],
+            value: Number(row[key]),
             rowData: row // attach for cross-filtering
         })),
         areaStyle: actualType === 'area' ? {
