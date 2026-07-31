@@ -475,18 +475,18 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
 {#if showConsent}
     <ConsentModal
         schema={schemaForConsent}
-        sampleRows={rowsForConsent}
-        onconsent={onConsentToAI}
-        oncancel={() => showConsent = false}
+        sampleData={rowsForConsent}
+        onaccept={onConsentToAI}
+        onclose={() => showConsent = false}
     />
 {/if}
 
 {#if showChartConsent}
     <ConsentModal
         schema={schemaForConsent}
-        sampleRows={[]}
-        onconsent={onConsentToChartAI}
-        oncancel={() => showChartConsent = false}
+        sampleData={[]}
+        onaccept={onConsentToChartAI}
+        onclose={() => showChartConsent = false}
     />
 {/if}
 

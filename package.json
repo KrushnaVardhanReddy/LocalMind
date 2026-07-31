@@ -10,8 +10,7 @@
     "prepare": "svelte-kit sync || echo ''",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "test": "vitest run",
-    "test:e2e": "playwright test tests/phase1-e2e.spec.ts"
+    "test:e2e": "playwright test tests/phase-1/"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",

@@ -2,6 +2,7 @@
     import { onMount, tick, onDestroy } from 'svelte';
     import { WorkerManager } from '$lib/workers/WorkerManager';
     import type { ColumnInfo, ShelfItem, ValueShelfItem, FilterRule, ChartType, ColumnType } from './pivot.types';
+    import type { PivotTemplate } from '$lib/templates/template.types';
 
     // Child Components
     import ColumnPanel from './ColumnPanel.svelte';
@@ -18,8 +19,19 @@
     export function getPivotData() {
         return {
             result: result,
-            chartBase64: null // Not implemented base64 yet, would require chartRef/chartInstance reference
+            chartBase64: null
         };
+    }
+
+    export function applyTemplate(template: PivotTemplate) {
+        rows = (template.pivotConfig.rows || []).map(col => ({ column: col, type: allColumns.find(c => c.name === col)?.type || 'unknown' }));
+        columns = (template.pivotConfig.columns || []).map(col => ({ column: col, type: allColumns.find(c => c.name === col)?.type || 'unknown' }));
+        values = (template.pivotConfig.values || []).map(v => ({ column: v.column, type: allColumns.find(c => c.name === v.column)?.type || 'numeric', agg: v.agg as any }));
+        filters = (template.pivotConfig.filters || []).map(f => ({ column: f.column, operator: f.operator as any, value: f.value }));
+        if (template.pivotConfig.chartType) {
+            chartType = template.pivotConfig.chartType;
+        }
+        triggerQuery();
     }
     let allColumns = $state<ColumnInfo[]>([]);
     let rows = $state<ShelfItem[]>([]);
@@ -64,21 +76,21 @@
         try {
             const db = await WorkerManager.getDuckDB();
 
-            // Get types using DESCRIBE
-            const res = await db.query(`DESCRIBE "${tableName}"`);
-            const cols = res.rows.map((r: any) => {
+            const schema = await db.getSchema(tableName);
+            const cols = Object.entries(schema).map(([name, type]) => {
                 let colType: ColumnType = 'unknown';
-                const typeStr = (r.column_type || r.type || '').toUpperCase();
+                const typeStr = (type || '').toUpperCase();
                 if (typeStr.includes('INT') || typeStr.includes('FLOAT') || typeStr.includes('DOUBLE') || typeStr.includes('DECIMAL')) {
                     colType = 'numeric';
-                } else if (typeStr.includes('CHAR') || typeStr.includes('TEXT')) {
+                } else if (typeStr.includes('CHAR') || typeStr.includes('TEXT') || typeStr.includes('VARCHAR')) {
                     colType = 'text';
                 } else if (typeStr.includes('DATE') || typeStr.includes('TIME')) {
                     colType = 'date';
                 } else if (typeStr.includes('BOOL')) {
                     colType = 'boolean';
                 }
-                return { name: r.column_name || r.name, type: colType };
+                
+                return { name, type: colType };
             });
             allColumns = cols;
         } catch (error: any) {

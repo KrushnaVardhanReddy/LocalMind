@@ -9,9 +9,9 @@ help:
 	@echo "  make check      - Run Svelte and TypeScript checks"
 	@echo "  make test       - Run unit tests (Vitest)"
 	@echo "  make test-e2e   - Run end-to-end tests (Playwright)"
+	@echo "  make test-e2e-phase1 - Run only Phase 1 E2E tests"
 	@echo "  make test-all   - Run both unit and E2E tests"
 	@echo "  make clean      - Remove build artifacts and node_modules"
-
 install:
 	bun install
 
@@ -32,6 +32,9 @@ test:
 
 test-e2e:
 	bunx playwright test
+
+test-e2e-phase1:
+	bunx playwright test tests/phase-1/
 
 test-all: test test-e2e
 
