@@ -40,6 +40,10 @@
 - **[Analytics]** Task 10: Advanced BI Polish (Treemaps, Heatmaps, Cross-filtering) ✅ *(Completed - PR #69)* (`docs/tasks/phase-1/task10_advanced_bi.md`)
 - **[Analytics]** Task 11: High-Performance Data Grid Upgrade ✅ *(Completed - PR #72)* (`docs/tasks/phase-1/task11_data_grid.md`)
 
+### Wave 7: LocalMind OS Macro-Shell
+*Must run alone. Refactors `+layout.svelte` to implement the 4-pane unified OS layout and Command Palette.*
+- **[UX]** Task 1: Macro-Shell Layout & Command Palette (`docs/tasks/phase-9/task1_macro_shell.md`)
+
 ---
 
 ## 🔒 ROBUSTNESS WAVE (Ship With or Right After MVP1 Launch)
