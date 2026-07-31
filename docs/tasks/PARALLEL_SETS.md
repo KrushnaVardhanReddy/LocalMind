@@ -19,8 +19,8 @@
 
 ### Wave 2: BI Middle & Export
 *Safe because UX-3 targets the newly created `/analytics` route from Wave 1, while 7.2 targets `PivotBuilder.svelte`.*
-- **[Analytics]** Task 7.2: BI Pivot Builder - True Pivot, Filters & SQL Panel 🔄 *(Running)* (`docs/tasks/phase-1/task7_2_bi_pivot_filters.md`)
-- **[UX]** UX-3: Static HTML Report Export 🔄 *(Running)* (`docs/tasks/cross_cutting/task_ux3_report_export.md`)
+- **[Analytics]** Task 7.2: BI Pivot Builder - True Pivot, Filters & SQL Panel ✅ *(Completed)* (`docs/tasks/phase-1/task7_2_bi_pivot_filters.md`)
+- **[UX]** UX-3: Static HTML Report Export ✅ *(Completed)* (`docs/tasks/cross_cutting/task_ux3_report_export.md`)
 
 ### Wave 3: BI Table & Templates
 *Safe because 7.3 polishes the internal table of `PivotBuilder`, while UX-4 adds templates to the outer `/analytics` layout.*
@@ -246,11 +246,10 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
 ---
 
 ## Set 12: Crypto, Whiteboard & End-to-End Tests
-- **[Plugins]** Task 3: Security / Cryptography Workspace 🔄 *(Running - Jules ID: 5000879008191099918)* (`docs/tasks/phase-6/task3_crypto.md`)
-  *Safe: Potential WorkerManager modifier (Crypto WASM).*
-- **[Plugins]** Task 4: Infinite Whiteboard Integration 🔄 *(Running - Jules ID: 16657880211204918934)* (`docs/tasks/phase-8/task1_whiteboard.md`)
-  *Safe: Pure JS/UI (Excalidraw).*
-- **[Plugins]** Task 5: Language Learning Workspace 🔄 *(Running - Jules ID: 4489897751899106247)* (`docs/tasks/phase-6/task5_language.md`)
+- **[Plugins]** Task 2: 3D CAD Workspace ✅ *(Completed)* (`docs/tasks/phase-6/task2_cad.md`)
+- **[Plugins]** Task 3: Security / Cryptography Workspace ✅ *(Completed)* (`docs/tasks/phase-6/task3_crypto.md`)
+- **[Plugins]** Task 4: Infinite Whiteboard Integration ✅ *(Completed)* (`docs/tasks/phase-8/task1_whiteboard.md`)
+- **[Plugins]** Task 5: Language Learning Workspace ✅ *(Completed)* (`docs/tasks/phase-6/task5_language.md`)
   *Safe: Uses existing WebLLM and Whisper workers.*
 - **[Testing]** Task 9, 4, 7: E2E Testing for Phase 1, 2, 4 (`docs/tasks/phase-1/task9_e2e.md`, etc.)
   *Safe: Playwright setup only.*
