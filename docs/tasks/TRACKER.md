@@ -54,8 +54,8 @@
 - [x] Task 7.4: BI Pivot Builder - Component Architecture & Premium UI ✅ *(Completed - PR #64)* (`docs/tasks/phase-1/task7_4_bi_component_architecture.md`)
 - [x] Task 8: Interactive Dashboard Builder ✅ *(Completed)* (`docs/tasks/phase-1/task8_dashboards.md`)
 - [x] Task 9: End-to-End Testing (Phase 1 Full Surface) ✅ *(Completed)* (`docs/tasks/phase-1/task9_e2e.md`)
-- [ ] Task 10: Advanced BI Polish (Treemaps, Heatmaps, Cross-filtering) (`docs/tasks/phase-1/task10_advanced_bi.md`)
-- [ ] Task 11: High-Performance Data Grid Upgrade (`docs/tasks/phase-1/task11_data_grid.md`)
+- [/] Task 10: Advanced BI Polish (Treemaps, Heatmaps, Cross-filtering) ⏳ *(In Progress - Jules ID: 7632845091085479988)* (`docs/tasks/phase-1/task10_advanced_bi.md`)
+- [/] Task 11: High-Performance Data Grid Upgrade ⏳ *(In Progress - Jules ID: 15721770383849764271)* (`docs/tasks/phase-1/task11_data_grid.md`)
 
 ---
 

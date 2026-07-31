@@ -37,8 +37,8 @@
 
 ### Wave 6: Advanced Visualization (Parallel)
 *These tasks push the BI Pivot Builder to world-class status. They can be executed concurrently as they touch different parts of the UI stack (chart config vs grid config).*
-- **[Analytics]** Task 10: Advanced BI Polish (Treemaps, Heatmaps, Cross-filtering) (`docs/tasks/phase-1/task10_advanced_bi.md`)
-- **[Analytics]** Task 11: High-Performance Data Grid Upgrade (`docs/tasks/phase-1/task11_data_grid.md`)
+- **[Analytics]** Task 10: Advanced BI Polish (Treemaps, Heatmaps, Cross-filtering) ⏳ *(In Progress - Jules ID: 7632845091085479988)* (`docs/tasks/phase-1/task10_advanced_bi.md`)
+- **[Analytics]** Task 11: High-Performance Data Grid Upgrade ⏳ *(In Progress - Jules ID: 15721770383849764271)* (`docs/tasks/phase-1/task11_data_grid.md`)
 
 ---
 
