@@ -1,5 +1,6 @@
 <script lang="ts">
     import { page } from '$app/stores';
+    import { workspaceStore } from '$lib/stores/workspace.store.svelte';
 
     let currentPath = $derived($page.url.pathname);
 
@@ -37,6 +38,18 @@
     </div>
 
     <div class="flex items-center gap-4">
+        {#if workspaceStore.activeWorkspace}
+            <div class="hidden lg:flex items-center gap-2 text-sm text-indigo-200">
+                <span class="font-medium text-white">{workspaceStore.activeWorkspace.title}</span>
+                {#if workspaceStore.activeWorkspace.activeFileId}
+                    <span class="text-indigo-400">/</span>
+                    <span class="truncate max-w-[200px]" title={workspaceStore.activeWorkspace.activeFileId}>
+                        {workspaceStore.activeWorkspace.activeFileId.split('/').pop()}
+                    </span>
+                {/if}
+            </div>
+        {/if}
+
         <span class="text-sm font-semibold text-emerald-300 bg-indigo-950 px-3 py-1 rounded-full border border-emerald-800 flex items-center gap-1">
             🔒 <span class="hidden sm:inline">Zero data leaves your browser</span>
         </span>

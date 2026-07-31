@@ -7,6 +7,7 @@
     import { useRegisterSW } from 'virtual:pwa-register/svelte';
     import StatusBar from '$lib/components/StatusBar.svelte';
     import WorkspaceNav from '$lib/components/workspace/WorkspaceNav.svelte';
+    import FileExplorer from '$lib/components/explorer/FileExplorer.svelte';
     import WorkerErrorToast from '$lib/components/WorkerErrorToast.svelte';
     import { checkWebGPUSupport } from '$lib/utils/webgpu-check';
     import { workspaceStore } from '$lib/stores/workspace.store.svelte';
@@ -111,9 +112,11 @@
     <div class="flex flex-1 overflow-hidden">
 
         <!-- Left Sidebar (Explorer) -->
-        <aside class="w-64 flex-none border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 overflow-y-auto">
-            <div class="p-4 text-sm font-semibold text-gray-500 uppercase tracking-wider">Explorer</div>
-            <!-- OPFS file tree and workspace navigation would go here -->
+        <aside class="w-64 flex-none border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 overflow-y-auto flex flex-col">
+            <div class="p-4 flex-none text-sm font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100 dark:border-gray-700">Explorer</div>
+            <div class="flex-1 overflow-y-auto">
+                <FileExplorer />
+            </div>
         </aside>
 
         <!-- Center Canvas -->
