@@ -4,7 +4,7 @@ test.describe('Phase 1 - Full Analytics Surface', () => {
   test.setTimeout(300000);
 
   test('Workspace Launcher (UX-1)', async ({ page }) => {
-    await page.goto('http://localhost:5173/');
+    await page.goto('http://localhost:4173/');
     await expect(page.locator('h1', { hasText: 'Welcome to LocalMind' })).toBeVisible({ timeout: 60000 });
     const analyticsCard = page.locator('a', { hasText: 'Analytics' }).first();
     await expect(analyticsCard).toBeVisible({ timeout: 60000 });
@@ -14,7 +14,7 @@ test.describe('Phase 1 - Full Analytics Surface', () => {
   });
 
   test('Command Palette (UX-2)', async ({ page }) => {
-    await page.goto('http://localhost:5173/analytics');
+    await page.goto('http://localhost:4173/analytics');
     const isMac = process.platform === 'darwin';
     await page.waitForTimeout(2000); 
     await page.keyboard.press('Control+Shift+P');
@@ -55,14 +55,14 @@ test.describe('Phase 1 - Full Analytics Surface', () => {
   }
 
   test('Data Ingestion & DuckDB', async ({ page }) => {
-    await page.goto('http://localhost:5173/analytics');
+    await page.goto('http://localhost:4173/analytics');
     await uploadFile(page);
     await page.locator('button', { hasText: 'Run Query' }).click();
     await page.waitForSelector('table tbody tr', { timeout: 60000 });
   });
 
   test('BI Pivot Builder & Template Gallery', async ({ page }) => {
-    await page.goto('http://localhost:5173/analytics');
+    await page.goto('http://localhost:4173/analytics');
     await uploadFile(page);
     await page.locator('button', { hasText: 'Run Query' }).click();
     await page.waitForSelector('table tbody tr', { timeout: 60000 });
@@ -90,7 +90,7 @@ test.describe('Phase 1 - Full Analytics Surface', () => {
   });
 
   test('Static HTML Report Export (UX-3)', async ({ page }) => {
-    await page.goto('http://localhost:5173/analytics');
+    await page.goto('http://localhost:4173/analytics');
     await uploadFile(page);
     await page.locator('button', { hasText: 'Run Query' }).click();
     await page.waitForSelector('table tbody tr', { timeout: 60000 });
@@ -109,7 +109,7 @@ test.describe('Phase 1 - Full Analytics Surface', () => {
   });
 
   test('AI Consent Flow (No Mocking)', async ({ page }) => {
-    await page.goto('http://localhost:5173/analytics');
+    await page.goto('http://localhost:4173/analytics');
     await uploadFile(page);
     await page.locator('button', { hasText: 'Run Query' }).click();
     await page.waitForSelector('table tbody tr', { timeout: 60000 });
