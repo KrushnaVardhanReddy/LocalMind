@@ -27,11 +27,15 @@ class WorkspaceStore implements WorkspaceStoreContract {
     }
 
     registerCommand(id: string, name: string, callback: () => void): void {
-        this.commands.set(id, { name, callback });
+        const newCommands = new Map(this.commands);
+        newCommands.set(id, { name, callback });
+        this.commands = newCommands;
     }
 
     unregisterCommand(id: string): void {
-        this.commands.delete(id);
+        const newCommands = new Map(this.commands);
+        newCommands.delete(id);
+        this.commands = newCommands;
     }
 }
 
