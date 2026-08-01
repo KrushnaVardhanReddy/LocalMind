@@ -10,6 +10,41 @@
     let title = $state(defaultTitle);
     let theme: 'light' | 'dark' = $state('light');
     let includePivot = $state(true);
+
+    let modalElement = $state<HTMLElement | null>(null);
+
+    function trapFocus(e: KeyboardEvent) {
+        if (e.key === 'Escape') {
+            onclose();
+            return;
+        }
+
+        if (e.key === 'Tab' && modalElement) {
+            const focusableElements = modalElement.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            if (focusableElements.length === 0) return;
+            const firstElement = focusableElements[0] as HTMLElement;
+            const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+            if (e.shiftKey) {
+                if (document.activeElement === firstElement) {
+                    lastElement.focus();
+                    e.preventDefault();
+                }
+            } else {
+                if (document.activeElement === lastElement) {
+                    firstElement.focus();
+                    e.preventDefault();
+                }
+            }
+        }
+    }
+
+    $effect(() => {
+        if (modalElement) {
+            modalElement.focus();
+        }
+    });
+
     let includeChart = $state(true);
     let includeAiInsight = $state(true);
     let includeSql = $state(true);
@@ -33,10 +68,10 @@
 <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onclick={onclose}>
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6" onclick={(e) => e.stopPropagation()}>
+    <div role="dialog" aria-modal="true" bind:this={modalElement} onkeydown={trapFocus} tabindex="-1" class="bg-white rounded-lg shadow-xl max-w-md w-full p-6" onclick={(e) => e.stopPropagation()}>
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-xl font-bold text-gray-900">Export Report</h2>
-            <button onclick={onclose} class="text-gray-400 hover:text-gray-600">
+            <button aria-label="Close Modal" onclick={onclose} class="text-gray-400 hover:text-gray-600">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>

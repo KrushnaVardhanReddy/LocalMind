@@ -1,3 +1,7 @@
+<svelte:head>
+  <title>LocalMind Docs</title>
+</svelte:head>
+
 <script lang="ts">
     import { onMount } from 'svelte';
     import { WorkerManager } from '$lib/workers/WorkerManager';

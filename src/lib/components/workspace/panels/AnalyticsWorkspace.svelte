@@ -659,8 +659,7 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
         </div>
 
         <div class="flex items-center gap-4">
-            <select
-                class="border rounded p-2"
+            <select aria-label="Select Workspace" class="border rounded p-2"
                 value={$currentWorkspace?.id || ''}
                 onchange={(e) => setWorkspace(e.currentTarget.value)}
             >
@@ -679,7 +678,7 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
                 />
                 <button
                     onclick={handleCreateWorkspace}
-                    class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition whitespace-nowrap"
+                    class="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-800 transition whitespace-nowrap"
                 >
                     New Workspace
                 </button>
@@ -739,7 +738,7 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
             <div class="mb-4 text-gray-600 dark:text-gray-300">
                 Drag and drop a .csv, .json, or .parquet file here
             </div>
-            <div class="text-gray-400 mb-4">or</div>
+            <div class="text-gray-600 dark:text-gray-400 mb-4">or</div>
             <input
                 type="file"
                 bind:this={fileInput}
@@ -757,7 +756,7 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
         </div>
 
         {#if uploadStatus}
-            <div class="mt-4 p-3 rounded text-sm {uploadStatus.type === 'success' ? 'bg-green-100 text-green-800' : uploadStatus.type === 'error' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'}">
+            <div role="alert" class="mt-4 p-3 rounded text-sm {uploadStatus.type === 'success' ? 'bg-green-100 text-green-800' : uploadStatus.type === 'error' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'}">
                 {uploadStatus.message}
             </div>
         {/if}
@@ -877,7 +876,7 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
         ></textarea>
 
         {#if isExecuting}
-            <div class="flex justify-center items-center py-8">
+            <div class="flex justify-center items-center py-8" aria-live="polite">
                 <span class="animate-spin inline-block w-8 h-8 border-4 border-purple-600 border-t-transparent rounded-full"></span>
             </div>
         {:else if result}
@@ -899,7 +898,7 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
                             <thead class="bg-gray-50 sticky top-0">
                                 <tr>
                                     {#each result.columns as col}
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             {col}
                                         </th>
                                     {/each}
@@ -909,10 +908,16 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
                                 {#each result.rows as row}
                                     <tr class="{row._diff_status === 'added' ? 'bg-green-50 hover:bg-green-100' : row._diff_status === 'removed' ? 'bg-red-50 hover:bg-red-100' : 'hover:bg-gray-50'}">
                                         {#each result.columns as col}
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm {row._diff_status === 'added' ? 'text-green-800 font-semibold' : row._diff_status === 'removed' ? 'text-red-800 font-semibold line-through' : 'text-gray-500'}">
-                                                {row[col] !== null ? row[col] : 'NULL'}
-                                            </td>
-                                        {/each}
+                                            {#if col === result.columns[0]}
+                                                <th scope="row" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 {row._diff_status === 'added' ? 'text-green-800' : row._diff_status === 'removed' ? 'text-red-800 line-through' : ''}">
+                                                    {row[col] !== null ? row[col] : 'NULL'}
+                                                </th>
+                                            {:else}
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm {row._diff_status === 'added' ? 'text-green-800 font-semibold' : row._diff_status === 'removed' ? 'text-red-800 font-semibold line-through' : 'text-gray-500'}">
+                                                    {row[col] !== null ? row[col] : 'NULL'}
+                                                </td>
+                                            {/if}
+                                                                                        {/each}
                                     </tr>
                                 {/each}
                             </tbody>

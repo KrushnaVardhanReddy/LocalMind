@@ -73,11 +73,18 @@
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div
+    id={`zone-${id}`}
+    role="region"
+    aria-label={`${label} zone`}
+    tabindex="0"
     class="{baseClasses} {currentTheme.border} {isDragOver ? `${currentTheme.bgActive} ${currentTheme.glow} scale-[1.02]` : ''}"
     ondragover={handleDragOver}
     ondragleave={handleDragLeave}
     ondrop={handleDrop}
+    onkeydown={(e) => { if (e.key === 'Enter') { document.body.dispatchEvent(new CustomEvent('keyboarddrop', { detail: { id } })); } }}
 >
     <div class="flex items-center gap-1 mb-2">
         <h4 class="font-semibold text-sm {currentTheme.title}">{label}</h4>

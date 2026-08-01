@@ -227,7 +227,7 @@
 
     <!-- Chart Canvas -->
     <div class="relative flex-1 p-3 min-h-[300px] overflow-hidden rounded-b-xl">
-        <div bind:this={chartRef} class="w-full h-full absolute inset-0"></div>
+        <div role="img" aria-label={`${chartType} chart representation of pivot data`} bind:this={chartRef} class="w-full h-full absolute inset-0"></div>
         {#if !hasData}
             <div class="absolute inset-0 flex items-center justify-center bg-white/90 dark:bg-gray-800/90 z-10">
                 <div class="text-center text-gray-400 dark:text-gray-500 select-none">
@@ -332,7 +332,7 @@
 
             <!-- Chart canvas -->
             <div class="relative flex-1">
-                <div bind:this={fullscreenChartRef} class="w-full h-full absolute inset-0 p-4"></div>
+                <div role="img" aria-label={`${chartType} chart representation of pivot data`} bind:this={fullscreenChartRef} class="w-full h-full absolute inset-0 p-4"></div>
             </div>
 
             <!-- ESC hint -->

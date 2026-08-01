@@ -65,7 +65,10 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
     draggable={!!onDragStart}
+    tabindex={!!onDragStart ? 0 : undefined}
+    role="button"
     ondragstart={customDragStart}
+    onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { if (onDragStart) { document.body.dispatchEvent(new CustomEvent('keyboarddragstart', { detail: { label, type: color === 'green' ? 'numeric' : 'unknown' } })); } } }}
     class="px-2 py-1 border rounded-md shadow-sm text-sm flex items-center gap-2 animate-[scaleIn_150ms_ease-out] transition-opacity duration-150 {colorClasses[color as keyof typeof colorClasses]} {!!onDragStart ? 'cursor-grab active:cursor-grabbing' : ''} {isRemoving ? 'opacity-0' : 'opacity-100'}"
 >
     {#if extras}
