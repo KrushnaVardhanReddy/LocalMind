@@ -88,7 +88,34 @@ export interface CryptoWorkerContract {
 
 ---
 
-## 5. Invariants (All Phase 6 Plugins)
+## 5. Plugin D: Mind Map Workspace (Task 9)
+
+### 5.1 Engine
+`SvelteFlow` — A node-based UI engine for rendering mind maps and brainstorm canvases.
+
+### 5.2 Supported Operations
+- **Node Management:** Add, connect, group, and style text nodes.
+- **Persistence:** Save graph structure (JSON) into `wa-sqlite` for the current `.lm` session.
+- **AI Expansion:** Select a node and prompt the WebLLM engine to generate child nodes.
+
+### 5.3 Worker Contract
+```typescript
+export interface MindMapGraphState {
+    nodes: Array<{ id: string; data: { label: string }; position: { x: number; y: number } }>;
+    edges: Array<{ id: string; source: string; target: string }>;
+}
+
+export interface MindMapWorkerContract {
+    // Note: Most mind map logic is UI-bound, but AI expansion delegates to WebLLM
+    expandNode(nodeText: string, context: string): Promise<string[]>;
+    saveState(sessionId: string, state: MindMapGraphState): Promise<void>;
+    loadState(sessionId: string): Promise<MindMapGraphState | null>;
+}
+```
+
+---
+
+## 6. Invariants (All Phase 6 Plugins)
 1. Each plugin is a separate, independently lazy-loaded module — the Geo, CAD, and Crypto workspaces do not load each other's WASM engines.
 2. All plugins share the same `WorkerManager` Singleton registry.
 3. CAD and Geo files may be large (hundreds of MB) — streaming registration via `WorkerManager` is mandatory.

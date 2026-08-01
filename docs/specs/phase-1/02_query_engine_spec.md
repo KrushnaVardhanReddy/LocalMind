@@ -41,3 +41,13 @@ async function registerVirtualFile(file: File, tableName: string) {
 - Currently, using `arrayBuffer()` limits the maximum file size to available browser memory (typically ~2GB).
 - For files larger than 1GB, future iterations may require OPFS (Origin Private File System) integration to stream directly from disk without risking `File` object revocation.
 - Results returned from `query()` should be paginated (e.g., `LIMIT 1000`) to prevent the result set itself from crashing the UI thread.
+
+### 3.4 HTML DOM Data Extraction (Task 14)
+- **Objective:** Convert raw HTML source code into queryable DuckDB tables.
+- **Pipeline:** `HTML Blob -> DOMParser -> Extract <table> / JSON-LD -> Array/Object -> Arrow Buffer -> DuckDB registerFileBuffer`.
+- **Parsing:** Extract `<th>` as column names and `<td>` as rows.
+
+### 3.5 Network & Graph Visualization (Task 13)
+- **Objective:** Render complex entity relationships using `Cytoscape.js` or `Sigma.js`.
+- **Data Flow:** Extract distinct `source` and `target` nodes from DuckDB results using `SELECT DISTINCT source FROM table`.
+- **Render Engine:** WebGL accelerated graph rendering for >10,000 nodes.

@@ -52,11 +52,19 @@ Text → ONNX NER Model (detect: PERSON, EMAIL, PHONE, SSN) →
 Highlight overlays on PDF → User confirms → MuPDF burns redaction
 ```
 
-### 4.4 Semantic Search Pipeline
+### 4.4 Semantic Search & Local RAG Pipeline (Task 7)
 ```
 Corpus of Documents → Transformers.js (embed chunks) →
 Store vectors in wa-sqlite → User query → embed query →
-Cosine similarity search → Ranked results
+Cosine similarity search → Ranked results → 
+Context + Prompt → WebLLM Worker → Answer with Citations
+```
+
+### 4.5 Document Redline Diffing (Task 8)
+```
+Doc A & Doc B → MuPDF (extract raw text) → 
+DiffWorker (diff-match-patch) → Compute text deltas → 
+UI Render (green additions, red deletions)
 ```
 
 ## 5. Worker Contracts

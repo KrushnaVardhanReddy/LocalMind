@@ -137,10 +137,36 @@ export interface EmbeddingsWorkerContract {
      * Batches embedding generation for an array of text chunks.
      */
     embedBatch(chunks: string[]): Promise<number[][]>;
+
+    /**
+     * Helper for RAG: format search results into a context string.
+     */
+    buildContextString(results: { text: string, sourceId: string }[]): string;
 }
 ```
 
-## 5. Invariants for Jules
+## 5. Diff Worker Contract
+
+```typescript
+// docs/contracts/phase-2/diff_worker_contract.ts
+
+export interface DiffResult {
+    html: string; // HTML string with <ins> and <del> tags
+    additions: number;
+    deletions: number;
+    executionTimeMs: number;
+}
+
+export interface DiffWorkerContract {
+    /**
+     * Computes the difference between two large text strings using diff-match-patch.
+     * Evaluated in a Web Worker to prevent UI blocking.
+     */
+    computeTextDiff(oldText: string, newText: string): Promise<DiffResult>;
+}
+```
+
+## 6. Invariants for Jules
 1. All `ArrayBuffer` arguments should be transferred (not copied) via Comlink's transfer mechanism: `Comlink.transfer(buffer, [buffer])`.
 2. The UI must never call `MuPDF.applyRedactions()` without first displaying a confirmation modal.
 3. Embedding vectors are 384-dimension arrays of `float32` — store as `BLOB` in wa-sqlite.

@@ -56,6 +56,8 @@
 - [x] Task 9: End-to-End Testing (Phase 1 Full Surface) ✅ *(Completed)* (`docs/tasks/phase-1/task9_e2e.md`)
 - [x] Task 10: Advanced BI Polish (Treemaps, Heatmaps, Cross-filtering) ✅ *(Completed - PR #69)* (`docs/tasks/phase-1/task10_advanced_bi.md`)
 - [x] Task 11: High-Performance Data Grid Upgrade ✅ *(Completed - PR #72)* (`docs/tasks/phase-1/task11_data_grid.md`)
+- [ ] Task 13: Network & Graph Visualizer (`docs/tasks/phase-1/task13_network_graph.md`)
+- [ ] Task 14: Offline HTML Table Extractor (`docs/tasks/phase-1/task14_html_extractor.md`)
 
 ---
 
@@ -72,6 +74,8 @@
 - [x] Task 2.5: Markdown to PDF/HTML Export ✅ *(Completed)* (`docs/tasks/phase-2/task2_5_md_export.md`)
 - [x] Task 3: Local Semantic Search ✅ *(Completed - PR #32)* (`docs/tasks/phase-2/task3_semantic_search.md`)
 - [x] Task 3.5: Local AI Resume Screener & Ranker ✅ *(Completed)* (`docs/tasks/phase-2/task3_5_resume_screener.md`)
+- [ ] Task 7: Offline Chat-with-Docs (Local RAG) (`docs/tasks/phase-2/task7_local_rag.md`)
+- [ ] Task 8: Document Comparison (Redline Diffing) (`docs/tasks/phase-2/task8_doc_diff.md`)
 - [ ] Task 4: End-to-End Testing (`docs/tasks/phase-2/task_e2e.md`)
 - [ ] Task 5: Mermaid.js Diagram Integration (`docs/tasks/phase-2/task5_mermaid.md`)
 - [ ] Task 6: Excalidraw Local Whiteboard (`docs/tasks/phase-2/task6_excalidraw.md`)
@@ -104,6 +108,7 @@
 - [x] Task 1: WebLLM Engine Setup ✅ *(Completed - PR #47)* (`docs/tasks/phase-5/task1_webllm.md`)
 - [x] Task 2: Local Chat Interface ✅ *(Completed - PR #48)* (`docs/tasks/phase-5/task2_chat_ui.md`)
 - [x] Task 3: Local AI Data Janitor ✅ *(Completed - PR #52)* (`docs/tasks/phase-5/task3_data_janitor.md`)
+- [ ] Task 4: Local Vision Chat (Multimodal) (`docs/tasks/phase-5/task4_vision_chat.md`)
 
 ### Media Plugins
 - [x] Task 1: FFmpeg WASM Integration ✅ *(Completed)* (`docs/tasks/phase-3/task1_ffmpeg.md`)
@@ -111,6 +116,8 @@
 - [x] Task 3: Instant Video Clipper ✅ *(Completed - PR #49)* (`docs/tasks/phase-3/task4_video_clipper.md`)
 - [ ] Task 4: Podcast & Meeting Summarizer (`docs/tasks/phase-3/task5_summarizer.md`)
 - [ ] Task 5: Study Note & Flashcard Generator (`docs/tasks/phase-3/task6_study_notes.md`)
+- [ ] Task 7: AI Background Removal (Image & Video) (`docs/tasks/phase-3/task7_background_removal.md`)
+- [ ] Task 8: Subtitle & SRT Editor (`docs/tasks/phase-3/task8_subtitle_editor.md`)
 
 ### Specialized Niche Plugins
 - [x] Task 1: Geo-Spatial Workspace ✅ *(Completed - PR #51)* (`docs/tasks/phase-6/task1_geospatial.md`)

@@ -30,10 +30,16 @@ graph TD
 - **Audio Extraction:** Rip the audio track from a video file as MP3 or WAV.
 - **Clip Trimming:** Cut a time range from a video (`-ss start -to end`).
 
-### 4.2 Audio
+### 4.2 Audio & Subtitles
 - **Transcription:** Run Whisper (tiny/base model) on an audio file to produce a timestamped SRT or plain-text transcript.
+- **Interactive Subtitles (Task 8):** Dedicated UI for transcribing long audio/video, generating `.srt` files, and providing an interactive transcript editor synced with media playback.
 - **Format Conversion:** MP3 ↔ WAV ↔ OGG ↔ FLAC.
 - **Audio Normalization:** Peak or RMS normalization via FFmpeg `dynaudnorm`.
+
+### 4.3 AI Background Removal (Task 7)
+- **Image Segementation:** Use `onnxruntime-web` + `RMBG-1.4` (or `transformers.js` image segmentation) for instantly stripping backgrounds from images offline.
+- **Video Segementation:** Extract frames (FFmpeg), process masks, and mux back into a transparent WebM.
+- **Processing Engine:** WebGPU accelerated via ONNX execution providers.
 
 ## 5. Worker Contract
 

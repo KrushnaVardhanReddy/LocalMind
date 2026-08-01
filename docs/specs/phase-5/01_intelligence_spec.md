@@ -51,6 +51,11 @@ graph TD
 - Chat queries retrieve relevant chunks → injected into the LLM context window.
 - Full RAG pipeline, fully offline.
 
+### 5.4 Local Vision Chat (Multimodal) (Task 4)
+- **Objective:** Support image drops in the chat using vision-language models (e.g., LLaVA) via WebGPU.
+- **Pipeline:** Image → HTMLCanvas → Tensor → WebLLM Multimodal engine.
+- **Use Cases:** Offline diagram-to-code generation, screenshot OCR, and visual analysis.
+
 ## 6. Worker Contract
 
 ```typescript
