@@ -2,37 +2,39 @@
     import { onMount } from 'svelte';
     import { WorkerManager } from '$lib/workers/WorkerManager';
     import { proxy } from 'comlink';
-    import type { OCRResult, TesseractWorkerContract } from '$lib/workers/tesseract.worker';
+    import type { OCRResult } from '$lib/workers/tesseract.worker';
     import type { NERWorkerContract, PIIEntity } from '$lib/workers/ner.worker';
     import type { MuPDFWorkerContract } from '$lib/workers/mupdf.worker';
     import type { EmbeddingsWorkerContract } from '$lib/contracts/embeddings_worker_contract';
     import type { WaSQLiteWorkerContract } from '$lib/contracts/wa_sqlite_contract';
 
-    let isProcessing = false;
-    let isNerProcessing = false;
-    let piiEntities: (PIIEntity & { selected: boolean })[] = [];
-    let progress = 0;
-    let statusMessage = '';
-    let ocrResult: OCRResult | null = null;
-    let imageSrc: string | null = null;
-    let originalPdfBuffer: ArrayBuffer | null = null;
-    let originalPdfFileName: string = '';
+    let activeTab = $state('viewer');
+
+    let isProcessing = $state(false);
+    let isNerProcessing = $state(false);
+    let piiEntities: (PIIEntity & { selected: boolean })[] = $state([]);
+    let progress = $state(0);
+    let statusMessage = $state('');
+    let ocrResult: OCRResult | null = $state(null);
+    let imageSrc: string | null = $state(null);
+    let originalPdfBuffer: ArrayBuffer | null = $state(null);
+    let originalPdfFileName: string = $state('');
 
     // Image enhancement state
     let originalImageBuffer: ArrayBuffer | null = null;
     let enhancedImageBuffer: ArrayBuffer | null = null;
-    let originalImageSrc: string | null = null;
-    let enhancedImageSrc: string | null = null;
-    let useEnhanced: boolean = true;
+    let originalImageSrc: string | null = $state(null);
+    let enhancedImageSrc: string | null = $state(null);
+    let useEnhanced: boolean = $state(true);
     let imageMimeType: string = '';
-    let isDragging = false;
+    let isDragging = $state(false);
     let imageWidth: number = 0;
     let imageHeight: number = 0;
-    let isRedacting = false;
+    let isRedacting = $state(false);
 
-    let searchQuery = '';
-    let isSearching = false;
-    let searchResults: { file_name: string; chunk_text: string; score: number }[] = [];
+    let searchQuery = $state('');
+    let isSearching = $state(false);
+    let searchResults: { file_name: string; chunk_text: string; score: number }[] = $state([]);
 
     let tesseractWorker: any = null;
     let opencvWorker: any = null;
@@ -41,7 +43,7 @@
     let embeddingsWorker: EmbeddingsWorkerContract | null = null;
     let sqliteWorker: WaSQLiteWorkerContract | null = null;
 
-    let isIndexing = false;
+    let isIndexing = $state(false);
     let defaultWorkspaceId = 'default-workspace'; // Default workspace for MVP
 
     onMount(async () => {
@@ -567,22 +569,78 @@
 
 </script>
 
-<div class="container mx-auto p-8">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold">Docs Engine (OCR)</h1>
+<div class="flex h-screen w-full overflow-hidden bg-surface-50 dark:bg-surface-900 text-surface-900 dark:text-surface-50">
+    <!-- Sidebar -->
+    <aside class="w-64 flex flex-col border-r border-surface-200 dark:border-surface-700 bg-surface-100 dark:bg-surface-800" data-testid="docs-sidebar">
+        <div class="p-4 border-b border-surface-200 dark:border-surface-700">
+            <h2 class="text-lg font-semibold">Docs Workspace</h2>
+        </div>
 
-        <!-- Search Bar -->
-        <div class="flex gap-2 w-96">
+        <div class="flex-1 overflow-y-auto p-4 flex flex-col gap-6">
+            <!-- File List Section -->
+            <section data-testid="sidebar-file-list">
+                <h3 class="text-sm font-semibold uppercase tracking-wider text-surface-500 mb-2">File List</h3>
+                <ul class="space-y-1">
+                    <li class="text-sm px-2 py-1 bg-surface-200 dark:bg-surface-700 rounded text-surface-700 dark:text-surface-300">No files uploaded</li>
+                </ul>
+            </section>
+
+            <!-- OCR Queue Section -->
+            <section data-testid="sidebar-ocr-queue">
+                <h3 class="text-sm font-semibold uppercase tracking-wider text-surface-500 mb-2">OCR Queue</h3>
+                {#if progress > 0 && progress < 100}
+                    <div class="text-sm mb-1">{statusMessage}</div>
+                    <div class="w-full bg-surface-300 dark:bg-surface-600 rounded-full h-2">
+                        <div class="bg-primary-600 h-2 rounded-full transition-all duration-300" style="width: {progress}%"></div>
+                    </div>
+                {:else}
+                    <div class="text-sm text-surface-500 italic">Queue is empty</div>
+                {/if}
+            </section>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col min-w-0 bg-surface-50 dark:bg-surface-900">
+        <!-- Tabs Bar -->
+        <nav class="flex border-b border-surface-200 dark:border-surface-700 px-4 bg-surface-100 dark:bg-surface-800" data-testid="docs-tabs">
+            {#each [
+                { id: 'viewer', label: 'Viewer' },
+                { id: 'merge-split', label: 'Merge & Split' },
+                { id: 'redact', label: 'Redact' },
+                { id: 'extract', label: 'Extract' }
+            ] as tab}
+                <button
+                    class="px-4 py-3 text-sm font-medium border-b-2 transition-colors {activeTab === tab.id ? 'border-primary-600 text-primary-600 dark:text-primary-400' : 'border-transparent text-surface-600 dark:text-surface-400 hover:text-surface-900 dark:hover:text-surface-100 hover:border-surface-300 dark:hover:border-surface-600'}"
+                    onclick={() => activeTab = tab.id}
+                    data-testid={`tab-${tab.id}`}
+                    aria-label={tab.label}
+                >
+                    {tab.label}
+                </button>
+            {/each}
+        </nav>
+
+        <!-- Active Tab Content -->
+        <div class="flex-1 overflow-y-auto p-6" data-testid="tab-content">
+            {#if activeTab === 'extract'}
+                <!-- Move existing code to extract tab for now -->
+                <div class="container mx-auto">
+                    <div class="flex justify-between items-center mb-6">
+                        <h1 class="text-3xl font-bold">Docs Engine (OCR)</h1>
+
+                        <!-- Search Bar -->
+                        <div class="flex gap-2 w-96">
             <input
                 type="text"
                 bind:value={searchQuery}
-                on:keypress={handleSearchKeypress}
+                onkeypress={handleSearchKeypress}
                 placeholder="Semantic search (e.g., 'invoices from CA')"
                 class="border rounded px-4 py-2 flex-grow"
                 disabled={isSearching || isIndexing}
             />
             <button
-                on:click={handleSearch}
+                onclick={handleSearch}
                 disabled={isSearching || isIndexing || !searchQuery.trim()}
                 class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
             >
@@ -596,7 +654,7 @@
         <div class="mb-8">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-2xl font-semibold">Search Results</h2>
-                <button class="text-gray-500 hover:text-gray-800" on:click={() => searchResults = []}>Clear Results</button>
+                <button class="text-gray-500 hover:text-gray-800" onclick={() => searchResults = []}>Clear Results</button>
             </div>
 
             <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
@@ -617,9 +675,9 @@
 
     <div
         class="border-4 border-dashed rounded-lg p-12 text-center transition-colors {isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'}"
-        on:dragover={handleDragOver}
-        on:dragleave={handleDragLeave}
-        on:drop={handleDrop}
+        ondragover={handleDragOver}
+        ondragleave={handleDragLeave}
+        ondrop={handleDrop}
         role="button"
         tabindex="0"
     >
@@ -657,10 +715,10 @@
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-2xl font-semibold">Extracted Text</h2>
                     <div class="flex gap-2">
-                        <button class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 disabled:opacity-50" on:click={scanForPii} disabled={isNerProcessing || piiEntities.length > 0}>
+                        <button class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 disabled:opacity-50" onclick={scanForPii} disabled={isNerProcessing || piiEntities.length > 0}>
                             {isNerProcessing ? 'Scanning...' : 'Scan for PII'}
                         </button>
-                        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" on:click={copyToClipboard}>
+                        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" onclick={copyToClipboard}>
                             Copy Text
                         </button>
                     </div>
@@ -695,7 +753,7 @@
 
                         {#if originalPdfBuffer}
                             <div class="mt-4 pt-4 border-t flex justify-end">
-                                <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 disabled:opacity-50" on:click={applyRedactions} disabled={isRedacting || !piiEntities.some(e => e.selected)}>
+                                <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 disabled:opacity-50" onclick={applyRedactions} disabled={isRedacting || !piiEntities.some(e => e.selected)}>
                                     {isRedacting ? 'Applying...' : 'Apply Redactions'}
                                 </button>
                             </div>
@@ -720,14 +778,14 @@
                         <div class="flex bg-gray-100 p-1 rounded-lg">
                             <button
                                 class="px-3 py-1 rounded-md text-sm font-medium transition-colors {useEnhanced ? 'text-gray-600' : 'bg-white shadow text-blue-600'}"
-                                on:click={() => { if(useEnhanced) handleToggleEnhanced(); }}
+                                onclick={() => { if(useEnhanced) handleToggleEnhanced(); }}
                                 disabled={isProcessing}
                             >
                                 Original
                             </button>
                             <button
                                 class="px-3 py-1 rounded-md text-sm font-medium transition-colors {useEnhanced ? 'bg-white shadow text-blue-600' : 'text-gray-600'}"
-                                on:click={() => { if(!useEnhanced) handleToggleEnhanced(); }}
+                                onclick={() => { if(!useEnhanced) handleToggleEnhanced(); }}
                                 disabled={isProcessing}
                             >
                                 Enhanced
@@ -761,6 +819,22 @@
                     {/if}
                 </div>
             </div>
+                        </div>
+                    {/if}
+                </div>
+            {:else if activeTab === 'viewer'}
+                <div class="flex items-center justify-center h-full text-surface-500">
+                    <p>Select a document to view</p>
+                </div>
+            {:else if activeTab === 'merge-split'}
+                <div class="flex items-center justify-center h-full text-surface-500">
+                    <p>Merge and Split tool (Coming Soon)</p>
+                </div>
+            {:else if activeTab === 'redact'}
+                <div class="flex items-center justify-center h-full text-surface-500">
+                    <p>Redaction tool (Coming Soon)</p>
+                </div>
+            {/if}
         </div>
-    {/if}
+    </main>
 </div>
