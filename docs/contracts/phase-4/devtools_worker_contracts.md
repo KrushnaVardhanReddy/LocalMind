@@ -98,7 +98,53 @@ export interface LogParserWorkerContract {
 }
 ```
 
-## 3. Invariants for Jules
+## 3. Regex Tester Worker Contract
+
+```typescript
+// docs/contracts/phase-4/regex_worker_contract.ts
+
+export interface RegexMatch {
+    match: string;
+    index: number;
+    groups: Record<string, string>; // Named or indexed capture groups
+}
+
+export interface RegexExecutionResult {
+    matches: RegexMatch[];
+    executionTimeMs: number;
+    timeout: boolean; // True if execution was halted due to excessive backtracking
+}
+
+export interface RegexWorkerContract {
+    /**
+     * Evaluates a regex pattern against a test string.
+     * Enforces a hard timeout to prevent catastrophic backtracking from locking the worker.
+     */
+    evaluateRegex(pattern: string, flags: string, testString: string): Promise<RegexExecutionResult>;
+}
+```
+
+## 4. jq Sandbox Worker Contract
+
+```typescript
+// docs/contracts/phase-4/jq_worker_contract.ts
+
+export interface JqExecutionResult {
+    output: string; // The formatted JSON string result
+    executionTimeMs: number;
+    error?: string; // Parse or execution errors
+}
+
+export interface JqWorkerContract {
+    /**
+     * Executes a jq or JSONPath query against a provided JSON string payload.
+     * Evaluated entirely in WASM/JS within the worker.
+     */
+    executeQuery(query: string, payload: string, mode: 'jq' | 'jsonpath'): Promise<JqExecutionResult>;
+}
+```
+
+## 5. Invariants for Jules
 1. **No outbound requests.** All log analysis, clustering, and parsing is entirely local.
 2. The `TreeSitterWorkerContract` must not load the grammar for a language until `loadLanguage()` is explicitly called.
 3. `LogParserWorkerContract.loadLog()` must use the DuckDB WASM `registerFile()` path — never `FileReader.readAsText()`.

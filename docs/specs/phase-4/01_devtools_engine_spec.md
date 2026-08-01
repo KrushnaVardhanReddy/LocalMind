@@ -52,6 +52,21 @@ LocalMind DevTools is the third core product vertical, providing a suite of offl
 - Drop a `.har` file → parse the JSON structure → render a waterfall chart of requests.
 - Highlight: slow requests, large payloads, failed requests, cookie/auth token leakage warnings.
 
+### 3.9 Offline API Client (Postman Alternative)
+- Local HTTP client using native browser `fetch` (or Tauri proxy where CORS blocks web fetch).
+- Supports REST (GET, POST, PUT, DELETE) and GraphQL queries with variables.
+- Stores request history and collections in local `wa-sqlite`.
+
+### 3.10 Offline Regex Tester
+- Dual-pane regex building UI with real-time match highlighting.
+- Evaluates regex in a Web Worker to prevent infinite backtracking from locking the UI thread.
+- Displays match capture groups and indices.
+
+### 3.11 JSONPath & `jq` Query Sandbox
+- Drop large JSON files (10MB+) and filter them instantly.
+- Toggle between pure JS `JSONPath` parsing and WASM-compiled `jq` execution.
+- Evaluates within a Web Worker to keep UI responsive.
+
 ## 4. Worker Contracts
 See `docs/contracts/phase-4/`:
 - `treesitter_worker_contract.md`

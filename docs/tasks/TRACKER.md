@@ -90,6 +90,9 @@
 - [x] Task 5.8: Test Data Generator ✅ *(Completed - PR #29)* (`docs/tasks/phase-4/task5_8_test_data.md`)
 - [x] Task 5.9: Local Mock API Server ✅ *(Completed - PR #19)* (`docs/tasks/phase-4/task5_9_mock_server.md`)
 - [ ] Task 6: PII Data Sanitizer (JSON/CSV) (`docs/tasks/phase-4/task6_pii_sanitizer.md`)
+- [ ] Task 10: Offline API Client (Postman Alternative) (`docs/tasks/phase-4/task10_api_client.md`)
+- [ ] Task 11: Offline Regex Tester & Debugger (`docs/tasks/phase-4/task11_regex_tester.md`)
+- [ ] Task 12: JSONPath & `jq` Query Sandbox (`docs/tasks/phase-4/task12_jq_sandbox.md`)
 - [ ] Task 7: End-to-End Testing (`docs/tasks/phase-4/task_e2e.md`)
 
 ---

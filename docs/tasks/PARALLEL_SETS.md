@@ -212,6 +212,12 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
   *Safe: Pure JS/UI.*
 - **[DevTools]** Task 3: Visual Transformation Pipelines (`task3_pipelines.md`)
   *Safe: UI/Logic only.*
+- **[DevTools]** Task 10: Offline API Client (`docs/tasks/phase-4/task10_api_client.md`)
+  *Safe: Pure JS/UI utilizing browser fetch and wa-sqlite.*
+- **[DevTools]** Task 11: Offline Regex Tester & Debugger (`docs/tasks/phase-4/task11_regex_tester.md`)
+  *Safe: Pure JS/UI utilizing Web Workers for regex evaluation.*
+- **[DevTools]** Task 12: JSONPath & `jq` Query Sandbox (`docs/tasks/phase-4/task12_jq_sandbox.md`)
+  *Safe: Pure JS/UI, uses WASM for jq parsing but no shared state.*
 
 ---
 
