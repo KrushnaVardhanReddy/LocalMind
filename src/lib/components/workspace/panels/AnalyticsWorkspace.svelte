@@ -14,7 +14,8 @@
     import { builtInTemplates } from '$lib/templates/built-in';
     import type { PivotTemplate } from '$lib/templates/template.types';
     import ExportModal from '$lib/components/ExportModal.svelte';
-    import { ReportExporter, type ExportConfig } from '$lib/services/ReportExporter';
+    import { SessionManager } from '$lib/services/SessionManager';
+import { ReportExporter, type ExportConfig } from '$lib/services/ReportExporter';
     import type { QueryResult } from '$lib/workers/duckdb.worker';
     import {
         workspaces,
@@ -72,7 +73,34 @@
     let chartViewerComponent: ChartViewer | undefined = $state();
     let pivotBuilderComponent: PivotBuilder | undefined = $state();
 
-    async function handleExportReport(config: ExportConfig) {
+        let isExportingSession = $state(false);
+
+    async function handleExportSession() {
+        if (!$currentWorkspace) {
+            alert('Please select a workspace first.');
+            return;
+        }
+        isExportingSession = true;
+        try {
+            const sm = new SessionManager();
+            const blob = await sm.exportSession($currentWorkspace.id);
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${$currentWorkspace.name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.lm`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Session export failed:', error);
+            alert(`Session export failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        } finally {
+            isExportingSession = false;
+        }
+    }
+
+async function handleExportReport(config: ExportConfig) {
         showExportModal = false;
 
         try {
@@ -107,7 +135,14 @@
         }
     }
 
-    onMount(async () => {
+
+    onMount(() => {
+        const handleExportSessionEvent = () => handleExportSession();
+        window.addEventListener('export-session', handleExportSessionEvent);
+        return () => window.removeEventListener('export-session', handleExportSessionEvent);
+    });
+
+onMount(async () => {
         await loadWorkspaces();
 
         // Check for onboarding
@@ -595,6 +630,18 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
                 class="px-4 py-2 bg-teal-100 text-teal-700 text-sm font-semibold rounded hover:bg-teal-200 transition flex items-center gap-2"
             >
                 📄 Export Report
+            </button>
+            <button
+                onclick={handleExportSession}
+                disabled={isExportingSession || !$currentWorkspace}
+                class="px-4 py-2 bg-indigo-100 text-indigo-700 text-sm font-semibold rounded hover:bg-indigo-200 transition flex items-center gap-2 disabled:bg-gray-100 disabled:text-gray-400"
+            >
+                {#if isExportingSession}
+                    <span class="animate-spin inline-block w-4 h-4 border-2 border-indigo-700 border-t-transparent rounded-full"></span>
+                {:else}
+                    💾
+                {/if}
+                Export Session
             </button>
             <button
                 aria-label="Settings"

@@ -87,6 +87,15 @@ export class CommandRegistry {
                 }
             },
             {
+                id: 'action-export-session',
+                label: 'Export Session',
+                category: 'action',
+                action: () => {
+                     const event = new CustomEvent('export-session');
+                     window.dispatchEvent(event);
+                }
+            },
+            {
                 id: 'action-export-html',
                 label: 'Export as HTML Report',
                 category: 'action',
