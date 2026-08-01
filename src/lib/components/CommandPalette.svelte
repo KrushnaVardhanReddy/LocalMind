@@ -187,6 +187,7 @@
 
 {#if isOpen}
     <!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex justify-center items-start pt-[15vh] px-4"
@@ -199,7 +200,7 @@
                     bind:this={inputRef}
                     bind:value={searchQuery}
                     type="text"
-                    class="w-full bg-transparent px-4 py-4 text-lg outline-none text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+                    class="w-full bg-transparent px-4 py-4 text-lg outline-none focus:ring-2 focus:ring-indigo-500 rounded-lg text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                     placeholder="Type a command or search..."
                     autocomplete="off"
                     spellcheck="false"

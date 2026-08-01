@@ -68,16 +68,78 @@
     let dragItem = $state<{ type: string, column: string, index?: number } | null>(null);
     let layoutStacked = $state(false); // true: stacked (chart top, table bottom), false: side-by-side
 
+    // Keyboard Drag and Drop Handling
+    let keyboardFocusIndex = $state(-1);
+    const zones = ['columns', 'rows', 'values', 'filters'];
+
+    function handleKeyboardDragStart(e: Event) {
+        const detail = (e as CustomEvent).detail;
+        if (!detail || !detail.label) return;
+        dragItem = { column: detail.label, type: detail.type || 'unknown' };
+        keyboardFocusIndex = 0;
+
+        // Focus the first zone
+        const firstZone = document.getElementById(`zone-${zones[0]}`);
+        if (firstZone) firstZone.focus();
+    }
+
+    function handleKeyboardDrop(e: Event) {
+        if (!dragItem) return;
+        const detail = (e as CustomEvent).detail;
+        if (!detail || !detail.id) return;
+        const fakeEvent = { dataTransfer: { getData: () => '' } } as unknown as DragEvent;
+        handleDropOnZone(fakeEvent, detail.id);
+        dragItem = null;
+        keyboardFocusIndex = -1;
+    }
+
+    function handleGlobalKeydown(e: KeyboardEvent) {
+        if (!dragItem) return;
+
+        if (e.key === 'Escape') {
+            dragItem = null;
+            keyboardFocusIndex = -1;
+            return;
+        }
+
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            keyboardFocusIndex = (keyboardFocusIndex + 1) % zones.length;
+            const zone = document.getElementById(`zone-${zones[keyboardFocusIndex]}`);
+            if (zone) zone.focus();
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            keyboardFocusIndex = (keyboardFocusIndex - 1 + zones.length) % zones.length;
+            const zone = document.getElementById(`zone-${zones[keyboardFocusIndex]}`);
+            if (zone) zone.focus();
+        }
+    }
+
+    onMount(async () => {
+        if (typeof window !== 'undefined') {
+            document.body.addEventListener('keyboarddragstart', handleKeyboardDragStart as EventListener);
+            document.body.addEventListener('keyboarddrop', handleKeyboardDrop as EventListener);
+            document.body.addEventListener('keydown', handleGlobalKeydown);
+        }
+        await fetchSchema();
+    });
+
+    onDestroy(() => {
+        if (typeof window !== 'undefined') {
+            document.body.removeEventListener('keyboarddragstart', handleKeyboardDragStart as EventListener);
+            document.body.removeEventListener('keyboarddrop', handleKeyboardDrop as EventListener);
+            document.body.removeEventListener('keydown', handleGlobalKeydown);
+        }
+    });
+
+
     // Aggregation Popover state
     let activeAggPopoverIndex = $state<number | null>(null);
 
     const PAGE_SIZE = 1000;
     const aggregations = ['SUM', 'COUNT', 'AVG', 'MIN', 'MAX'] as const;
 
-    // Load columns with types
-    onMount(async () => {
-        await fetchSchema();
-    });
+
 
     $effect(() => {
         if (tableName) {
