@@ -138,7 +138,7 @@
 - [x] Task 1: Macro-Shell Layout & Global Store ✅ *(Completed - PR #76)* (`docs/tasks/phase-9/task1_macro_shell.md`)
 - [x] Task 2: OPFS File Explorer Sidebar & Top Nav ✅ *(Completed - PR #78)* (`docs/tasks/phase-9/task2_explorer.md`)
 - [x] Task 3: Command Palette Integration ✅ *(Completed - PR #76)* (`docs/tasks/phase-9/task3_command_palette.md`)
-- [/] Task 4: Dynamic Right Inspector Panel ⏳ *(In Progress - Jules ID: 9141862596049334304)* (`docs/tasks/phase-9/task4_inspector.md`)
+- [x] Task 4: Dynamic Right Inspector Panel ✅ *(Completed - PR #79)* (`docs/tasks/phase-9/task4_inspector.md`)
 - [ ] Task 5: Workspace Migration (`docs/tasks/phase-9/task5_migration.md`)
 
 ---
