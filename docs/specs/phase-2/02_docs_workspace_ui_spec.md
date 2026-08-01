@@ -9,7 +9,7 @@ The workspace will use a CSS Grid-based split-pane layout to maximize vertical s
 ### Left Sidebar (250px, Collapsible)
 - **File List:** A list of uploaded unstructured documents.
 - **OCR Queue:** A visual indicator showing the background Tesseract.js extraction progress for any scanned PDFs or images.
-- **Search Panel:** A semantic search input that queries the local `Transformers.js` embeddings to find relevant paragraphs across all uploaded documents.
+- **Search Panel (`DocsSearchPanel.svelte`):** A dedicated semantic search component moved out of `+page.svelte`. It queries the local `Transformers.js` embeddings to find relevant paragraphs across all uploaded documents, displaying ranked result cards with their cosine similarity scores right in the sidebar.
 
 ### Main View (Fluid)
 - **Top Navigation:** Tabbed routing between different document tools:

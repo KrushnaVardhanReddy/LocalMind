@@ -24,11 +24,11 @@
 - [x] CI-3: Service Worker Cache Versioning & WASM Update Strategy ✅ *(Completed - PR #66)* (`docs/tasks/cross_cutting/task_sw_versioning.md`)
 - [x] CI-4: Worker Error Boundary & Crash Recovery ✅ *(Completed - PR #74)* (`docs/tasks/cross_cutting/task_worker_error_boundary.md`)
 - [x] CI-5: First-Run Onboarding & Empty State ✅ *(Completed - PR #73)* (`docs/tasks/cross_cutting/task_onboarding.md`)
-- [/] CI-6: Accessibility (a11y) Audit & Remediation ⏳ *(In Progress)* (`docs/tasks/cross_cutting/task_a11y_audit.md`)
+- [x] CI-6: Accessibility (a11y) Audit & Remediation ✅ *(Completed - PR #83)* (`docs/tasks/cross_cutting/task_a11y_audit.md`)
 
 ### Sessions (Workspace Snapshots) 📋
 *A portable `.lm` workspace file that captures queries, charts, AI conversations, notes, and files in a single shareable artifact. Core differentiator.*
-- [/] Session-1: Core Session Schema & Local Export ⏳ *(In Progress)* (`docs/tasks/cross_cutting/task_session1_core.md`)
+- [x] Session-1: Core Session Schema & Local Export ✅ *(Completed - PR #82)* (`docs/tasks/cross_cutting/task_session1_core.md`)
 - [ ] Session-2: Static HTML Report Export (self-contained, no LocalMind required) (`docs/tasks/cross_cutting/task_ux3_report_export.md`)
 - [ ] Session-3: PDF Report Export (full workspace snapshot) (`docs/tasks/cross_cutting/task_session3_pdf_export.md`)
 - [ ] Session-4: Session Import — restore workspace from `.lm` file (`docs/tasks/cross_cutting/task_session4_import.md`)

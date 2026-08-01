@@ -142,6 +142,14 @@ export interface EmbeddingsWorkerContract {
      * Helper for RAG: format search results into a context string.
      */
     buildContextString(results: { text: string, sourceId: string }[]): string;
+
+    /**
+     * Computes cosine similarity between a query vector and an array of chunk embeddings.
+     * @param queryVector - 384-dimensional query embedding.
+     * @param chunkBlobs - Array of binary embedding blobs (Uint8Array format).
+     * @returns Array of cosine similarity scores.
+     */
+    computeSimilarity(queryVector: number[], chunkBlobs: Uint8Array[]): Promise<number[]>;
 }
 ```
 

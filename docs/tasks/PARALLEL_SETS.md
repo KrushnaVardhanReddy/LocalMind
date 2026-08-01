@@ -64,7 +64,7 @@
 *Error boundary touches `+layout.svelte` and `WorkerManager.ts`. Onboarding touches `/analytics/+page.svelte`. a11y is additive across all routes.*
 - **[UX]** CI-4: Worker Error Boundary & Crash Recovery ✅ *(Completed - PR #74)* (`docs/tasks/cross_cutting/task_worker_error_boundary.md`)
 - **[UX]** CI-5: First-Run Onboarding & Empty State ✅ *(Completed - PR #73)* (`docs/tasks/cross_cutting/task_onboarding.md`)
-- **[UX]** CI-6: Accessibility (a11y) Audit & Remediation ⏳ *(In Progress)* (`docs/tasks/cross_cutting/task_a11y_audit.md`)
+- **[UX]** CI-6: Accessibility (a11y) Audit & Remediation ✅ *(Completed - PR #83)* (`docs/tasks/cross_cutting/task_a11y_audit.md`)
 
 ---
 
@@ -75,8 +75,8 @@
 
 ### MVP2 Wave A: Sessions Core + Docs Route (Parallel)
 *Zero overlap: Sessions touches OPFS/wa-sqlite. Docs creates a new `/docs` route. No shared files.*
-- **[Sessions]** Session-1: Core Session Schema & Local Export ⏳ *(In Progress)* (`docs/tasks/cross_cutting/task_session1_core.md`)
-- **[Docs]** Docs-1: Docs Workspace Route & Layout ⏳ *(In Progress)* (`docs/tasks/phase-2/task_docs_workspace.md`)
+- **[Sessions]** Session-1: Core Session Schema & Local Export ✅ *(Completed - PR #82)* (`docs/tasks/cross_cutting/task_session1_core.md`)
+- **[Docs]** Docs-1: Docs Workspace Route & Layout ✅ *(Completed - PR #81)* (`docs/tasks/phase-2/task_docs_workspace.md`)
 
 ### MVP2 Wave B: Sessions Import + Docs Search UI (Parallel)
 *Safe: Session import extends SessionManager. Docs search extends `/docs` route only.*
