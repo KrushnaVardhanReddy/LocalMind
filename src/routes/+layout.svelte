@@ -9,6 +9,7 @@
     import WorkspaceNav from '$lib/components/workspace/WorkspaceNav.svelte';
     import FileExplorer from '$lib/components/explorer/FileExplorer.svelte';
     import WorkerErrorToast from '$lib/components/WorkerErrorToast.svelte';
+    import DynamicInspector from '$lib/components/inspector/DynamicInspector.svelte';
     import { checkWebGPUSupport } from '$lib/utils/webgpu-check';
     import { workspaceStore } from '$lib/stores/workspace.store.svelte';
     import { CommandRegistry } from '$lib/services/CommandRegistry';
@@ -61,6 +62,10 @@
         // Ensure commands are registered
         workspaceStore.registerCommand('toggle-dark', 'Toggle Dark Mode', () => {
              document.documentElement.classList.toggle('dark');
+        });
+
+        workspaceStore.registerCommand('open-demo-inspector', 'Open Demo Inspector', () => {
+            workspaceStore.openInspector('DemoPanel', { title: 'Demo Inspector', message: 'Hello from Command Palette!' });
         });
 
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -142,20 +147,7 @@
         </main>
 
         <!-- Right Sidebar (Inspector) -->
-        {#if workspaceStore.inspectorState.isOpen}
-            <aside class="w-72 flex-none border-l border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800 overflow-y-auto p-4">
-                <div class="flex justify-between items-center mb-4">
-                    <div class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Inspector</div>
-                    <button class="text-gray-400 hover:text-gray-600" onclick={() => workspaceStore.closeInspector()} aria-label="Close Inspector">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>
-                </div>
-                <div>
-                    <h3 class="font-medium text-gray-900 dark:text-gray-100">{workspaceStore.inspectorState.componentName}</h3>
-                    <pre class="mt-2 text-xs text-gray-600 dark:text-gray-400 overflow-x-auto">{JSON.stringify(workspaceStore.inspectorState.props, null, 2)}</pre>
-                </div>
-            </aside>
-        {/if}
+        <DynamicInspector />
     </div>
 
     <!-- Status Bar -->
