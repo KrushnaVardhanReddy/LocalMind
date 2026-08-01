@@ -10,16 +10,25 @@
     import FileExplorer from '$lib/components/explorer/FileExplorer.svelte';
     import WorkerErrorToast from '$lib/components/WorkerErrorToast.svelte';
     import DynamicInspector from '$lib/components/inspector/DynamicInspector.svelte';
+    import AnalyticsWorkspace from '$lib/components/workspace/panels/AnalyticsWorkspace.svelte';
+    import DevToolsWorkspace from '$lib/components/workspace/panels/DevToolsWorkspace.svelte';
     import { checkWebGPUSupport } from '$lib/utils/webgpu-check';
     import { workspaceStore } from '$lib/stores/workspace.store.svelte';
     import { CommandRegistry } from '$lib/services/CommandRegistry';
     import { browser } from '$app/environment';
+    import { afterNavigate } from '$app/navigation';
 
     if (browser) {
         import('ninja-keys');
     }
 
     let { children } = $props();
+
+    afterNavigate(({ to }) => {
+        if (to?.url.pathname !== '/' && to?.url.pathname !== '/analytics' && to?.url.pathname !== '/devtools') {
+            workspaceStore.activeWorkspace = null;
+        }
+    });
 
     const { needRefresh, updateServiceWorker } = useRegisterSW({
         onRegistered(swr: ServiceWorkerRegistration | undefined) {
@@ -127,7 +136,13 @@
         <!-- Center Canvas -->
         <main class="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900 relative">
             <svelte:boundary onerror={() => hasError = true}>
-                {@render children()}
+                {#if workspaceStore.activeWorkspace?.type === 'analytics'}
+                    <AnalyticsWorkspace />
+                {:else if workspaceStore.activeWorkspace?.type === 'devtools'}
+                    <DevToolsWorkspace />
+                {:else}
+                    {@render children()}
+                {/if}
             </svelte:boundary>
 
             {#if hasError}

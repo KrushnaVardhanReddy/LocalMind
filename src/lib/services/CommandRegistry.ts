@@ -1,4 +1,5 @@
 import { goto } from '$app/navigation';
+import { workspaceStore } from '$lib/stores/workspace.store.svelte';
 
 export interface Command {
     id: string;
@@ -22,7 +23,10 @@ export class CommandRegistry {
                 id: 'nav-analytics',
                 label: 'Go to Analytics',
                 category: 'navigate',
-                action: () => goto('/analytics')
+                action: () => {
+                    workspaceStore.setActiveWorkspace({ id: 'analytics', type: 'analytics', title: 'Analytics' });
+                    goto('/');
+                }
             },
             {
                 id: 'nav-docs',
@@ -34,7 +38,10 @@ export class CommandRegistry {
                 id: 'nav-devtools',
                 label: 'Go to DevTools',
                 category: 'navigate',
-                action: () => goto('/devtools')
+                action: () => {
+                    workspaceStore.setActiveWorkspace({ id: 'devtools', type: 'devtools', title: 'DevTools' });
+                    goto('/');
+                }
             },
             {
                 id: 'nav-media',
@@ -70,7 +77,8 @@ export class CommandRegistry {
                 label: 'New SQL Query',
                 category: 'action',
                 action: () => {
-                    goto('/analytics').then(() => {
+                    workspaceStore.setActiveWorkspace({ id: 'analytics', type: 'analytics', title: 'Analytics' });
+                    goto('/').then(() => {
                         setTimeout(() => {
                             const event = new CustomEvent('focus-sql-editor');
                             window.dispatchEvent(event);

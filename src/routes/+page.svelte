@@ -4,6 +4,7 @@
     import { uploadedTables } from '$lib/stores/analytics.store';
     import { get } from 'svelte/store';
     import { goto } from '$app/navigation';
+    import { workspaceStore } from '$lib/stores/workspace.store.svelte';
 
     type RecentFile = {
         name: string;
@@ -103,7 +104,8 @@
             if (!currentTables.includes(tableName)) {
                 uploadedTables.set([...currentTables, tableName]);
             }
-            goto('/analytics');
+            workspaceStore.setActiveWorkspace({ id: 'analytics', type: 'analytics', title: 'Analytics' });
+            goto('/');
 
         } catch (e) {
             console.error(e);
@@ -138,7 +140,8 @@
             if (!currentTables.includes(tableName)) {
                 uploadedTables.set([...currentTables, tableName]);
             }
-            goto('/analytics');
+            workspaceStore.setActiveWorkspace({ id: 'analytics', type: 'analytics', title: 'Analytics' });
+            goto('/');
         } catch (e) {
             console.error('Failed to read clipboard', e);
             alert('Could not read from clipboard. Ensure you granted permission.');
@@ -161,7 +164,8 @@
             if (!currentTables.includes('demo_sales')) {
                 uploadedTables.set([...currentTables, 'demo_sales']);
             }
-            goto('/analytics');
+            workspaceStore.setActiveWorkspace({ id: 'analytics', type: 'analytics', title: 'Analytics' });
+            goto('/');
         } catch (e) {
             console.error(e);
             alert('Failed to load sample data.');
@@ -247,6 +251,17 @@
         {#each cards as card}
             <a
                 href={card.path}
+                onclick={(e) => {
+                    if (card.path === '/analytics') {
+                        e.preventDefault();
+                        workspaceStore.setActiveWorkspace({ id: 'analytics', type: 'analytics', title: 'Analytics' });
+                        goto('/');
+                    } else if (card.path === '/devtools') {
+                        e.preventDefault();
+                        workspaceStore.setActiveWorkspace({ id: 'devtools', type: 'devtools', title: 'DevTools' });
+                        goto('/');
+                    }
+                }}
                 class="flex flex-col items-center p-8 rounded-xl border-2 transition shadow-sm {card.color}"
             >
                 <span class="text-5xl mb-4">{card.icon}</span>
