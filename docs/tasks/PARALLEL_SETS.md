@@ -45,7 +45,7 @@
 - **[UX]** Task 1: Macro-Shell Layout & Command Palette ✅ *(Completed - PR #76)* (`docs/tasks/phase-9/task1_macro_shell.md`)
 - **[UX]** Task 2: OPFS File Explorer Sidebar & Top Nav ✅ *(Completed - PR #78)* (`docs/tasks/phase-9/task2_explorer.md`)
 - **[UX]** Task 4: Dynamic Right Inspector Panel ✅ *(Completed - PR #79)* (`docs/tasks/phase-9/task4_inspector.md`)
-- **[UX]** Task 5: Workspace Migration (`docs/tasks/phase-9/task5_migration.md`)
+- **[UX]** Task 5: Workspace Migration ✅ *(Completed - PR #80)* (`docs/tasks/phase-9/task5_migration.md`)
 
 ---
 
