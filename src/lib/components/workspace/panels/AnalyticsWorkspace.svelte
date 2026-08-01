@@ -674,22 +674,22 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
             </div>
         </div>
     {:else}
-        <div class="mb-8 p-8 bg-gray-50 border rounded text-center text-gray-500">
+        <div class="mb-8 p-8 bg-gray-50 dark:bg-gray-800 border dark:border-gray-700 rounded text-center text-gray-500 dark:text-gray-400">
             Please create or select a workspace to continue.
         </div>
     {/if}
 
-    <div class="mb-8 p-4 bg-gray-50 border rounded">
-        <h2 class="text-xl font-semibold mb-4">Data Ingestion</h2>
+    <div class="mb-8 p-4 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded">
+        <h2 class="text-xl font-semibold mb-4 dark:text-white">Data Ingestion</h2>
 
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
-            class="border-2 border-dashed rounded-lg p-8 text-center transition-colors {isDragOver ? 'border-purple-500 bg-purple-50' : 'border-gray-300 hover:border-gray-400'}"
+            class="border-2 border-dashed rounded-lg p-8 text-center transition-colors {isDragOver ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30' : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'}"
             ondrop={handleDrop}
             ondragover={handleDragOver}
             ondragleave={handleDragLeave}
         >
-            <div class="mb-4 text-gray-600">
+            <div class="mb-4 text-gray-600 dark:text-gray-300">
                 Drag and drop a .csv, .json, or .parquet file here
             </div>
             <div class="text-gray-400 mb-4">or</div>
@@ -753,13 +753,13 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
     </div>
 
     {#if $uploadedTables.length > 0}
-        <div class="p-4 border rounded mt-4">
+        <div class="p-4 border dark:border-gray-700 rounded mt-4">
             {#if showOnboarding}
                 <OnboardingBanner onApplyDemo={applyDemoTemplate} onDismiss={handleDismissOnboarding} />
             {/if}
 
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold">Pivot Builder</h2>
+                <h2 class="text-xl font-bold dark:text-white">Pivot Builder</h2>
                 {#if selectedPivotTable}
                     <button
                         onclick={() => showTemplateGallery = true}
@@ -771,10 +771,10 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
             </div>
 
             <div class="mb-4">
-                <label for="pivotTableSelect" class="block text-sm font-medium text-gray-700 mb-1">Select Table to Pivot</label>
+                <label for="pivotTableSelect" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Select Table to Pivot</label>
                 <select
                     id="pivotTableSelect"
-                    class="block w-full max-w-xs border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:border-purple-500 focus:ring-purple-500"
+                    class="block w-full max-w-xs border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-md shadow-sm p-2 text-sm focus:border-purple-500 focus:ring-purple-500"
                     onchange={(e) => handleTableSelect((e.target as HTMLSelectElement).value)}
                 >
                     <option value="">-- Select a table --</option>
@@ -794,9 +794,9 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
         </div>
     {/if}
 
-    <div class="p-4 border rounded">
+    <div class="p-4 border dark:border-gray-700 rounded">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold">Query Data</h2>
+            <h2 class="text-xl font-bold dark:text-white">Query Data</h2>
             <div class="flex gap-2">
                 <button
                     onclick={runQuery}
