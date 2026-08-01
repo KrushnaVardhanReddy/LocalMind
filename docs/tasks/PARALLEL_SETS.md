@@ -80,8 +80,8 @@
 
 ### MVP2 Wave B: Sessions Import + Docs Search UI (Parallel)
 *Safe: Session import extends SessionManager. Docs search extends `/docs` route only.*
-- **[Sessions]** Session-4: Session Import — restore from `.lm` file (`docs/tasks/cross_cutting/task_session4_import.md`)
-- **[Docs]** Docs-2: Semantic Search UI in Docs workspace (`docs/tasks/phase-2/task_docs_search_ui.md`)
+- **[Sessions]** Session-4: Session Import — restore from `.lm` file ⏳ *(In Progress - Jules Session 16460546017566270199)* (`docs/tasks/cross_cutting/task_session4_import.md`)
+- **[Docs]** Docs-2: Semantic Search UI in Docs workspace ⏳ *(In Progress - Jules Session 10910445153714349607)* (`docs/tasks/phase-2/task_docs_search_ui.md`)
 
 ### MVP2 Wave C: Sessions PDF Export + Docs E2E (Parallel)
 *Safe: PDF export is a pure CSS + print strategy. Docs E2E is Playwright-only.*
