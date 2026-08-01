@@ -221,6 +221,11 @@ TASKS = {
         "phase": "phase-9",
         "prompt": _load_prompt("docs/tasks/phase-9/task2_explorer.md"),
     },
+    122: {
+        "name": "Task 4 — Dynamic Right Inspector Panel",
+        "phase": "phase-9",
+        "prompt": _load_prompt("docs/tasks/phase-9/task4_inspector.md"),
+    },
     # ── POST-V1 DEFERRED TASKS ─────────────────────────────────────────────────
     51: {
         "name": "Set 12 Task 1 — Security / Cryptography Workspace",

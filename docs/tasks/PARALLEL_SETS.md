@@ -43,7 +43,8 @@
 ### Wave 7: LocalMind OS Macro-Shell
 *Must run alone. Refactors `+layout.svelte` to implement the 4-pane unified OS layout and Command Palette.*
 - **[UX]** Task 1: Macro-Shell Layout & Command Palette ✅ *(Completed - PR #76)* (`docs/tasks/phase-9/task1_macro_shell.md`)
-- **[UX]** Task 2: OPFS File Explorer Sidebar & Top Nav (`docs/tasks/phase-9/task2_explorer.md`)
+- **[UX]** Task 2: OPFS File Explorer Sidebar & Top Nav ✅ *(Completed - PR #78)* (`docs/tasks/phase-9/task2_explorer.md`)
+- **[UX]** Task 4: Dynamic Right Inspector Panel (`docs/tasks/phase-9/task4_inspector.md`)
 
 ---
 
