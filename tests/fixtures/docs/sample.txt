@@ -1,0 +1,3 @@
+This is a sample document for testing OCR.
+It contains some text to extract.
+John Doe's email is john.doe@example.com and his phone is 555-0198.
