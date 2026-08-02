@@ -85,8 +85,8 @@
 
 ### MVP2 Wave C: Sessions PDF Export + Docs E2E (Parallel)
 *Safe: PDF export is a pure CSS + print strategy. Docs E2E is Playwright-only.*
-- **[Sessions]** Session-3: PDF Report Export ⏳ *(In Progress - Jules Session 17422375781516284897)* (`docs/tasks/cross_cutting/task_session3_pdf_export.md`)
-- **[Docs]** Docs E2E: End-to-End Testing for Docs Workspace ⏳ *(In Progress - Jules Session 7908485942775842411)* (`docs/tasks/phase-2/task_e2e.md`)
+- **[Sessions]** Session-3: PDF Report Export ✅ *(Completed - PR #86)* (`docs/tasks/cross_cutting/task_session3_pdf_export.md`)
+- **[Docs]** Docs E2E: End-to-End Testing for Docs Workspace ✅ *(Completed - PR #87)* (`docs/tasks/phase-2/task_e2e.md`)
 
 ---
 

@@ -30,7 +30,7 @@
 *A portable `.lm` workspace file that captures queries, charts, AI conversations, notes, and files in a single shareable artifact. Core differentiator.*
 - [x] Session-1: Core Session Schema & Local Export ✅ *(Completed - PR #82)* (`docs/tasks/cross_cutting/task_session1_core.md`)
 - [ ] Session-2: Static HTML Report Export (self-contained, no LocalMind required) (`docs/tasks/cross_cutting/task_ux3_report_export.md`)
-- [/] Session-3: PDF Report Export (full workspace snapshot) ⏳ *(In Progress - Jules Session 17422375781516284897)* (`docs/tasks/cross_cutting/task_session3_pdf_export.md`)
+- [x] Session-3: PDF Report Export (full workspace snapshot) ✅ *(Completed - PR #86)* (`docs/tasks/cross_cutting/task_session3_pdf_export.md`)
 - [x] Session-4: Session Import — restore workspace from `.lm` file ✅ *(Completed - PR #85)* (`docs/tasks/cross_cutting/task_session4_import.md`)
 - [ ] Session-5: *(Future / Pro)* Read-only share link via Cloudflare R2 (`docs/tasks/cross_cutting/task_session5_share_link.md`)
 
@@ -77,7 +77,7 @@
 - [x] Task 3.5: Local AI Resume Screener & Ranker ✅ *(Completed)* (`docs/tasks/phase-2/task3_5_resume_screener.md`)
 - [ ] Task 7: Offline Chat-with-Docs (Local RAG) (`docs/tasks/phase-2/task7_local_rag.md`)
 - [ ] Task 8: Document Comparison (Redline Diffing) (`docs/tasks/phase-2/task8_doc_diff.md`)
-- [/] Task 4: End-to-End Testing ⏳ *(In Progress - Jules Session 7908485942775842411)* (`docs/tasks/phase-2/task_e2e.md`)
+- [x] Task 4: End-to-End Testing ✅ *(Completed - PR #87)* (`docs/tasks/phase-2/task_e2e.md`)
 - [ ] Task 5: Mermaid.js Diagram Integration (`docs/tasks/phase-2/task5_mermaid.md`)
 - [ ] Task 6: Excalidraw Local Whiteboard (`docs/tasks/phase-2/task6_excalidraw.md`)
 
