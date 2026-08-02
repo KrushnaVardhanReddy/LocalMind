@@ -87,15 +87,20 @@ class DuckDBService implements DuckDBWorkerContract {
             }
         };
 
+        console.log('[DEBUG] DuckDB init started');
         const bundle = await duckdb.selectBundle(MANUAL_BUNDLES);
+        console.log('[DEBUG] Bundle selected');
         const worker = new Worker(bundle.mainWorker!);
         const logger = new duckdb.ConsoleLogger();
 
         const db = new duckdb.AsyncDuckDB(logger, worker);
+        console.log('[DEBUG] Instantiating db...');
         await db.instantiate(bundle.mainModule, bundle.pthreadWorker);
+        console.log('[DEBUG] DB instantiated');
 
         this.db = db;
         this.conn = await db.connect();
+        console.log('[DEBUG] DB connected');
     }
 
     async registerFile(file: File, tableName: string) {

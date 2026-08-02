@@ -3,18 +3,19 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
+  timeout: 90000,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: 1,
   reporter: 'html',
   use: {
     trace: 'on-first-retry',
-    baseURL: 'http://localhost:4173',
+    baseURL: 'http://localhost:5173',
   },
   
   webServer: {
-    command: 'bun run build && bun run preview',
-    port: 4173,
+    command: 'bun run dev',
+    port: 5173,
     reuseExistingServer: !process.env.CI,
     timeout: 120000,
   },

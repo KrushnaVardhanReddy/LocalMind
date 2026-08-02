@@ -207,18 +207,21 @@ onMount(async () => {
 
     async function runQuery() {
         chartCustomOption = null; // Clear custom chart on new manual query
-
-        if (!customQuery.trim()) {
-            // Automatically lazy-loads and initializes if it's the first time
-            const db = await WorkerManager.getDuckDB();
-            result = await db.query("SELECT * FROM table");
-            console.log('Query result:', result);
-            return;
-        }
+        
+        console.log('runQuery called. customQuery is:', customQuery);
 
         try {
             isExecuting = true;
             const db = await WorkerManager.getDuckDB();
+
+            if (!customQuery.trim()) {
+                // Automatically lazy-loads and initializes if it's the first time
+                const fallbackTable = $uploadedTables && $uploadedTables.length > 0 ? $uploadedTables[0] : 'demo_sales';
+                result = await db.query(`SELECT * FROM ${fallbackTable} LIMIT 100`);
+                console.log('Fallback query result:', result);
+                return;
+            }
+
             result = await db.query(customQuery, 1000);
             console.log('Query result:', result);
         } catch (error) {
@@ -374,11 +377,7 @@ onMount(async () => {
                 selectedTableSchema = Object.keys(schema);
 
                 // Proactively show suggested templates if there are likely matches
-                // For simplicity, we just trigger the gallery to open if any table is selected.
-                // The TemplateGallery component will handle the score filtering.
-                setTimeout(() => {
-                    showTemplateGallery = true;
-                }, 100);
+                // The user can click the Templates button to open it instead of forcing it open every time.
 
             } catch (e) {
                 console.error("Failed to fetch schema for template gallery", e);
