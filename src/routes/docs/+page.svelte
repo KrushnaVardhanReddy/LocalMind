@@ -11,6 +11,7 @@
     import type { MuPDFWorkerContract } from '$lib/workers/mupdf.worker';
     import type { EmbeddingsWorkerContract } from '$lib/contracts/embeddings_worker_contract';
     import type { WaSQLiteWorkerContract } from '$lib/contracts/wa_sqlite_contract';
+    import DocsSearchPanel from '$lib/components/workspace/panels/DocsSearchPanel.svelte';
 
     let activeTab = $state('viewer');
 
@@ -36,16 +37,12 @@
     let imageHeight: number = 0;
     let isRedacting = $state(false);
 
-    let searchQuery = $state('');
-    let isSearching = $state(false);
-    let searchResults: { file_name: string; chunk_text: string; score: number }[] = $state([]);
-
     let tesseractWorker: any = null;
     let opencvWorker: any = null;
     let nerWorker: NERWorkerContract | null = null;
     let mupdfWorker: MuPDFWorkerContract | null = null;
-    let embeddingsWorker: EmbeddingsWorkerContract | null = null;
-    let sqliteWorker: WaSQLiteWorkerContract | null = null;
+    let embeddingsWorker: EmbeddingsWorkerContract | null = $state(null);
+    let sqliteWorker: WaSQLiteWorkerContract | null = $state(null);
 
     let isIndexing = $state(false);
     let defaultWorkspaceId = 'default-workspace'; // Default workspace for MVP
@@ -209,56 +206,6 @@
         } finally {
             isIndexing = false;
             statusMessage = currentStatus;
-        }
-    };
-
-    const handleSearch = async () => {
-        if (!searchQuery.trim() || !embeddingsWorker || !sqliteWorker) return;
-
-        isSearching = true;
-        searchResults = [];
-
-        try {
-            // Embed query
-            const queryVector = await embeddingsWorker.embed(searchQuery);
-
-            // Load all chunks
-            const chunks = await sqliteWorker.getAllDocumentChunks(defaultWorkspaceId);
-
-            if (chunks.length === 0) {
-                alert("No documents indexed for search.");
-                return;
-            }
-
-            // Gather raw blobs to pass to worker
-            const chunkBlobs: Uint8Array[] = chunks.map(chunk => new Uint8Array(chunk.embedding));
-
-            // Compute similarity locally in the worker off the main thread
-            const scores = await embeddingsWorker.computeSimilarity(queryVector, chunkBlobs);
-
-            // Zip and sort
-            const scoredChunks = chunks.map((chunk, i) => ({
-                file_name: chunk.file_name,
-                chunk_text: chunk.chunk_text,
-                score: scores[i]
-            }));
-
-            scoredChunks.sort((a, b) => b.score - a.score);
-
-            // Return top 10
-            searchResults = scoredChunks.slice(0, 10);
-
-        } catch (error) {
-            console.error("Search error:", error);
-            alert("Search failed.");
-        } finally {
-            isSearching = false;
-        }
-    };
-
-    const handleSearchKeypress = (e: KeyboardEvent) => {
-        if (e.key === 'Enter') {
-            handleSearch();
         }
     };
 
@@ -601,6 +548,8 @@
                     <div class="text-sm text-surface-500 italic">Queue is empty</div>
                 {/if}
             </section>
+
+            <DocsSearchPanel {embeddingsWorker} {sqliteWorker} {isIndexing} />
         </div>
     </aside>
 
@@ -632,50 +581,7 @@
                 <div class="container mx-auto">
                     <div class="flex justify-between items-center mb-6">
                         <h1 class="text-3xl font-bold">Docs Engine (OCR)</h1>
-
-                        <!-- Search Bar -->
-                        <div class="flex gap-2 w-96">
-            <input
-                type="text"
-                bind:value={searchQuery}
-                onkeypress={handleSearchKeypress}
-                placeholder="Semantic search (e.g., 'invoices from CA')"
-                class="border rounded px-4 py-2 flex-grow"
-                disabled={isSearching || isIndexing}
-            />
-            <button
-                onclick={handleSearch}
-                disabled={isSearching || isIndexing || !searchQuery.trim()}
-                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-            >
-                {isSearching ? 'Searching...' : 'Search'}
-            </button>
-        </div>
-    </div>
-
-    <!-- Search Results View -->
-    {#if searchResults.length > 0}
-        <div class="mb-8">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-2xl font-semibold">Search Results</h2>
-                <button class="text-gray-500 hover:text-gray-800" onclick={() => searchResults = []}>Clear Results</button>
-            </div>
-
-            <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                {#each searchResults as result}
-                    <div class="bg-white border rounded p-4 shadow-sm hover:shadow-md transition-shadow">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-bold text-sm truncate text-blue-800" title={result.file_name}>{result.file_name}</h3>
-                            <span class="text-xs font-mono bg-blue-100 text-blue-800 px-2 py-1 rounded">Score: {result.score.toFixed(3)}</span>
-                        </div>
-                        <p class="text-sm text-gray-700 line-clamp-4 leading-relaxed bg-gray-50 p-2 rounded border border-gray-100">
-                            {result.chunk_text}
-                        </p>
                     </div>
-                {/each}
-            </div>
-        </div>
-    {/if}
 
     <div
         class="border-4 border-dashed rounded-lg p-12 text-center transition-colors {isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'}"
