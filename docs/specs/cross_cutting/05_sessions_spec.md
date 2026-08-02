@@ -50,3 +50,9 @@ A `.lm` file is fundamentally a compressed JSON blob containing the aggregated s
 4. It compiles this into the JSON structure above.
 5. It stringifies the JSON and uses the OPFS (Origin Private File System) API to generate a temporary Blob.
 6. The Blob is downloaded to the user's OS as `workspace_name.lm`.
+
+## 4. PDF Report Export Strategy
+While `.lm` is for deep interactive restoration, users also require static "executive reports".
+- **Implementation:** The PDF export strictly uses the browser's native `window.print()` functionality combined with `@media print` CSS rules.
+- **Constraints:** No new WASM dependencies (like pdf-lib or heavy PDF generators) are allowed for this feature.
+- **Flow:** The user clicks "Export PDF", the app sets `document.title` to the session name (controlling the default saved filename), applies print-specific styling (hiding navbars and toolbars, enforcing white backgrounds), and invokes `window.print()`.

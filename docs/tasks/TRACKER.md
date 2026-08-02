@@ -31,7 +31,7 @@
 - [x] Session-1: Core Session Schema & Local Export ✅ *(Completed - PR #82)* (`docs/tasks/cross_cutting/task_session1_core.md`)
 - [ ] Session-2: Static HTML Report Export (self-contained, no LocalMind required) (`docs/tasks/cross_cutting/task_ux3_report_export.md`)
 - [ ] Session-3: PDF Report Export (full workspace snapshot) (`docs/tasks/cross_cutting/task_session3_pdf_export.md`)
-- [/] Session-4: Session Import — restore workspace from `.lm` file ⏳ *(In Progress - Jules Session 16460546017566270199)* (`docs/tasks/cross_cutting/task_session4_import.md`)
+- [x] Session-4: Session Import — restore workspace from `.lm` file ✅ *(Completed - PR #85)* (`docs/tasks/cross_cutting/task_session4_import.md`)
 - [ ] Session-5: *(Future / Pro)* Read-only share link via Cloudflare R2 (`docs/tasks/cross_cutting/task_session5_share_link.md`)
 
 ---
@@ -73,7 +73,7 @@
 - [x] Task 2: Local PDF Manipulation ✅ *(Completed - PR #20)* (`docs/tasks/phase-2/task2_pdf.md`)
 - [x] Task 2.5: Markdown to PDF/HTML Export ✅ *(Completed)* (`docs/tasks/phase-2/task2_5_md_export.md`)
 - [x] Task 3: Local Semantic Search ✅ *(Completed - PR #32)* (`docs/tasks/phase-2/task3_semantic_search.md`)
-- [/] Docs-2: Semantic Search UI in Docs workspace ⏳ *(In Progress - Jules Session 10910445153714349607)* (`docs/tasks/phase-2/task_docs_search_ui.md`)
+- [x] Docs-2: Semantic Search UI in Docs workspace ✅ *(Completed - PR #84)* (`docs/tasks/phase-2/task_docs_search_ui.md`)
 - [x] Task 3.5: Local AI Resume Screener & Ranker ✅ *(Completed)* (`docs/tasks/phase-2/task3_5_resume_screener.md`)
 - [ ] Task 7: Offline Chat-with-Docs (Local RAG) (`docs/tasks/phase-2/task7_local_rag.md`)
 - [ ] Task 8: Document Comparison (Redline Diffing) (`docs/tasks/phase-2/task8_doc_diff.md`)
