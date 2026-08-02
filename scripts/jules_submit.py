@@ -157,6 +157,16 @@ TASKS = {
         "phase": "phase-1",
         "prompt": _load_prompt("docs/tasks/phase-1/task9_e2e.md"),
     },
+    13: {
+        "name": "Task 13 — Network Graph Visualizer",
+        "phase": "phase-1",
+        "prompt": _load_prompt("docs/tasks/phase-1/task13_network_graph.md"),
+    },
+    14: {
+        "name": "Task 14 — HTML Table Extractor",
+        "phase": "phase-1",
+        "prompt": _load_prompt("docs/tasks/phase-1/task14_html_extractor.md"),
+    },
     # ── Robustness Wave — Ship with/right after MVP1 launch ───────────────────
     90: {
         "name": "CI-1 — GitHub Actions CI/CD Pipeline",

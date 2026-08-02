@@ -1,15 +1,34 @@
-# Task 13: Network & Graph Visualizer
+TASK: Phase 1 — Task 13: Network & Graph Visualizer
 
-## Objective
-Analyze complex entity relationships (nodes and edges) locally from CSV data using DuckDB and Cytoscape.js/Sigma.js.
+═══════════════════════════════════════════════════════════════
+OBJECTIVE
+═══════════════════════════════════════════════════════════════
+Analyze complex entity relationships (nodes and edges) locally from CSV data using DuckDB and ECharts (or a specialized library like Cytoscape.js/Sigma.js if ECharts graph layout is insufficient).
 
-## Implementation Steps
-1. **Data Parsing:** Allow user to select a source table/CSV and specify `source` and `target` columns.
-2. **UI Engine:** Create `src/routes/analytics/network/+page.svelte`.
-   - Integrate a graph library (like Cytoscape.js or Sigma.js) to render large networks (10k+ nodes) using WebGL.
-3. **Analytics:** Calculate node degrees, clustering coefficients, and run community detection algorithms (e.g., Louvain) in JS/WASM.
-4. **Interactivity:** Allow zooming, filtering edges by weight, and inspecting node metadata.
+═══════════════════════════════════════════════════════════════
+CONSTRAINTS & RULES
+═══════════════════════════════════════════════════════════════
+- Performance: The graph handles at least 1,000 to 10,000 nodes smoothly.
+- No backend processing. Must use WASM/JS for parsing and analytics.
 
-## Definition of Done
-- A user can map two columns to nodes/edges and see an interactive force-directed graph.
-- The graph handles at least 10,000 nodes smoothly.
+═══════════════════════════════════════════════════════════════
+CONTEXT — EXISTING REPO LAYOUT & ARCHITECTURE
+═══════════════════════════════════════════════════════════════
+- `src/routes/analytics/network/` (Target directory)
+- `src/lib/components/ui/` (Existing UI components)
+
+═══════════════════════════════════════════════════════════════
+IMPLEMENTATION TIPS
+═══════════════════════════════════════════════════════════════
+- Data Parsing: Allow user to select a source table/CSV and specify `source` and `target` columns.
+- UI Engine: Create `src/routes/analytics/network/+page.svelte`.
+- Interactivity: Allow zooming, filtering edges by weight, and inspecting node metadata.
+
+═══════════════════════════════════════════════════════════════
+DELIVERABLES
+═══════════════════════════════════════════════════════════════
+1. NEW: `src/routes/analytics/network/+page.svelte`
+2. NEW: `src/lib/components/analytics/NetworkVisualizer.svelte`
+
+Commit: "feat: Phase 1 Task 13 Network Graph"
+Target branch: feature/task13-network-graph
