@@ -661,10 +661,15 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
         <div class="flex items-center gap-4">
             <select aria-label="Select Workspace" class="border rounded p-2"
                 value={$currentWorkspace?.id || ''}
-                onchange={(e) => setWorkspace(e.currentTarget.value)}
+                onchange={async (e) => {
+                    const wsId = e.currentTarget.value;
+                    await setWorkspace(wsId);
+                    const sm = new SessionManager();
+                    await sm.hydrate(wsId);
+                }}
             >
-                <option value="" disabled>Select Workspace...</option>
-                {#each $workspaces as ws}
+                <option value="" disabled>Recent Sessions...</option>
+                {#each [...$workspaces].sort((a, b) => b.updated_at - a.updated_at).slice(0, 10) as ws}
                     <option value={ws.id}>{ws.name}</option>
                 {/each}
             </select>

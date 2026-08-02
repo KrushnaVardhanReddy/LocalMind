@@ -5,6 +5,8 @@
     import { get } from 'svelte/store';
     import { goto } from '$app/navigation';
     import { workspaceStore } from '$lib/stores/workspace.store.svelte';
+    import { SessionManager } from '$lib/services/SessionManager';
+    import { setWorkspace } from '$lib/stores/workspace.store';
 
     type RecentFile = {
         name: string;
@@ -109,6 +111,51 @@
 
         } catch (e) {
             console.error(e);
+        } finally {
+            isUploading = false;
+        }
+    }
+
+    async function handleOpenSession() {
+        try {
+            if (typeof (window as any).showOpenFilePicker !== 'function') {
+                alert('File System Access API is not supported in this browser.');
+                return;
+            }
+
+            isUploading = true;
+            const [fileHandle] = await (window as any).showOpenFilePicker({
+                types: [
+                    {
+                        description: 'LocalMind Session File',
+                        accept: {
+                            'application/json': ['.lm']
+                        }
+                    }
+                ],
+                excludeAcceptAllOption: false
+            });
+
+            const file = await fileHandle.getFile();
+            const sm = new SessionManager();
+            const workspaceId = await sm.importSession(file);
+
+            // Hydrate the store
+            await setWorkspace(workspaceId);
+            await sm.hydrate(workspaceId);
+
+            // Populate table names
+            const sqliteWorker = await WorkerManager.getSQLite();
+            const files = await sqliteWorker.listFiles(workspaceId);
+            const tables = files.map((f: any) => f.table_name);
+            uploadedTables.set(tables);
+
+            workspaceStore.setActiveWorkspace({ id: 'analytics', type: 'analytics', title: 'Analytics' });
+            goto('/');
+
+        } catch (e) {
+            console.error('Import failed:', e);
+            alert(`Session import failed: ${e instanceof Error ? e.message : 'Unknown error'}`);
         } finally {
             isUploading = false;
         }
@@ -229,7 +276,14 @@
             disabled={isUploading}
             class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium shadow-md transition disabled:opacity-50"
         >
-            <span>📂</span> {isUploading ? 'Opening...' : 'Open File'}
+            <span>📄</span> {isUploading ? 'Opening...' : 'Open File'}
+        </button>
+        <button
+            onclick={handleOpenSession}
+            disabled={isUploading}
+            class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium shadow-md transition disabled:opacity-50"
+        >
+            <span>📂</span> {isUploading ? 'Loading...' : 'Open Session'}
         </button>
         <button
             onclick={handlePasteData}
