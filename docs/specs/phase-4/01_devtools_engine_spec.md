@@ -78,3 +78,8 @@ See `docs/contracts/phase-4/`:
 3. **tree-sitter grammars are lazy-loaded** — only fetch the grammar for the language detected in the dropped file.
 4. **Diff images are never stored** — they are rendered in-memory and discarded on tab close.
 5. **The mock API server is scoped to the current tab** — MSW intercepts only fetch calls from the LocalMind origin.
+
+### 3.12 PII Data Sanitizer (JSON/CSV)
+- Offline PII redaction for structured data (CSV/JSON).
+- Utilizes the existing Transformers.js NER (Named Entity Recognition) worker.
+- Scans large files, masks detected PII (like `[REDACTED_PERSON]`), and exports the clean file.

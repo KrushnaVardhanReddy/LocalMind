@@ -1,63 +1,38 @@
-# Task 14: LocalMind Annotate — Image & Screenshot Annotation Workspace
+TASK: Phase 6 — Task 14: LocalMind Annotate (Image & Screenshot Annotation)
 
-## Objective
-Build a lightweight canvas-based annotation workspace at `/annotate`. Users can draw, highlight, annotate screenshots, add text/arrows/shapes, crop images, and export to PNG/SVG/PDF — entirely offline using the browser canvas API and existing magick-wasm.
+═══════════════════════════════════════════════════════════════
+OBJECTIVE
+═══════════════════════════════════════════════════════════════
+Build a purely offline image annotation tool (rectangles, arrows, text, blur) utilizing HTML5 Canvas or Fabric.js. This will allow users to quickly markup screenshots and redact sensitive areas before sharing them.
 
-No new WASM workers needed. This reuses the existing canvas API + magick-wasm.
+Spec (READ ONLY — implement from it, never edit):
+  docs/specs/phase-6/01_specialized_plugins_spec.md
 
-## Prerequisites
-- UX-1 (Workspace launcher dashboard) completed — `/annotate` card must be in the launcher.
-- magick-wasm already integrated (image format conversion).
+═══════════════════════════════════════════════════════════════
+CONSTRAINTS & RULES
+═══════════════════════════════════════════════════════════════
+- Native Canvas / Fabric.js: Use purely client-side canvas logic. No heavy WASM required.
+- No Network: Images must never be transmitted off-device.
+- Fast Render: The UI must be responsive even for 4K images.
 
-## Implementation
+═══════════════════════════════════════════════════════════════
+CONTEXT — EXISTING REPO LAYOUT & ARCHITECTURE
+═══════════════════════════════════════════════════════════════
+- `src/routes/plugins/annotate/` (Target directory for the new route)
+- `src/lib/components/ui/` (Reuse existing UI elements like Buttons and Dropzones)
 
-### 1. Route Structure
-```
-src/routes/annotate/
-├── +page.svelte              ← Main annotate workspace
-├── +page.ts
-└── components/
-    ├── AnnotateCanvas.svelte     ← HTML5 Canvas with tool layer
-    ├── AnnotateToolbar.svelte    ← Tool palette (draw, shapes, text, eraser)
-    ├── AnnotateLayerPanel.svelte ← Layer list sidebar
-    └── AnnotateExport.svelte     ← Export modal (PNG/SVG/PDF)
-```
+═══════════════════════════════════════════════════════════════
+IMPLEMENTATION TIPS
+═══════════════════════════════════════════════════════════════
+- Canvas Layering: Maintain an original image background layer and an interactive vector overlay layer.
+- Export: When exporting, flatten the layers into a single `canvas.toDataURL('image/png')` and trigger a local file download.
+- Blur/Redaction: Implement a blur filter on a specific rectangular region to easily redact text from screenshots.
 
-### 2. Canvas Tools
-Implement via HTML5 Canvas 2D API with pointer events:
+═══════════════════════════════════════════════════════════════
+DELIVERABLES
+═══════════════════════════════════════════════════════════════
+1. NEW: `src/routes/plugins/annotate/+page.svelte`
+2. NEW: `src/lib/components/plugins/annotate/CanvasEditor.svelte`
 
-| Tool | Behaviour |
-|---|---|
-| ✏️ Freehand | Smooth path drawing with configurable stroke width + color |
-| 📐 Arrow | Click-drag to draw directional arrow with configurable arrowhead |
-| ⬜ Rectangle / ⭕ Circle | Click-drag shapes with fill + stroke options |
-| T Text | Click to place text, configurable font size + color |
-| 🖍 Highlight | Semi-transparent yellow overlay rectangle |
-| ✂️ Crop | Select region → export only that region |
-| 🧹 Eraser | Remove drawn elements within radius |
-
-### 3. Image Import
-- Drag-and-drop image (PNG, JPG, WEBP, BMP, GIF) onto canvas — renders as background layer.
-- Paste from clipboard (`Ctrl+V`) — pastes screenshot directly as background layer.
-- This is the primary entry point: take a screenshot → paste → annotate → export.
-
-### 4. Export
-- **PNG:** `canvas.toDataURL('image/png')` → download.
-- **SVG:** Serialize all vector annotations to SVG (background image embedded as base64 `<image>`).
-- **PDF:** Use the existing `window.print()` strategy from Session-3 (print-optimized CSS).
-
-### 5. AI Auto-Label (Optional, consent-gated)
-- "Ask AI to describe this image" button.
-- Sends only a low-resolution thumbnail (max 512x512, base64) to the consent-gated cloud bridge.
-- AI returns descriptive text → pre-fills a text annotation on the canvas.
-- Requires user consent before any image data leaves the device.
-
-## Acceptance Criteria
-- [ ] `/annotate` route renders a blank canvas workspace.
-- [ ] Drag-and-drop image opens as background layer.
-- [ ] Clipboard paste (`Ctrl+V`) imports screenshot as background.
-- [ ] All 7 tools work correctly (freehand, arrow, rect, circle, text, highlight, eraser).
-- [ ] Color picker and stroke width controls work.
-- [ ] PNG export downloads a valid image with annotations composited.
-- [ ] No new WASM workers added to WorkerManager.ts.
-- [ ] Unit tests cover tool state management and export output.
+Commit: "feat: Phase 6 Task 14 Annotate plugin"
+Target branch: feature/task14-annotate

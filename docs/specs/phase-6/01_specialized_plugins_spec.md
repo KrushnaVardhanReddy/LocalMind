@@ -120,3 +120,33 @@ export interface MindMapWorkerContract {
 2. All plugins share the same `WorkerManager` Singleton registry.
 3. CAD and Geo files may be large (hundreds of MB) — streaming registration via `WorkerManager` is mandatory.
 4. Cryptographic private keys must **never** be stored in `localStorage`, `sessionStorage`, or wa-sqlite.
+
+## 7. Plugin E: Annotate Workspace (Task 14)
+
+### 7.1 Engine
+`Fabric.js` or HTML5 Canvas (No WASM required).
+
+### 7.2 Supported Operations
+- **Image Import:** Load PNG/JPG/WebP from local file system.
+- **Annotation:** Draw rectangles, circles, arrows, and text.
+- **Redaction:** Blur specific rectangular regions of the image.
+- **Export:** Export the annotated image as a single flattened PNG.
+
+### 7.3 Constraints
+- Must remain a purely client-side UI tool.
+- Images must not be transmitted off-device.
+
+---
+
+## 8. Plugin F: Diagrams Workspace (Task 15)
+
+### 8.1 Engine
+Reuses the existing `WebLLMWorker` for AI generation and `mermaid` for rendering.
+
+### 8.2 Supported Operations
+- **Prompt to Diagram:** User types a prompt ("Create an architecture diagram of a web server"). The LLM outputs Mermaid.js syntax.
+- **Live Render:** The Mermaid syntax is parsed and rendered visually in real-time.
+- **Export:** Export the rendered diagram as SVG or PNG.
+
+### 8.3 Contracts
+Delegates to the existing `LLMWorkerContract`. No new WASM engine is registered.
