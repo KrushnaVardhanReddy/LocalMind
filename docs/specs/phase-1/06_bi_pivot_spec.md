@@ -167,3 +167,22 @@ src/lib/utils/chartBuilder.ts  — Pure function: (result, chartType, rows, valu
 - Dark mode compatible via CSS custom properties or Tailwind `dark:` variants.
 - Micro-animations on pill add/remove and panel expand/collapse.
 - Visualization toolbar includes: Chart type selector icons + Fullscreen expand button.
+
+---
+
+## 7. Advanced Chart Inspector (Hybrid Inspector)
+
+### 7.1 Objective
+Move advanced chart configuration from the main canvas into the unified Right Sidebar (Inspector) defined in the LocalMind OS shell. This ensures a clean workspace while providing power-user capabilities.
+
+### 7.2 UI Architecture (Two Tabs)
+- **Data Tab**: Controls data mappings (X-Axis, Y-Axis, Series, Tooltip fields).
+- **Format Tab**: Context-aware settings (e.g., `Stacked` vs `Grouped` toggle for Bar/Area charts; `Smooth` toggle for Line charts).
+- **Color Overrides**: A section where users can explicitly select hex colors for individual series elements.
+
+### 7.3 Raw JSON Override (Looker-Style)
+For ultimate flexibility, the bottom of the Inspector must feature an "Advanced ECharts JSON" toggle. 
+- A JSON code editor allows power users to inject arbitrary ECharts properties.
+- These properties deep-merge into the auto-generated config from `chartBuilder.ts`.
+- Must safely catch and discard `JSONDecodeError` to prevent the UI from crashing if the user types invalid JSON.
+

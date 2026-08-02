@@ -188,20 +188,223 @@ def _load_prompt(relative_path):
 # Phase 12 Stitch Tasks (Playwright / Frontend)
 # ──────────────────────────────────────────────────────────────────────────────
 
-STITCH_TASKS = {
-    7: {
-        "name": "Task 7 — Tableau-Style BI Pivot Builder",
-        "wave": 1,
-        "owner": "Stitch",
-        "prompt_file": "docs/tasks/phase-1/task7_bi_pivot.md",
-    },
-    8: {
-        "name": "Task 8 — Interactive Dashboard Builder",
-        "wave": 1,
-        "owner": "Stitch",
-        "prompt_file": "docs/tasks/phase-1/task8_dashboards.md",
-    },
-}")
+STITCH_TASKS = {}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Stitch: Generate a screen from a prompt file via the MCP API
+# ──────────────────────────────────────────────────────────────────────────────
+
+def submit_stitch_task(task_num):
+    """Submit a Phase 12 Stitch task directly via the Stitch generate API."""
+    if task_num not in STITCH_TASKS:
+        print(f"❌ Stitch task {task_num} not found. Available: {list(STITCH_TASKS.keys())}")
+        sys.exit(1)
+
+    task = STITCH_TASKS[task_num]
+    prompt_content = _load_prompt(task["prompt_file"])
+
+    print(f"\n🎨 Stitch Task [{task_num}]: {task['name']}")
+    print(f"   Wave: {task['wave']} | Owner: {task['owner']}")
+    print(f"   Prompt file: {task['prompt_file']}")
+
+    client = StitchMCPClient()
+    try:
+        # Step 1: Create a project for this task
+        project_title = f"LocalMind {task['name']}"
+        print(f"\n  Creating Stitch project: '{project_title}'...")
+        res = client.call_tool("create_project", {"title": project_title})
+        if not res or "result" not in res:
+            print(f"❌ Failed to create project: {res}")
+            sys.exit(1)
+
+        content_text = res["result"]["content"][0]["text"]
+        data = json.loads(content_text)
+        project_name = data.get("name", "")
+        project_id = project_name.split("/")[-1]
+        print(f"  ✅ Project created: ID = {project_id}")
+
+        # Step 2: Generate the screen from the prompt
+        print(f"  🚀 Generating implementation screen...")
+        res2 = client.call_tool("generate_screen_from_text", {
+            "projectId": project_id,
+            "modelId": "GEMINI_3_1_PRO",
+            "deviceType": "DESKTOP",
+            "prompt": prompt_content,
+        })
+
+        if not res2 or "result" not in res2:
+            print(f"❌ Generation failed: {res2}")
+            sys.exit(1)
+
+        content_text2 = res2["result"]["content"][0]["text"]
+        try:
+            data2 = json.loads(content_text2)
+        except json.JSONDecodeError:
+            print("⚠️  Non-JSON response from Stitch (may still have succeeded):")
+            print(content_text2[:500])
+            return
+
+        print(f"\n  ✅ Stitch task submitted successfully!")
+        for component in data2.get("outputComponents", []):
+            design = component.get("design", {})
+            for screen in design.get("screens", []):
+                html_code = screen.get("htmlCode", {})
+                if html_code and html_code.get("downloadUrl"):
+                    print(f"  • Screen: {screen.get('title', 'Untitled')}")
+                    print(f"  • Download URL: {html_code['downloadUrl']}")
+    finally:
+        client.close()
+
+
+def list_stitch_tasks():
+    """Print all Phase 12 Stitch tasks grouped by wave."""
+    print("\n📋 Phase 12 Stitch Tasks (Playwright / Frontend):\n")
+    for wave in [1, 2]:
+        wave_tasks = [(n, t) for n, t in STITCH_TASKS.items() if t["wave"] == wave]
+        if wave_tasks:
+            print(f"  Wave {wave}:")
+            for num, task in sorted(wave_tasks):
+                print(f"    [{num}] {task['name']}")
+    print()
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# CLI Logic
+# ──────────────────────────────────────────────────────────────────────────────
+
+def main():
+    args = sys.argv[1:]
+
+    if not args or "--help" in args or "-h" in args:
+        print(__doc__)
+        sys.exit(0)
+
+    # 1. List Projects
+    if "--list" in args:
+        client = StitchMCPClient()
+        try:
+            print("Listing Stitch projects...")
+            res = client.call_tool("list_projects")
+            if not res or "result" not in res:
+                print("❌ Failed to list projects:", res)
+                sys.exit(1)
+            
+            content_text = res["result"]["content"][0]["text"]
+            data = json.loads(content_text)
+            projects = data.get("projects", [])
+            print(f"\n📊 Projects found: {len(projects)}")
+            for p in projects:
+                name = p.get("name", "Unknown")
+                title = p.get("title", "No Title")
+                project_id = name.split("/")[-1]
+                print(f"  • ID: {project_id:<25} | Title: {title}")
+        finally:
+            client.close()
+        sys.exit(0)
+
+    # 2. Create Project
+    if "--create" in args:
+        idx = args.index("--create")
+        if idx + 1 >= len(args):
+            print("❌ Please specify a project title.")
+            sys.exit(1)
+        title = args[idx + 1]
+
+        client = StitchMCPClient()
+        try:
+            print(f"Creating project: '{title}'...")
+            res = client.call_tool("create_project", {"title": title})
+            if not res or "result" not in res:
+                print("❌ Failed to create project:", res)
+                sys.exit(1)
+
+            content_text = res["result"]["content"][0]["text"]
+            data = json.loads(content_text)
+            project_name = data.get("name", "")
+            project_id = project_name.split("/")[-1]
+            print(f"✅ Success! Project Created. ID: {project_id}")
+        finally:
+            client.close()
+        sys.exit(0)
+
+    # 3. Project Info
+    if "--project-info" in args:
+        idx = args.index("--project-info")
+        if idx + 1 >= len(args):
+            print("❌ Please specify a project ID.")
+            sys.exit(1)
+        project_id = args[idx + 1]
+
+        client = StitchMCPClient()
+        try:
+            print(f"Fetching info for project '{project_id}'...")
+            res = client.call_tool("get_project", {"name": f"projects/{project_id}"})
+            if not res or "result" not in res:
+                print("❌ Failed to get project info:", res)
+                sys.exit(1)
+
+            content_text = res["result"]["content"][0]["text"]
+            data = json.loads(content_text)
+            
+            print(f"\n📁 Project: {data.get('title', 'Untitled')}")
+            print(f"  Status: {data.get('status', 'Unknown')}")
+            print(f"  Created: {data.get('createTime', 'Unknown')}")
+
+            screens = data.get("screens", [])
+            print(f"\n🖥️  Screens ({len(screens)}):")
+            for s in screens:
+                name = s.get("name", "")
+                screen_id = name.split("/")[-1]
+                title = s.get("title", "Untitled")
+                print(f"  • Screen ID: {screen_id:<20} | Title: {title}")
+        finally:
+            client.close()
+        sys.exit(0)
+
+    # 4. Generate Screen (original one-off mode)
+    if "--generate" in args:
+        if "--project-id" not in args or "--prompt" not in args:
+            print("❌ Make sure to supply both --project-id and --prompt.")
+            sys.exit(1)
+        
+        pid_idx = args.index("--project-id")
+        project_id = args[pid_idx + 1]
+
+        prompt_idx = args.index("--prompt")
+        prompt = args[prompt_idx + 1]
+
+        client = StitchMCPClient()
+        try:
+            print(f"🚀 Generating screen in project '{project_id}' using Gemini 3.1 Pro...")
+            res = client.call_tool("generate_screen_from_text", {
+                "projectId": project_id,
+                "modelId": "GEMINI_3_1_PRO",
+                "deviceType": "DESKTOP",
+                "prompt": prompt
+            })
+
+            if not res or "result" not in res:
+                print("❌ Generation failed:", res)
+                sys.exit(1)
+
+            content_text = res["result"]["content"][0]["text"]
+            try:
+                data = json.loads(content_text)
+            except json.JSONDecodeError:
+                print("❌ Received non-JSON response from server:")
+                print(content_text)
+                sys.exit(1)
+
+            print("\n✅ Generation Complete!")
+            download_url = None
+            for component in data.get("outputComponents", []):
+                design = component.get("design", {})
+                for screen in design.get("screens", []):
+                    html_code = screen.get("htmlCode", {})
+                    if html_code and html_code.get("downloadUrl"):
+                        download_url = html_code["downloadUrl"]
+                        print(f"  • Screen: {screen.get('title', 'Untitled')}")
+                        print(f"  • Download URL: {download_url}")
             
             if download_url:
                 print("\n💡 Tip: You can download the html using curl or urllib.")

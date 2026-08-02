@@ -58,6 +58,8 @@
 - [x] Task 11: High-Performance Data Grid Upgrade ✅ *(Completed - PR #72)* (`docs/tasks/phase-1/task11_data_grid.md`)
 - [ ] Task 13: Network & Graph Visualizer (`docs/tasks/phase-1/task13_network_graph.md`)
 - [ ] Task 14: Offline HTML Table Extractor (`docs/tasks/phase-1/task14_html_extractor.md`)
+- [ ] Task 16: Advanced Chart Inspector (UI + JSON Overrides) (`docs/tasks/phase-1/task16_chart_inspector.md`)
+- [ ] Task 17: Analytics E2E V2 (Coverage for Tasks 10-16) (`docs/tasks/phase-1/task17_analytics_e2e_v2.md`)
 
 ---
 
