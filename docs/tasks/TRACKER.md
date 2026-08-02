@@ -245,5 +245,5 @@
 - [ ] Task 4: **Stripe Billing Integration** (`docs/tasks/phase-11/task4_stripe.md`)
   - Subscription management and marketplace payouts.
 
-### Phase 13: Mobile Ecosystem (Tauri Mobile)
-- [ ] Task 1: LocalMind "Lite" Mobile iOS/Android App (`docs/tasks/phase-13/task1_mobile_lite.md`)
+### Phase 13: Mobile Ecosystem (Capacitor Mobile)
+- [x] Task 1: LocalMind "Lite" Mobile iOS/Android App ✅ *(Completed - UI Refactored, Capacitor scaffold delegated to Jules)* (`docs/tasks/phase-12/task1_mobile_lite.md`)
