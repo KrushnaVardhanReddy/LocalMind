@@ -1,0 +1,9 @@
+John Doe
+123 Fake Street, Springfield, IL
+Phone: (555) 123-4567
+Email: john.doe@example.com
+SSN: 000-00-0000
+
+Experience:
+Software Engineer at Tech Corp
+2015 - 2020
