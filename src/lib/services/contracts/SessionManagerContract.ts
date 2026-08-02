@@ -8,6 +8,7 @@ export interface SessionState {
     queries: any[];
     chartConfig: any;
     chatHistory: any[];
+    aiSummary?: string;
   };
 }
 
@@ -25,6 +26,12 @@ export interface SessionManagerContract {
    * @returns The ID of the newly imported workspace
    */
   importSession(file: File): Promise<string>;
+
+  /**
+   * Reads from database and populates svelte stores.
+   * @param workspaceId The active workspace ID
+   */
+  hydrate(workspaceId: string): Promise<void>;
 
   /**
    * Saves a partial state update to the local wa-sqlite database
