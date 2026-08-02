@@ -228,6 +228,9 @@
 - [ ] Task 3: Audit Logging & Data Governance Middleware (`docs/tasks/phase-10/task3_audit.md`)
 - [ ] Task 4: Docker & Kubernetes On-Prem Configs (`docs/tasks/phase-10/task4_docker.md`)
 - [ ] Task 5: SOC 2 Compliance Documentation (`docs/tasks/phase-10/task5_soc2.md`)
+- [ ] Task 6: **Real-Time Streaming Analytics** (`docs/tasks/phase-10/task6_streaming.md`)
+  - WebSockets / Server-Sent Events integration for live data.
+  - High-speed grid rendering via Perspective (for DevOps/Finance verticals).
 
 ### Phase 11: Monetization Strategy & Sync Infrastructure
 *Leveraging the local-first architecture to drive revenue via E2EE sync, API proxies, and team licensing.*
