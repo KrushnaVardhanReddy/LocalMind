@@ -97,7 +97,17 @@
 
 ---
 
-## 🟡 ACTIVE SETS (MVP3 — Plugin Ecosystem Completion)
+## 🟡 ACTIVE SETS (MVP3 — Mobile App & Pro Version)
+*Taking the finalized Phase 1 Analytics workspace and shipping it as a native iOS/Android app, while simultaneously building the Pro tier infrastructure.*
+
+### MVP3 Wave A: Mobile Scaffolding & Pro Architecture (Parallel)
+*Jules handles the heavy Pro backend, while Stitch can help with the Mobile UI.*
+- **[Mobile]** Task 1: LocalMind "Lite" Mobile iOS/Android App (`docs/tasks/phase-13/task1_mobile_lite.md`)
+- **[Pro]** Task 2: LocalMind Pro Cloudflare Proxy (`docs/tasks/phase-11/task2_cf_proxy.md`)
+
+---
+
+## 🟡 ACTIVE SETS (MVP4 — Plugin Ecosystem Completion)
 
 > [!IMPORTANT]
 > Start MVP3 after MVP2 Wave A is merged (Sessions core and Docs route must exist for Annotate and Diagrams to link into the workspace launcher).

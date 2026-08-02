@@ -229,9 +229,18 @@
 - [ ] Task 4: Docker & Kubernetes On-Prem Configs (`docs/tasks/phase-10/task4_docker.md`)
 - [ ] Task 5: SOC 2 Compliance Documentation (`docs/tasks/phase-10/task5_soc2.md`)
 
-### Monetization Proxy (Cloudflare)
-- [ ] Task 1: Cloudflare Proxy API for AI Credits (`docs/tasks/phase-11/task1_cf_proxy.md`)
-- [ ] Task 2: Stripe Billing Integration (`docs/tasks/phase-11/task2_stripe.md`)
+### Phase 11: Monetization Strategy & Sync Infrastructure
+*Leveraging the local-first architecture to drive revenue via E2EE sync, API proxies, and team licensing.*
+- [ ] Task 1: **LocalMind Sync (E2EE)** (`docs/tasks/phase-11/task1_localmind_sync.md`)
+  - End-to-end encrypted `.lm` file syncing across devices.
+  - Zero-knowledge architecture (LocalMind servers cannot decrypt user data).
+- [ ] Task 2: **LocalMind Pro (Cloudflare Proxy)** (`docs/tasks/phase-11/task2_cf_proxy.md`)
+  - Proxy API for accessing heavy cloud LLMs (GPT-4o/Claude) via a flat monthly subscription.
+  - Unlimited workspace limits and white-labeled PDF export.
+- [ ] Task 3: **Plugin & Model Marketplace** (`docs/tasks/phase-11/task3_marketplace.md`)
+  - In-app store for developers to sell custom chart types, parsers, or fine-tuned local LLMs.
+- [ ] Task 4: **Stripe Billing Integration** (`docs/tasks/phase-11/task4_stripe.md`)
+  - Subscription management and marketplace payouts.
 
-### Phase 12: Mobile Ecosystem (Tauri Mobile)
-- [ ] Task 1: LocalMind "Lite" Mobile iOS/Android App (`docs/tasks/phase-12/task1_mobile_lite.md`)
+### Phase 13: Mobile Ecosystem (Tauri Mobile)
+- [ ] Task 1: LocalMind "Lite" Mobile iOS/Android App (`docs/tasks/phase-13/task1_mobile_lite.md`)
