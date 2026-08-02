@@ -3,6 +3,7 @@
     import { WorkerManager } from '$lib/workers/WorkerManager';
     import type { ColumnInfo, ShelfItem, ValueShelfItem, FilterRule, ChartType, ColumnType } from './pivot.types';
     import type { PivotTemplate } from '$lib/templates/template.types';
+    import { inspectorState } from '$lib/stores/workspace.store';
 
     // Child Components
     import ColumnPanel from './ColumnPanel.svelte';
@@ -584,6 +585,7 @@
                     {chartType}
                     {rows}
                     {values}
+                    overrides={$inspectorState.parsedOverride}
                     onChartTypeChange={(t) => chartType = t}
                     onChartClick={handleChartClick}
                 />

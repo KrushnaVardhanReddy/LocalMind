@@ -56,8 +56,8 @@
 - [x] Task 9: End-to-End Testing (Phase 1 Full Surface) ✅ *(Completed)* (`docs/tasks/phase-1/task9_e2e.md`)
 - [x] Task 10: Advanced BI Polish (Treemaps, Heatmaps, Cross-filtering) ✅ *(Completed - PR #69)* (`docs/tasks/phase-1/task10_advanced_bi.md`)
 - [x] Task 11: High-Performance Data Grid Upgrade ✅ *(Completed - PR #72)* (`docs/tasks/phase-1/task11_data_grid.md`)
-- [ ] Task 13: Network & Graph Visualizer ⏳ *(Jules Session: 12200392546798473747)* (`docs/tasks/phase-1/task13_network_graph.md`)
-- [ ] Task 14: Offline HTML Table Extractor ⏳ *(Jules Session: 16931156470532147267)* (`docs/tasks/phase-1/task14_html_extractor.md`)
+- [x] Task 13: Network & Graph Visualizer ✅ *(Completed - PR #89)* (`docs/tasks/phase-1/task13_network_graph.md`)
+- [x] Task 14: Offline HTML Table Extractor ✅ *(Completed - PR #88)* (`docs/tasks/phase-1/task14_html_extractor.md`)
 - [ ] Task 16: Advanced Chart Inspector (UI + JSON Overrides) ⏳ *(Stitch Project: 17779706854582826446)* (`docs/tasks/phase-1/task16_chart_inspector.md`)
 - [ ] Task 17: Analytics E2E V2 (Coverage for Tasks 10-16) ⏳ *(Stitch Project: 3983073280287948121)* (`docs/tasks/phase-1/task17_analytics_e2e_v2.md`)
 

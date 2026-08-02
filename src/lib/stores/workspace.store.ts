@@ -8,6 +8,20 @@ export const savedQueries = writable<SavedQueryRecord[]>([]);
 export const registeredFiles = writable<RegisteredFileRecord[]>([]);
 export const dashboardPanels = writable<DashboardPanelRecord[]>([]);
 
+export interface InspectorState {
+    isOpen: boolean;
+    activeTab: 'Data' | 'Format';
+    rawJsonOverride: string;
+    parsedOverride: any | null;
+}
+
+export const inspectorState = writable<InspectorState>({
+    isOpen: false,
+    activeTab: 'Data',
+    rawJsonOverride: '',
+    parsedOverride: null
+});
+
 let sqliteWorker: WaSQLiteWorkerContract | null = null;
 
 async function getWorker(): Promise<WaSQLiteWorkerContract> {

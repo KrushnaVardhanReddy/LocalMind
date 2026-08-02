@@ -20,6 +20,7 @@ vi.mock('$lib/stores/workspace.store', async () => {
         workspaces: svelteStore.writable([]),
         currentWorkspace: svelteStore.writable({ id: 'test-workspace', name: 'Test Analytics' }),
         savedQueries: svelteStore.writable([]),
+        inspectorState: svelteStore.writable({ isOpen: false, activeTab: 'Data', rawJsonOverride: '', parsedOverride: null }),
         loadWorkspaces: vi.fn(),
         createWorkspace: vi.fn(),
         setWorkspace: vi.fn(),

@@ -112,6 +112,25 @@ export function detectChartType(numRows: number): 'pie' | 'bar' | 'line' {
     return 'line';
 }
 
+function deepMerge(target: any, source: any): any {
+    if (target === null || target === undefined) return source;
+    if (source === null || source === undefined) return target;
+    
+    if (Array.isArray(target) && Array.isArray(source)) {
+        return source; // For arrays in ECharts, we usually overwrite (like series array) or we could merge by index. Overwrite is safer for raw JSON overrides.
+    }
+    
+    if (typeof target === 'object' && typeof source === 'object') {
+        const result = { ...target };
+        for (const key of Object.keys(source)) {
+            result[key] = deepMerge(result[key], source[key]);
+        }
+        return result;
+    }
+    
+    return source;
+}
+
 function getDimensionLabel(row: any, rows: string[]): string {
     if (rows.length === 0) return 'All';
     return rows.map(r => String(row[r])).join(' - ');
@@ -123,7 +142,8 @@ export function buildEchartsOption(
     rows: string[],
     values: PivotValue[],
     colors: string[] = PALETTES[DEFAULT_PALETTE],
-    darkMode: boolean = false
+    darkMode: boolean = false,
+    overrides: any = null
 ): any {
     const base = baseTheme(colors, darkMode);
 
@@ -381,7 +401,7 @@ export function buildEchartsOption(
         } : undefined
     }));
 
-    return {
+    const baseOption = {
         ...base,
         tooltip: { ...base.tooltip, trigger: 'axis' },
         legend: premiumLegend(measureKeys, darkMode),
@@ -397,4 +417,6 @@ export function buildEchartsOption(
         },
         series
     };
+
+    return overrides ? deepMerge(baseOption, overrides) : baseOption;
 }

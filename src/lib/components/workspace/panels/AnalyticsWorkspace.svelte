@@ -28,6 +28,8 @@ import { ReportExporter, type ExportConfig } from '$lib/services/ReportExporter'
     } from '$lib/stores/workspace.store';
     import type { EChartsOption } from 'echarts';
     import { uploadedTables } from '$lib/stores/analytics.store';
+    import { inspectorState } from '$lib/stores/workspace.store';
+    import ChartInspector from '$lib/components/inspector/ChartInspector.svelte';
 
     let result: QueryResult | null = $state(null);
     let chartCustomOption: EChartsOption | null = $state(null);
@@ -622,7 +624,8 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
     />
 {/if}
 
-<main class="p-8 w-full max-w-screen-2xl mx-auto">
+<div class="flex h-[calc(100vh-64px)] w-full overflow-hidden">
+<main class="p-8 flex-1 overflow-y-auto">
     <div class="flex justify-between items-center mb-8 bg-white p-4 shadow rounded no-print">
         <div class="flex items-center gap-4">
             <h1 class="text-2xl font-bold">LocalMind</h1>
@@ -1026,6 +1029,11 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
         />
     {/if}
 </main>
+
+{#if $inspectorState.isOpen}
+    <ChartInspector />
+{/if}
+</div>
 
 {#if showOnboarding}
     <div class="fixed bottom-8 right-8 z-50 transition-all duration-300 {checklistCollapsed ? 'translate-y-[calc(100%-3rem)]' : 'translate-y-0'}">

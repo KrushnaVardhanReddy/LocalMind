@@ -3,6 +3,7 @@
     import * as echarts from 'echarts';
     import { buildEchartsOption, PALETTES, DEFAULT_PALETTE } from '$lib/utils/chartBuilder';
     import type { ChartType } from './pivot.types';
+    import { inspectorState } from '$lib/stores/workspace.store';
 
     // Dark mode detection (Tailwind class-based)
     let darkMode = $state(false);
@@ -15,6 +16,7 @@
         chartType = 'auto',
         rows,
         values,
+        overrides,
         onChartTypeChange,
         onChartClick
     } = $props<{
@@ -22,6 +24,7 @@
         chartType: ChartType;
         rows: any[];
         values: any[];
+        overrides?: any;
         onChartTypeChange: (type: ChartType) => void;
         onChartClick?: (rowData: any) => void;
     }>();
@@ -92,8 +95,9 @@
         const colors = getColors();
         const _p = selectedPalette;
         const _d = darkMode;
+        const _o = overrides;
         if (result && result.rows.length > 0 && values.length > 0) {
-            chartInstance.setOption(buildEchartsOption(result, chartType as any, rowCols, values, colors, darkMode), true);
+            chartInstance.setOption(buildEchartsOption(result, chartType as any, rowCols, values, colors, darkMode, overrides), true);
         } else {
             chartInstance.clear();
         }
@@ -106,8 +110,9 @@
         const colors = getColors();
         const _p = selectedPalette;
         const _d = darkMode;
+        const _o = overrides;
         if (result && result.rows.length > 0 && values.length > 0) {
-            fullscreenChartInstance.setOption(buildEchartsOption(result, chartType as any, rowCols, values, colors, darkMode), true);
+            fullscreenChartInstance.setOption(buildEchartsOption(result, chartType as any, rowCols, values, colors, darkMode, overrides), true);
         } else {
             fullscreenChartInstance.clear();
         }
@@ -212,6 +217,15 @@
                 {/if}
             </div>
 
+            <!-- Inspect button -->
+            <button
+                class="p-1.5 rounded-lg text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all duration-150 {$inspectorState.isOpen ? 'text-indigo-600 bg-indigo-50 dark:bg-indigo-900/30' : ''}"
+                title="Toggle Chart Inspector"
+                onclick={() => $inspectorState.isOpen = !$inspectorState.isOpen}
+            >
+                <span class="text-sm">🛠️</span>
+            </button>
+            
             <!-- Fullscreen button -->
             <button
                 class="p-1.5 rounded-lg text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all duration-150"
