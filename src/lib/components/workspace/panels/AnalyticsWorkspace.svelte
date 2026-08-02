@@ -100,6 +100,15 @@ import { ReportExporter, type ExportConfig } from '$lib/services/ReportExporter'
         }
     }
 
+    function handleExportPdf() {
+        const originalTitle = document.title;
+        if ($currentWorkspace?.name) {
+            document.title = $currentWorkspace.name;
+        }
+        window.print();
+        document.title = originalTitle;
+    }
+
 async function handleExportReport(config: ExportConfig) {
         showExportModal = false;
 
@@ -614,7 +623,7 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
 {/if}
 
 <main class="p-8 w-full max-w-screen-2xl mx-auto">
-    <div class="flex justify-between items-center mb-8 bg-white p-4 shadow rounded">
+    <div class="flex justify-between items-center mb-8 bg-white p-4 shadow rounded no-print">
         <div class="flex items-center gap-4">
             <h1 class="text-2xl font-bold">LocalMind</h1>
             {#if $deferredPrompt}
@@ -625,6 +634,12 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
                     Install App
                 </button>
             {/if}
+            <button
+                onclick={handleExportPdf}
+                class="px-4 py-2 bg-orange-100 text-orange-700 text-sm font-semibold rounded hover:bg-orange-200 transition flex items-center gap-2"
+            >
+                🖨️ Export PDF
+            </button>
             <button
                 onclick={() => showExportModal = true}
                 class="px-4 py-2 bg-teal-100 text-teal-700 text-sm font-semibold rounded hover:bg-teal-200 transition flex items-center gap-2"

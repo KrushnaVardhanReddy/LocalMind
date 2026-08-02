@@ -1,0 +1,39 @@
+@media print {
+    /* Hide all application chrome and UI elements not needed for the report */
+    nav, header, footer, aside, .no-print, .toolbar, .tabs, button {
+        display: none !important;
+    }
+
+    /* Reset background and text color for clean printing */
+    body {
+        background: white !important;
+        color: black !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Ensure the main container takes full width and allows overflowing content to break across pages */
+    main, .main-content, #app, body > div {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        height: auto !important;
+    }
+
+    /* Prevent awkward page breaks inside tables and charts */
+    tr, .echarts-container, .chart-viewer, img {
+        page-break-inside: avoid !important;
+    }
+
+    /* Add some spacing for print specifically, replacing on-screen padding */
+    .print-container {
+        padding: 20px !important;
+    }
+
+    /* Improve table border visibility on print */
+    table, th, td {
+        border-color: #ddd !important;
+    }
+}
