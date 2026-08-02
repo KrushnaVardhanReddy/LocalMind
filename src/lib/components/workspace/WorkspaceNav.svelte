@@ -66,48 +66,32 @@
             🔒 <span class="hidden sm:inline">Zero data leaves your browser</span>
         </span>
 
-        <!-- Mobile menu button -->
-        <button
-            aria-label="Toggle Navigation"
-            title="Toggle Navigation"
-            class="md:hidden text-white focus:outline-none p-1"
-            onclick={() => isMenuOpen = !isMenuOpen}
-        >
-            <span class="sr-only">Toggle Navigation</span>
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}></path>
-            </svg>
-        </button>
     </div>
 </nav>
 
-<!-- Mobile menu -->
-{#if isMenuOpen}
-    <div class="md:hidden bg-indigo-800 shadow-xl absolute w-full z-30">
-        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">
-            {#each workspaces as ws}
-                <a
-                    href={ws.path}
-                    class="px-3 py-2 rounded transition font-medium flex items-center gap-2
-                    {(currentPath === ws.path && !workspaceStore.activeWorkspace) || (workspaceStore.activeWorkspace?.type === ws.id) || (ws.path !== '/' && currentPath.startsWith(ws.path) && ws.path !== '/analytics' && ws.path !== '/devtools')
-                        ? 'bg-indigo-900 text-white'
-                        : 'text-indigo-200 hover:text-white hover:bg-indigo-700'}"
-                    onclick={(e) => {
-                        if (ws.id === 'analytics' || ws.id === 'devtools') {
-                            e.preventDefault();
-                            workspaceStore.setActiveWorkspace({ id: ws.id, type: ws.id, title: ws.name });
-                            goto('/');
-                        } else if (ws.path === '/') {
-                            e.preventDefault();
-                            workspaceStore.activeWorkspace = null;
-                            goto('/');
-                        }
-                        isMenuOpen = false;
-                    }}
-                >
-                    <span>{ws.icon}</span> {ws.name}
-                </a>
-            {/each}
-        </div>
-    </div>
-{/if}
+<!-- Mobile Bottom Navigation Bar (replaces hamburger menu) -->
+<div class="md:hidden fixed bottom-0 left-0 right-0 bg-indigo-900 border-t border-indigo-800 flex justify-around items-center z-50 pb-safe">
+    {#each workspaces.filter(w => ['Home', 'Analytics', 'Docs', 'DevTools'].includes(w.name)) as ws}
+        <a
+            href={ws.path}
+            class="flex flex-col items-center justify-center py-2 w-full transition
+            {(currentPath === ws.path && !workspaceStore.activeWorkspace) || (workspaceStore.activeWorkspace?.type === ws.id) || (ws.path !== '/' && currentPath.startsWith(ws.path) && ws.path !== '/analytics' && ws.path !== '/devtools')
+                ? 'text-white'
+                : 'text-indigo-400 hover:text-indigo-200'}"
+            onclick={(e) => {
+                if (ws.id === 'analytics' || ws.id === 'devtools') {
+                    e.preventDefault();
+                    workspaceStore.setActiveWorkspace({ id: ws.id, type: ws.id, title: ws.name });
+                    goto('/');
+                } else if (ws.path === '/') {
+                    e.preventDefault();
+                    workspaceStore.activeWorkspace = null;
+                    goto('/');
+                }
+            }}
+        >
+            <span class="text-xl mb-1">{ws.icon}</span>
+            <span class="text-[10px] font-medium">{ws.name}</span>
+        </a>
+    {/each}
+</div>

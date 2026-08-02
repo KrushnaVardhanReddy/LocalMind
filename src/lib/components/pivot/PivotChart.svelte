@@ -157,8 +157,8 @@
 <!-- Inline Chart Panel -->
 <div class="flex flex-col h-full bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-xl shadow-sm overflow-visible">
     <!-- Toolbar -->
-    <div class="flex items-center justify-between px-4 py-2.5 border-b dark:border-gray-700 bg-gray-50/80 dark:bg-gray-800/60 rounded-t-xl">
-        <h4 class="font-semibold text-sm text-gray-600 dark:text-gray-300 tracking-wide uppercase">Visualization</h4>
+    <div class="flex items-center justify-between px-4 py-2.5 border-b dark:border-gray-700 bg-gray-50/80 dark:bg-gray-800/60 rounded-t-xl overflow-x-auto whitespace-nowrap hide-scrollbar">
+        <h4 class="font-semibold text-sm text-gray-600 dark:text-gray-300 tracking-wide uppercase mr-4">Visualization</h4>
         <div class="flex items-center gap-2">
             <!-- Chart type selector -->
             <div class="flex items-center gap-0.5 bg-white dark:bg-gray-700 p-1 rounded-lg shadow-sm border dark:border-gray-600">
