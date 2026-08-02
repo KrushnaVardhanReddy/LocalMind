@@ -188,7 +188,20 @@ def _load_prompt(relative_path):
 # Phase 12 Stitch Tasks (Playwright / Frontend)
 # ──────────────────────────────────────────────────────────────────────────────
 
-STITCH_TASKS = {}
+STITCH_TASKS = {
+    16: {
+        "name": "Task 16 — Advanced Chart Inspector",
+        "wave": 3,
+        "owner": "Stitch",
+        "prompt_file": "docs/tasks/phase-1/task16_chart_inspector.md",
+    },
+    17: {
+        "name": "Task 17 — Analytics E2E V2",
+        "wave": 3,
+        "owner": "Stitch",
+        "prompt_file": "docs/tasks/phase-1/task17_analytics_e2e_v2.md",
+    },
+}
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Stitch: Generate a screen from a prompt file via the MCP API

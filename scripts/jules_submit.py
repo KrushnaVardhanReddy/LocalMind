@@ -318,7 +318,7 @@ def submit_task(task_num):
             result = json.loads(resp.read())
             session_id = result.get("name", "unknown").split("/")[-1]
             print(f"✅ Session created: {session_id}")
-            print(f"   View at: https://jules.google.com/")
+            print(f"   View at: https://jules.google.com/session/{session_id}")
     except urllib.error.HTTPError as e:
         print(f"❌ HTTP {e.code}: {e.read().decode()}")
         sys.exit(1)
