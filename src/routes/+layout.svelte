@@ -1,5 +1,6 @@
 <script lang="ts">
     import './layout.css';
+    import '$lib/styles/print.css';
     import favicon from '$lib/assets/favicon.svg';
     import { onMount } from 'svelte';
     import { APP_VERSION, CHANGELOG } from '$lib/config/app-version.js';
