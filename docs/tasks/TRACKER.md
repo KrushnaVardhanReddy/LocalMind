@@ -58,8 +58,8 @@
 - [x] Task 11: High-Performance Data Grid Upgrade ✅ *(Completed - PR #72)* (`docs/tasks/phase-1/task11_data_grid.md`)
 - [x] Task 13: Network & Graph Visualizer ✅ *(Completed - PR #89)* (`docs/tasks/phase-1/task13_network_graph.md`)
 - [x] Task 14: Offline HTML Table Extractor ✅ *(Completed - PR #88)* (`docs/tasks/phase-1/task14_html_extractor.md`)
-- [ ] Task 16: Advanced Chart Inspector (UI + JSON Overrides) ⏳ *(Stitch Project: 17779706854582826446)* (`docs/tasks/phase-1/task16_chart_inspector.md`)
-- [ ] Task 17: Analytics E2E V2 (Coverage for Tasks 10-16) ⏳ *(Stitch Project: 3983073280287948121)* (`docs/tasks/phase-1/task17_analytics_e2e_v2.md`)
+- [x] Task 16: Advanced Chart Inspector (UI + JSON Overrides) ✅ *(Completed)* (`docs/tasks/phase-1/task16_chart_inspector.md`)
+- [x] Task 17: Analytics E2E V2 (Coverage for Tasks 10-16) ✅ *(Completed)* (`docs/tasks/phase-1/task17_analytics_e2e_v2.md`)
 
 ---
 
