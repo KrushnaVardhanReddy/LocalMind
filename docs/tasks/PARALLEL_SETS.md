@@ -357,7 +357,7 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
   *Safe: Uses existing DuckDB and WebLLM.*
 
 > [!NOTE]
-> Tasks 9–12 (Speech Coach, Kids Learning, Voice Journal, Recipe Vault) have been removed from all parallel sets. See Deferred Appendix.
+> Tasks 9–12 (Speech Coach, Kids Learning, Voice Journal, Recipe Vault) have been removed from all parallel sets. See Deleted section.
 
 ---
 
@@ -369,16 +369,7 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
 
 ---
 
-## ⏸ Deferred Appendix — Revisit Post-MVP
 
-> [!NOTE]
-> Valid LocalMind use case but deprioritized. Only schedule after core five-pillar workspaces are complete.
-
-| Task | Reason |
-|---|---|
-| Task 9: AI Speech & Articulation Coach | Strong offline privacy angle; Whisper already in stack; professional self-coaching use case |
-
----
 
 ## ⛔ Deleted — Out of Scope
 
@@ -386,12 +377,14 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
 > These tasks have been **permanently removed** from the LocalMind roadmap. Wrong audience, no architectural fit, no meaningful reuse of the LocalMind stack. Do not re-add to any set.
 > If ever pursued, they must be entirely separate standalone products.
 
-| Task | Reason |
+| Feature | Reason |
 |---|---|
 | Medical & Health Insights | High liability (AI medical advice); duplicated by general Q&A |
 | Vehicle Telemetry Analyzer | Extreme niche; duplicated by DuckDB Analytics |
 | Citation & Bibliography Builder | Trivial for standard chat UI; redundant UI bloat |
 | Niche Document Analyzers (Legal/Edu) | Consolidated into Universal Document Q&A |
+| AI Speech & Articulation Coach | Consumer wellness tool; no data-processing value; standalone product territory |
+| Docs Task 7: Chat-with-Docs RAG | Superseded by the Universal Document Q&A Workspace plugin |
 | Task 10: Kids Learning & Reading Buddy | Wrong audience; requires gamification & parental controls — different product discipline |
 | Task 11: Offline Voice Journal | Consumer journaling app; no data-processing value |
 | Task 12: Local Recipe Vault & Grocery Planner | Off-mission; wrong persona; no architectural fit |
