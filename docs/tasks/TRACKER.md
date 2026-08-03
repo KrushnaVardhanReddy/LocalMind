@@ -117,8 +117,8 @@
 - [x] Task 1: FFmpeg WASM Integration ✅ *(Completed)* (`docs/tasks/phase-3/task1_ffmpeg.md`)
 - [x] Task 2: Whisper WASM Integration ✅ *(Completed - PR #30)* (`docs/tasks/phase-3/task2_whisper.md`)
 - [x] Task 3: Instant Video Clipper ✅ *(Completed - PR #49)* (`docs/tasks/phase-3/task4_video_clipper.md`)
-- [ ] Task 4: Podcast & Meeting Summarizer 🔄 *(Running - Jules ID: 16493243948740852051)* (`docs/tasks/phase-3/task5_summarizer.md`)
-- [ ] Task 5: Study Note & Flashcard Generator 🔄 *(Running - Jules ID: 7558553047359083703)* (`docs/tasks/phase-3/task6_study_notes.md`)
+- [x] Task 4: Podcast & Meeting Summarizer ✅ *(Completed - PR #95)* (`docs/tasks/phase-3/task5_summarizer.md`)
+- [x] Task 5: Study Note & Flashcard Generator ✅ *(Completed - PR #94)* (`docs/tasks/phase-3/task6_study_notes.md`)
 - [ ] Task 7: AI Background Removal (Image & Video) (`docs/tasks/phase-3/task7_background_removal.md`)
 - [ ] Task 8: Subtitle & SRT Editor (`docs/tasks/phase-3/task8_subtitle_editor.md`)
 
