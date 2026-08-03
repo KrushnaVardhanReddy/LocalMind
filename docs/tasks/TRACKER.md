@@ -130,8 +130,6 @@
 - [x] Task 5: Language Learning Workspace ✅ *(Completed)* (`docs/tasks/phase-6/task5_language.md`)
 - [x] Task 6: Offline Code Interpreter (Pyodide) ✅ *(Completed - PR #96)* (`docs/tasks/phase-6/task6_code_interpreter.md`)
 - [ ] Task 7: Personal Finance & Tax Workspace 🔄 *(Running - Jules ID: 6674704916118920751)* (`docs/tasks/phase-6/task7_finance.md`)
-- [ ] Task 8: Medical & Health Insights ⏸️ *(Paused/Scrapped)* (`docs/tasks/phase-6/task8_health.md`)
-- [ ] Task 13: Vehicle Telemetry & CAN Bus Analyzer ⏸️ *(Paused/Scrapped)* (`docs/tasks/phase-6/task13_telemetry.md`)
 - [x] Task 14: LocalMind Annotate — Image & Screenshot Annotation Workspace ✅ *(Completed - PR #93)* (`docs/tasks/phase-6/task14_annotate.md`)
   *Canvas-based Paint-style workspace. Freehand draw, shapes, text, arrows, highlights, image crop, AI auto-label. Export PNG/SVG/PDF. No new WASM workers needed (canvas + magick-wasm).*
 - [x] Task 15: LocalMind Diagrams — AI Diagram Generation Workspace ✅ *(Completed - PR #92)* (`docs/tasks/phase-6/task15_diagrams.md`)
@@ -156,34 +154,12 @@
 
 ---
 
-### Legal Plugins
-- [ ] Task 1: Local Contract Analyzer (`docs/tasks/phase-13/task1_contract_analyzer.md`)
-- [ ] Task 2: Deposition Transcript Summarizer (`docs/tasks/phase-13/task2_deposition.md`)
-- [ ] Task 3: Legal Case Research Vault (`docs/tasks/phase-13/task3_case_vault.md`)
-
-### Education & Research Plugins
-- [ ] Task 1: Academic Paper Summarizer (`docs/tasks/phase-14/task1_paper_summarizer.md`)
-- [ ] Task 2: Local Citation & Bibliography Builder (`docs/tasks/phase-14/task2_citation_builder.md`)
-- [ 5] Task 3: Offline Plagiarism Checker (`docs/tasks/phase-14/task3_plagiarism_checker.md`)
-
-### Construction & Engineering Plugins
-- [ ] Task 1: Blueprint & Technical Drawing OCR (`docs/tasks/phase-15/task1_blueprint_ocr.md`)
-- [ ] Task 2: Safety Incident Log Analyzer (`docs/tasks/phase-15/task2_incident_log.md`)
-
-### Cybersecurity & IT Plugins
-- [ ] Task 1: Offline Threat Intelligence Parser (`docs/tasks/phase-16/task1_threat_intel.md`)
-- [ ] Task 2: Offline Secrets & API Key Auditor (`docs/tasks/phase-16/task2_secrets_auditor.md`)
-
-### Creative Industry Plugins
-- [ ] Task 1: Offline Screenwriting Assistant (`docs/tasks/phase-17/task1_screenwriting.md`)
-- [ ] Task 2: Brand Style Guide Analyzer (`docs/tasks/phase-17/task2_brand_analyzer.md`)
-
-### Finance & Insurance Plugins
-- [ ] Task 1: Insurance Policy Simplifier (`docs/tasks/phase-18/task1_insurance.md`)
-- [ ] Task 2: Offline Stock Backtester (`docs/tasks/phase-18/task2_backtester.md`)
-
-### Real Estate & HOA Plugins
-- [ ] Task 1: HOA CC&R Analyzer & Auditor (`docs/tasks/phase-19/task1_hoa_analyzer.md`)
+### Universal Document Plugins (Consolidated MVP Features)
+*Replacing all specific niche document and research plugins (Legal, Education, Construction, Real Estate, etc.) with powerful generic workspaces.*
+- [ ] Task 1: Universal Document Q&A Workspace (`docs/tasks/phase-13/task1_universal_doc_qa.md`)
+  *Upload any PDF (Contracts, Lab Reports, Blueprints, Papers) and use WebLLM to extract, summarize, or query.*
+- [ ] Task 2: Local Directory Semantic Search (`docs/tasks/phase-13/task2_directory_search.md`)
+  *Embed folders of PDFs/Docs to search case law, technical specs, or personal archives offline using DuckDB VSS.*
 
 ---
 
@@ -204,9 +180,13 @@
 
 | Feature | Reason for Deletion |
 |---|---|
-| Task 10: Kids Learning & Reading Buddy | Wrong audience; requires gamification, parental controls — different product discipline |
-| Task 11: Offline Voice Journal | Consumer journaling app; no data-processing value; standalone product territory |
-| Task 12: Local Recipe Vault & Grocery Planner | Off-mission; wrong persona; no architectural fit with LocalMind |
+| Medical & Health Insights | High liability (AI medical advice); duplicated by general Q&A |
+| Vehicle Telemetry Analyzer | Extreme niche; duplicated by DuckDB Analytics |
+| Citation & Bibliography Builder | Trivial for standard chat UI; redundant UI bloat |
+| Niche Document Analyzers (Legal/Edu) | Consolidated into Universal Document Q&A |
+| Task 10: Kids Learning & Reading Buddy | Wrong audience; requires gamification, parental controls |
+| Task 11: Offline Voice Journal | Consumer journaling app; no data-processing value |
+| Task 12: Local Recipe Vault & Grocery Planner | Off-mission; wrong persona |
 
 ---
 

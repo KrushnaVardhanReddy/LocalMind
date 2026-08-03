@@ -133,13 +133,10 @@
 - **[Plugin]** Task 8: Medical & Health Insights ⏸️ *(Paused/Scrapped)* (`docs/tasks/phase-6/task8_health.md`)
 - **[Plugin]** Task 13: Vehicle Telemetry & CAN Bus Analyzer ⏸️ *(Paused/Scrapped)* (`docs/tasks/phase-6/task13_telemetry.md`)
 
-### MVP3 Wave E: Legal & Education Verticals (Parallel)
-*All use existing MuPDF/WebLLM/Semantic Search workers.*
-- **[Legal]** Task 1: Local Contract Analyzer (`docs/tasks/phase-13/task1_contract_analyzer.md`)
-- **[Legal]** Task 2: Deposition Transcript Summarizer (`docs/tasks/phase-13/task2_deposition.md`)
-- **[Legal]** Task 3: Legal Case Research Vault (`docs/tasks/phase-13/task3_case_vault.md`)
-- **[Education]** Task 1: Academic Paper Summarizer (`docs/tasks/phase-14/task1_paper_summarizer.md`)
-- **[Education]** Task 2: Citation & Bibliography Builder (`docs/tasks/phase-14/task2_citation_builder.md`)
+### MVP3 Wave E: Universal Document Plugins (Parallel)
+*All use existing MuPDF/WebLLM/Semantic Search workers. Replacing fragmented niche plugins.*
+- **[Plugin]** Task 1: Universal Document Q&A Workspace (`docs/tasks/phase-13/task1_universal_doc_qa.md`)
+- **[Plugin]** Task 2: Local Directory Semantic Search (`docs/tasks/phase-13/task2_directory_search.md`)
 
 ---
 
@@ -368,55 +365,7 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
 - **[Mobile]** Task 1: LocalMind "Lite" Mobile App (`docs/tasks/phase-12/task1_mobile_lite.md`)
   *Safe: Tauri Mobile configuration only. Restricts heavy workers to preserve battery.*
 
----
 
-## Set 18: Legal Plugins
-- **[Legal]** Task 1: Local Contract Analyzer (`docs/tasks/phase-13/task1_contract_analyzer.md`)
-  *Safe: Uses existing WebLLM and MuPDF.*
-- **[Legal]** Task 2: Deposition Transcript Summarizer (`docs/tasks/phase-13/task2_deposition.md`)
-  *Safe: Uses existing WebLLM.*
-- **[Legal]** Task 3: Legal Case Research Vault (`docs/tasks/phase-13/task3_case_vault.md`)
-  *Safe: Uses existing Semantic Search and DuckDB.*
-
----
-
-## Set 19: Education & Research Plugins
-- **[Education]** Task 1: Academic Paper Summarizer (`docs/tasks/phase-14/task1_paper_summarizer.md`)
-  *Safe: Uses existing WebLLM and MuPDF.*
-- **[Education]** Task 2: Citation & Bibliography Builder (`docs/tasks/phase-14/task2_citation_builder.md`)
-  *Safe: Pure JS/UI with WebLLM.*
-- **[Education]** Task 3: Offline Plagiarism Checker (`docs/tasks/phase-14/task3_plagiarism_checker.md`)
-  *Safe: Uses existing DuckDB and Semantic Search.*
-
----
-
-## Set 20: Construction, Cybersecurity & Creatives
-- **[Construction]** Task 1: Blueprint & Technical Drawing OCR (`docs/tasks/phase-15/task1_blueprint_ocr.md`)
-  *Safe: Uses existing Tesseract OCR.*
-- **[Cybersecurity]** Task 1: Offline Threat Intelligence Parser (`docs/tasks/phase-16/task1_threat_intel.md`)
-  *Safe: Uses existing DuckDB and WebLLM.*
-- **[Creative]** Task 1: Offline Screenwriting Assistant (`docs/tasks/phase-17/task1_screenwriting.md`)
-  *Safe: Pure JS/UI with WebLLM.*
-
----
-
-## Set 21: Finance, Insurance & Remaining Niche Tasks
-- **[Finance]** Task 1: Insurance Policy Simplifier (`docs/tasks/phase-18/task1_insurance.md`)
-  *Safe: Uses existing MuPDF and WebLLM.*
-- **[Finance]** Task 2: Offline Stock Backtester (`docs/tasks/phase-18/task2_backtester.md`)
-  *Safe: Uses existing DuckDB.*
-- **[Cybersecurity]** Task 2: Offline Secrets & API Key Auditor (`docs/tasks/phase-16/task2_secrets_auditor.md`)
-  *Safe: Uses existing tree-sitter.*
-- **[Construction]** Task 2: Safety Incident Log Analyzer (`docs/tasks/phase-15/task2_incident_log.md`)
-  *Safe: Uses existing DuckDB and WebLLM.*
-- **[Creative]** Task 2: Brand Style Guide Analyzer (`docs/tasks/phase-17/task2_brand_analyzer.md`)
-  *Safe: Uses existing OCR and DuckDB.*
-
----
-
-## Set 22: Real Estate & HOA
-- **[Real Estate]** Task 1: HOA CC&R Analyzer & Auditor (`docs/tasks/phase-19/task1_hoa_analyzer.md`)
-  *Safe: Uses existing MuPDF, WebLLM, and DuckDB.*
 
 ---
 
@@ -439,6 +388,10 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
 
 | Task | Reason |
 |---|---|
+| Medical & Health Insights | High liability (AI medical advice); duplicated by general Q&A |
+| Vehicle Telemetry Analyzer | Extreme niche; duplicated by DuckDB Analytics |
+| Citation & Bibliography Builder | Trivial for standard chat UI; redundant UI bloat |
+| Niche Document Analyzers (Legal/Edu) | Consolidated into Universal Document Q&A |
 | Task 10: Kids Learning & Reading Buddy | Wrong audience; requires gamification & parental controls — different product discipline |
 | Task 11: Offline Voice Journal | Consumer journaling app; no data-processing value |
 | Task 12: Local Recipe Vault & Grocery Planner | Off-mission; wrong persona; no architectural fit |
