@@ -34,7 +34,7 @@ Both tools run entirely offline, leveraging existing WASM workers (MuPDF, WebLLM
 
 ### 3.1 Engine Utilization
 - **Parsing:** `getMuPDF()` (for PDFs) + native FileReader (for txt/md).
-- **Embedding:** `getTransformers()` (or WebLLM) — Generates dense vector embeddings for text chunks.
+- **Embedding:** `getEmbeddings()` — Generates dense vector embeddings for text chunks using Transformers.js.
 - **Vector Database:** `getDuckDB()` — Uses the DuckDB VSS (Vector Similarity Search) extension to store and query embeddings.
 
 ### 3.2 Functional Requirements

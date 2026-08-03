@@ -8,7 +8,7 @@ A powerful workspace that replaces niche folder-scanning tools (e.g., Plagiarism
 
 1. **NO `WorkerManager.ts` Modifications:** 
    - You are **strictly forbidden** from modifying `src/lib/workers/WorkerManager.ts`.
-   - Use the existing singletons: `getDuckDB()` for vector storage/search, `getWebLLM()` or `getTransformers()` for embeddings, and `getMuPDF()` for document parsing.
+   - Use the existing singletons: `getDuckDB()` for vector storage/search, `getEmbeddings()` for embeddings, and `getMuPDF()` for document parsing.
 2. **STRICT Component Isolation:**
    - All UI components for this plugin MUST be placed inside `src/lib/components/plugins/directory-search/ui/`.
    - **Do not** add generic components to `src/lib/components/ui/`.
@@ -30,7 +30,7 @@ A powerful workspace that replaces niche folder-scanning tools (e.g., Plagiarism
 
 ### 3. Local Embeddings & Vector Search
 - Chunk the extracted text into manageable pieces (e.g., 500 tokens).
-- Use the existing WebLLM or Transformers.js worker to generate embeddings for each chunk.
+- Use the existing WebLLM or `getEmbeddings()` worker to generate embeddings for each chunk.
 - Store the chunks and their embeddings in DuckDB using the VSS extension.
 - When the user searches, embed the query and execute an `ORDER BY array_cosine_similarity(...)` query in DuckDB to fetch the top 5 results.
 
