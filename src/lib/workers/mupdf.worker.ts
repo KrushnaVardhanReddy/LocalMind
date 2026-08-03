@@ -23,6 +23,7 @@ export interface MuPDFWorkerContract {
     extractPages(startPage: number, endPage: number): Promise<ArrayBuffer>;
     applyRedactions(regions: RedactionRegion[]): Promise<ArrayBuffer>;
     compressPDF(): Promise<ArrayBuffer>;
+    extractText(): Promise<string>;
 }
 
 export class MuPDFService implements MuPDFWorkerContract {
@@ -137,6 +138,25 @@ export class MuPDFService implements MuPDFWorkerContract {
         const outBuffer = pdfDoc.saveToBuffer().asUint8Array();
         const finalBuffer = new Uint8Array(outBuffer).buffer;
         return transfer(finalBuffer, [finalBuffer]);
+    }
+
+    public async extractText(): Promise<string> {
+        if (!this.doc) {
+            throw new Error('PDF not loaded. Call loadPDF first.');
+        }
+
+        let fullText = '';
+        const numPages = this.doc.countPages();
+        for (let i = 0; i < numPages; i++) {
+            const page = this.doc.loadPage(i);
+            try {
+                const structuredText = page.toStructuredText('text');
+                fullText += structuredText.asText() + '\n\n';
+            } catch (e) {
+                console.warn(`Failed to extract text from page ${i}:`, e);
+            }
+        }
+        return fullText;
     }
 }
 
