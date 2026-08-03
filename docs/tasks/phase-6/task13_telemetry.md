@@ -1,18 +1,37 @@
-# LocalMind Vehicle Telemetry & CAN Bus Analyzer
+TASK: Phase 6 — Task 13: Vehicle Telemetry & CAN Bus Analyzer (Plugin)
 
-## 1. Goal
-Provide an offline workspace for automotive engineers and mechanics to ingest massive vehicle telemetry logs (CAN bus, PCAP, OBD-II) and analyze them instantly without an internet connection.
+═══════════════════════════════════════════════════════════════
+OBJECTIVE
+═══════════════════════════════════════════════════════════════
+Build an offline diagnostics tool for car enthusiasts and mechanics. Users will upload OBD-II or CAN bus CSV logs. The app will use DuckDB to aggregate the telemetry data and WebLLM to analyze potential diagnostic trouble codes (DTCs).
 
-## 2. Technical Stack
-- **DuckDB (Existing Worker):** Used to ingest massive CSV/JSON telemetry logs (millions of rows) instantly.
-- **WebLLM (Existing Worker):** Used to interpret OBD-II Diagnostic Trouble Codes (DTC) and suggest mechanical fixes.
-- **Svelte UI / ECharts:** A dashboard route (`/auto-telemetry`) for plotting time-series data (e.g., Engine RPM vs. Coolant Temp).
+═══════════════════════════════════════════════════════════════
+CONSTRAINTS & RULES (CONFLICT-FREE CONTRACT)
+═══════════════════════════════════════════════════════════════
+- NO WorkerManager Modifications: Do NOT modify `src/lib/workers/WorkerManager.ts`.
+- Reuse Existing Workers: Use DuckDB and WebLLM singletons.
+- UI Component Isolation: You MUST NOT create any generic components in `src/lib/components/ui/`. If you need generic components, create them locally in `src/lib/components/plugins/telemetry/ui/`.
+- Purely Offline: Works perfectly inside a garage with no Wi-Fi.
 
-## 3. Conflict-Free Execution (Parallel Sets)
-- **Safe:** This task relies entirely on *existing* workers (`getDuckDB` and `getWebLLM`). It does **not** need to modify `WorkerManager.ts`. 
+═══════════════════════════════════════════════════════════════
+IMPLEMENTATION TIPS
+═══════════════════════════════════════════════════════════════
+1. **DuckDB Log Analysis:**
+   - Accept large CSV logs containing RPM, Speed, Engine Load, and Timestamps.
+   - Use DuckDB to ingest the file and find maximums/averages (e.g., `SELECT MAX(RPM), AVG(Speed) FROM telemetry`).
+2. **DTC (Diagnostic Trouble Code) Analyzer:**
+   - Provide a text input for the user to enter error codes (e.g., "P0171").
+   - Send the code to WebLLM with the prompt: "Act as an expert mechanic. Explain what this OBD-II code means, common causes, and potential fixes."
+3. **Data Grid:**
+   - Display the raw telemetry data using a paginated HTML table powered by DuckDB `LIMIT` and `OFFSET` queries.
+4. **State Management:** Svelte 5 `$state()` runes must be used.
 
-## 4. Acceptance Criteria
-- [ ] Implement a `/auto-telemetry` route with a drag-and-drop file uploader.
-- [ ] Connect DuckDB to parse the dropped CSV/JSON log file.
-- [ ] Use ECharts to plot 2-3 selectable metrics over time.
-- [ ] Provide an input box where a user can enter an OBD-II code (e.g., "P0300") and have WebLLM explain the misfire and suggest diagnostic steps.
+═══════════════════════════════════════════════════════════════
+DELIVERABLES
+═══════════════════════════════════════════════════════════════
+1. NEW: `src/routes/plugins/telemetry/+page.svelte`
+2. NEW: `src/lib/components/plugins/telemetry/TelemetryGrid.svelte`
+3. NEW: `src/lib/components/plugins/telemetry/DTCAnalyzer.svelte`
+
+Commit: "feat: Phase 6 Task 13 Vehicle Telemetry Analyzer"
+Target branch: feature/task13-telemetry
