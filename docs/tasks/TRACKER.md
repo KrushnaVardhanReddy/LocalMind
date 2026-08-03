@@ -77,8 +77,9 @@
 - [x] Task 3: Local Semantic Search ✅ *(Completed - PR #32)* (`docs/tasks/phase-2/task3_semantic_search.md`)
 - [x] Docs-2: Semantic Search UI in Docs workspace ✅ *(Completed - PR #84)* (`docs/tasks/phase-2/task_docs_search_ui.md`)
 - [x] Task 3.5: Local AI Resume Screener & Ranker ✅ *(Completed)* (`docs/tasks/phase-2/task3_5_resume_screener.md`)
-- [ ] Task 7: Offline Chat-with-Docs (Local RAG) (`docs/tasks/phase-2/task7_local_rag.md`)
+- [ ] Task 7: Offline Chat-with-Docs (Local RAG) ➡️ *(Superseded by Universal Document Q&A Workspace)* (`docs/tasks/phase-2/task7_local_rag.md`)
 - [ ] Task 8: Document Comparison (Redline Diffing) (`docs/tasks/phase-2/task8_doc_diff.md`)
+  *Genuine standalone — lawyer-grade redline diffing between two doc versions has no equivalent in the generic Q&A tool.*
 - [x] Task 4: End-to-End Testing ✅ *(Completed - PR #87)* (`docs/tasks/phase-2/task_e2e.md`)
 - [ ] Task 5: Mermaid.js Diagram Integration (`docs/tasks/phase-2/task5_mermaid.md`)
 - [ ] Task 6: Excalidraw Local Whiteboard (`docs/tasks/phase-2/task6_excalidraw.md`)
@@ -163,12 +164,6 @@
 
 ---
 
-## 5. Deferred — Revisit Post-MVP
-
-> [!NOTE]
-> These features have a valid use case within LocalMind's mission but are deprioritized. They should only be scheduled after the core five-pillar workspaces are complete.
-
-- [ ] Task 9: AI Speech & Articulation Coach *(Deferred — Whisper-based professional self-coaching tool; strong offline privacy angle)* (`docs/tasks/phase-6/task9_speech_coach.md`)
 
 ---
 
@@ -184,6 +179,8 @@
 | Vehicle Telemetry Analyzer | Extreme niche; duplicated by DuckDB Analytics |
 | Citation & Bibliography Builder | Trivial for standard chat UI; redundant UI bloat |
 | Niche Document Analyzers (Legal/Edu) | Consolidated into Universal Document Q&A |
+| AI Speech & Articulation Coach | Consumer wellness tool; no data-processing value; standalone product territory |
+| Docs Task 7: Chat-with-Docs RAG | Superseded by the Universal Document Q&A Workspace plugin |
 | Task 10: Kids Learning & Reading Buddy | Wrong audience; requires gamification, parental controls |
 | Task 11: Offline Voice Journal | Consumer journaling app; no data-processing value |
 | Task 12: Local Recipe Vault & Grocery Planner | Off-mission; wrong persona |
