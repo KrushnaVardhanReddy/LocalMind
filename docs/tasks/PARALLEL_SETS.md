@@ -114,9 +114,9 @@
 
 ### MVP3 Wave A: Canvas Plugins + DevTools Completion (Parallel)
 *All pure UI — no new WASM workers. Touch completely separate routes.*
-- **[Plugin]** Task 14: LocalMind Annotate — Image & Screenshot Annotation 🔄 *(Running - Jules ID: 9855847612949872122)* (`docs/tasks/phase-6/task14_annotate.md`)
-- **[Plugin]** Task 15: LocalMind Diagrams — AI Diagram Generation 🔄 *(Running - Jules ID: 1080201541130952590)* (`docs/tasks/phase-6/task15_diagrams.md`)
-- **[DevTools]** Task 6: PII Data Sanitizer (JSON/CSV) 🔄 *(Running - Jules ID: 10623670467765612494)* (`docs/tasks/phase-4/task6_pii_sanitizer.md`)
+- **[Plugin]** Task 14: LocalMind Annotate — Image & Screenshot Annotation ✅ *(Completed - PR #93)* (`docs/tasks/phase-6/task14_annotate.md`)
+- **[Plugin]** Task 15: LocalMind Diagrams — AI Diagram Generation ✅ *(Completed - PR #92)* (`docs/tasks/phase-6/task15_diagrams.md`)
+- **[DevTools]** Task 6: PII Data Sanitizer (JSON/CSV) ✅ *(Completed - PR #91)* (`docs/tasks/phase-4/task6_pii_sanitizer.md`)
 
 ### MVP3 Wave B: Media Plugins (Parallel, no new WorkerManager entries)
 *Both use existing Whisper + WebLLM workers. Touch separate routes.*
@@ -352,7 +352,7 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
   *Safe: Uses existing OCR and DuckDB.*
 - **[Plugins]** Task 8: Medical & Health Insights (`docs/tasks/phase-6/task8_health.md`)
   *Safe: Uses existing DuckDB and WebLLM.*
-- **[DevTools]** Task 6: PII Data Sanitizer 🔄 *(Running - Jules ID: 10623670467765612494)* (`docs/tasks/phase-4/task6_pii_sanitizer.md`)
+- **[DevTools]** Task 6: PII Data Sanitizer ✅ *(Completed - PR #91)* (`docs/tasks/phase-4/task6_pii_sanitizer.md`)
   *Safe: Uses existing WebLLM/DuckDB.*
 - **[Media]** Task 5: Study Note & Flashcard Generator (`docs/tasks/phase-3/task6_study_notes.md`)
   *Safe: Uses existing Whisper and WebLLM.*

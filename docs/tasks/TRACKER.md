@@ -96,7 +96,7 @@
 - [x] Task 5.7: Visual Regression Diffing ✅ *(Completed)* (`docs/tasks/phase-4/task5_7_visual_diff.md`)
 - [x] Task 5.8: Test Data Generator ✅ *(Completed - PR #29)* (`docs/tasks/phase-4/task5_8_test_data.md`)
 - [x] Task 5.9: Local Mock API Server ✅ *(Completed - PR #19)* (`docs/tasks/phase-4/task5_9_mock_server.md`)
-- [ ] Task 6: PII Data Sanitizer (JSON/CSV) 🔄 *(Running - Jules ID: 10623670467765612494)* (`docs/tasks/phase-4/task6_pii_sanitizer.md`)
+- [x] Task 6: PII Data Sanitizer (JSON/CSV) ✅ *(Completed - PR #91)* (`docs/tasks/phase-4/task6_pii_sanitizer.md`)
 - [ ] Task 10: Offline API Client (Postman Alternative) (`docs/tasks/phase-4/task10_api_client.md`)
 - [ ] Task 11: Offline Regex Tester & Debugger (`docs/tasks/phase-4/task11_regex_tester.md`)
 - [ ] Task 12: JSONPath & `jq` Query Sandbox (`docs/tasks/phase-4/task12_jq_sandbox.md`)
@@ -132,9 +132,9 @@
 - [ ] Task 7: Personal Finance & Tax Workspace (`docs/tasks/phase-6/task7_finance.md`)
 - [ ] Task 8: Medical & Health Insights (`docs/tasks/phase-6/task8_health.md`)
 - [ ] Task 13: Vehicle Telemetry & CAN Bus Analyzer (`docs/tasks/phase-6/task13_telemetry.md`)
-- [ ] Task 14: LocalMind Annotate — Image & Screenshot Annotation Workspace 🔄 *(Running - Jules ID: 9855847612949872122)* (`docs/tasks/phase-6/task14_annotate.md`)
+- [x] Task 14: LocalMind Annotate — Image & Screenshot Annotation Workspace ✅ *(Completed - PR #93)* (`docs/tasks/phase-6/task14_annotate.md`)
   *Canvas-based Paint-style workspace. Freehand draw, shapes, text, arrows, highlights, image crop, AI auto-label. Export PNG/SVG/PDF. No new WASM workers needed (canvas + magick-wasm).*
-- [ ] Task 15: LocalMind Diagrams — AI Diagram Generation Workspace 🔄 *(Running - Jules ID: 1080201541130952590)* (`docs/tasks/phase-6/task15_diagrams.md`)
+- [x] Task 15: LocalMind Diagrams — AI Diagram Generation Workspace ✅ *(Completed - PR #92)* (`docs/tasks/phase-6/task15_diagrams.md`)
   *Generate UML/ER/architecture diagrams from code (tree-sitter), SQL schemas (DuckDB), OpenAPI specs, or plain English. Render via Mermaid.js / D3. Export PNG/SVG/PDF. Uses existing worker stack.*
 - [ ] Task 16: Advanced Scientific & Network Visualizations (`docs/tasks/phase-6/task16_advanced_vis.md`)
   *Dedicated workspace for complex data relationships. Network graphs (Cytoscape.js), custom hierarchies (D3.js), interactive data exploration (Observable Plot), and scientific charting (Plotly.js).*
