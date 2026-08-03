@@ -131,7 +131,7 @@
 - [x] Task 6: Offline Code Interpreter (Pyodide) ✅ *(Completed - PR #96)* (`docs/tasks/phase-6/task6_code_interpreter.md`)
 - [ ] Task 7: Personal Finance & Tax Workspace 🔄 *(Running - Jules ID: 6674704916118920751)* (`docs/tasks/phase-6/task7_finance.md`)
 - [ ] Task 8: Medical & Health Insights 🔄 *(Running - Jules ID: 17864324867537254508)* (`docs/tasks/phase-6/task8_health.md`)
-- [ ] Task 13: Vehicle Telemetry & CAN Bus Analyzer 🔄 *(Running - Jules ID: 1930955388368697780)* (`docs/tasks/phase-6/task13_telemetry.md`)
+- [ ] Task 13: Vehicle Telemetry & CAN Bus Analyzer ⏸️ *(Paused/Scrapped)* (`docs/tasks/phase-6/task13_telemetry.md`)
 - [x] Task 14: LocalMind Annotate — Image & Screenshot Annotation Workspace ✅ *(Completed - PR #93)* (`docs/tasks/phase-6/task14_annotate.md`)
   *Canvas-based Paint-style workspace. Freehand draw, shapes, text, arrows, highlights, image crop, AI auto-label. Export PNG/SVG/PDF. No new WASM workers needed (canvas + magick-wasm).*
 - [x] Task 15: LocalMind Diagrams — AI Diagram Generation Workspace ✅ *(Completed - PR #92)* (`docs/tasks/phase-6/task15_diagrams.md`)

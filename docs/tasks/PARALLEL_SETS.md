@@ -131,7 +131,7 @@
 *All use existing DuckDB/WebLLM/OCR workers. Touch separate plugin routes.*
 - **[Plugin]** Task 7: Personal Finance & Tax Workspace 🔄 *(Running - Jules ID: 6674704916118920751)* (`docs/tasks/phase-6/task7_finance.md`)
 - **[Plugin]** Task 8: Medical & Health Insights 🔄 *(Running - Jules ID: 17864324867537254508)* (`docs/tasks/phase-6/task8_health.md`)
-- **[Plugin]** Task 13: Vehicle Telemetry & CAN Bus Analyzer 🔄 *(Running - Jules ID: 1930955388368697780)* (`docs/tasks/phase-6/task13_telemetry.md`)
+- **[Plugin]** Task 13: Vehicle Telemetry & CAN Bus Analyzer ⏸️ *(Paused/Scrapped)* (`docs/tasks/phase-6/task13_telemetry.md`)
 
 ### MVP3 Wave E: Legal & Education Verticals (Parallel)
 *All use existing MuPDF/WebLLM/Semantic Search workers.*
@@ -356,7 +356,7 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
   *Safe: Uses existing WebLLM/DuckDB.*
 - **[Media]** Task 5: Study Note & Flashcard Generator ✅ *(Completed - PR #94)* (`docs/tasks/phase-3/task6_study_notes.md`)
   *Safe: Uses existing Whisper and WebLLM.*
-- **[Plugins]** Task 13: Vehicle Telemetry & CAN Bus Analyzer 🔄 *(Running - Jules ID: 1930955388368697780)* (`docs/tasks/phase-6/task13_telemetry.md`)
+- **[Plugins]** Task 13: Vehicle Telemetry & CAN Bus Analyzer ⏸️ *(Paused/Scrapped)* (`docs/tasks/phase-6/task13_telemetry.md`)
   *Safe: Uses existing DuckDB and WebLLM.*
 
 > [!NOTE]
