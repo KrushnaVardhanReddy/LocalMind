@@ -120,8 +120,8 @@
 
 ### MVP3 Wave B: Media Plugins (Parallel, no new WorkerManager entries)
 *Both use existing Whisper + WebLLM workers. Touch separate routes.*
-- **[Media]** Task 4: Podcast & Meeting Summarizer (`docs/tasks/phase-3/task5_summarizer.md`)
-- **[Media]** Task 5: Study Note & Flashcard Generator (`docs/tasks/phase-3/task6_study_notes.md`)
+- **[Media]** Task 4: Podcast & Meeting Summarizer 🔄 *(Running - Jules ID: 16493243948740852051)* (`docs/tasks/phase-3/task5_summarizer.md`)
+- **[Media]** Task 5: Study Note & Flashcard Generator 🔄 *(Running - Jules ID: 7558553047359083703)* (`docs/tasks/phase-3/task6_study_notes.md`)
 
 ### MVP3 Wave C: Offline Code Interpreter (Alone — new WorkerManager entry)
 *Must run alone because it adds `getPyodide()` to WorkerManager.ts.*
@@ -344,7 +344,7 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
 ---
 
 ## Set 15: Advanced Niche Workspaces & Analyzers
-- **[Media]** Task 4: Podcast & Meeting Summarizer (`docs/tasks/phase-3/task5_summarizer.md`)
+- **[Media]** Task 4: Podcast & Meeting Summarizer 🔄 *(Running - Jules ID: 16493243948740852051)* (`docs/tasks/phase-3/task5_summarizer.md`)
   *Safe: Uses existing Whisper and WebLLM.*
 - **[Plugins]** Task 6: Offline Code Interpreter (`docs/tasks/phase-6/task6_code_interpreter.md`)
   *Safe: Potential WorkerManager modifier (Pyodide WASM).*
@@ -354,7 +354,7 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
   *Safe: Uses existing DuckDB and WebLLM.*
 - **[DevTools]** Task 6: PII Data Sanitizer ✅ *(Completed - PR #91)* (`docs/tasks/phase-4/task6_pii_sanitizer.md`)
   *Safe: Uses existing WebLLM/DuckDB.*
-- **[Media]** Task 5: Study Note & Flashcard Generator (`docs/tasks/phase-3/task6_study_notes.md`)
+- **[Media]** Task 5: Study Note & Flashcard Generator 🔄 *(Running - Jules ID: 7558553047359083703)* (`docs/tasks/phase-3/task6_study_notes.md`)
   *Safe: Uses existing Whisper and WebLLM.*
 - **[Plugins]** Task 13: Vehicle Telemetry & CAN Bus Analyzer (`docs/tasks/phase-6/task13_telemetry.md`)
   *Safe: Uses existing DuckDB and WebLLM.*
