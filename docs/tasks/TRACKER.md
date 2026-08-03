@@ -128,7 +128,7 @@
 - [x] Task 3: Security / Cryptography Workspace ✅ *(Completed)* (`docs/tasks/phase-6/task3_crypto.md`)
 - [x] Task 4: Infinite Whiteboard Integration ✅ *(Completed)* (`docs/tasks/phase-8/task1_whiteboard.md`)
 - [x] Task 5: Language Learning Workspace ✅ *(Completed)* (`docs/tasks/phase-6/task5_language.md`)
-- [ ] Task 6: Offline Code Interpreter (Pyodide) 🔄 *(Running - Jules ID: 16759891137796483683)* (`docs/tasks/phase-6/task6_code_interpreter.md`)
+- [x] Task 6: Offline Code Interpreter (Pyodide) ✅ *(Completed - PR #96)* (`docs/tasks/phase-6/task6_code_interpreter.md`)
 - [ ] Task 7: Personal Finance & Tax Workspace (`docs/tasks/phase-6/task7_finance.md`)
 - [ ] Task 8: Medical & Health Insights (`docs/tasks/phase-6/task8_health.md`)
 - [ ] Task 13: Vehicle Telemetry & CAN Bus Analyzer (`docs/tasks/phase-6/task13_telemetry.md`)

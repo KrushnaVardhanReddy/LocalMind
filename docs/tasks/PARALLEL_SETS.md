@@ -125,7 +125,7 @@
 
 ### MVP3 Wave C: Offline Code Interpreter (Alone — new WorkerManager entry)
 *Must run alone because it adds `getPyodide()` to WorkerManager.ts.*
-- **[Plugin]** Task 6: Offline Code Interpreter (Pyodide) 🔄 *(Running - Jules ID: 16759891137796483683)* (`docs/tasks/phase-6/task6_code_interpreter.md`)
+- **[Plugin]** Task 6: Offline Code Interpreter (Pyodide) ✅ *(Completed - PR #96)* (`docs/tasks/phase-6/task6_code_interpreter.md`)
 
 ### MVP3 Wave D: Niche Vertical Plugins (Parallel)
 *All use existing DuckDB/WebLLM/OCR workers. Touch separate plugin routes.*
@@ -346,7 +346,7 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
 ## Set 15: Advanced Niche Workspaces & Analyzers
 - **[Media]** Task 4: Podcast & Meeting Summarizer ✅ *(Completed - PR #95)* (`docs/tasks/phase-3/task5_summarizer.md`)
   *Safe: Uses existing Whisper and WebLLM.*
-- **[Plugins]** Task 6: Offline Code Interpreter 🔄 *(Running - Jules ID: 16759891137796483683)* (`docs/tasks/phase-6/task6_code_interpreter.md`)
+- **[Plugins]** Task 6: Offline Code Interpreter ✅ *(Completed - PR #96)* (`docs/tasks/phase-6/task6_code_interpreter.md`)
   *Safe: Potential WorkerManager modifier (Pyodide WASM).*
 - **[Plugins]** Task 7: Personal Finance & Tax Workspace (`docs/tasks/phase-6/task7_finance.md`)
   *Safe: Uses existing OCR and DuckDB.*
