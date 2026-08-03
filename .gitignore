@@ -13,3 +13,6 @@ static/gdal3.js/
 playwright-report/
 test-results/
 dev-dist/
+build/
+ios/
+android/
