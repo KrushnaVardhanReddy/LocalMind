@@ -24,6 +24,7 @@ export class WorkerManager {
     private static initCADPromise: Promise<any> | null = null;
     private static initGeoPromise: Promise<any> | null = null;
     private static initCryptoPromise: Promise<any> | null = null;
+    private static initPyodidePromise: Promise<any> | null = null;
 
     private static attachErrorListeners(worker: Worker, name: WorkerName) {
         const handleError = (errorMsg: string) => {
@@ -65,6 +66,7 @@ export class WorkerManager {
             case 'webllm': this.initWebLLMPromise = null; break;
             case 'geo': this.initGeoPromise = null; break;
             case 'crypto': this.initCryptoPromise = null; break;
+            case 'pyodide': this.initPyodidePromise = null; break;
             // muPDF has its own promise structure, handling appropriately
             case 'mupdf': this.initMuPDFPromise = null; break;
         }
@@ -92,6 +94,7 @@ export class WorkerManager {
             case 'webllm': await this.getWebLLM(); break;
             case 'geo': await this.getGeo(); break;
             case 'crypto': await this.getCrypto(); break;
+            case 'pyodide': await this.getPyodideWorker(); break;
             case 'mupdf': await this.getMuPDF(); break;
         }
     }
@@ -588,5 +591,25 @@ export class WorkerManager {
         }
 
         return this.initCryptoPromise;
+    }
+
+    public static async getPyodideWorker() {
+        if (this.proxies.has('pyodide')) {
+            return this.proxies.get('pyodide');
+        }
+
+        if (!this.initPyodidePromise) {
+            this.initPyodidePromise = (async () => {
+                const worker = new Worker(new URL('./pyodide.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('pyodide', worker);
+                this.attachErrorListeners(worker, 'pyodide');
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('pyodide', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initPyodidePromise;
     }
 }
