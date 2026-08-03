@@ -130,7 +130,7 @@
 ### MVP3 Wave D: Niche Vertical Plugins (Parallel)
 *All use existing DuckDB/WebLLM/OCR workers. Touch separate plugin routes.*
 - **[Plugin]** Task 7: Personal Finance & Tax Workspace 🔄 *(Running - Jules ID: 6674704916118920751)* (`docs/tasks/phase-6/task7_finance.md`)
-- **[Plugin]** Task 8: Medical & Health Insights 🔄 *(Running - Jules ID: 17864324867537254508)* (`docs/tasks/phase-6/task8_health.md`)
+- **[Plugin]** Task 8: Medical & Health Insights ⏸️ *(Paused/Scrapped)* (`docs/tasks/phase-6/task8_health.md`)
 - **[Plugin]** Task 13: Vehicle Telemetry & CAN Bus Analyzer ⏸️ *(Paused/Scrapped)* (`docs/tasks/phase-6/task13_telemetry.md`)
 
 ### MVP3 Wave E: Legal & Education Verticals (Parallel)
@@ -350,7 +350,7 @@ To guarantee zero merge conflicts, the following sets are structured so that **n
   *Safe: Potential WorkerManager modifier (Pyodide WASM).*
 - **[Plugins]** Task 7: Personal Finance & Tax Workspace 🔄 *(Running - Jules ID: 6674704916118920751)* (`docs/tasks/phase-6/task7_finance.md`)
   *Safe: Uses existing OCR and DuckDB.*
-- **[Plugins]** Task 8: Medical & Health Insights 🔄 *(Running - Jules ID: 17864324867537254508)* (`docs/tasks/phase-6/task8_health.md`)
+- **[Plugins]** Task 8: Medical & Health Insights ⏸️ *(Paused/Scrapped)* (`docs/tasks/phase-6/task8_health.md`)
   *Safe: Uses existing DuckDB and WebLLM.*
 - **[DevTools]** Task 6: PII Data Sanitizer ✅ *(Completed - PR #91)* (`docs/tasks/phase-4/task6_pii_sanitizer.md`)
   *Safe: Uses existing WebLLM/DuckDB.*
