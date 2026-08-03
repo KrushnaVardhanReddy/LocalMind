@@ -157,9 +157,9 @@
 
 ### Universal Document Plugins (Consolidated MVP Features)
 *Replacing all specific niche document and research plugins (Legal, Education, Construction, Real Estate, etc.) with powerful generic workspaces.*
-- [ ] Task 1: Universal Document Q&A Workspace (`docs/tasks/phase-13/task1_universal_doc_qa.md`)
+- [ ] Task 1: Universal Document Q&A Workspace 🔄 *(Running)* (`docs/tasks/phase-13/task1_universal_doc_qa.md`)
   *Upload any PDF (Contracts, Lab Reports, Blueprints, Papers) and use WebLLM to extract, summarize, or query.*
-- [ ] Task 2: Local Directory Semantic Search (`docs/tasks/phase-13/task2_directory_search.md`)
+- [ ] Task 2: Local Directory Semantic Search 🔄 *(Running)* (`docs/tasks/phase-13/task2_directory_search.md`)
   *Embed folders of PDFs/Docs to search case law, technical specs, or personal archives offline using DuckDB VSS.*
 
 ---
