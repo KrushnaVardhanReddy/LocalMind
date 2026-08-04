@@ -135,8 +135,8 @@
 
 ### MVP3 Wave E: Universal Document Plugins (Parallel)
 *All use existing MuPDF/WebLLM/Semantic Search workers. Replacing fragmented niche plugins.*
-- **[Plugin]** Task 1: Universal Document Q&A Workspace 🔄 *(Running - Jules ID: 18178515751619385141)* (`docs/tasks/phase-13/task1_universal_doc_qa.md`)
-- **[Plugin]** Task 2: Local Directory Semantic Search 🔄 *(Running - Jules ID: 16193627081754385087)* (`docs/tasks/phase-13/task2_directory_search.md`)
+- **[Plugin]** Task 1: Universal Document Q&A Workspace ✅ *(Completed - PR #98)* (`docs/tasks/phase-13/task1_universal_doc_qa.md`)
+- **[Plugin]** Task 2: Local Directory Semantic Search ✅ *(Completed - PR #99)* (`docs/tasks/phase-13/task2_directory_search.md`)
 
 ---
 
