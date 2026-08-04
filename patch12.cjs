@@ -1,3 +1,6 @@
+const fs = require('fs');
+
+let content = `
 <script lang="ts">
 	import { renderMarkdown } from '$lib/utils/markdown-renderer';
 	import { templates } from '$lib/templates/markdown';
@@ -72,10 +75,10 @@
 					const pre = node.parentElement;
 					if (pre && pre.tagName.toLowerCase() === 'pre') {
 						try {
-							const { svg } = await mermaid.render(`mermaid-${Date.now()}-${i}`, text);
-							pre.outerHTML = `<div class="mermaid-diagram flex justify-center my-4">${svg}</div>`;
+							const { svg } = await mermaid.render(\`mermaid-\${Date.now()}-\${i}\`, text);
+							pre.outerHTML = \`<div class="mermaid-diagram flex justify-center my-4">\${svg}</div>\`;
 						} catch (e: any) {
-							pre.outerHTML = `<div class="text-red-500 border border-red-500 p-4 rounded my-4 bg-red-50 dark:bg-red-900/20 font-mono text-sm overflow-auto">Mermaid Syntax Error: ${e.message}</div>`;
+							pre.outerHTML = \`<div class="text-red-500 border border-red-500 p-4 rounded my-4 bg-red-50 dark:bg-red-900/20 font-mono text-sm overflow-auto">Mermaid Syntax Error: \${e.message}</div>\`;
 						}
 					}
 				})).then(() => {
@@ -120,19 +123,19 @@
 			const cssResponse = await fetch('/export-document.css');
 			const css = await cssResponse.text();
 
-			const fullHtml = `<!DOCTYPE html>
+			const fullHtml = \`<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<title>Exported Document</title>
 	<style>
-		${css}
+		\${css}
 	</style>
 </head>
 <body>
-	${html}
+	\${html}
 </body>
-</html>`;
+</html>\`;
 
 			const blob = new Blob([fullHtml], { type: 'text/html' });
 			const url = URL.createObjectURL(blob);
@@ -171,11 +174,11 @@
 			<button class="p-1.5 hover:bg-gray-100 rounded text-gray-700 font-bold" onclick={() => insertFormatting('**', '**')} title="Bold">B</button>
 			<button class="p-1.5 hover:bg-gray-100 rounded text-gray-700 italic" onclick={() => insertFormatting('*', '*')} title="Italic">I</button>
 			<div class="w-px h-6 bg-gray-300 mx-1"></div>
-			<button class="p-1.5 hover:bg-gray-100 rounded text-gray-700 font-mono text-sm" onclick={() => insertFormatting('`', '`')} title="Code">`</button>
+			<button class="p-1.5 hover:bg-gray-100 rounded text-gray-700 font-mono text-sm" onclick={() => insertFormatting('\`', '\`')} title="Code">\`</button>
 			<button class="p-1.5 hover:bg-gray-100 rounded text-gray-700" onclick={() => insertFormatting('[', '](url)')} title="Link">🔗</button>
 			<button class="p-1.5 hover:bg-gray-100 rounded text-gray-700" onclick={() => insertFormatting('![alt text](', ')')} title="Image">🖼️</button>
 			<div class="w-px h-6 bg-gray-300 mx-1"></div>
-			<button class="p-1.5 hover:bg-gray-100 rounded text-gray-700" onclick={() => insertFormatting('\n| Header 1 | Header 2 |\n|---|---|\n| Cell 1 | Cell 2 |\n')} title="Table">📊</button>
+			<button class="p-1.5 hover:bg-gray-100 rounded text-gray-700" onclick={() => insertFormatting('\\n| Header 1 | Header 2 |\\n|---|---|\\n| Cell 1 | Cell 2 |\\n')} title="Table">📊</button>
 		</div>
 		<div class="flex items-center space-x-2">
 			<select
@@ -221,7 +224,7 @@
 				<iframe
 					title="Markdown Preview"
 					class="w-full h-full border-0"
-					srcdoc={`
+					srcdoc={\`
 						<!DOCTYPE html>
 						<html>
 						<head>
@@ -232,12 +235,15 @@
 							</style>
 						</head>
 						<body>
-							${html}
+							\${html}
 						</body>
 						</html>
-					`}
+					\`}
 				></iframe>
 			</div>
 		</div>
 	</div>
 </div>
+`.trim();
+
+fs.writeFileSync('src/routes/docs/markdown/+page.svelte', content);
