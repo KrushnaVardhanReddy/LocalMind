@@ -42,7 +42,8 @@
     async function loadPdf() {
         if (!pdfBuffer || !muPdfWorker) return;
         try {
-            const metadata = await muPdfWorker.loadPDF(pdfBuffer);
+            const cleanBuffer = pdfBuffer.slice(0);
+            const metadata = await muPdfWorker.loadPDF(cleanBuffer);
             totalPages = metadata.pageCount;
             currentPage = 0;
             zoomLevel = 1;
