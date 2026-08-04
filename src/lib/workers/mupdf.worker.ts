@@ -23,7 +23,7 @@ export interface MuPDFWorkerContract {
     extractPages(startPage: number, endPage: number): Promise<ArrayBuffer>;
     applyRedactions(regions: RedactionRegion[]): Promise<ArrayBuffer>;
     compressPDF(): Promise<ArrayBuffer>;
-    extractText(): Promise<string>;
+    extractText(pdfBuffer?: ArrayBuffer): Promise<string>;
 }
 
 export class MuPDFService implements MuPDFWorkerContract {
@@ -102,6 +102,8 @@ export class MuPDFService implements MuPDFWorkerContract {
         return transfer(finalBuffer, [finalBuffer]);
     }
 
+
+
     public async compressPDF(): Promise<ArrayBuffer> {
         if (!this.doc) {
             throw new Error('PDF not loaded. Call loadPDF first.');
@@ -140,23 +142,40 @@ export class MuPDFService implements MuPDFWorkerContract {
         return transfer(finalBuffer, [finalBuffer]);
     }
 
-    public async extractText(): Promise<string> {
-        if (!this.doc) {
-            throw new Error('PDF not loaded. Call loadPDF first.');
-        }
-
-        let fullText = '';
-        const numPages = this.doc.countPages();
-        for (let i = 0; i < numPages; i++) {
-            const page = this.doc.loadPage(i);
-            try {
-                const structuredText = page.toStructuredText('text');
-                fullText += structuredText.asText() + '\n\n';
-            } catch (e) {
-                console.warn(`Failed to extract text from page ${i}:`, e);
+    public async extractText(pdfBuffer?: ArrayBuffer): Promise<string> {
+        if (pdfBuffer) {
+            const uint8 = new Uint8Array(pdfBuffer);
+            const doc = mupdf.Document.openDocument(uint8, 'application/pdf');
+            const pageCount = doc.countPages();
+            let text = '';
+            for (let i = 0; i < pageCount; i++) {
+                const page = doc.loadPage(i);
+                try {
+                    const stext = page.toStructuredText('preserve-whitespace');
+                    text += stext.asText() + '\n\n';
+                } catch (e) {
+                    console.warn(`Failed to extract text from page ${i}:`, e);
+                }
             }
+            return text;
+        } else {
+            if (!this.doc) {
+                throw new Error('PDF not loaded. Call loadPDF first.');
+            }
+
+            let fullText = '';
+            const numPages = this.doc.countPages();
+            for (let i = 0; i < numPages; i++) {
+                const page = this.doc.loadPage(i);
+                try {
+                    const structuredText = page.toStructuredText('text');
+                    fullText += structuredText.asText() + '\n\n';
+                } catch (e) {
+                    console.warn(`Failed to extract text from page ${i}:`, e);
+                }
+            }
+            return fullText;
         }
-        return fullText;
     }
 }
 
