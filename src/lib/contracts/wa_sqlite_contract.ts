@@ -121,4 +121,25 @@ export interface WaSQLiteWorkerContract {
     saveCustomTemplate(record: Omit<CustomTemplateRecord, 'created_at' | 'id'>): Promise<CustomTemplateRecord>;
     listCustomTemplates(): Promise<CustomTemplateRecord[]>;
     deleteCustomTemplate(id: string): Promise<void>;
+
+    // --- Whiteboard Scenes ---
+    listWhiteboardScenes(workspaceId: string): Promise<WhiteboardSceneRecord[]>;
+    getWhiteboardScene(id: string): Promise<WhiteboardSceneRecord | null>;
+    saveWhiteboardScene(id: string, workspaceId: string, name: string, sceneData: string): Promise<void>;
+    deleteWhiteboardScene(id: string): Promise<void>;
+}
+
+export interface WhiteboardSceneRecord {
+    id: string;
+    workspace_id: string;
+    name: string;
+    scene_data: string; // JSON serialized
+    created_at: number;
+    updated_at: number;
+
+    // --- Whiteboard Scenes ---
+    listWhiteboardScenes(workspaceId: string): Promise<WhiteboardSceneRecord[]>;
+    getWhiteboardScene(id: string): Promise<WhiteboardSceneRecord | null>;
+    saveWhiteboardScene(id: string, workspaceId: string, name: string, sceneData: string): Promise<void>;
+    deleteWhiteboardScene(id: string): Promise<void>;
 }

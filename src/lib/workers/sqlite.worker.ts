@@ -390,7 +390,31 @@ class SQLiteService implements WaSQLiteWorkerContract {
 
     async deleteCustomTemplate(id: string): Promise<void> {
         await this.query(`DELETE FROM custom_templates WHERE id = ?`, [id]);
+
+}
+    // --- Whiteboard Scenes ---
+    async listWhiteboardScenes(workspaceId: string): Promise<any[]> {
+        return await this.query(`SELECT * FROM whiteboard_scenes WHERE workspace_id = ? ORDER BY updated_at DESC`, [workspaceId]);
+    }
+
+    async getWhiteboardScene(id: string): Promise<any | null> {
+        const rows = await this.query(`SELECT * FROM whiteboard_scenes WHERE id = ?`, [id]);
+        return rows.length > 0 ? rows[0] : null;
+    }
+
+    async saveWhiteboardScene(id: string, workspaceId: string, name: string, sceneData: string): Promise<void> {
+        const now = Math.floor(Date.now() / 1000);
+        await this.execute(
+            `INSERT INTO whiteboard_scenes (id, workspace_id, name, scene_data, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)
+             ON CONFLICT(id) DO UPDATE SET name = excluded.name, scene_data = excluded.scene_data, updated_at = excluded.updated_at`,
+            [id, workspaceId, name, sceneData, now, now]
+        );
+    }
+
+    async deleteWhiteboardScene(id: string): Promise<void> {
+        await this.execute(`DELETE FROM whiteboard_scenes WHERE id = ?`, [id]);
     }
 }
+
 
 expose(new SQLiteService());
