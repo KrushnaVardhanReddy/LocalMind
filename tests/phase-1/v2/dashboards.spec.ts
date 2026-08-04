@@ -16,8 +16,8 @@ test.describe('Dashboards & Cross-filtering E2E', () => {
     await page.getByRole('button', { name: 'Run Query' }).click();
     await expect(page.getByRole('button', { name: '✨ Ask AI to Analyze' })).toBeVisible({ timeout: 15000 });
 
-    await page.locator('div[draggable="true"]').filter({ hasText: 'Region' }).dragTo(page.locator('#rows'));
-    await page.locator('div[draggable="true"]').filter({ hasText: 'Sales' }).dragTo(page.locator('#values'));
+    await page.locator('div[draggable="true"]').filter({ hasText: 'Region' }).dragTo(page.locator('#zone-rows'));
+    await page.locator('div[draggable="true"]').filter({ hasText: 'Sales' }).dragTo(page.locator('#zone-values'));
 
     await page.waitForTimeout(2000);
 
