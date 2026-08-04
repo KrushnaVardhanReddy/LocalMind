@@ -49,7 +49,8 @@
         const arrayBuffer = await file.arrayBuffer();
 
         const mupdf = await WorkerManager.getMuPDF();
-        await mupdf.loadPDF(arrayBuffer);
+        // Clone buffer to strip Svelte 5 Proxy before sending to Comlink worker
+        await mupdf.loadPDF(arrayBuffer.slice(0));
         const text = await mupdf.extractText();
 
         return text;
