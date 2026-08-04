@@ -144,6 +144,22 @@
 - **[Plugin]** Task 5: Mermaid.js Diagram Integration ✅ *(Completed - PR #103)* (`docs/tasks/phase-2/task5_mermaid.md`)
 - **[Plugin]** Task 6: Excalidraw Local Whiteboard ✅ *(Completed - PR #102)* (`docs/tasks/phase-2/task6_excalidraw.md`)
 
+### MVP3 Wave G: Full E2E Coverage (All Completed Phases — Parallel) 🔄
+*Spec-first E2E wave. All 5 tasks are fully independent — each writes to a separate `tests/phase-X/` directory with zero file conflicts. Safe to run all simultaneously.*
+
+> **Jules Session IDs — all running in parallel from `feature/dev`:**
+
+- **[E2E]** E2E-2: Docs Plugins (Mermaid, Excalidraw, Doc Diff) 🔄 *(Running - Jules ID: 13227467588392064689)* (`docs/tasks/phase-2/task_e2e_docs_plugins.md`)
+  *Writes to: `tests/phase-2/mermaid.spec.ts`, `tests/phase-2/excalidraw.spec.ts`*
+- **[E2E]** E2E-9: Macro-Shell OS (Shell, Explorer, Command Palette, Inspector, Sessions) 🔄 *(Running - Jules ID: 5153921340650328564)* (`docs/tasks/phase-9/task_e2e_macro_shell.md`)
+  *Writes to: `tests/phase-9/` (new directory — zero conflicts)*
+- **[E2E]** E2E-13: Universal Doc Q&A & Directory Search 🔄 *(Running - Jules ID: 13653287012969682001)* (`docs/tasks/phase-13/task_e2e_universal_doc.md`)
+  *Writes to: `tests/phase-13/` (new directory — zero conflicts)*
+- **[E2E]** E2E-6: Niche Plugins (Geo, Finance, Annotate, Diagrams, Pyodide, Study Notes, Summarizer) 🔄 *(Running - Jules ID: 8154216053834422361)* (`docs/tasks/phase-6/task_e2e_niche_plugins.md`)
+  *Writes to: `tests/phase-6/` (extends existing — adds new spec files only)*
+- **[E2E]** E2E-4: DevTools (Formatters, Git, Log, HAR, PCAP, PII, Mock Server) 🔄 *(Running - Jules ID: 382043921126052690)* (`docs/tasks/phase-4/task_e2e_devtools.md`)
+  *Writes to: `tests/phase-4/` (new directory — zero conflicts)*
+
 ---
 
 ## ⏸ DEFERRED SETS (Post-v1)

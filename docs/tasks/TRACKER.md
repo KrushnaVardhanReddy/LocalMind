@@ -83,6 +83,7 @@
 - [x] Task 4: End-to-End Testing ✅ *(Completed - PR #87)* (`docs/tasks/phase-2/task_e2e.md`)
 - [x] Task 5: Mermaid.js Diagram Integration ✅ *(Completed - PR #103)* (`docs/tasks/phase-2/task5_mermaid.md`)
 - [x] Task 6: Excalidraw Local Whiteboard ✅ *(Completed - PR #102)* (`docs/tasks/phase-2/task6_excalidraw.md`)
+- [ ] E2E-2: Docs Plugins E2E (Mermaid, Excalidraw, Doc Diff) 🔄 *(Running - Jules ID: 13227467588392064689)* (`docs/tasks/phase-2/task_e2e_docs_plugins.md`)
 
 ### Version 3: LocalMind DevTools
 *Offline Utilities for Developers*
@@ -101,7 +102,7 @@
 - [ ] Task 10: Offline API Client (Postman Alternative) (`docs/tasks/phase-4/task10_api_client.md`)
 - [ ] Task 11: Offline Regex Tester & Debugger (`docs/tasks/phase-4/task11_regex_tester.md`)
 - [ ] Task 12: JSONPath & `jq` Query Sandbox (`docs/tasks/phase-4/task12_jq_sandbox.md`)
-- [ ] Task 7: End-to-End Testing (`docs/tasks/phase-4/task_e2e.md`)
+- [ ] E2E-4: DevTools E2E (Formatters, Git, Log, HAR, PCAP, PII, Mock Server) 🔄 *(Running - Jules ID: 382043921126052690)* (`docs/tasks/phase-4/task_e2e_devtools.md`)
 
 ---
 
@@ -135,6 +136,7 @@
   *Canvas-based Paint-style workspace. Freehand draw, shapes, text, arrows, highlights, image crop, AI auto-label. Export PNG/SVG/PDF. No new WASM workers needed (canvas + magick-wasm).*
 - [x] Task 15: LocalMind Diagrams — AI Diagram Generation Workspace ✅ *(Completed - PR #92)* (`docs/tasks/phase-6/task15_diagrams.md`)
   *Generate UML/ER/architecture diagrams from code (tree-sitter), SQL schemas (DuckDB), OpenAPI specs, or plain English. Render via Mermaid.js / D3. Export PNG/SVG/PDF. Uses existing worker stack.*
+- [ ] E2E-6: Niche Plugins E2E (Geo, Finance, Annotate, Diagrams, Pyodide, Study Notes, Summarizer) 🔄 *(Running - Jules ID: 8154216053834422361)* (`docs/tasks/phase-6/task_e2e_niche_plugins.md`)
 - [ ] Task 16: Advanced Scientific & Network Visualizations (`docs/tasks/phase-6/task16_advanced_vis.md`)
   *Dedicated workspace for complex data relationships. Network graphs (Cytoscape.js), custom hierarchies (D3.js), interactive data exploration (Observable Plot), and scientific charting (Plotly.js).*
 
@@ -147,6 +149,7 @@
 
 ### Phase 9: LocalMind OS (The Macro-Shell) 🖥️
 *A unified modern AI workspace shell integrating the Explorer, Command Palette, and Context Panels.*
+- [ ] E2E-9: Macro-Shell OS E2E (Shell, Explorer, Command Palette, Inspector, Session Migration) 🔄 *(Running - Jules ID: 5153921340650328564)* (`docs/tasks/phase-9/task_e2e_macro_shell.md`)
 - [x] Task 1: Macro-Shell Layout & Global Store ✅ *(Completed - PR #76)* (`docs/tasks/phase-9/task1_macro_shell.md`)
 - [x] Task 2: OPFS File Explorer Sidebar & Top Nav ✅ *(Completed - PR #78)* (`docs/tasks/phase-9/task2_explorer.md`)
 - [x] Task 3: Command Palette Integration ✅ *(Completed - PR #76)* (`docs/tasks/phase-9/task3_command_palette.md`)
@@ -157,6 +160,7 @@
 
 ### Universal Document Plugins (Consolidated MVP Features)
 *Replacing all specific niche document and research plugins (Legal, Education, Construction, Real Estate, etc.) with powerful generic workspaces.*
+- [ ] E2E-13: Universal Doc Q&A & Directory Search E2E 🔄 *(Running - Jules ID: 13653287012969682001)* (`docs/tasks/phase-13/task_e2e_universal_doc.md`)
 - [x] Task 1: Universal Document Q&A Workspace ✅ *(Completed - PR #98)* (`docs/tasks/phase-13/task1_universal_doc_qa.md`)
   *Upload any PDF (Contracts, Lab Reports, Blueprints, Papers) and use WebLLM to extract, summarize, or query.*
 - [x] Task 2: Local Directory Semantic Search ✅ *(Completed - PR #99)* (`docs/tasks/phase-13/task2_directory_search.md`)
