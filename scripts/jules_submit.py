@@ -278,6 +278,32 @@ TASKS = {
         "phase": "cross_cutting",
         "prompt": _load_prompt("docs/tasks/cross_cutting/task_ux4_template_gallery.md"),
     },
+    # ── E2E Coverage Wave — All completed phases ──────────────────────────────
+    200: {
+        "name": "E2E Wave — Phase 2 Docs Plugins (Mermaid, Excalidraw, Doc Diff)",
+        "phase": "phase-2",
+        "prompt": _load_prompt("docs/tasks/phase-2/task_e2e_docs_plugins.md"),
+    },
+    201: {
+        "name": "E2E Wave — Phase 9 Macro-Shell OS (Explorer, Command Palette, Inspector)",
+        "phase": "phase-9",
+        "prompt": _load_prompt("docs/tasks/phase-9/task_e2e_macro_shell.md"),
+    },
+    202: {
+        "name": "E2E Wave — Phase 13 Universal Doc Q&A & Directory Search",
+        "phase": "phase-13",
+        "prompt": _load_prompt("docs/tasks/phase-13/task_e2e_universal_doc.md"),
+    },
+    203: {
+        "name": "E2E Wave — Phase 6 & 3 Niche Plugins (Geo, Finance, Annotate, Diagrams, Pyodide, Study Notes, Summarizer)",
+        "phase": "phase-6",
+        "prompt": _load_prompt("docs/tasks/phase-6/task_e2e_niche_plugins.md"),
+    },
+    204: {
+        "name": "E2E Wave — Phase 4 DevTools (Formatters, Git, Log, HAR, PCAP, PII, Mock Server)",
+        "phase": "phase-4",
+        "prompt": _load_prompt("docs/tasks/phase-4/task_e2e_devtools.md"),
+    },
 }
 
 # ──────────────────────────────────────────────────────────────────────────────

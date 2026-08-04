@@ -150,3 +150,54 @@ Reuses the existing `WebLLMWorker` for AI generation and `mermaid` for rendering
 
 ### 8.3 Contracts
 Delegates to the existing `LLMWorkerContract`. No new WASM engine is registered.
+
+---
+
+## 9. Acceptance Criteria & E2E Test Scenarios
+
+### AC-6.1 Geo-Spatial Workspace
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User navigates to `/geo` | Map renders (tiles visible) |
+| AC-2 | User uploads a GeoJSON file | Markers/polygons appear on the map |
+| AC-3 | User clicks a map feature | Popup/info panel shows feature properties |
+
+### AC-6.2 3D CAD Workspace
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User uploads a `.stl` or `.step` file | 3D model renders in the WebGL viewport |
+| AC-2 | User rotates the model (click+drag) | Model rotates interactively |
+| AC-3 | User clicks "Export as OBJ" | File download is triggered |
+
+### AC-6.3 Cryptography Workspace
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User hashes a string with SHA-256 | Output shows the correct hex digest |
+| AC-2 | User generates an RSA key pair | Public and private keys appear in PEM format |
+| AC-3 | User encrypts text then decrypts it | Decrypted output matches original plaintext |
+
+### AC-6.4 Finance & Tax Workspace
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User uploads a transactions CSV | Summary table/chart renders |
+| AC-2 | User applies a date filter | Table updates to show filtered results |
+
+### AC-6.5 Annotate Workspace
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User uploads an image | Image renders on the canvas |
+| AC-2 | User selects rectangle tool and drags | Annotation shape appears |
+| AC-3 | User clicks "Export" | Annotated image downloads |
+
+### AC-6.6 Diagrams AI Workspace (Task 15)
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User enters "UML diagram for User and Order" | Mermaid SVG with "User" and "Order" nodes renders |
+| AC-2 | User clicks "Export as SVG" | SVG file downloads |
+
+### AC-6.7 Code Interpreter (Pyodide)
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User navigates to the workspace | "Pyodide ready" indicator appears within 60s |
+| AC-2 | User types `print("hello")` and runs | Output panel shows `hello` |
+| AC-3 | User types `1/0` and runs | Error/traceback shown in output — no crash |

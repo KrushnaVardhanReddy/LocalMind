@@ -83,3 +83,66 @@ See `docs/contracts/phase-4/`:
 - Offline PII redaction for structured data (CSV/JSON).
 - Utilizes the existing Transformers.js NER (Named Entity Recognition) worker.
 - Scans large files, masks detected PII (like `[REDACTED_PERSON]`), and exports the clean file.
+
+---
+
+## 4. Acceptance Criteria & E2E Test Scenarios
+
+### AC-4.1 JSON/JWT/Base64 Formatters
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User pastes minified JSON and clicks "Format" | Pretty-printed JSON appears in output |
+| AC-2 | User pastes an invalid JSON string | Error message: "Invalid JSON at position X" |
+| AC-3 | User pastes a valid JWT | Header and payload sections decode and display as formatted JSON |
+| AC-4 | User pastes a Base64 string | Decoded text appears in output panel |
+
+### AC-4.2 Data Format Converters
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User pastes JSON and clicks "Convert to YAML" | Valid YAML appears in output |
+| AC-2 | User pastes YAML and converts to JSON | Valid JSON appears |
+| AC-3 | User pastes XML and converts to JSON | Correct JSON representation appears |
+
+### AC-4.3 Git History Analyzer
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User uploads a `git log` export file | Commit entries render in a timeline/table |
+| AC-2 | User filters by author | Only commits from that author are shown |
+
+### AC-4.4 Visual Log Parser
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User uploads a `.log` file | Entries are parsed and shown with severity color coding |
+| AC-2 | Anomaly detection runs | Outlier log entries are highlighted |
+
+### AC-4.5 HAR Analyzer
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User uploads a `.har` file | Request/response entries appear in a table |
+| AC-2 | User clicks a request row | Detail panel opens with headers and body |
+
+### AC-4.6 PCAP Analyzer
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User uploads a `.pcap` file | Packet entries appear in table after WASM processing |
+
+### AC-4.7 PII Sanitizer
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User pastes JSON with emails and phone numbers | Output shows `[REDACTED]` in place of PII |
+
+### AC-4.8 Mock API Server
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User defines a `GET /api/users` endpoint and starts server | Server becomes active; indicator shows green |
+
+### AC-4.9 Test Data Generator
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User selects a schema and clicks "Generate 10 rows" | A 10-row table/JSON output appears |
+
+### AC-4.10 Visual Regression Diffing
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User uploads two slightly different images | Diff overlay renders highlighting changed pixels |
+| AC-2 | User uploads identical images | "0 pixels changed" or "No differences" message |

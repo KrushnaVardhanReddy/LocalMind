@@ -42,3 +42,34 @@ Enhance the existing Universal Docs workspace by integrating advanced capabiliti
   2. Mount inside a container `div` referenced by `bind:this`.
   3. Ensure cleanup (`root.unmount()`) on `onDestroy`.
   4. Hook `onChange` to serialize and save to OPFS (`wa-sqlite`).
+
+---
+
+## 6. Acceptance Criteria & E2E Test Scenarios
+
+### AC-14.1 Mermaid.js Integration
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User opens a markdown file with a `mermaid` fenced block | An `<svg>` element is rendered in place of the code block |
+| AC-2 | The mermaid block is a flowchart: `graph LR; A-->B` | SVG is visible with non-zero width/height; "A" and "B" labels appear |
+| AC-3 | User is in dark mode | Mermaid diagram uses dark theme (dark background, light text) |
+| AC-4 | User pastes invalid Mermaid syntax | An inline error message is shown; the app does NOT crash |
+| AC-5 | Page contains multiple mermaid blocks | All blocks render independently without interfering |
+
+### AC-14.2 Excalidraw Local Whiteboard
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User navigates to `/whiteboard` | Excalidraw canvas is visible and interactive |
+| AC-2 | User selects the rectangle tool and drags on canvas | A rectangle shape appears on the canvas |
+| AC-3 | User clicks "Export" | A file download is triggered (PNG or SVG) |
+| AC-4 | User reloads the page | Previously drawn shapes are restored from OPFS persistence |
+| AC-5 | User clicks "Clear canvas" | All shapes are removed |
+
+### AC-14.3 Document Redline Diffing
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User uploads two text files with known differences | A diff view shows `<ins>` (additions in green) and `<del>` (deletions in red) |
+| AC-2 | User uploads two identical files | "No differences found" message is shown |
+| AC-3 | User uploads two PDFs | Text is extracted via MuPDF and then diffed |
+| AC-4 | Additions/Deletions counter | UI displays accurate count of added/removed lines |
+| AC-5 | User uploads a very large file (>1MB text) | Diff completes without crashing; progress indicator shown |

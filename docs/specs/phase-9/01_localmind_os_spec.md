@@ -21,3 +21,45 @@ The "LocalMind OS" is a unified macro-shell that houses all independent workspac
 
 ## 5. Migration Strategy
 Instead of full-page routes (e.g., `/analytics`), pages will be refactored into workspace components (`<AnalyticsWorkspace />`) that render inside the central canvas of `+layout.svelte`.
+
+---
+
+## 6. Acceptance Criteria & E2E Test Scenarios
+
+### AC-9.1 Macro-Shell Layout
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User opens the app at `/` | Left sidebar, top-nav, center canvas, and status bar are all visible |
+| AC-2 | User clicks "Analytics" in workspace nav | The analytics workspace loads in the center canvas without full-page reload |
+| AC-3 | User clicks "DevTools" in workspace nav | DevTools workspace loads correctly |
+| AC-4 | User toggles dark/light mode from header | Theme changes immediately across all panels |
+
+### AC-9.2 OPFS File Explorer
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User opens the file explorer sidebar | OPFS file tree renders |
+| AC-2 | User uploads a CSV via the explorer | File appears in the tree immediately |
+| AC-3 | User clicks a file in the tree | File opens in the corresponding workspace |
+| AC-4 | User right-clicks a file and selects "Delete" | File is removed from the tree and OPFS |
+
+### AC-9.3 Command Palette
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User presses `Ctrl+K` from any workspace | Command palette overlay opens |
+| AC-2 | User types "analytics" in the palette | Matching commands appear filtered |
+| AC-3 | User presses `Escape` | Palette closes without navigation |
+| AC-4 | User presses `Enter` on a command | App navigates to the selected workspace |
+
+### AC-9.4 Dynamic Inspector Panel
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User creates a chart in Analytics | Inspector icon (🛠️) is clickable |
+| AC-2 | User clicks the inspector icon | Right panel slides open with chart properties |
+| AC-3 | User toggles a chart property | Chart updates in real-time |
+| AC-4 | User closes the inspector | Right panel collapses |
+
+### AC-9.5 Session Import / Export
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User exports workspace as `.lm` file | File downloads to the OS |
+| AC-2 | User reloads page and imports the `.lm` file | Full workspace state is restored (queries, charts, notes) |

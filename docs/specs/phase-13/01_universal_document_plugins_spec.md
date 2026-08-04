@@ -59,3 +59,26 @@ Both tools run entirely offline, leveraging existing WASM workers (MuPDF, WebLLM
 ## 4. Conflict-Free Contract Rules
 - **No Global UI Pollution:** All Svelte components must reside strictly within `src/lib/components/plugins/universal-doc/ui/` or `src/lib/components/plugins/directory-search/ui/`.
 - **No Worker Modifications:** `WorkerManager.ts` must remain completely untouched. The required singletons are already registered and exported.
+
+---
+
+## 5. Acceptance Criteria & E2E Test Scenarios
+
+### AC-13.1 Universal Document Q&A
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User uploads a PDF with known content ("Payment is $5,000") | Document renders (page canvas visible) and text is extracted |
+| AC-2 | User asks "What is the payment amount?" | AI response contains "$5,000" or correct answer |
+| AC-3 | User asks a follow-up question | AI maintains conversation context (multi-turn) |
+| AC-4 | User uploads a `.txt` file | File loads and renders as plain text |
+| AC-5 | User uploads a `.md` file | File renders as parsed markdown |
+| AC-6 | User uploads a second document | Context switches to the new document |
+
+### AC-13.2 Directory Semantic Search
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User selects a folder with 2+ documents | Indexing/embedding progress bar is shown |
+| AC-2 | Indexing completes | "Ready" indicator appears; search input is enabled |
+| AC-3 | User searches for text known to exist in one document | That document appears in results with a relevant snippet |
+| AC-4 | User searches for an unrelated term | Either no results or low-score results appear |
+| AC-5 | User clicks a search result | The document opens / the passage is highlighted |

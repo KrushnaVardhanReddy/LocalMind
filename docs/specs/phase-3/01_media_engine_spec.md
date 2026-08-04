@@ -74,3 +74,31 @@ FFmpeg WASM core is ~30MB. It must be:
 2. **Progress feedback is mandatory** — FFmpeg WASM emits progress events; these must drive a UI progress bar.
 3. **Output files are downloaded immediately** — never stored in OPFS (media files are too large).
 4. **Whisper models are quantized** — use ONNX quantized variants; full Whisper large is too large for browser use.
+
+---
+
+## 8. Acceptance Criteria & E2E Test Scenarios
+
+### AC-3.1 Video Clipper
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User uploads a short MP4 and selects a clip range | Trimmed clip is downloaded after FFmpeg processing |
+| AC-2 | Progress bar updates during processing | UI shows percentage progress |
+
+### AC-3.2 Whisper Speech-to-Text
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User uploads a short audio file (.mp3/.wav) | Transcript appears in output panel within 90s |
+| AC-2 | Transcript contains timestamped lines | Each line shows timecode + text |
+
+### AC-3.3 Podcast/Meeting Summarizer
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User uploads audio and clicks "Transcribe & Summarize" | Transcript appears, then AI summary is generated below |
+
+### AC-3.4 Study Notes & Flashcard Generator
+| # | Scenario | Expected Result |
+|---|---|---|
+| AC-1 | User uploads a text document and generates flashcards | Flashcard deck appears (front/back pairs) |
+| AC-2 | User clicks "Next Card" | Next flashcard is shown |
+| AC-3 | User clicks "Flip" on a card | Card flips to show the answer |
