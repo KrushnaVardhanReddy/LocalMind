@@ -59,7 +59,7 @@
 - [x] Task 13: Network & Graph Visualizer ✅ *(Completed - PR #89)* (`docs/tasks/phase-1/task13_network_graph.md`)
 - [x] Task 14: Offline HTML Table Extractor ✅ *(Completed - PR #88)* (`docs/tasks/phase-1/task14_html_extractor.md`)
 - [x] Task 16: Advanced Chart Inspector (UI + JSON Overrides) ✅ *(Completed)* (`docs/tasks/phase-1/task16_chart_inspector.md`)
-- [x] Task 17: Analytics E2E V2 (Coverage for Tasks 10-16) ✅ *(Completed)* (`docs/tasks/phase-1/task17_analytics_e2e_v2.md`)
+- [ ] Task 17: Analytics E2E V2 (Coverage for Tasks 10-16) 🔄 *(Running - Jules ID: 7713657526864402598)* (`docs/tasks/phase-1/task17_analytics_e2e_v2.md`)
 
 ---
 
