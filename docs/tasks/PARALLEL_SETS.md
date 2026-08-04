@@ -140,9 +140,9 @@
 
 ### MVP3 Wave F: Advanced Docs Plugins (Parallel)
 *All use existing workers or pure client-side libraries. Dependencies pre-installed to avoid conflicts.*
-- **[Plugin]** Task 8: Document Comparison (Redline Diffing) 🔄 *(Running - Jules ID: 6929629768855949237)* (`docs/tasks/phase-2/task8_doc_diff.md`)
-- **[Plugin]** Task 5: Mermaid.js Diagram Integration 🔄 *(Running - Jules ID: 10548676733797311934)* (`docs/tasks/phase-2/task5_mermaid.md`)
-- **[Plugin]** Task 6: Excalidraw Local Whiteboard 🔄 *(Running - Jules ID: 6745174634588493859)* (`docs/tasks/phase-2/task6_excalidraw.md`)
+- **[Plugin]** Task 8: Document Comparison (Redline Diffing) ✅ *(Completed - PR #101)* (`docs/tasks/phase-2/task8_doc_diff.md`)
+- **[Plugin]** Task 5: Mermaid.js Diagram Integration ✅ *(Completed - PR #103)* (`docs/tasks/phase-2/task5_mermaid.md`)
+- **[Plugin]** Task 6: Excalidraw Local Whiteboard ✅ *(Completed - PR #102)* (`docs/tasks/phase-2/task6_excalidraw.md`)
 
 ---
 

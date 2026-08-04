@@ -78,11 +78,11 @@
 - [x] Docs-2: Semantic Search UI in Docs workspace ✅ *(Completed - PR #84)* (`docs/tasks/phase-2/task_docs_search_ui.md`)
 - [x] Task 3.5: Local AI Resume Screener & Ranker ✅ *(Completed)* (`docs/tasks/phase-2/task3_5_resume_screener.md`)
 - [ ] Task 7: Offline Chat-with-Docs (Local RAG) ➡️ *(Superseded by Universal Document Q&A Workspace)* (`docs/tasks/phase-2/task7_local_rag.md`)
-- [ ] Task 8: Document Comparison (Redline Diffing) 🔄 *(Running - Jules ID: 6929629768855949237)* (`docs/tasks/phase-2/task8_doc_diff.md`)
+- [x] Task 8: Document Comparison (Redline Diffing) ✅ *(Completed - PR #101)* (`docs/tasks/phase-2/task8_doc_diff.md`)
   *Genuine standalone — lawyer-grade redline diffing between two doc versions has no equivalent in the generic Q&A tool.*
 - [x] Task 4: End-to-End Testing ✅ *(Completed - PR #87)* (`docs/tasks/phase-2/task_e2e.md`)
-- [ ] Task 5: Mermaid.js Diagram Integration 🔄 *(Running - Jules ID: 10548676733797311934)* (`docs/tasks/phase-2/task5_mermaid.md`)
-- [ ] Task 6: Excalidraw Local Whiteboard 🔄 *(Running - Jules ID: 6745174634588493859)* (`docs/tasks/phase-2/task6_excalidraw.md`)
+- [x] Task 5: Mermaid.js Diagram Integration ✅ *(Completed - PR #103)* (`docs/tasks/phase-2/task5_mermaid.md`)
+- [x] Task 6: Excalidraw Local Whiteboard ✅ *(Completed - PR #102)* (`docs/tasks/phase-2/task6_excalidraw.md`)
 
 ### Version 3: LocalMind DevTools
 *Offline Utilities for Developers*
