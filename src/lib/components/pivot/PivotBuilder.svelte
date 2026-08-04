@@ -247,10 +247,19 @@
         } else if (targetZone === 'columns') {
             if (!columns.find(c => c.column === column)) columns.push({ column, type: colType });
         } else if (targetZone === 'values') {
-            // Pick default agg
+            // Pick default agg based on data type and name heuristics
             let agg: ValueShelfItem['agg'] = 'SUM';
             if (colType === 'text' || colType === 'date' || colType === 'boolean') {
                 agg = 'COUNT';
+            } else if (colType === 'numeric') {
+                const lowerCol = column.toLowerCase();
+                if (lowerCol === 'id' || lowerCol.endsWith('_id')) {
+                    agg = 'COUNT';
+                } else if (lowerCol.includes('year') || lowerCol.includes('timestamp')) {
+                    agg = 'MAX';
+                } else if (lowerCol.includes('rate') || lowerCol.includes('pct') || lowerCol.includes('percentage')) {
+                    agg = 'AVG';
+                }
             }
             values.push({ column, type: colType, agg });
         } else if (targetZone === 'filters') {
@@ -536,7 +545,7 @@
                             </ShelfPill>
                             {#if activeAggPopoverIndex === i}
                                 <div class="absolute left-0 top-full mt-1 z-50 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded shadow-lg py-1 w-24">
-                                    {#each aggregations as agg}
+                                    {#each (val.type === 'text' || val.type === 'boolean' || val.type === 'date' ? ['COUNT'] : aggregations) as agg}
                                         <button
                                             class="w-full text-left px-3 py-1 text-xs hover:bg-gray-100 dark:hover:bg-gray-700 {val.agg === agg ? 'font-bold text-green-600 dark:text-green-400' : 'text-gray-700 dark:text-gray-300'}"
                                             onclick={(e) => { e.stopPropagation(); handleValueAggChange(i, agg); }}

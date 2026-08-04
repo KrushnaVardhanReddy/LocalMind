@@ -29,6 +29,23 @@ function baseTheme(colors: string[], darkMode: boolean) {
     return {
         color: colors,
         backgroundColor: 'transparent',
+        toolbox: {
+            show: true,
+            right: 20,
+            top: 0,
+            feature: {
+                saveAsImage: {
+                    show: true,
+                    name: 'LocalMind_Chart',
+                    backgroundColor: darkMode ? '#1f2937' : '#ffffff',
+                    pixelRatio: 2,
+                    title: 'Save Image'
+                }
+            },
+            iconStyle: {
+                borderColor: darkMode ? '#9ca3af' : '#6b7280'
+            }
+        },
         textStyle: {
             fontFamily: "'Inter', 'Outfit', system-ui, sans-serif",
             color: text

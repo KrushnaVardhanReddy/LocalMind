@@ -306,6 +306,24 @@ onMount(async () => {
         uploadStatus = { type: 'loading', message: `Registering ${file.name}...` };
         try {
             const tableName = file.name.replace(/[^a-zA-Z0-9_]/g, '_').replace(/^_+|_+$/g, '').toLowerCase();
+            
+            // 1. Save to OPFS so it shows up in the unified File Explorer (localmind-db)
+            if (!isDemo) {
+                try {
+                    const root = await navigator.storage.getDirectory();
+                    const fileHandle = await root.getFileHandle(file.name, { create: true });
+                    const writable = await fileHandle.createWritable();
+                    await writable.write(file);
+                    await writable.close();
+                    
+                    // Trigger a refresh event for the FileExplorer
+                    window.dispatchEvent(new CustomEvent('opfs-updated'));
+                } catch (e) {
+                    console.warn('Failed to persist file to OPFS:', e);
+                }
+            }
+
+            // 2. Register with DuckDB WASM
             const db = await WorkerManager.getDuckDB();
             await db.registerFile(file, tableName);
             if (!$uploadedTables.includes(tableName)) {
@@ -893,7 +911,7 @@ SELECT 'unmodified' as _diff_status, * FROM (SELECT * FROM ${table1} INTERSECT S
             placeholder="Enter SQL query (e.g. SELECT * FROM table LIMIT 10) - Press Ctrl+Enter to run"
             bind:value={customQuery}
             onkeydown={handleKeydown}
-            class="border p-2 rounded w-full mb-4 font-mono text-sm"
+            class="border border-gray-300 dark:border-gray-700 p-2 rounded w-full mb-4 font-mono text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500"
             rows="3"
         ></textarea>
 

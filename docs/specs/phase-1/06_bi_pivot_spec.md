@@ -22,6 +22,12 @@ graph LR
 - **Rows shelf:** Columns whose distinct values become row labels (GROUP BY these).
 - **Columns shelf:** Columns whose distinct values become column headers (pivoted via DuckDB `PIVOT` syntax).
 - **Values shelf:** Numeric columns with an aggregate function (SUM, AVG, COUNT, MIN, MAX).
+  - **Intelligent Default Aggregations:** When dragging a column into the Values shelf, the default aggregation is automatically assigned based on data type and naming heuristics:
+    - **Text, Date, Boolean** columns default to `COUNT`. (The UI dropdown is restricted to only allow `COUNT` to prevent DuckDB binder errors).
+    - **Numeric ID** columns (`id`, `_id`) default to `COUNT`.
+    - **Numeric Time** columns (`year`, `timestamp`) default to `MAX`.
+    - **Numeric Rates** columns (`rate`, `pct`, `percentage`) default to `AVG`.
+    - **All other Numeric** columns default to `SUM`.
 - **Filters shelf:** Column + operator + value combinations to restrict the dataset before pivoting (e.g., `region = 'US'`, `revenue > 1000`).
 
 ### 3.2 SQL Generation

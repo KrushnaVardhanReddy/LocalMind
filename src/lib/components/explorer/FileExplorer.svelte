@@ -56,6 +56,10 @@
 
     onMount(() => {
         initOpfs();
+        
+        const handleUpdate = () => initOpfs();
+        window.addEventListener('opfs-updated', handleUpdate);
+        return () => window.removeEventListener('opfs-updated', handleUpdate);
     });
 
     async function toggleDir(node: FileNode) {

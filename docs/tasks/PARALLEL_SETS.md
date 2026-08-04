@@ -91,7 +91,7 @@
 ### MVP2 Wave D: Analytics Final Polish
 *Routing Tasks 16 and 17 (Frontend/Playwright) to Stitch, and 13/14 to Jules to clear the Analytics backlog before MVP3.*
 - **[Analytics]** Task 16: Advanced Chart Inspector ⏳ *(Assigned to Stitch)* (`docs/tasks/phase-1/task16_chart_inspector.md`)
-- **[Analytics]** Task 17: Analytics E2E V2 🔄 *(Running - Jules ID: 7713657526864402598)* (`docs/tasks/phase-1/task17_analytics_e2e_v2.md`)
+- **[Analytics]** Task 17: Analytics E2E V2 ✅ *(Completed - PR #100)* (`docs/tasks/phase-1/task17_analytics_e2e_v2.md`)
 - **[Analytics]** Task 13: Network Graph Visualizer ⏳ *(Assigned to Jules)* (`docs/tasks/phase-1/task13_network_graph.md`)
 - **[Analytics]** Task 14: HTML Table Extractor ⏳ *(Assigned to Jules)* (`docs/tasks/phase-1/task14_html_extractor.md`)
 
