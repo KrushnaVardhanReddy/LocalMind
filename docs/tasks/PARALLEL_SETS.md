@@ -138,6 +138,12 @@
 - **[Plugin]** Task 1: Universal Document Q&A Workspace ✅ *(Completed - PR #98)* (`docs/tasks/phase-13/task1_universal_doc_qa.md`)
 - **[Plugin]** Task 2: Local Directory Semantic Search ✅ *(Completed - PR #99)* (`docs/tasks/phase-13/task2_directory_search.md`)
 
+### MVP3 Wave F: Advanced Docs Plugins (Parallel)
+*All use existing workers or pure client-side libraries. Dependencies pre-installed to avoid conflicts.*
+- **[Plugin]** Task 8: Document Comparison (Redline Diffing) (`docs/tasks/phase-2/task8_doc_diff.md`)
+- **[Plugin]** Task 5: Mermaid.js Diagram Integration (`docs/tasks/phase-2/task5_mermaid.md`)
+- **[Plugin]** Task 6: Excalidraw Local Whiteboard (`docs/tasks/phase-2/task6_excalidraw.md`)
+
 ---
 
 ## ⏸ DEFERRED SETS (Post-v1)

@@ -8,30 +8,31 @@ Embed the Excalidraw npm package to provide a fully local, zero-backend whiteboa
 ═══════════════════════════════════════════════════════════════
 CONSTRAINTS & RULES
 ═══════════════════════════════════════════════════════════════
-- Ensure all drawings are saved locally to the Origin Private File System (OPFS) via wa-sqlite or IndexedDB.
-- The UI must blend cleanly with LocalMind's dark/light modes.
-- Avoid unnecessary external network calls.
+- Strictly use Svelte 5 runes (`$state`, `$derived`, `$props`, `$effect`) in the wrapper.
+- DO NOT use Svelte 4 reactivity (`export let`, `$:`) or stores.
+- DO NOT modify `src/lib/workers/WorkerManager.ts`. Pure client-side wrapper only.
+- DO NOT modify `package.json`. The dependencies (`@excalidraw/excalidraw`, `react`, `react-dom`) are already installed.
+- Isolate all React wrapper logic to `src/lib/components/plugins/excalidraw/ui/`.
+- Ensure all drawings are saved locally to OPFS via `wa-sqlite` or `IndexedDB`.
 
 ═══════════════════════════════════════════════════════════════
 CONTEXT — EXISTING REPO LAYOUT & ARCHITECTURE
 ═══════════════════════════════════════════════════════════════
-- `src/routes/whiteboard/+page.svelte` (or similar new route)
-- `src/lib/components/Whiteboard.svelte`
-- `package.json`
+- `docs/specs/phase-14/01_advanced_docs_plugins_spec.md` (Architecture Spec)
 
 ═══════════════════════════════════════════════════════════════
 IMPLEMENTATION TIPS
 ═══════════════════════════════════════════════════════════════
-- Dependencies: Install `@excalidraw/excalidraw@^0.17.0`, `react@^18.2.0`, and `react-dom@^18.2.0`. Excalidraw's core package requires React, so we must wrap it.
-- Svelte Wrapper: Create a Svelte component that mounts the React Excalidraw component into a target `div` using standard React DOM rendering (`createRoot(container).render(...)`). Be sure to clean up the root in the Svelte `onDestroy` lifecycle block.
-- Persistence: Hook into Excalidraw's `onChange(elements, appState, files)` callback. Serialize the elements and save them locally to OPFS/IndexedDB. Ensure the save operation is debounced so it doesn't freeze the canvas during rapid sketching.
+- **Svelte Wrapper:** Create `src/lib/components/plugins/excalidraw/ui/ExcalidrawWrapper.svelte`. Use `createRoot(container).render(...)` to mount the React component. Use an `$effect` or standard `onDestroy` lifecycle block to call `root.unmount()` during cleanup to prevent memory leaks.
+- **Persistence:** Hook into Excalidraw's `onChange(elements, appState, files)` callback. Serialize the elements and save them locally to OPFS/IndexedDB. Ensure the save operation is debounced so it doesn't freeze the canvas during rapid sketching.
+- **Route Setup:** Expose the tool by creating `src/routes/whiteboard/+page.svelte` which simply mounts `<ExcalidrawWrapper />`.
+- **Theming:** The wrapper should automatically sync Excalidraw's theme prop with LocalMind's dark/light modes.
 
 ═══════════════════════════════════════════════════════════════
 DELIVERABLES
 ═══════════════════════════════════════════════════════════════
-1. MODIFY: `package.json`
+1. CREATE: `src/lib/components/plugins/excalidraw/ui/ExcalidrawWrapper.svelte`
 2. CREATE: `src/routes/whiteboard/+page.svelte`
-3. CREATE: `src/lib/components/Whiteboard.svelte`
 
 Commit: "feat: Phase 2 Task 6 excalidraw whiteboard"
-Target branch: feature/dev
+Target branch: feature/task6-excalidraw
