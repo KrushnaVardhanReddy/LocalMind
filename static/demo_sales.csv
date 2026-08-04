@@ -1,3 +1,5 @@
-a,b,c
-1,2,3
-4,5,6
+Region,Category,Sales
+North,Bar,100
+South,Foo,200
+West,Baz,150
+East,Qux,250

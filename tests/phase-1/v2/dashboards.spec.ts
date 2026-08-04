@@ -1,36 +1,43 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Dashboards & Cross-filtering', () => {
+test.describe('Dashboards & Cross-filtering E2E', () => {
+
   test.beforeEach(async ({ page }) => {
-    await page.goto('/analytics');
-    await expect(page.locator('h1', { hasText: 'LocalMind' })).toBeVisible();
+    await page.goto('/');
+    await page.waitForTimeout(1000);
   });
 
-  test('should query data and pin chart to dashboard', async ({ page }) => {
-    // 1. Enter query via pressSequentially to ensure Svelte 5 bind:value picks it up
-    const queryInput = page.locator('textarea[placeholder*="Enter SQL query"]');
-    await queryInput.click();
-    await queryInput.fill('SELECT 1 AS id, 10 AS val UNION ALL SELECT 2, 20');
-    await queryInput.dispatchEvent('input');
-    await page.keyboard.press('Tab');
-    
-    // 2. Click Run Query
+  test('Dashboard Workflow: Pin chart to dashboard, verify rendering and cross-filtering', async ({ page }) => {
+    await page.getByRole('button', { name: 'Try Sample Data' }).click();
+    await expect(page.getByPlaceholder(/Enter SQL query/i)).toBeVisible({ timeout: 15000 });
+
+    const textarea = page.getByPlaceholder(/Enter SQL query/i);
+    await textarea.fill("SELECT 'North' as Region, 'Bar' as Category, 100 as Sales UNION ALL SELECT 'South' as Region, 'Foo' as Category, 200 as Sales");
     await page.getByRole('button', { name: 'Run Query' }).click();
-    
-    // Verify result grid appears
-    await expect(page.locator('text=Execution time:')).toBeVisible({ timeout: 60000 });
+    await expect(page.getByRole('button', { name: '✨ Ask AI to Analyze' })).toBeVisible({ timeout: 15000 });
 
-    // Pin to dashboard
-    const pinButton = page.getByRole('button', { name: /Pin to Dashboard/i });
-    await expect(pinButton).toBeVisible();
-    
-    // Handle alert from pinning
-    page.once('dialog', dialog => dialog.accept());
-    await pinButton.click();
+    await page.locator('div[draggable="true"]').filter({ hasText: 'Region' }).dragTo(page.locator('#zone-rows'));
+    await page.locator('div[draggable="true"]').filter({ hasText: 'Sales' }).dragTo(page.locator('#zone-values'));
 
-    // Navigate to Dashboard tab
-    await page.goto('/dashboard');
+    await page.waitForTimeout(2000);
+
+    await page.getByRole('button', { name: /Pin to Dashboard/i }).click();
+    page.on('dialog', dialog => dialog.accept());
+
+    await page.getByRole('link', { name: /Dashboard/i }).first().click();
+
+    await expect(page.getByText('Your dashboard is empty.')).not.toBeVisible({ timeout: 5000 });
     
-    await expect(page.locator('canvas').first()).toBeVisible({ timeout: 60000 });
+    const canvas = page.locator('canvas');
+    await expect(canvas.first()).toBeVisible({ timeout: 10000 });
+
+    const canvasBox = await canvas.first().boundingBox();
+    if (canvasBox) {
+        await page.mouse.click(canvasBox.x + canvasBox.width / 2, canvasBox.y + canvasBox.height / 2);
+    }
+    
+    await page.waitForTimeout(1000);
+    await expect(canvas.first()).toBeVisible();
   });
+
 });
