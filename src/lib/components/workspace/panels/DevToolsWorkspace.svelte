@@ -50,6 +50,16 @@
         <p class="text-slate-400 text-sm">Offline regular expression testing and debugging. Ensure proprietary data never leaves your browser.</p>
       </a>
 
+      <a href="/devtools/jq-sandbox" class="block p-6 bg-slate-800 rounded-lg border border-slate-700 hover:border-blue-500 transition-colors">
+        <div class="flex items-center mb-3">
+          <svg class="w-8 h-8 text-yellow-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          <h2 class="text-xl font-semibold text-white">jq Sandbox</h2>
+        </div>
+        <p class="text-slate-400 text-sm">Write and test jq and JSONPath queries securely in your browser.</p>
+      </a>
+
       <!-- Future devtools links can go here -->
     </div>
   </div>
