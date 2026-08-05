@@ -30,6 +30,16 @@
         <p class="text-slate-400 text-sm">Analyze Wireshark packet captures entirely in your browser without uploading sensitive network data anywhere.</p>
       </a>
 
+      <a href="/devtools/api-client" class="block p-6 bg-slate-800 rounded-lg border border-slate-700 hover:border-blue-500 transition-colors">
+        <div class="flex items-center mb-3">
+          <svg class="w-8 h-8 text-purple-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+          <h2 class="text-xl font-semibold text-white">API Client</h2>
+        </div>
+        <p class="text-slate-400 text-sm">Test REST and GraphQL endpoints entirely locally with request history stored in SQLite.</p>
+      </a>
+
       <!-- Future devtools links can go here -->
     </div>
   </div>

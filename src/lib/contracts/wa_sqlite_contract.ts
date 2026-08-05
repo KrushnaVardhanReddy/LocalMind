@@ -1,3 +1,14 @@
+
+export interface ApiRequestRecord {
+    id: string;
+    workspace_id: string;
+    method: string;
+    url: string;
+    headers: string;
+    body: string;
+    created_at: number;
+}
+
 export interface WorkspaceRecord {
     id: string;
     name: string;
@@ -116,6 +127,11 @@ export interface WaSQLiteWorkerContract {
     savePipeline(name: string, nodes: string, edges: string): Promise<SavedPipelineRecord>;
     listPipelines(): Promise<SavedPipelineRecord[]>;
     deletePipeline(id: string): Promise<void>;
+
+    // --- API Client ---
+    saveApiRequest(workspaceId: string, method: string, url: string, headers: string, body: string): Promise<ApiRequestRecord>;
+    listApiRequests(workspaceId: string): Promise<ApiRequestRecord[]>;
+    deleteApiRequest(id: string): Promise<void>;
 
     // --- Custom Templates ---
     saveCustomTemplate(record: Omit<CustomTemplateRecord, 'created_at' | 'id'>): Promise<CustomTemplateRecord>;
