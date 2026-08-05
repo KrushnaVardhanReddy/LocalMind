@@ -25,6 +25,7 @@ export class WorkerManager {
     private static initGeoPromise: Promise<any> | null = null;
     private static initCryptoPromise: Promise<any> | null = null;
     private static initPyodidePromise: Promise<any> | null = null;
+    private static initJqPromise: Promise<any> | null = null;
 
     private static attachErrorListeners(worker: Worker, name: WorkerName) {
         const handleError = (errorMsg: string) => {
@@ -611,5 +612,25 @@ export class WorkerManager {
         }
 
         return this.initPyodidePromise;
+    }
+
+    public static async getJq() {
+        if (this.proxies.has('jq')) {
+            return this.proxies.get('jq');
+        }
+
+        if (!this.initJqPromise) {
+            this.initJqPromise = (async () => {
+                const worker = new Worker(new URL('./jq.worker.ts', import.meta.url), { type: 'module' });
+                this.instances.set('jq', worker);
+                this.attachErrorListeners(worker, 'jq');
+
+                const proxy = wrap<any>(worker);
+                this.proxies.set('jq', proxy);
+                return proxy;
+            })();
+        }
+
+        return this.initJqPromise;
     }
 }
