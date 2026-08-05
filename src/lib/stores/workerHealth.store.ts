@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-export type WorkerName = 'duckdb' | 'sqlite' | 'llm' | 'tesseract' | 'mupdf' | 'datagen' | 'treesitter' | 'ner' | 'ffmpeg' | 'whisper' | 'opencv' | 'embeddings' | 'mammoth' | 'converter' | 'git' | 'logparser' | 'visualdiff' | 'webllm' | 'geo' | 'crypto' | string;
+export type WorkerName = 'duckdb' | 'sqlite' | 'llm' | 'tesseract' | 'mupdf' | 'datagen' | 'treesitter' | 'ner' | 'ffmpeg' | 'whisper' | 'opencv' | 'embeddings' | 'mammoth' | 'converter' | 'git' | 'logparser' | 'visualdiff' | 'webllm' | 'geo' | 'crypto' | 'regex' | string;
 
 export interface WorkerCrashEvent {
     worker: WorkerName;
