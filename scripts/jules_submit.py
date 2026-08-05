@@ -7,9 +7,11 @@ Usage:
   python3 jules_submit.py               # List all available tasks
   python3 jules_submit.py --task 1      # Submit specific task by number
   python3 jules_submit.py --list        # List available tasks
+  python3 jules_submit.py --waves       # List available waves
   python3 jules_submit.py --status      # Check recent session status
   python3 jules_submit.py --file path   # Submit a custom prompt from a file
   python3 jules_submit.py --branch feat # Target a specific branch
+  python3 jules_submit.py --wave e2e    # Submit a predefined wave of tasks
 """
 
 import json
@@ -319,6 +321,44 @@ TASKS = {
         "phase": "phase-4",
         "prompt": _load_prompt("docs/tasks/phase-4/task_e2e_devtools.md"),
     },
+    # ── E2E FIX WAVE — Fix failing tests across all phases ───────────────────
+    # Submit Wave 1 first (alone), then Wave 2 in parallel, then Wave 3.
+    # Wave 1: Foundation (must merge before others — touches shared infra)
+    210: {
+        "name": "E2E Fix Wave 1 — Phase 1 Analytics + Makefile + playwright.config",
+        "phase": "phase-1",
+        "wave": "e2e-fix-1",
+        "prompt": _load_prompt("docs/tasks/phase-1/task_e2e_fix_phase1.md"),
+    },
+    # Wave 2a: Docs + Media (parallel-safe with 212)
+    211: {
+        "name": "E2E Fix Wave 2a — Phase 2 (Docs) + Phase 3 (Media/FFmpeg) selectors & fixtures",
+        "phase": "phase-2",
+        "wave": "e2e-fix-2",
+        "prompt": _load_prompt("docs/tasks/phase-2/task_e2e_fix_phase2_phase3.md"),
+    },
+    # Wave 2b: Advanced workspaces (parallel-safe with 211)
+    212: {
+        "name": "E2E Fix Wave 2b — Phase 6 (Crypto/Finance/Geo) + Phase 7 (Plugin) + Phase 8 (Whiteboard)",
+        "phase": "phase-6",
+        "wave": "e2e-fix-2",
+        "prompt": _load_prompt("docs/tasks/phase-6/task_e2e_fix_phase6_7_8.md"),
+    },
+    # Wave 3: Shell + Doc QA (after Wave 2 merges)
+    213: {
+        "name": "E2E Fix Wave 3 — Phase 9 (Shell/UX) + Phase 13 (Universal Doc Q&A)",
+        "phase": "phase-9",
+        "wave": "e2e-fix-3",
+        "prompt": _load_prompt("docs/tasks/phase-9/task_e2e_fix_phase9_phase13.md"),
+    },
+}
+
+# ── Wave definitions — groups of task IDs to submit together ─────────────────
+WAVES = {
+    "e2e":       [210, 211, 212, 213],   # All E2E fix tasks (review wave notes before using)
+    "e2e-fix-1": [210],                  # Wave 1: Must go first (shared infra)
+    "e2e-fix-2": [211, 212],             # Wave 2: Parallel-safe pair (submit after Wave 1 merges)
+    "e2e-fix-3": [213],                  # Wave 3: After Wave 2 merges
 }
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -363,6 +403,30 @@ def submit_task(task_num):
     except urllib.error.HTTPError as e:
         print(f"❌ HTTP {e.code}: {e.read().decode()}")
         sys.exit(1)
+
+
+def submit_wave(wave_name):
+    if wave_name not in WAVES:
+        print(f"❌ Wave '{wave_name}' not found.")
+        print(f"   Available waves: {', '.join(WAVES.keys())}")
+        sys.exit(1)
+    task_ids = WAVES[wave_name]
+    print(f"\n🌊 Submitting wave '{wave_name}' — {len(task_ids)} task(s):\n")
+    for task_id in task_ids:
+        if task_id in TASKS:
+            print(f"  → [{task_id}] {TASKS[task_id]['name']}")
+        else:
+            print(f"  ⚠️  Task {task_id} not found in TASKS dict — skipping")
+    print()
+    confirm = input("Confirm submission? (y/N): ").strip().lower()
+    if confirm != "y":
+        print("Aborted.")
+        sys.exit(0)
+    print()
+    for task_id in task_ids:
+        if task_id in TASKS:
+            submit_task(task_id)
+    print(f"\n✅ Wave '{wave_name}' submitted — {len(task_ids)} session(s) created.")
 
 
 def submit_file(filepath):
