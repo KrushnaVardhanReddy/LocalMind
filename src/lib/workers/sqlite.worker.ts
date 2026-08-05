@@ -10,7 +10,7 @@ import type {
     SavedQueryRecord,
     DashboardPanelRecord,
     SavedPipelineRecord,
-    CustomTemplateRecord
+    CustomTemplateRecord, ApiRequestRecord
 } from '../contracts/wa_sqlite_contract';
 
 class SQLiteService implements WaSQLiteWorkerContract {
@@ -113,6 +113,16 @@ class SQLiteService implements WaSQLiteWorkerContract {
                 nodes TEXT NOT NULL,
                 edges TEXT NOT NULL,
                 updated_at INTEGER NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS api_requests (
+                id TEXT PRIMARY KEY,
+                workspace_id TEXT NOT NULL,
+                method TEXT NOT NULL,
+                url TEXT NOT NULL,
+                headers TEXT NOT NULL,
+                body TEXT NOT NULL,
+                created_at INTEGER NOT NULL
             );
 
             CREATE TABLE IF NOT EXISTS custom_templates (
@@ -367,6 +377,39 @@ class SQLiteService implements WaSQLiteWorkerContract {
 
     async deletePipeline(id: string): Promise<void> {
         await this.execute(`DELETE FROM saved_pipelines WHERE id = ?`, [id]);
+    }
+
+
+    // --- API Client ---
+    async saveApiRequest(workspaceId: string, method: string, url: string, headers: string, body: string): Promise<ApiRequestRecord> {
+        const id = crypto.randomUUID();
+        const now = Date.now();
+        await this.execute(
+            `INSERT INTO api_requests (id, workspace_id, method, url, headers, body, created_at)
+             VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            [id, workspaceId, method, url, headers, body, now]
+        );
+        return { id, workspace_id: workspaceId, method, url, headers, body, created_at: now };
+    }
+
+    async listApiRequests(workspaceId: string): Promise<ApiRequestRecord[]> {
+        const result = await this.query(
+            `SELECT * FROM api_requests WHERE workspace_id = ? ORDER BY created_at DESC`,
+            [workspaceId]
+        );
+        return result.map(r => ({
+            id: r.id as string,
+            workspace_id: r.workspace_id as string,
+            method: r.method as string,
+            url: r.url as string,
+            headers: r.headers as string,
+            body: r.body as string,
+            created_at: r.created_at as number
+        }));
+    }
+
+    async deleteApiRequest(id: string): Promise<void> {
+        await this.execute(`DELETE FROM api_requests WHERE id = ?`, [id]);
     }
 
     // --- Custom Templates ---
