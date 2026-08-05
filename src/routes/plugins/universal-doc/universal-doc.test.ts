@@ -38,6 +38,7 @@ describe('Universal Document Workspace', () => {
         // Wait for workers to initialize
         await new Promise(r => setTimeout(r, 0));
 
+        await new Promise(r => setTimeout(r, 0));
         const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
         const file = new File(['mock content'], 'test.txt', { type: 'text/plain' });
 
@@ -55,6 +56,7 @@ describe('Universal Document Workspace', () => {
         render(UniversalDocPage);
 
         // Initialize file to activate chat interface
+        await new Promise(r => setTimeout(r, 50));
         const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
         const file = new File(['mock content'], 'test.txt', { type: 'text/plain' });
         await fireEvent.change(fileInput, { target: { files: [file] } });

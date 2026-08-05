@@ -21,14 +21,16 @@
     onMount(async () => {
         try {
             muPdfWorker = await WorkerManager.getMuPDF();
-            webLlmWorker = await WorkerManager.getWebLLM();
+        } catch (e) {
+            console.error("Failed to initialize MuPDF worker", e);
+        }
 
-            // Load a lightweight model for default interactions.
-            // In a production app, the model loading state could be more explicitly managed.
+        try {
+            webLlmWorker = await WorkerManager.getWebLLM();
             await webLlmWorker.loadModel('Llama-3-8B-Instruct-q4f32_1-MLC');
             modelLoaded = true;
         } catch (e) {
-            console.error("Failed to initialize workers", e);
+            console.error("Failed to initialize WebLLM worker", e);
         }
     });
 
@@ -45,7 +47,8 @@
                 fileType = 'pdf';
                 pdfBuffer = await file.arrayBuffer();
                 if (muPdfWorker) {
-                    await muPdfWorker.loadPDF(pdfBuffer);
+                    const cleanBuffer = pdfBuffer.slice(0);
+                    await muPdfWorker.loadPDF(cleanBuffer);
                     rawText = await muPdfWorker.extractText();
                 }
             } else {
