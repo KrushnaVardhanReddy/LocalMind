@@ -28,7 +28,7 @@ test.describe('Pivot & Chart Builder E2E', () => {
 
     await page.waitForTimeout(1000);
 
-    await page.getByRole('button', { name: /Pie/i }).first().click();
+    await page.locator('button[title="Pie"]').click();
 
     await expect(canvas.first()).toBeVisible({ timeout: 10000 });
   });

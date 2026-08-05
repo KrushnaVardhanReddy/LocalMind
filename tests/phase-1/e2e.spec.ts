@@ -9,7 +9,8 @@ test.describe('Phase 1 - Full Analytics Surface', () => {
     const analyticsCard = page.locator('a', { hasText: 'Analytics' }).first();
     await expect(analyticsCard).toBeVisible({ timeout: 60000 });
     await analyticsCard.click();
-    await expect(page).toHaveURL(/.*\/analytics/);
+    await expect(page).toHaveURL(/\/$/);
+    await expect(page.getByText('📊 Analytics').first()).toBeVisible({ timeout: 60000 });
     await expect(page.locator('h1', { hasText: 'LocalMind' }).first()).toBeVisible({ timeout: 60000 });
   });
 
@@ -72,16 +73,16 @@ test.describe('Phase 1 - Full Analytics Surface', () => {
     await page.waitForSelector('table tbody tr', { timeout: 60000 });
 
     // Switch to Pivot Builder panel
-    await page.locator('button', { hasText: '🔀 Pivot' }).click();
+    // Pivot Builder is always visible once a file is uploaded (no tab click needed)
 
     // Wait for Pivot Builder to appear
-    await expect(page.locator('h2', { hasText: 'Pivot Builder' })).toBeVisible({ timeout: 60000 });
-    await page.waitForSelector('.ag-row', { timeout: 60000 });
+    await expect(page.locator('h2', { hasText: 'Pivot Builder' })).toBeVisible({ timeout: 30000 });
+    await expect(page.locator('select#pivotTableSelect')).toBeVisible({ timeout: 30000 });
 
     // Must select a table to pivot before the Templates button appears
     await page.locator('select#pivotTableSelect').selectOption({ index: 1 });
 
-    const templateBtn = page.locator('button', { hasText: 'Templates' });
+    const templateBtn = page.locator('button', { hasText: '✨ Templates' });
     if (await templateBtn.isVisible()) {
         await templateBtn.click().catch(() => {});
     }
