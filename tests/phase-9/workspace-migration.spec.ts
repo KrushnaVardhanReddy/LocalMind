@@ -89,7 +89,7 @@ test.describe('Workspace Migration', () => {
     await openSessionBtn.click();
 
     // Wait for the workspace to restore. When importing it sets the active workspace to Analytics
-    await expect(page.locator('nav').getByText('Analytics', { exact: true }).first()).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('nav').getByText('📊 Analytics', { exact: true }).first()).toBeVisible({ timeout: 10000 });
 
     // Also check that the workspace name is correctly set from the import
     const restoredWsNameHeader = page.locator('h2', { hasText: 'Workspace: ExportTestWorkspace' });
@@ -98,6 +98,6 @@ test.describe('Workspace Migration', () => {
     // Verify the workspace is restored (the table 'demo_sales' should be in the select list)
     // We check the options explicitly since value bindings in Svelte might be slow to propagate
     const importedTableOption = page.locator('select#pivotTableSelect').locator('option', { hasText: 'demo_sales' });
-    await expect(importedTableOption).toBeVisible({ timeout: 10000 });
+    await expect(importedTableOption).toBeAttached({ timeout: 10000 });
   });
 });

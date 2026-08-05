@@ -21,7 +21,7 @@ test.describe('Macro-Shell Layout', () => {
 
     // Analytics click creates a workspace and redirects to '/', so we check if the workspace changed
     // Top Nav should show "Analytics"
-    await expect(page.locator('nav').getByText('Analytics', { exact: true }).first()).toBeVisible();
+    await expect(page.locator('nav').getByText('📊 Analytics', { exact: true }).first()).toBeVisible();
 
     // Also check other links
     const docsLink = page.getByRole('link', { name: '📄 Docs' }).first();
@@ -33,7 +33,7 @@ test.describe('Macro-Shell Layout', () => {
 
     // DevTools also acts like Analytics (goes to '/')
     await expect(page).toHaveURL(/\//);
-    await expect(page.locator('nav').getByText('DevTools', { exact: true }).first()).toBeVisible();
+    await expect(page.locator('nav').getByText('🛠️ DevTools', { exact: true }).first()).toBeVisible();
   });
 
   test('should toggle dark/light mode via command palette', async ({ page }) => {
