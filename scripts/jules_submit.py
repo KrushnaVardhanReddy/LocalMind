@@ -162,10 +162,25 @@ TASKS = {
         "phase": "phase-1",
         "prompt": _load_prompt("docs/tasks/phase-1/task13_network_graph.md"),
     },
-    14: {
+    166: {
         "name": "Task 14 — HTML Table Extractor",
         "phase": "phase-1",
         "prompt": _load_prompt("docs/tasks/phase-1/task14_html_extractor.md"),
+    },
+    410: {
+        "name": "Task 10 — Offline API Client",
+        "phase": "phase-4",
+        "prompt": _load_prompt("docs/tasks/phase-4/task10_api_client.md"),
+    },
+    411: {
+        "name": "Task 11 — Offline Regex Tester & Debugger",
+        "phase": "phase-4",
+        "prompt": _load_prompt("docs/tasks/phase-4/task11_regex_tester.md"),
+    },
+    412: {
+        "name": "Task 12 — JSONPath & jq Query Sandbox",
+        "phase": "phase-4",
+        "prompt": _load_prompt("docs/tasks/phase-4/task12_jq_sandbox.md"),
     },
     # ── Robustness Wave — Ship with/right after MVP1 launch ───────────────────
     90: {
