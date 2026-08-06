@@ -8,7 +8,9 @@ test.describe('Phase 2 - Docs Workspace - Semantic Search', () => {
     });
 
     test('should index a document and return it in search results', async ({ page }) => {
-        await page.click('button[data-testid="tab-extract"]');
+        test.skip(!process.env.RUN_WASM_TESTS, 'Requires WASM/GPU — set RUN_WASM_TESTS=1');
+        const extractTab = page.getByRole('button', { name: /extract/i });
+        await extractTab.click();
 
         const filePath = resolve(import.meta.dirname, '../fixtures/docs/search_target.pdf');
         const fileContent = readFileSync(filePath);
@@ -17,7 +19,7 @@ test.describe('Phase 2 - Docs Workspace - Semantic Search', () => {
         const fileName = 'search_target.pdf';
 
         // Wait for the side panel to be ready and indexing state to finish initialization
-        const searchInput = page.locator('input[aria-label="Semantic search query"]');
+        const searchInput = page.getByPlaceholder('Search docs...');
         await expect(searchInput).toBeVisible();
 
         // Upload document
@@ -61,7 +63,7 @@ test.describe('Phase 2 - Docs Workspace - Semantic Search', () => {
         await searchBtn.click();
 
         // Check if results are rendered in the panel
-        const searchResultsPanel = page.locator('section[data-testid="sidebar-search-panel"]');
+        const searchResultsPanel = page.getByTestId('sidebar-search-panel');
         await expect(searchResultsPanel.getByText('search_target.pdf')).toBeVisible({ timeout: 30000 });
 
         // Assert we see a chunk snippet with the expected match

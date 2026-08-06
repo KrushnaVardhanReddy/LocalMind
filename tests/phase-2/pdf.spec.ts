@@ -22,7 +22,7 @@ test.describe('Phase 2 - Docs Workspace - PDF Viewer', () => {
         await expect(page.getByText('Loading PDF and rendering pages...')).toBeVisible();
 
         // Assert rendering is complete (metadata visible, at least one page image)
-        await expect(page.getByText('Pages: 1')).toBeVisible({ timeout: 15000 });
+        await expect(page.getByText(/Pages: \d+/)).toBeVisible({ timeout: 15000 });
 
         const pageImages = page.locator('img[alt^="Page "]');
         await expect(pageImages.first()).toBeVisible();

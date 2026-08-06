@@ -11,6 +11,7 @@ test.describe('Podcast Summarizer', () => {
     });
 
     test.fixme('Transcribes and summarizes an audio file', async ({ page }) => {
+        test.skip(!process.env.RUN_WASM_TESTS, 'Requires WASM/GPU — set RUN_WASM_TESTS=1');
         // FIXME: Whisper and WebLLM loading and execution are too heavy for consistent E2E without robust caching.
 
         await page.waitForLoadState('networkidle');

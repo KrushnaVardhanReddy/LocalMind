@@ -22,6 +22,7 @@ test.describe('Phase 3: Whisper E2E Tests', () => {
   });
 
   test('Whisper transcribes English audio to text', async ({ page }) => {
+    test.skip(!process.env.RUN_WASM_TESTS, 'Requires WASM/GPU — set RUN_WASM_TESTS=1');
     test.setTimeout(180000);
     const fixturePath = path.resolve(__dirname, '../fixtures/media/sample_audio.mp3');
 
