@@ -184,6 +184,11 @@ TASKS = {
         "phase": "phase-4",
         "prompt": _load_prompt("docs/tasks/phase-4/task12_jq_sandbox.md"),
     },
+    18: {
+        "name": "Task 18 — Analytics Table Viewer & Cross-Table Relations",
+        "phase": "phase-1",
+        "prompt": _load_prompt("docs/tasks/phase-1/task18_table_viewer_relations.md"),
+    },
     # ── Robustness Wave — Ship with/right after MVP1 launch ───────────────────
     90: {
         "name": "CI-1 — GitHub Actions CI/CD Pipeline",
