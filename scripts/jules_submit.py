@@ -322,29 +322,24 @@ TASKS = {
         "prompt": _load_prompt("docs/tasks/phase-4/task_e2e_devtools.md"),
     },
     # ── E2E FIX WAVE — Fix failing tests across all phases ───────────────────
-    # Submit Wave 1 first (alone), then Wave 2 in parallel, then Wave 3.
-    # Wave 1: Foundation (must merge before others — touches shared infra)
     210: {
         "name": "E2E Fix Wave 1 — Phase 1 Analytics + Makefile + playwright.config",
         "phase": "phase-1",
         "wave": "e2e-fix-1",
         "prompt": _load_prompt("docs/tasks/phase-1/task_e2e_fix_phase1.md"),
     },
-    # Wave 2a: Docs + Media (parallel-safe with 212)
     211: {
         "name": "E2E Fix Wave 2a — Phase 2 (Docs) + Phase 3 (Media/FFmpeg) selectors & fixtures",
         "phase": "phase-2",
         "wave": "e2e-fix-2",
         "prompt": _load_prompt("docs/tasks/phase-2/task_e2e_fix_phase2_phase3.md"),
     },
-    # Wave 2b: Advanced workspaces (parallel-safe with 211)
     212: {
         "name": "E2E Fix Wave 2b — Phase 6 (Crypto/Finance/Geo) + Phase 7 (Plugin) + Phase 8 (Whiteboard)",
         "phase": "phase-6",
         "wave": "e2e-fix-2",
         "prompt": _load_prompt("docs/tasks/phase-6/task_e2e_fix_phase6_7_8.md"),
     },
-    # Wave 3: Shell + Doc QA (after Wave 2 merges)
     213: {
         "name": "E2E Fix Wave 3 — Phase 9 (Shell/UX) + Phase 13 (Universal Doc Q&A)",
         "phase": "phase-9",
@@ -355,9 +350,9 @@ TASKS = {
 
 # ── Wave definitions — groups of task IDs to submit together ─────────────────
 WAVES = {
-    "e2e":       [210, 211, 212, 213],   # All E2E fix tasks (review wave notes before using)
+    "e2e":       [210, 211, 212, 213],   # Submit all E2E fix tasks
     "e2e-fix-1": [210],                  # Wave 1: Must go first (shared infra)
-    "e2e-fix-2": [211, 212],             # Wave 2: Parallel-safe pair (submit after Wave 1 merges)
+    "e2e-fix-2": [211, 212],             # Wave 2: Parallel-safe pair
     "e2e-fix-3": [213],                  # Wave 3: After Wave 2 merges
 }
 
@@ -471,8 +466,20 @@ def submit_file(filepath):
 def list_tasks():
     print("\n📋 Available LocalMind Jules Tasks:\n")
     for num, task in sorted(TASKS.items()):
-        print(f"  [{num:>3}] {task['name']}  ({task['phase']})")
+        wave_tag = f"  [wave: {task['wave']}]" if "wave" in task else ""
+        print(f"  [{num:>3}] {task['name']}  ({task['phase']}){wave_tag}")
     print()
+
+
+def list_waves():
+    print("\n🌊 Available Jules Waves:\n")
+    for wave_name, task_ids in WAVES.items():
+        names = [TASKS[t]["name"] for t in task_ids if t in TASKS]
+        print(f"  {wave_name}:")
+        for n in names:
+            print(f"    • {n}")
+    print()
+    print("Submit a wave with: python3 jules_submit.py --wave <wave-name>\n")
 
 
 def main():
@@ -486,12 +493,25 @@ def main():
         list_tasks()
         sys.exit(0)
 
+    if "--waves" in args:
+        list_waves()
+        sys.exit(0)
+
     if "--file" in args:
         idx = args.index("--file")
         if idx + 1 >= len(args):
             print("❌ Please specify a file path after --file.")
             sys.exit(1)
         submit_file(args[idx + 1])
+        sys.exit(0)
+
+    if "--wave" in args:
+        idx = args.index("--wave")
+        if idx + 1 >= len(args):
+            print("❌ Please specify a wave name after --wave.")
+            print(f"   Available: {', '.join(WAVES.keys())}")
+            sys.exit(1)
+        submit_wave(args[idx + 1])
         sys.exit(0)
 
     if "--task" in args:
