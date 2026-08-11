@@ -7,6 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 test.describe('Local Directory Semantic Search', () => {
+    test.skip(!process.env.RUN_WASM_TESTS, 'Requires WASM/GPU — set RUN_WASM_TESTS=1');
     test.beforeEach(async ({ page }) => {
         await page.goto('/plugins/directory-search');
         await expect(page.locator('text="Local Directory Semantic Search"')).toBeVisible({ timeout: 10000 });
