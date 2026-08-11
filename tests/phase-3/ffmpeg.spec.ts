@@ -27,7 +27,7 @@ test.describe('Phase 3: FFmpeg E2E Tests', () => {
 
     await page.waitForTimeout(3000);
 
-    const transcodeTab = page.locator('button').filter({ hasText: /transcode/i }).first();
+    const transcodeTab = page.locator('button').filter({ hasText: /^Transcode$/i }).first();
     if (await transcodeTab.isVisible().catch(() => false)) {
         await transcodeTab.click();
     }
@@ -65,7 +65,7 @@ test.describe('Phase 3: FFmpeg E2E Tests', () => {
 
     await page.waitForTimeout(3000);
 
-    const extractTab = page.locator('button').filter({ hasText: /extract/i }).first();
+    const extractTab = page.locator('button').filter({ hasText: /Extract Audio/i }).first();
     if (await extractTab.isVisible().catch(() => false)) {
         await extractTab.click();
     }

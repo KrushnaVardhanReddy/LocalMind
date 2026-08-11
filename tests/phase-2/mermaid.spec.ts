@@ -7,7 +7,7 @@ test.describe('Phase 2 - Docs Workspace - Mermaid Diagrams', () => {
 
     test('should render Mermaid diagram and show error on invalid syntax', async ({ page }) => {
         const editor = page.locator('textarea'); // Or whatever the editor selector is
-        const preview = page.locator('.mermaid-rendered svg, svg[id^="mermaid"]');
+        const preview = page.locator('.mermaid-container svg');
 
         // Note: this assumes an editor component is present that accepts markdown
         // If there's an iframe, we might need to target the frame.
@@ -29,16 +29,16 @@ test.describe('Phase 2 - Docs Workspace - Mermaid Diagrams', () => {
         let isRendered = false;
 
         for (const frame of iframes) {
-             const svgCount = await frame.locator('svg[id^="mermaid"]').count();
+             const svgCount = await frame.locator('.mermaid-container svg').count();
              if (svgCount > 0) {
-                 mermaidSvg = frame.locator('svg[id^="mermaid"]').first();
+                 mermaidSvg = frame.locator('.mermaid-container svg').first();
                  isRendered = true;
                  break;
              }
         }
 
         if (!mermaidSvg) {
-             mermaidSvg = page.locator('svg[id^="mermaid"]').first();
+             mermaidSvg = page.locator('.mermaid-container svg').first();
         }
 
         if (mermaidSvg) {
