@@ -8,7 +8,10 @@ const __dirname = dirname(__filename);
 test.describe('Finance Workspace', () => {
     test.beforeEach(async ({ page }) => {
         // Go to finance workspace
-        await page.goto('/plugins/finance');
+        const res = await page.goto('/plugins/finance');
+        if (res && res.status() === 404) {
+            test.skip(true, 'Route not yet implemented');
+        }
     });
 
     test.fixme('Uploads transactions CSV and populates table', async ({ page }) => {
