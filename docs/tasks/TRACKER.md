@@ -1,6 +1,6 @@
 # LocalMind Architecture Tracker
 
-> **Last updated:** 2026-07-29 · Product Focus Review — Consumer lifestyle features deferred
+> **Last updated:** 2026-08-10 · E2E Fix Wave #112–115 merged to feature/dev
 
 ## 1. LocalMind Core (The Platform Engine)
 *The foundational OS layer that all vertical apps plug into.*
