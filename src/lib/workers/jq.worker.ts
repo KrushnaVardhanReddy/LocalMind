@@ -12,7 +12,7 @@ export class JqService implements JqWorkerContract {
             const parsedJson = JSON.parse(payload);
             let result;
             if (mode === 'jq') {
-                result = jq.json(parsedJson, query);
+                const jqInstance = await jq; result = jqInstance.json(parsedJson, query);
             } else {
                 result = JSONPath({ path: query, json: parsedJson });
             }
