@@ -102,9 +102,9 @@
 - [x] Task 5.8: Test Data Generator ✅ *(Completed - PR #29)* (`docs/tasks/phase-4/task5_8_test_data.md`)
 - [x] Task 5.9: Local Mock API Server ✅ *(Completed - PR #19)* (`docs/tasks/phase-4/task5_9_mock_server.md`)
 - [x] Task 6: PII Data Sanitizer (JSON/CSV) ✅ *(Completed - PR #91)* (`docs/tasks/phase-4/task6_pii_sanitizer.md`)
-- [ ] Task 10: Offline API Client (Postman Alternative) (`docs/tasks/phase-4/task10_api_client.md`)
-- [ ] Task 11: Offline Regex Tester & Debugger (`docs/tasks/phase-4/task11_regex_tester.md`)
-- [ ] Task 12: JSONPath & `jq` Query Sandbox (`docs/tasks/phase-4/task12_jq_sandbox.md`)
+- 🔄 Task 10: Offline API Client (Postman Alternative) 🔄 *(Running - Jules ID: 13621542833561707383)* (`docs/tasks/phase-4/task10_api_client.md`)
+- 🔄 Task 11: Offline Regex Tester & Debugger 🔄 *(Running - Jules ID: 7998913110323550321)* (`docs/tasks/phase-4/task11_regex_tester.md`)
+- 🔄 Task 12: JSONPath & `jq` Query Sandbox 🔄 *(Running - Jules ID: 2723606368033859249)* (`docs/tasks/phase-4/task12_jq_sandbox.md`)
 - [x] E2E-4: DevTools E2E ✅ *(Completed - PR #107)* (`docs/tasks/phase-4/task_e2e_devtools.md`)
 
 ---
@@ -163,7 +163,7 @@
 
 ### Universal Document Plugins (Consolidated MVP Features)
 *Replacing all specific niche document and research plugins (Legal, Education, Construction, Real Estate, etc.) with powerful generic workspaces.*
-- [x] E2E-13: Universal Doc Q[ ] E2E-13: Universal Doc Q&A & Directory Search E2E 🔄 *(Running - Jules ID: 13653287012969682001)*A [ ] E2E-13: Universal Doc Q&A & Directory Search E2E 🔄 *(Running - Jules ID: 13653287012969682001)* Directory Search E2E ✅ *(Completed - PR #106)* (`docs/tasks/phase-13/task_e2e_universal_doc.md`)
+- [x] E2E-13: Universal Doc Q&A & Directory Search E2E ✅ *(Completed - PR #106)* (`docs/tasks/phase-13/task_e2e_universal_doc.md`)
 - [x] Task 1: Universal Document Q&A Workspace ✅ *(Completed - PR #98)* (`docs/tasks/phase-13/task1_universal_doc_qa.md`)
   *Upload any PDF (Contracts, Lab Reports, Blueprints, Papers) and use WebLLM to extract, summarize, or query.*
 - [x] Task 2: Local Directory Semantic Search ✅ *(Completed - PR #99)* (`docs/tasks/phase-13/task2_directory_search.md`)
