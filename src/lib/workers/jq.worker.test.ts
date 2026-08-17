@@ -6,9 +6,9 @@ import * as jqModule from 'jq-web';
 // We'll test JSONPath first.
 vi.mock('jq-web', () => {
     return {
-        default: {
+        default: Promise.resolve({
             json: vi.fn((json, query) => ['Bob'])
-        }
+        })
     };
 });
 
@@ -44,7 +44,8 @@ describe('JqService', () => {
 
         const result = await service.executeQuery('.users[] | select(.age > 30) | .name', payload, 'jq');
 
-        expect(jqModule.default.json).toHaveBeenCalledWith(JSON.parse(payload), '.users[] | select(.age > 30) | .name');
+        const jqInstance = await jqModule.default;
+        expect(jqInstance.json).toHaveBeenCalledWith(JSON.parse(payload), '.users[] | select(.age > 30) | .name');
         expect(result.executionTimeMs).toBeGreaterThanOrEqual(0);
         expect(result.error).toBeUndefined();
         expect(JSON.parse(result.output)).toEqual(['Bob']);
