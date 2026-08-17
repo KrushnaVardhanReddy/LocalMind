@@ -60,7 +60,7 @@
 - [x] Task 14: Offline HTML Table Extractor ✅ *(Completed - PR #88)* (`docs/tasks/phase-1/task14_html_extractor.md`)
 - [x] Task 16: Advanced Chart Inspector (UI + JSON Overrides) ✅ *(Completed)* (`docs/tasks/phase-1/task16_chart_inspector.md`)
 - [x] Task 17: Analytics E2E V2 (Coverage for Tasks 10-16) ✅ *(Completed - PR #100)* (`docs/tasks/phase-1/task17_analytics_e2e_v2.md`)
-- 🔄 Task 18: Analytics Table Viewer & Cross-Table Relations 🔄 *(In Progress - Jules ID: 9229850155056947632)* (`docs/tasks/phase-1/task18_table_viewer_relations.md`)
+- [x] Task 18: Analytics Table Viewer & Cross-Table Relations ✅ *(Completed - Jules ID: 9229850155056947632)* (`docs/tasks/phase-1/task18_table_viewer_relations.md`)
   - Spec: `docs/specs/phase-1/18_table_viewer_relations_spec.md`
   - Contract: `docs/contracts/phase-1/table_viewer_relations_contract.ts`
 
