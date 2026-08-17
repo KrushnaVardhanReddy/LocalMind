@@ -102,9 +102,9 @@
 - [x] Task 5.8: Test Data Generator ✅ *(Completed - PR #29)* (`docs/tasks/phase-4/task5_8_test_data.md`)
 - [x] Task 5.9: Local Mock API Server ✅ *(Completed - PR #19)* (`docs/tasks/phase-4/task5_9_mock_server.md`)
 - [x] Task 6: PII Data Sanitizer (JSON/CSV) ✅ *(Completed - PR #91)* (`docs/tasks/phase-4/task6_pii_sanitizer.md`)
-- 🔄 Task 10: Offline API Client (Postman Alternative) 🔄 *(Running - Jules ID: 13621542833561707383)* (`docs/tasks/phase-4/task10_api_client.md`)
-- 🔄 Task 11: Offline Regex Tester & Debugger 🔄 *(Running - Jules ID: 7998913110323550321)* (`docs/tasks/phase-4/task11_regex_tester.md`)
-- 🔄 Task 12: JSONPath & `jq` Query Sandbox 🔄 *(Running - Jules ID: 2723606368033859249)* (`docs/tasks/phase-4/task12_jq_sandbox.md`)
+- [x] Task 10: Offline API Client (Postman Alternative) ✅ *(Completed - PR #117)* (`docs/tasks/phase-4/task10_api_client.md`)
+- [x] Task 11: Offline Regex Tester & Debugger ✅ *(Completed - PR #118)* (`docs/tasks/phase-4/task11_regex_tester.md`)
+- [x] Task 12: JSONPath & `jq` Query Sandbox ✅ *(Completed - PR #119)* (`docs/tasks/phase-4/task12_jq_sandbox.md`)
 - [x] E2E-4: DevTools E2E ✅ *(Completed - PR #107)* (`docs/tasks/phase-4/task_e2e_devtools.md`)
 
 ---
