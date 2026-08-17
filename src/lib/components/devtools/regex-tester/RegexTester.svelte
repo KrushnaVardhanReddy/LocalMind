@@ -87,6 +87,13 @@
         } catch (e: any) {
             evalError = e.message;
             matches = [];
+            if (e.message && e.message.includes("timed out")) {
+                // If it timed out, the worker is likely stuck in an infinite loop due to catastrophic backtracking.
+                // We must terminate it and spawn a new one so the UI remains functional for the next regex.
+                WorkerManager.terminate('regex').then(async () => {
+                    worker = await WorkerManager.getRegex();
+                });
+            }
         } finally {
             isEvaluating = false;
         }
